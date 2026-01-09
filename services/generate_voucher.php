@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Start buffer to catch stray output
 // services/generate_voucher.php
 // Turn off error reporting for PDF generation to prevent corruption
 error_reporting(0);
