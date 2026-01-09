@@ -155,13 +155,13 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                         <div class="space-y-2">
                             <label class="flex items-center space-x-2 text-sm text-gray-600">
                                 <input type="checkbox" name="region_filter[]" value="International"
-                                    <?php echo (isset($_GET['region_filter']) && in_array('International', $_GET['region_filter'])) ? 'checked' : ''; ?>
+                                    <?php echo (isset($_GET['region_filter']) && is_array($_GET['region_filter']) && in_array('International', $_GET['region_filter'])) ? 'checked' : ''; ?>
                                     class="rounded text-primary focus:ring-primary">
                                 <span>International</span>
                             </label>
                             <label class="flex items-center space-x-2 text-sm text-gray-600">
                                 <input type="checkbox" name="region_filter[]" value="Domestic"
-                                    <?php echo (isset($_GET['region_filter']) && in_array('Domestic', $_GET['region_filter'])) ? 'checked' : ''; ?>
+                                    <?php echo (isset($_GET['region_filter']) && is_array($_GET['region_filter']) && in_array('Domestic', $_GET['region_filter'])) ? 'checked' : ''; ?>
                                     class="rounded text-primary focus:ring-primary">
                                 <span>Domestic</span>
                             </label>

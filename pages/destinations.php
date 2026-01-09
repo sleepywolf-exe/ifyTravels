@@ -31,32 +31,45 @@ include __DIR__ . '/../includes/header.php';
                 </h3>
 
                 <!-- Form for PHP filtering -->
-                <form action="" method="GET">
-                    <div class="mb-8">
+                <form action="<?php echo base_url('destinations'); ?>" method="GET">
+                    
+                    <!-- Search -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">Search</label>
+                        <div class="relative">
+                            <input type="text" name="search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
+                                placeholder="Destination or Country..."
+                                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Region -->
+                    <div class="mb-6">
                         <label class="block text-sm font-semibold mb-3 text-gray-700">Region</label>
                         <div class="space-y-3">
-                            <label
-                                class="flex items-center text-gray-600 hover:text-primary cursor-pointer group transition">
+                            <label class="flex items-center text-gray-600 hover:text-primary cursor-pointer group transition">
                                 <span class="relative flex items-center">
                                     <input type="checkbox" name="region[]" value="International"
-                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 checked:border-primary checked:bg-primary transition-all">
+                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 checked:border-primary checked:bg-primary transition-all"
+                                        <?php echo (isset($_GET['region']) && is_array($_GET['region']) && in_array('International', $_GET['region'])) ? 'checked' : ''; ?>>
                                     <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"
                                         viewBox="0 0 14 14" fill="none">
-                                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
                                 <span class="ml-3 group-hover:translate-x-1 transition-transform">International</span>
                             </label>
-                            <label
-                                class="flex items-center text-gray-600 hover:text-primary cursor-pointer group transition">
+                            <label class="flex items-center text-gray-600 hover:text-primary cursor-pointer group transition">
                                 <span class="relative flex items-center">
                                     <input type="checkbox" name="region[]" value="Domestic"
-                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 checked:border-primary checked:bg-primary transition-all">
+                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 checked:border-primary checked:bg-primary transition-all"
+                                        <?php echo (isset($_GET['region']) && is_array($_GET['region']) && in_array('Domestic', $_GET['region'])) ? 'checked' : ''; ?>>
                                     <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"
                                         viewBox="0 0 14 14" fill="none">
-                                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
                                 <span class="ml-3 group-hover:translate-x-1 transition-transform">Domestic</span>
@@ -64,10 +77,35 @@ include __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
+                    <!-- Minimum Rating -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-semibold mb-3 text-gray-700">Minimum Rating</label>
+                        <div class="space-y-2">
+                             <?php 
+                             $selectedRating = $_GET['rating'] ?? 0;
+                             foreach([4, 3] as $r): ?>
+                                <label class="flex items-center text-gray-600 cursor-pointer">
+                                    <input type="radio" name="rating" value="<?php echo $r; ?>" 
+                                        class="text-primary focus:ring-primary h-4 w-4"
+                                        <?php echo ($selectedRating == $r) ? 'checked' : ''; ?>>
+                                    <span class="ml-2 flex items-center">
+                                        <?php echo str_repeat('★', $r); ?><?php echo str_repeat('☆', 5-$r); ?>
+                                        <span class="ml-1 text-xs text-gray-400">& Up</span>
+                                    </span>
+                                </label>
+                             <?php endforeach; ?>
+                             <label class="flex items-center text-gray-600 cursor-pointer">
+                                <input type="radio" name="rating" value="" class="text-primary focus:ring-primary h-4 w-4" <?php echo empty($selectedRating) ? 'checked' : ''; ?>>
+                                <span class="ml-2 text-sm">Any Rating</span>
+                             </label>
+                        </div>
+                    </div>
+
                     <button type="submit"
                         class="w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-teal-700 transition shadow-lg flex items-center justify-center">
                         Apply Filters
                     </button>
+                    <a href="<?php echo base_url('destinations'); ?>" class="block text-center mt-3 text-xs text-gray-500 hover:text-primary transition">Reset All Filters</a>
                 </form>
             </div>
         </aside>
@@ -78,13 +116,31 @@ include __DIR__ . '/../includes/header.php';
                 <?php
                 // Filter Logic
                 $filteredDestinations = $destinations;
+
+                // 1. Region Filter
                 if (isset($_GET['region'])) {
-                    $regions = is_array($_GET['region']) ? $_GET['region'] : [$_GET['region']]; // Handle single value too
+                    $regions = is_array($_GET['region']) ? $_GET['region'] : [$_GET['region']]; 
                     if (!empty($regions)) {
-                        $filteredDestinations = array_filter($destinations, function ($d) use ($regions) {
+                        $filteredDestinations = array_filter($filteredDestinations, function ($d) use ($regions) {
                             return in_array($d['type'], $regions);
                         });
                     }
+                }
+
+                // 2. Search Filter
+                if (!empty($_GET['search'])) {
+                    $term = strtolower(trim($_GET['search']));
+                    $filteredDestinations = array_filter($filteredDestinations, function ($d) use ($term) {
+                        return strpos(strtolower($d['name']), $term) !== false || strpos(strtolower($d['country']), $term) !== false;
+                    });
+                }
+
+                // 3. Rating Filter
+                if (!empty($_GET['rating'])) {
+                    $minRate = floatval($_GET['rating']);
+                    $filteredDestinations = array_filter($filteredDestinations, function ($d) use ($minRate) {
+                        return floatval($d['rating']) >= $minRate;
+                    });
                 }
 
                 // Pagination Logic (New)
