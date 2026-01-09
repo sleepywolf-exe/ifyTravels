@@ -64,7 +64,8 @@ include __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
-                    <button type="submit" class="glass-button w-full justify-center">
+                    <button type="submit"
+                        class="w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-teal-700 transition shadow-lg flex items-center justify-center">
                         Apply Filters
                     </button>
                 </form>
