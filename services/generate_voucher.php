@@ -37,12 +37,22 @@ try {
     if (!$booking)
         die("Booking Not Found");
 
-    // Fetch Package (Safe Fallback)
+    // Fetch Package & Destination
     $package = null;
+    $destinationName = "DESTINATION";
+
     if (!empty($booking['package_id'])) {
         $stmt = $pdo->prepare("SELECT * FROM packages WHERE id = ?");
         $stmt->execute([$booking['package_id']]);
         $package = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($package && !empty($package['destination_id'])) {
+            $stmt = $pdo->prepare("SELECT name FROM destinations WHERE id = ?");
+            $stmt->execute([$package['destination_id']]);
+            $dest = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($dest)
+                $destinationName = strtoupper($dest['name']);
+        }
     }
 } catch (Exception $e) {
     die("Database Connection Error: " . $e->getMessage());
@@ -53,6 +63,8 @@ $customerName = $booking['customer_name'] ?? 'Traveler';
 $packageName = (!empty($package) && !empty($package['title'])) ? $package['title'] : ($booking['package_name'] ?? 'Custom Trip');
 $travelDate = $booking['travel_date'] ?? date('Y-m-d');
 $bookingRef = "TK-" . str_pad($booking_id, 6, '0', STR_PAD_LEFT);
+$status = strtoupper($booking['status'] ?? 'PENDING');
+$amount = number_format($booking['total_amount'] ?? 0, 2);
 
 // 7. GENERATE PDF
 class BoardingPass extends FPDF
@@ -89,6 +101,7 @@ $pdf->AddPage();
 $teal = [15, 118, 110];
 $dark = [30, 30, 30];
 $gray = [100, 100, 100];
+$red = [200, 50, 50];
 
 // Main Border
 $pdf->SetDrawColor(200, 200, 200);
@@ -108,7 +121,7 @@ $pdf->SetFont('Helvetica', 'B', 12);
 $pdf->Cell(110, 18, 'BOARDING PASS', 0, 0, 'R');
 
 // Content Area
-$y = 35;
+$y = 30;
 
 // Row 1: Passenger
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
@@ -118,8 +131,20 @@ $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 14);
 $pdf->Text(12, $y + 6, strtoupper(substr($customerName, 0, 25)));
 
+// Status Badge (Right aligned in main section)
+$pdf->SetXY(110, $y);
+$pdf->SetFont('Helvetica', 'B', 10);
+if ($status === 'CONFIRMED') {
+    $pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
+} elseif ($status === 'CANCELLED') {
+    $pdf->SetTextColor($red[0], $red[1], $red[2]);
+} else {
+    $pdf->SetTextColor(200, 150, 0); // Orange for Pending
+}
+$pdf->Cell(30, 6, "STATUS: " . $status, 0, 0, 'R');
+
 // Row 2: Route
-$y += 18;
+$y += 15;
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
 $pdf->SetFont('Helvetica', '', 8);
 $pdf->Text(12, $y, "FROM");
@@ -127,14 +152,30 @@ $pdf->Text(60, $y, "TO");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 16);
-$pdf->Text(12, $y + 7, "HOME");
-$pdf->Text(60, $y + 7, "DEST");
+$pdf->Text(12, $y + 7, "HOME"); // Usually user's location, static for now
+$pdf->Text(60, $y + 7, substr($destinationName, 0, 12));
 
-// Row 3: Package
-$y += 16;
+// Row 3: Package Name
+$y += 14;
 $pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
 $pdf->SetFont('Helvetica', 'I', 10);
 $pdf->Text(12, $y, $packageName);
+
+// Row 4: Details (Date, Time, Price)
+$y += 10;
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Helvetica', '', 8);
+$pdf->Text(12, $y, "DATE");
+$pdf->Text(45, $y, "TIME");
+$pdf->Text(75, $y, "PRICE");
+$pdf->Text(105, $y, "SEAT");
+
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->SetFont('Helvetica', 'B', 11);
+$pdf->Text(12, $y + 5, date('d M Y', strtotime($travelDate)));
+$pdf->Text(45, $y + 5, "10:00 AM");
+$pdf->Text(75, $y + 5, "$" . $amount);
+$pdf->Text(105, $y + 5, "1A");
 
 // Dashed Separator
 $pdf->SetDrawColor(150, 150, 150);
@@ -151,10 +192,17 @@ $pdf->Text($stubX, 40, substr(strtoupper($customerName), 0, 15));
 
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
 $pdf->SetFont('Helvetica', '', 7);
-$pdf->Text($stubX, 50, "REF");
+$pdf->Text($stubX, 50, "DESTINATION");
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->SetFont('Helvetica', 'B', 12);
+$pdf->Text($stubX, 55, substr($destinationName, 0, 3));
+
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Helvetica', '', 7);
+$pdf->Text($stubX, 65, "DATE");
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 10);
-$pdf->Text($stubX, 55, $bookingRef);
+$pdf->Text($stubX, 70, date('d M', strtotime($travelDate)));
 
 // Fake Zip/Barcode
 $pdf->SetFillColor(0, 0, 0);
