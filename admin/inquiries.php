@@ -44,7 +44,8 @@ $totalRows = $db->fetch($countSql, $params)['total'] ?? 0;
 $totalPages = ceil($totalRows / $limit);
 
 // 5. Fetch Data
-$sql .= " ORDER BY created_at DESC LIMIT $limit OFFSET $offset";
+// Use ID for sorting as it is safer than created_at which might differ across envs
+$sql .= " ORDER BY id DESC LIMIT $limit OFFSET $offset";
 $inquiries = $db->fetchAll($sql, $params);
 
 // Get unique sources for dropdown
