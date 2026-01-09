@@ -1,9 +1,9 @@
-<?php require 'auth_check.php';
+<?php
+require 'auth_check.php';
 $db = Database::getInstance();
 
-// Auto-fix: Check if columns exist, if not, add them (Silent Migration)
+// Auto-fix: Check if columns exist (Silent Migration)
 try {
-    // Check if 'status' column exists
     $check = $db->fetch("SHOW COLUMNS FROM inquiries LIKE 'status'");
     if (!$check) {
         $db->execute("ALTER TABLE inquiries ADD COLUMN status VARCHAR(50) DEFAULT 'new'");
@@ -13,10 +13,43 @@ try {
         $db->execute("ALTER TABLE inquiries ADD COLUMN utm_campaign VARCHAR(255)");
     }
 } catch (Exception $e) {
-    // Suppress error if already exists or permission issue
 }
 
-$inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); ?>
+// 1. Handle Filters
+$statusFilter = isset($_GET['status']) ? sanitize_input($_GET['status']) : '';
+$sourceFilter = isset($_GET['source']) ? sanitize_input($_GET['source']) : '';
+
+// 2. Handle Pagination
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$limit = 10;
+$offset = ($page - 1) * $limit;
+
+// 3. Build Query
+$sql = "SELECT * FROM inquiries WHERE 1=1";
+$params = [];
+
+if (!empty($statusFilter)) {
+    $sql .= " AND status = ?";
+    $params[] = $statusFilter;
+}
+
+if (!empty($sourceFilter)) {
+    $sql .= " AND utm_source LIKE ?";
+    $params[] = "%$sourceFilter%";
+}
+
+// 4. Get Total Count
+$countSql = str_replace("SELECT *", "SELECT COUNT(*) as total", $sql);
+$totalRows = $db->fetch($countSql, $params)['total'] ?? 0;
+$totalPages = ceil($totalRows / $limit);
+
+// 5. Fetch Data
+$sql .= " ORDER BY created_at DESC LIMIT $limit OFFSET $offset";
+$inquiries = $db->fetchAll($sql, $params);
+
+// Get unique sources for dropdown
+$sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_source IS NOT NULL AND utm_source != ''");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +57,7 @@ $inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); 
     <meta charset="UTF-8">
     <title>Inquiries - Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Outfit', sans-serif;
@@ -32,17 +65,54 @@ $inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); 
     </style>
 </head>
 
-<body class="bg-gray-50 flex h-screen">
+<body class="bg-gray-50 flex h-screen text-gray-800">
     <?php include 'sidebar_inc.php'; ?>
     <main class="flex-1 overflow-y-auto p-8 lg:p-12 relative z-0">
-        <header class="flex justify-between items-end mb-10">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
             <div>
                 <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Inquiries</h1>
                 <p class="text-gray-500 mt-2 text-lg font-light">Manage your leads and customer questions</p>
             </div>
-            <div class="hidden md:block">
-                <!-- Aesthetic decorative element or summary stat could go here -->
-            </div>
+
+            <!-- Filters & Search -->
+            <form class="flex flex-wrap gap-3 bg-white p-2 rounded-xl border border-gray-100 shadow-sm" method="GET">
+                <select name="status"
+                    class="bg-gray-50 border-0 rounded-lg text-sm text-gray-600 font-medium focus:ring-2 focus:ring-blue-100 py-2.5 pl-3 pr-8 w-36">
+                    <option value="">All Status</option>
+                    <option value="new" <?php echo $statusFilter == 'new' ? 'selected' : ''; ?>>New</option>
+                    <option value="contacted" <?php echo $statusFilter == 'contacted' ? 'selected' : ''; ?>>Contacted
+                    </option>
+                    <option value="converted" <?php echo $statusFilter == 'converted' ? 'selected' : ''; ?>>Converted
+                    </option>
+                    <option value="closed" <?php echo $statusFilter == 'closed' ? 'selected' : ''; ?>>Closed</option>
+                </select>
+
+                <select name="source"
+                    class="bg-gray-50 border-0 rounded-lg text-sm text-gray-600 font-medium focus:ring-2 focus:ring-blue-100 py-2.5 pl-3 pr-8 w-36">
+                    <option value="">All Sources</option>
+                    <?php foreach ($sources as $s): ?>
+                        <option value="<?php echo e($s['utm_source']); ?>" <?php echo $sourceFilter == $s['utm_source'] ? 'selected' : ''; ?>>
+                            <?php echo ucfirst($s['utm_source']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm">
+                    Filter
+                </button>
+
+                <?php if ($statusFilter || $sourceFilter): ?>
+                    <a href="inquiries.php"
+                        class="text-gray-400 hover:text-red-500 px-3 py-2.5 transition flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                <?php endif; ?>
+            </form>
         </header>
 
         <!-- Messages -->
@@ -65,19 +135,19 @@ $inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); 
                 <div class="p-20 text-center">
                     <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
                         📩</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">No Inquiries Yet</h3>
-                    <p class="text-gray-500">New leads will appear here.</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">No Inquiries Found</h3>
+                    <p class="text-gray-500">Try adjusting your filters.</p>
                 </div>
             <?php else: ?>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
                         <thead>
-                            <tr class="bg-gray-50 border-b border-gray-100">
+                            <tr class="bg-gray-50/50 border-b border-gray-100">
                                 <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Date</th>
                                 <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">User Details
                                 </th>
-                                <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Source &
-                                    Subject</th>
+                                <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Subject &
+                                    Source</th>
                                 <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
                                 <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
                                     Actions</th>
@@ -111,12 +181,16 @@ $inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); 
                                             title="<?php echo e($i['subject']); ?>">
                                             <?php echo e($i['subject']); ?>
                                         </div>
+                                        <!-- Source Icon -->
                                         <?php if (!empty($i['utm_source'])): ?>
-                                            <div class="mt-2 flex gap-2 flex-wrap">
+                                            <div class="mt-2 flex items-center"
+                                                title="Source: <?php echo ucfirst($i['utm_source']); ?>">
+                                                <div
+                                                    class="w-6 h-6 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center shadow-sm">
+                                                    <?php echo get_source_icon_svg($i['utm_source']); ?>
+                                                </div>
                                                 <span
-                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                                                    <?php echo e($i['utm_source']); ?>
-                                                </span>
+                                                    class="ml-2 text-xs text-gray-400 font-medium capitalize"><?php echo e($i['utm_source']); ?></span>
                                             </div>
                                         <?php endif; ?>
                                     </td>
@@ -160,6 +234,36 @@ $inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); 
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Pagination -->
+                <?php if ($totalPages > 1): ?>
+                    <div class="bg-white px-8 py-5 border-t border-gray-100 flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            Showing <span class="font-medium"><?php echo $offset + 1; ?></span> to <span
+                                class="font-medium"><?php echo min($offset + $limit, $totalRows); ?></span> of <span
+                                class="font-medium"><?php echo $totalRows; ?></span> inquiries
+                        </div>
+                        <div class="flex space-x-2">
+                            <?php if ($page > 1): ?>
+                                <a href="?page=<?php echo $page - 1; ?>&status=<?php echo $statusFilter; ?>&source=<?php echo $sourceFilter; ?>"
+                                    class="px-4 py-2 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition font-medium">Previous</a>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <a href="?page=<?php echo $i; ?>&status=<?php echo $statusFilter; ?>&source=<?php echo $sourceFilter; ?>"
+                                    class="px-4 py-2 rounded-xl text-sm font-medium border <?php echo $i == $page ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200' : 'border-gray-200 text-gray-600 hover:bg-gray-50'; ?>">
+                                    <?php echo $i; ?>
+                                </a>
+                            <?php endfor; ?>
+
+                            <?php if ($page < $totalPages): ?>
+                                <a href="?page=<?php echo $page + 1; ?>&status=<?php echo $statusFilter; ?>&source=<?php echo $sourceFilter; ?>"
+                                    class="px-4 py-2 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition font-medium">Next</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
             <?php endif; ?>
         </div>
     </main>
