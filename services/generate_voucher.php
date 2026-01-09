@@ -164,79 +164,120 @@ else
 $pdf->Cell(40, 6, $status, 0, 1, 'R');
 
 
-// --- SECTION 2: TRAVEL SUMMARY (Visual Box) ---
-$y = 75;
-$pdf->SetFillColor($lightGray[0], $lightGray[1], $lightGray[2]);
-$pdf->Rect(10, $y, 190, 30, 'F');
+// --- SECTION 2: TRAVEL DETAILS (Clean Layout) ---
+$y = 80;
+$pdf->SetDrawColor(230, 230, 230);
+$pdf->Line(10, $y, 200, $y); // Top Line
 
-$pdf->SetXY(15, $y + 5);
-$pdf->SetFont('Helvetica', 'B', 9);
+// Labels
+$pdf->SetXY(10, $y + 5);
+$pdf->SetFont('Helvetica', 'B', 8);
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->Cell(40, 5, "DESTINATION", 0, 0);
-$pdf->Cell(50, 5, "PACKAGE", 0, 0);
-$pdf->Cell(50, 5, "TRAVEL DATE", 0, 0);
+$pdf->Cell(60, 5, "PACKAGE", 0, 0);
+$pdf->Cell(50, 5, "DESTINATION", 0, 0);
+$pdf->Cell(40, 5, "TRAVEL DATE", 0, 0);
+$pdf->Cell(40, 5, "DURATION", 0, 1); // Added Duration placeholder
 
-$pdf->SetXY(15, $y + 12);
-$pdf->SetFont('Helvetica', 'B', 12);
-$pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
-$pdf->Cell(40, 8, is_array($destinationName) ? substr($destinationName['name'], 0, 15) : strtoupper(substr($destinationName, 0, 15)), 0, 0);
-$pdf->Cell(50, 8, substr($packageTitle, 0, 25) . '...', 0, 0);
+// Values
+$pdf->SetXY(10, $y + 12);
+$pdf->SetFont('Helvetica', '', 11);
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->Cell(50, 8, date('d M, Y', strtotime($travelDate)), 0, 0);
+
+// Package Name (MultiCell for wrapping)
+$x = $pdf->GetX();
+$y_curr = $pdf->GetY();
+$pdf->MultiCell(55, 5, $packageTitle, 0, 'L');
+$y_after_pkg = $pdf->GetY();
+
+// Destination
+$pdf->SetXY(70, $y_curr);
+$destDisplay = (strtoupper($destinationName) === 'DESTINATION') ? 'International' : $destinationName;
+$pdf->Cell(50, 5, $destDisplay, 0, 0);
+
+// Date
+$pdf->SetXY(120, $y_curr);
+$pdf->Cell(40, 5, date('d F, Y', strtotime($travelDate)), 0, 0);
+
+// Duration (Placeholder from package or default)
+$pdf->SetXY(160, $y_curr);
+$duration = (!empty($package) && !empty($package['duration'])) ? $package['duration'] : 'Standard Trip';
+$pdf->Cell(40, 5, $duration, 0, 0);
+
+// Reset Y to below the lowest element
+$pdf->SetY(max($y_after_pkg, $y_curr + 10) + 10);
 
 
-// --- SECTION 3: ITEM TABLE ---
-$y = 120;
+// --- SECTION 3: CHARGES ---
+$pdf->SetFont('Helvetica', 'B', 10);
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->Cell(0, 10, "CHARGES BREAKDOWN", 0, 1, 'L');
 
 // Table Header
-$pdf->SetXY(10, $y);
-$pdf->SetFillColor($dark[0], $dark[1], $dark[2]);
-$pdf->SetTextColor(255, 255, 255);
+$pdf->SetFillColor(245, 245, 245);
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 9);
-$pdf->Cell(100, 10, "  Description", 0, 0, 'L', true);
-$pdf->Cell(30, 10, "Quantity", 0, 0, 'C', true);
-$pdf->Cell(30, 10, "Price", 0, 0, 'R', true);
-$pdf->Cell(30, 10, "Total  ", 0, 1, 'R', true);
+$pdf->Cell(110, 10, "  Description", 0, 0, 'L', true);
+$pdf->Cell(25, 10, "Qty", 0, 0, 'C', true);
+$pdf->Cell(30, 10, "Unit Price", 0, 0, 'R', true);
+$pdf->Cell(25, 10, "Amount  ", 0, 1, 'R', true);
 
 // Table Rows
-$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', '', 10);
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 
-// Item 1: Package Cost
-$pdf->Cell(100, 12, "  " . $packageTitle, 'B', 0, 'L');
-$pdf->Cell(30, 12, "1", 'B', 0, 'C');
+// Item: Package
+$pdf->Cell(110, 12, "  " . $packageTitle, 'B', 0, 'L');
+$pdf->Cell(25, 12, "1", 'B', 0, 'C');
 $pdf->Cell(30, 12, number_format($packagePrice, 2), 'B', 0, 'R');
-$pdf->Cell(30, 12, number_format($packagePrice, 2) . "  ", 'B', 1, 'R');
+$pdf->Cell(25, 12, number_format($packagePrice, 2) . "  ", 'B', 1, 'R');
 
-// Item 2: Taxes/Fees (Placeholder)
-// $pdf->Cell(100, 12, "  Processing Fees & Taxes", 'B', 0, 'L');
-// $pdf->Cell(30, 12, "1", 'B', 0, 'C');
-// $pdf->Cell(30, 12, "0.00", 'B', 0, 'R');
-// $pdf->Cell(30, 12, "0.00  ", 'B', 1, 'R');
+// Special Requests (if any) as a line item note
+if (!empty($booking['special_requests'])) {
+    $pdf->SetFont('Helvetica', 'I', 9);
+    $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+    $pdf->Cell(10, 8, "", 0, 0); // Indent
+    $pdf->Cell(180, 8, "Note: " . substr($booking['special_requests'], 0, 80) . "...", 0, 1, 'L');
+}
+
 
 // Totals Section
-$pdf->SetFont('Helvetica', 'B', 12);
-$pdf->Cell(160, 15, "TOTAL AMOUNT  ", 0, 0, 'R');
-$pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
-$pdf->Cell(30, 15, "$" . number_format($totalAmount, 2) . "  ", 0, 1, 'R');
-
-// Payment Status
-$pdf->SetFont('Helvetica', 'B', 10);
-$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->Cell(160, 8, "Payment Status:  ", 0, 0, 'R');
+$pdf->Ln(5);
+$pdf->SetX(120);
 $pdf->SetFont('Helvetica', '', 10);
-$pdf->Cell(30, 8, ($status == 'CONFIRMED' ? 'Paid' : 'Due on Arrival') . "  ", 0, 1, 'R');
-
-
-// --- SECTION 4: TERMS & BRANDING ---
-$pdf->SetY(220);
-$pdf->SetFont('Helvetica', 'B', 10);
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->Cell(40, 8, "Subtotal:", 0, 0, 'R');
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->Cell(0, 8, "Terms & Conditions", 0, 1, 'L');
+$pdf->Cell(30, 8, number_format($totalAmount, 2), 0, 1, 'R');
 
+$pdf->SetX(120);
+$pdf->SetFont('Helvetica', '', 10);
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->Cell(40, 8, "Tax (0%):", 0, 0, 'R');
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->Cell(30, 8, "0.00", 0, 1, 'R');
+
+$pdf->SetX(120);
+$pdf->SetDrawColor(200, 200, 200);
+$pdf->Line(130, $pdf->GetY(), 190, $pdf->GetY()); // Separator line for total
+$pdf->Ln(2);
+
+$pdf->SetX(120);
+$pdf->SetFont('Helvetica', 'B', 14);
+$pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
+$pdf->Cell(40, 10, "Total Due:", 0, 0, 'R');
+$pdf->Cell(30, 10, "$" . number_format($totalAmount, 2), 0, 1, 'R');
+
+
+// --- SECTION 4: FOOTER NOTE ---
+$pdf->SetY(-50);
 $pdf->SetFont('Helvetica', '', 9);
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->MultiCell(0, 5, "1. This voucher must be presented upon arrival.\n2. Cancellations made within 24 hours of travel differ by package policy.\n3. Please verify visa requirements for international travel.\n4. For emergency assistance, contact support@ifytravels.com.", 0, 'L');
+$pdf->MultiCell(0, 5, "Terms & Conditions:\n1. All bookings are subject to availability.\n2. Please carry a valid ID proof during travel.\n3. Cancellations are subject to the company's refund policy.\n4. For any queries, contact us at checks@ifytravels.com.", 0, 'L');
+
+// Decorative Footer Line
+$pdf->SetY(-5);
+$pdf->SetFillColor($teal[0], $teal[1], $teal[2]);
+$pdf->Rect(0, 292, 210, 5, 'F'); // Bottom strip (A4 height is 297mm)
 
 // -- OUTPUT --
 
