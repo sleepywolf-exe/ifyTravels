@@ -35,6 +35,15 @@ $destinations = [
         'country' => 'Thailand',
         'type' => 'International',
         'rating' => 4.7
+    ],
+    [
+        'name' => 'Paris',
+        'slug' => 'paris',
+        'image_url' => 'assets/images/destinations/paris.png',
+        'description' => 'The City of Light, known for its cafe culture, Eiffel Tower, and masterpieces of art.',
+        'country' => 'France',
+        'type' => 'International',
+        'rating' => 4.9
     ]
 ];
 
@@ -55,6 +64,7 @@ foreach ($destinations as $d) {
 $bali = $db->fetch("SELECT id FROM destinations WHERE slug = 'bali'")['id'];
 $dubai = $db->fetch("SELECT id FROM destinations WHERE slug = 'dubai'")['id'];
 $thai = $db->fetch("SELECT id FROM destinations WHERE slug = 'thailand'")['id'];
+$paris = $db->fetch("SELECT id FROM destinations WHERE slug = 'paris'")['id'];
 
 $packages = [
     [
@@ -86,6 +96,26 @@ $packages = [
         'image_url' => 'assets/images/packages/thailand.jpg',
         'features' => json_encode(['Island Hopping', 'Snorkeling', 'City Tour']),
         'is_popular' => 1
+    ],
+    [
+        'destination_id' => $paris,
+        'title' => 'Paris Romance Package',
+        'slug' => 'paris-romance',
+        'price' => 85000,
+        'duration' => '5 Days / 4 Nights',
+        'image_url' => 'assets/images/destinations/paris.png', // Fallback to destination image if package image unavailable
+        'features' => json_encode(['Eiffel Tower Dinner', 'Seine Cruise', 'Louvre Museum']),
+        'is_popular' => 1
+    ],
+    [
+        'destination_id' => $paris,
+        'title' => 'Paris & Swiss Delight',
+        'slug' => 'paris-swiss',
+        'price' => 120000,
+        'duration' => '8 Days / 7 Nights',
+        'image_url' => 'assets/images/destinations/paris.png',
+        'features' => json_encode(['City Tour', 'Swiss Alps', 'Train Transfer']),
+        'is_popular' => 0
     ]
 ];
 
