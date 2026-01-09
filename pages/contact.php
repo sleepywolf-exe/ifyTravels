@@ -19,9 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO inquiries (name, email, subject, message, status, created_at) VALUES (?, ?, ?, ?, 'New', datetime('now'))");
         $stmt->execute([$name, $email, $subject, $message]);
 
-        // Send Confirmation Email
-        // Assuming phone is not in this form, pass empty or 'Not Provided'
+        // Send Customer Confirmation
         send_lead_confirmation_email($email, $name, get_setting('contact_phone', ''));
+
+        // Send Admin Notification
+        $adminData = [
+            'Type' => 'General Inquiry (Contact Form)',
+            'Subject' => $subject,
+            'Name' => $name,
+            'Email' => $email,
+            'Message' => $message
+        ];
+        send_admin_notification_email("New Contact Inquiry: $name", $adminData, "View Inquiries", base_url("admin/inquiries.php"));
 
         $msgSent = true;
     } catch (Exception $e) {

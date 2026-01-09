@@ -328,3 +328,79 @@ function send_lead_confirmation_email($toEmail, $customerName, $customerPhone)
 
     return @mail($toEmail, $subject, $message, $headers);
 }
+
+/**
+ * Send Admin Notification Email (Table Layout)
+ */
+function send_admin_notification_email($subject, $data, $actionText = 'View in Admin', $actionUrl = '')
+{
+    $adminEmail = 'parasasd@gmail.com'; // Admin Email
+    $fromEmail = 'no-reply@ifytravels.com';
+
+    // Brand Colors
+    $teal = "#0F766E";
+
+    // Build Data Rows
+    $rows = '';
+    foreach ($data as $label => $value) {
+        if (!empty($value)) {
+            $rows .= '
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #eee; color: #666; width: 40%; font-weight: 500;">' . htmlspecialchars($label) . '</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee; color: #111; font-weight: 600;">' . nl2br(htmlspecialchars($value)) . '</td>
+            </tr>';
+        }
+    }
+
+    // Default Action URL
+    if (empty($actionUrl)) {
+        $actionUrl = base_url('admin/dashboard.php');
+    }
+
+    // Email Body
+    $message = '
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin Notification</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 20px; }
+            .card { background: #ffffff; max-width: 600px; margin: 0 auto; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+            .header { background: ' . $teal . '; padding: 20px; color: white; text-align: center; }
+            .header h2 { margin: 0; font-size: 18px; font-weight: 600; }
+            .body { padding: 20px; }
+            table { width: 100%; border-collapse: collapse; font-size: 14px; }
+            .btn-container { text-align: center; margin-top: 30px; margin-bottom: 20px; }
+            .btn { background: ' . $teal . '; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; display: inline-block; }
+            .footer { text-align: center; padding: 20px; font-size: 12px; color: #999; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <div class="header">
+                <h2>' . htmlspecialchars($subject) . '</h2>
+            </div>
+            <div class="body">
+                <table>
+                    ' . $rows . '
+                </table>
+                <div class="btn-container">
+                    <a href="' . $actionUrl . '" class="btn">' . $actionText . '</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+             Sent by ifyTravels System • ' . date('d M Y, H:i') . '
+        </div>
+    </body>
+    </html>';
+
+    // Headers
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= "From: ifyTravels System <" . $fromEmail . ">" . "\r\n";
+
+    return @mail($adminEmail, $subject, $message, $headers);
+}
+?>

@@ -70,24 +70,25 @@ try {
         $booking_id = $db->lastInsertId();
 
         // --- Notification Logic ---
-        $admin_email = 'parasasd@gmail.com'; // Target Email
-        $subject = "New Lead: $package_name";
-        $message = "New Booking Request Received!\n\n";
-        $message .= "Package: $package_name\n";
-        $message .= "Customer: $customer_name\n";
-        $message .= "Email: $email\n";
-        $message .= "Phone: $phone\n";
-        $message .= "Travel Date: $travel_date\n";
-        $message .= "Requests: $special_requests\n";
-        $message .= "\nReview this lead in Admin Panel.";
+        // 1. Send Admin Alert
+        $adminData = [
+            'Package' => $package_name,
+            'Price' => 'Rs. ' . number_format($total_price, 2),
+            'Customer Name' => $customer_name,
+            'Email' => $email,
+            'Phone' => $phone,
+            'Travel Date' => $travel_date,
+            'Special Requests' => $special_requests ?: 'None',
+            'Booking ID' => '#' . $booking_id
+        ];
+        send_admin_notification_email("New Booking: $customer_name", $adminData, "View Booking", base_url("admin/booking-details.php?id=$booking_id"));
 
-        $headers = "From: no-reply@ifytravels.com";
+        // 2. Send Customer Confirmation (Using the function we made earlier? No, voucher is better)
+        // Actually, let's send them the generic "Lead Received" email for now as immediate ack
+        send_lead_confirmation_email($email, $customer_name, $phone);
 
-        // Attempt Send
-        @mail($admin_email, $subject, $message, $headers);
-
-        // Log it for verification (since localhost)
-        error_log("Lead Submitted: $email for $package_name. Notification sent to $admin_email.");
+        // Log it
+        error_log("Booking Submitted: ID $booking_id");
 
         echo json_encode(['status' => 'success', 'message' => 'Your request has been submitted successfully! We will contact you shortly.', 'booking_id' => $booking_id]);
     } else {

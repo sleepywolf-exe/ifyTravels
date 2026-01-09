@@ -51,10 +51,23 @@ try {
     $success = $db->execute($sql, [$name, $email, $subject, $finalMessage]);
 
     if ($success) {
-        // Send Confirmation Email
+        $inquiryId = $db->lastInsertId();
+
+        // Send Customer Confirmation
         send_lead_confirmation_email($email, $name, $phone);
 
-        // Optional: Send Notification Email (Reuse logic if needed, skipping for concise file)
+        // Send Admin Notification
+        $adminData = [
+            'Type' => 'Package Inquiry / Custom Plan',
+            'Subject' => $subject,
+            'Name' => $name,
+            'Email' => $email,
+            'Phone' => $phone,
+            'Travel Date' => $travelDate,
+            'Message' => $finalMessage
+        ];
+        send_admin_notification_email("New Inquiry: $name", $adminData, "View Inquiries", base_url("admin/inquiries.php"));
+
         echo json_encode(['status' => 'success', 'message' => 'Inquiry sent successfully! We will contact you soon.']);
     } else {
         throw new Exception("Database insert failed.");
