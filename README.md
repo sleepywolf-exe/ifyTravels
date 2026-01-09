@@ -39,11 +39,7 @@ This website represents a **travel consultant** who:
 - Price summary
 - Payment placeholder
 
-### Admin-Ready
-- Destinations
-- Packages
-- Users
-- Bookings
+
 
 ---
 
@@ -107,30 +103,14 @@ Image Categories:
 ## 💳 Payment Gateway (Future)
 
 - Razorpay integration planned
-- Placeholder JS service:
-  `/services/paymentService.js`
+- Placeholder JS service available
 - Secure checkout flow ready
 
 ---
 
 
 
-## 📁 Folder Structure
 
-```
-/assets
-/css
-/js
-/images
-/amp
-/pages
-/admin
-/services
-/db
-/seo
-```
-
----
 
 ## 🚀 Future Enhancements
 
