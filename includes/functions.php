@@ -48,32 +48,49 @@ function base_url($path = '')
     // Clean input path
     $path = ltrim($path, '/');
 
-    // Determine depth of current script to generate correct relative path
-    // e.g., if we are in /pages/contact.php, we need ../ for root assets
-    $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+    // Get the protocol
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
 
-    // Normalize slashes (Windows protection)
+    // Get the server name
+    $host = $_SERVER['HTTP_HOST'];
+
+    // Calculate the project root
+    // This assumes the project is in a subdirectory of the web root, or at the root itself.
+    // We want to find the path to index.php relative to the web root.
+
+    // Fallback if SCRIPT_NAME is not reliable
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    $scriptDir = dirname($scriptName);
+
+    // Normalize slashes
     $scriptDir = str_replace('\\', '/', $scriptDir);
 
-    // Check if we are in a known subdirectory relative to project root
-    // This assumes the project root contains index.php and folders.
+    // Removing known subdirectories from the script path to find the "root" of the app
+    // If we are in /ifyTravels/admin, we want /ifyTravels
+    // If we are in /ifyTravels/pages, we want /ifyTravels
 
-    $prefix = '';
-
-    // Simple Depth Check:
-    // If we are in /pages/, /admin/, /services/, /includes/ - we are 1 level deep.
-    // If user is in localhost/ifyTravels/pages/foo.php -> dirname is /ifyTravels/pages
-    // If user is in localhost/pages/foo.php -> dirname is /pages
-
-    // We check if the last segment of the dir is one of our subfolders.
+    $knownDirs = ['admin', 'pages', 'services', 'includes', 'seo', 'api'];
     $parts = explode('/', trim($scriptDir, '/'));
-    $lastDir = end($parts);
 
-    if (in_array($lastDir, ['pages', 'admin', 'services', 'includes'])) {
-        $prefix = '../';
+    $rootParts = [];
+    foreach ($parts as $part) {
+        if (!in_array($part, $knownDirs)) {
+            $rootParts[] = $part;
+        } else {
+            // Once we hit a known subdir, we stop, assuming everything before it is the base
+            break;
+        }
     }
 
-    return $prefix . $path;
+    $basePath = implode('/', $rootParts);
+    if (!empty($basePath)) {
+        $basePath = '/' . $basePath;
+    }
+
+    // Ensure trailing slash
+    $baseUrl = $protocol . $host . $basePath . '/';
+
+    return $baseUrl . $path;
 }
 
 /**

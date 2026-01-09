@@ -19,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Failed to delete testimonial.";
         }
     } else {
-        $name = $_POST['name'] ?? '';
-        $location = $_POST['location'] ?? '';
-        $rating = $_POST['rating'] ?? 5;
-        $msg = $_POST['message'] ?? '';
+        $name = trim($_POST['name'] ?? '');
+        $location = trim($_POST['location'] ?? '');
+        $rating = intval($_POST['rating'] ?? 5);
+        $msg = trim($_POST['message'] ?? '');
         $id = $_POST['id'] ?? '';
 
         if (!empty($name) && !empty($msg)) {
@@ -72,171 +72,225 @@ if (isset($_GET['edit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Testimonials - Admin</title>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/admin-favicon.png'); ?>" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100 flex h-screen overflow-hidden">
+<body class="bg-gray-50 flex h-screen overflow-hidden">
 
     <!-- Sidebar -->
     <?php include 'sidebar_inc.php'; ?>
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-        <header class="bg-white shadow-sm z-10 p-4 flex justify-between items-center">
-            <h2 class="text-xl font-semibold text-gray-800">
-                <?php echo $editTestimonial ? 'Edit Testimonial' : 'Testimonials'; ?>
-            </h2>
-            <div class="flex items-center space-x-4">
-                <span class="text-gray-600">Welcome, Admin</span>
-                <a href="logout.php" class="text-red-500 hover:text-red-700 font-medium">Logout</a>
+        <header
+            class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-8 z-10 sticky top-0">
+            <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600">
+                <?php echo $editTestimonial ? 'Edit Testimonial' : 'Manage Testimonials'; ?>
+            </h1>
+            <div class="flex items-center gap-4">
+                <a href="testimonials.php" class="text-gray-500 hover:text-blue-600 transition text-sm font-medium">
+                    <i class="fas fa-sync-alt mr-1"></i> Refresh
+                </a>
             </div>
         </header>
 
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 lg:p-10">
             <?php if ($message): ?>
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
-                    <p>
-                        <?php echo htmlspecialchars($message); ?>
-                    </p>
+                <div
+                    class="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-r shadow-sm flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i> <?php echo htmlspecialchars($message); ?>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-green-500 hover:text-green-700"><i
+                            class="fas fa-times"></i></button>
                 </div>
             <?php endif; ?>
             <?php if ($error): ?>
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
-                    <p>
-                        <?php echo htmlspecialchars($error); ?>
-                    </p>
+                <div
+                    class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-r shadow-sm flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle mr-2"></i> <?php echo htmlspecialchars($error); ?>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700"><i
+                            class="fas fa-times"></i></button>
                 </div>
             <?php endif; ?>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Form Section -->
-                <div class="md:col-span-1">
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h3 class="text-lg font-bold mb-4 border-b pb-2">
-                            <?php echo $editTestimonial ? 'Update' : 'Add New'; ?> Testimonial
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                <!-- Form Section (Sticky on large screens) -->
+                <div class="lg:col-span-4 xl:col-span-3">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
+                                <i class="fas fa-<?php echo $editTestimonial ? 'edit' : 'plus'; ?>"></i>
+                            </span>
+                            <?php echo $editTestimonial ? 'Edit Review' : 'Add Review'; ?>
                         </h3>
-                        <form method="POST" action="testimonials.php">
+
+                        <form method="POST" action="testimonials.php" class="space-y-4">
                             <?php if ($editTestimonial): ?>
                                 <input type="hidden" name="id" value="<?php echo $editTestimonial['id']; ?>">
                             <?php endif; ?>
 
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                                <input type="text" name="name" value="<?php echo $editTestimonial['name'] ?? ''; ?>"
-                                    required
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Users
+                                    Name</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                        <i class="fas fa-user-circle"></i>
+                                    </span>
+                                    <input type="text" name="name"
+                                        value="<?php echo e($editTestimonial['name'] ?? ''); ?>" required
+                                        class="w-full pl-10 pr-3 py-2.5 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-gray-700 font-medium"
+                                        placeholder="e.g. John Doe">
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Location/Title</label>
-                                <input type="text" name="location"
-                                    value="<?php echo $editTestimonial['location'] ?? ''; ?>"
-                                    placeholder="e.g. Paris, France"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Location</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    <input type="text" name="location"
+                                        value="<?php echo e($editTestimonial['location'] ?? ''); ?>"
+                                        class="w-full pl-10 pr-3 py-2.5 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-gray-700"
+                                        placeholder="e.g. London, UK">
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Rating (1-5)</label>
-                                <input type="number" name="rating" min="1" max="5"
-                                    value="<?php echo $editTestimonial['rating'] ?? '5'; ?>" required
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Rating</label>
+                                <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg border border-gray-200">
+                                    <?php $currentRating = $editTestimonial['rating'] ?? 5; ?>
+                                    <div class="flex-1">
+                                        <input type="range" name="rating" min="1" max="5"
+                                            value="<?php echo $currentRating; ?>" class="w-full accent-blue-600"
+                                            oninput="document.getElementById('rating-val').innerText = this.value + ' Stars'">
+                                    </div>
+                                    <span id="rating-val"
+                                        class="text-sm font-bold text-blue-600"><?php echo $currentRating; ?>
+                                        Stars</span>
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Message</label>
-                                <textarea name="message" rows="4" required
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"><?php echo $editTestimonial['message'] ?? ''; ?></textarea>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Review
+                                    Message</label>
+                                <textarea name="message" rows="5" required
+                                    class="w-full p-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-gray-700 leading-relaxed resize-none"
+                                    placeholder="What did the customer say?"><?php echo e($editTestimonial['message'] ?? ''); ?></textarea>
                             </div>
 
-                            <div class="flex items-center justify-between">
+                            <div class="pt-2">
                                 <button type="submit"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                    <?php echo $editTestimonial ? 'Update' : 'Add'; ?>
+                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-200 transition transform active:scale-95 flex items-center justify-center">
+                                    <i class="fas fa-save mr-2"></i>
+                                    <?php echo $editTestimonial ? 'Update Review' : 'Publish Review'; ?>
                                 </button>
                                 <?php if ($editTestimonial): ?>
-                                    <a href="testimonials.php" class="text-gray-500 hover:text-gray-700 text-sm">Cancel</a>
+                                    <a href="testimonials.php"
+                                        class="block text-center mt-3 text-gray-400 hover:text-gray-600 text-xs font-bold uppercase tracking-wide">Cancel
+                                        Editing</a>
                                 <?php endif; ?>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <!-- List Section -->
-                <div class="md:col-span-2">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                            <h3 class="text-gray-700 font-bold uppercase text-sm">Existing Testimonials</h3>
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
-                                <?php echo count($testimonials); ?> Total
-                            </span>
-                        </div>
+                <!-- List Section (Masonry Grid) -->
+                <div class="lg:col-span-8 xl:col-span-9">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
+                        <?php if (empty($testimonials)): ?>
+                            <div class="col-span-full py-12 flex flex-col items-center justify-center text-center">
+                                <div class="bg-gray-100 rounded-full p-6 mb-4">
+                                    <i class="fas fa-comment-slash text-4xl text-gray-400"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-600">No Testimonials Yet</h3>
+                                <p class="text-gray-400 max-w-sm mt-2">Add your first customer review using the form
+                                    properly.</p>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($testimonials as $t): ?>
+                                <div
+                                    class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition group relative overflow-hidden">
+                                    <!-- Quote Icon Background -->
+                                    <div
+                                        class="absolute top-4 right-6 text-6xl text-gray-50 font-serif opacity-50 select-none group-hover:text-blue-50 transition">
+                                        ”</div>
 
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            User</th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Message</th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Rating</th>
-                                        <th
-                                            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <?php foreach ($testimonials as $t): ?>
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                    <?php echo htmlspecialchars($t['name']); ?>
-                                                </div>
-                                                <div class="text-sm text-gray-500">
-                                                    <?php echo htmlspecialchars($t['location']); ?>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <div class="text-sm text-gray-900 max-w-xs truncate"
-                                                    title="<?php echo htmlspecialchars($t['message']); ?>">
-                                                    <?php echo htmlspecialchars($t['message']); ?>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-yellow-500">
-                                                    <?php echo str_repeat('★', $t['rating']); ?>
-                                                    <span class="text-gray-300">
-                                                        <?php echo str_repeat('★', 5 - $t['rating']); ?>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <a href="?edit=<?php echo $t['id']; ?>"
-                                                    class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                                <form method="POST" action="testimonials.php" class="inline-block"
-                                                    onsubmit="return confirm('Are you sure?');">
-                                                    <input type="hidden" name="action" value="delete">
-                                                    <input type="hidden" name="id" value="<?php echo $t['id']; ?>">
-                                                    <button type="submit"
-                                                        class="text-red-600 hover:text-red-900">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                    <?php if (empty($testimonials)): ?>
-                                        <tr>
-                                            <td colspan="4" class="px-6 py-4 text-center text-gray-500">No testimonials
-                                                found.</td>
-                                        </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <!-- Header -->
+                                    <div class="flex items-start justify-between relative z-10 mb-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                                                <?php echo strtoupper(substr($t['name'], 0, 1)); ?>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-gray-900 leading-tight"><?php echo e($t['name']); ?>
+                                                </h4>
+                                                <p class="text-xs text-gray-400">
+                                                    <?php echo e($t['location'] ?: 'Unknown Location'); ?></p>
+                                            </div>
+                                        </div>
+                                        <!-- Actions Dropdown (Hover) -->
+                                        <div
+                                            class="flex gap-1 opacity-0 group-hover:opacity-100 transition duration-200 bg-white/90 backdrop-blur rounded-lg p-1 shadow-sm border border-gray-100">
+                                            <a href="?edit=<?php echo $t['id']; ?>"
+                                                class="p-2 text-blue-500 hover:bg-blue-50 rounded-md transition" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="POST" action="testimonials.php" class="inline"
+                                                onsubmit="return confirm('Delete this review?');">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="id" value="<?php echo $t['id']; ?>">
+                                                <button type="submit"
+                                                    class="p-2 text-red-500 hover:bg-red-50 rounded-md transition"
+                                                    title="Delete">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Rating -->
+                                    <div class="flex items-center gap-1 mb-3 text-sm">
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <i
+                                                class="fas fa-star <?php echo $i <= $t['rating'] ? 'text-yellow-400' : 'text-gray-200'; ?>"></i>
+                                        <?php endfor; ?>
+                                        <span class="ml-2 text-xs font-medium text-gray-400 uppercase tracking-wide">
+                                            <?php echo $t['rating']; ?>.0 / 5.0
+                                        </span>
+                                    </div>
+
+                                    <!-- Message -->
+                                    <p class="text-gray-600 text-sm leading-relaxed relative z-10 italic">
+                                        "<?php echo e($t['message']); ?>"
+                                    </p>
+
+                                    <!-- Date Footer -->
+                                    <div
+                                        class="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center text-xs text-gray-400">
+                                        <span><i class="far fa-calendar-alt mr-1"></i>
+                                            <?php echo date('M d, Y', strtotime($t['created_at'])); ?></span>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

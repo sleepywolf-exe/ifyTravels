@@ -109,6 +109,12 @@ $pdf->Text(160, 18, "ECONOMY CLASS");
 
 $yStart = 35;
 
+// Safe Data Extraction
+$customerName = $booking['customer_name'] ?? 'Traveler';
+$travelDate = $booking['travel_date'] ?? date('Y-m-d');
+$from = 'HOME';
+$to = 'DEST';
+
 // PASSENGER NAME
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
 $pdf->SetFont('Helvetica', '', 8);
@@ -116,7 +122,7 @@ $pdf->Text(12, $yStart, "PASSENGER NAME");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 14);
-$pdf->Text(12, $yStart + 6, strtoupper($booking['customer_name']));
+$pdf->Text(12, $yStart + 6, strtoupper($customerName));
 
 // FROM / TO
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
@@ -126,8 +132,8 @@ $pdf->Text(60, $yStart + 18, "TO");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 16);
-$pdf->Text(12, $yStart + 25, "HOME");
-$pdf->Text(60, $yStart + 25, "DEST");
+$pdf->Text(12, $yStart + 25, $from);
+$pdf->Text(60, $yStart + 25, $to);
 
 $pdf->SetFont('Helvetica', '', 10);
 $pdf->Text(12, $yStart + 29, "Your Location");
@@ -152,7 +158,7 @@ $pdf->Text(100, $yRow2, "SEAT");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 11);
-$pdf->Text(12, $yRow2 + 5, date('d M Y', strtotime($booking['travel_date'])));
+$pdf->Text(12, $yRow2 + 5, date('d M Y', strtotime($travelDate)));
 $pdf->Text(45, $yRow2 + 5, "10:00 AM");
 $pdf->Text(75, $yRow2 + 5, "TBD");
 $pdf->Text(100, $yRow2 + 5, "1A");
@@ -174,7 +180,7 @@ $pdf->SetFont('Helvetica', '', 7);
 $pdf->Text(155, 35, "PASSENGER");
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 10);
-$pdf->Text(155, 40, substr(strtoupper($booking['customer_name']), 0, 18));
+$pdf->Text(155, 40, substr(strtoupper($customerName), 0, 18));
 
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
 $pdf->SetFont('Helvetica', '', 7);
@@ -183,8 +189,8 @@ $pdf->Text(185, 50, "TO");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Helvetica', 'B', 12);
-$pdf->Text(155, 55, "HOM");
-$pdf->Text(185, 55, "DST");
+$pdf->Text(155, 55, substr($from, 0, 3));
+$pdf->Text(185, 55, substr($to, 0, 3));
 
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
 $pdf->SetFont('Arial', '', 7);
@@ -193,7 +199,7 @@ $pdf->Text(185, 65, "TIME");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Text(155, 70, date('d M', strtotime($booking['travel_date'])));
+$pdf->Text(155, 70, date('d M', strtotime($travelDate)));
 $pdf->Text(185, 70, "10:00");
 
 // Fake Barcode Area
