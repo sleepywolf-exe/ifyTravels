@@ -178,7 +178,7 @@ $packages = getPackagesByDestination($id);
                                                 class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
                                                 <span class="font-bold text-gray-700">Destination Covered :</span>
                                                 <span
-                                                    class="text-gray-600"><?php echo htmlspecialchars($dest['name']); ?></span>
+                                                    class="text-gray-600"><?php echo htmlspecialchars(!empty($p['destination_covered']) ? $p['destination_covered'] : $dest['name']); ?></span>
                                             </div>
 
                                             <!-- Tour Activities -->
