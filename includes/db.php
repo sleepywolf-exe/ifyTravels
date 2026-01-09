@@ -8,20 +8,44 @@ class Database
 
     private function __construct()
     {
-        $dbPath = __DIR__ . '/../db/database.db';
-        $isNew = !file_exists($dbPath);
+        // Load config if exists
+        $configFile = __DIR__ . '/config.php';
+        if (file_exists($configFile)) {
+            require_once $configFile;
+        }
 
         try {
-            $this->pdo = new PDO('sqlite:' . $dbPath);
+            if (defined('DB_CONNECTION') && DB_CONNECTION === 'mysql') {
+                // MySQL Connection
+                $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+                $this->pdo = new PDO($dsn, DB_USER, DB_PASS);
+            } else {
+                // SQLite Connection (Default fallback)
+                $dbPath = defined('DB_SQLITE_PATH') ? DB_SQLITE_PATH : __DIR__ . '/../db/database.db';
+                $isNew = !file_exists($dbPath);
+
+                $this->pdo = new PDO('sqlite:' . $dbPath);
+
+                if ($isNew) {
+                    $this->initSchema();
+                }
+            }
+
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-            if ($isNew) {
-                $this->initSchema();
-            }
         } catch (PDOException $e) {
+            // Check for specific MySQL errors effectively
+            $msg = $e->getMessage();
+            if (strpos($msg, 'Connection refused') !== false || strpos($msg, 'Access denied') !== false) {
+                // Fallback to SQLite if MySQL fails? No, user explicitly requested CPanel connection.
+                // We should throw error to warn them configuration is wrong.
+                error_log("DB Connection Failed: $msg");
+                die("Database Connection Error. Please check config.php settings.");
+            }
+
             error_log("Database connection failed: " . $e->getMessage());
-            die("Database connection failed. Please contact administrator.");
+            die("Database Error.");
         }
     }
 
