@@ -86,6 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $slug = generateSlug($title);
     }
 
+    // Manual Destination Covered Field
+    $destination_covered = trim($_POST['destination_covered'] ?? '');
+
     // Handle Image Logic
     $image_url = $_POST['existing_image_url'] ?? '';
 
@@ -142,14 +145,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, is_new=?, features=?, inclusions=?, exclusions=?, activities=?, themes=?, trust_badges=? WHERE id=?",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $id]
+                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, is_new=?, features=?, inclusions=?, exclusions=?, activities=?, themes=?, trust_badges=?, destination_covered=? WHERE id=?",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $destination_covered, $id]
                 );
                 $message = "Package updated successfully!";
             } else {
                 $db->execute(
-                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, is_new, features, inclusions, exclusions, activities, themes, trust_badges) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json]
+                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, is_new, features, inclusions, exclusions, activities, themes, trust_badges, destination_covered) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $destination_covered]
                 );
                 $message = "Package created successfully!";
             }
@@ -269,6 +272,15 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Destination Covered (Specific
+                                    Cities)</label>
+                                <input type="text" name="destination_covered"
+                                    value="<?php echo e($editData['destination_covered'] ?? ''); ?>"
+                                    placeholder="e.g. Baku, Qusar, Qabala"
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                             </div>
 
                             <div class="grid grid-cols-2 gap-4">

@@ -331,12 +331,15 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                             break; 
                                         } 
                                     }
+                                    
+                                    // Use Manual 'Destination Covered' if available, else fallback to Country/Destination Name
+                                    $displayDestName = !empty($pkg['destination_covered']) ? $pkg['destination_covered'] : $destName;
                                     ?>
                                     
                                     <!-- Destination Covered -->
                                     <div class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
                                         <span class="font-bold text-gray-700">Destination Covered :</span> 
-                                        <span class="text-gray-600"><?php echo htmlspecialchars($destName); ?></span>
+                                        <span class="text-gray-600"><?php echo htmlspecialchars($displayDestName); ?></span>
                                     </div>
 
                                     <!-- Tour Activities -->
