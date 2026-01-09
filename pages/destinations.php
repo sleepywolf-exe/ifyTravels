@@ -118,7 +118,7 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
 
                                 <p class="text-sm text-gray-500 mb-6 line-clamp-3">
-                                    <?php echo htmlspecialchars(strip_tags($dest['description'])); ?>
+                                    <?php echo htmlspecialchars(strip_tags($dest['description'] ?? '')); ?>
                                 </p>
 
                                 <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">

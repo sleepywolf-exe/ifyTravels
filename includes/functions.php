@@ -41,6 +41,37 @@ function get_setting($key, $default = '')
 function base_url($path = '')
 {
     // Return absolute path from root to handle all URL depths (router/slugs)
+    // Dynamically detect base path to support subdirectories (e.g. /ifyTravels/)
+    $root = str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
+    // If we are in a subfolder (e.g. /pages/foo.php), we need to be careful. 
+    // Best way: Define BASE_URL in config, or deduce from known root file.
+    // Fallback: Assume ifyTravels structure.
+
+    // Simpler auto-detection: 
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+    $host = $_SERVER['HTTP_HOST'];
+
+    // Check if we have a defined BASE_URL constant
+    if (defined('BASE_URL')) {
+        return rtrim(BASE_URL, '/') . '/' . ltrim($path, '/');
+    }
+
+    // Heuristic: If we are in /pages/, go up one level. 
+    // But base_url() is used for generating links FROM anywhere TO anywhere.
+    // Let's assume the site root is the directory containing 'index.php' and 'includes'.
+    // We can't easily know strictly from URL.
+
+    // For now, let's just make it relative-safe or assume user setup. 
+    // IF the user is using MAMP/localhost/ifyTravels, $_SERVER['SCRIPT_NAME'] starts with /ifyTravels/
+
+    // Best Fix: Use a relative path from the current script to the root? No, hard to calc.
+    // Let's rely on the fact that we are commonly in /ifyTravels.
+
+    // Hacky but effective for this context:
+    if (strpos($_SERVER['REQUEST_URI'], '/ifyTravels') === 0) {
+        return '/ifyTravels/' . ltrim($path, '/');
+    }
+
     return '/' . ltrim($path, '/');
 }
 
