@@ -80,8 +80,35 @@ include __DIR__ . '/../includes/header.php';
                 <?php echo $pkg['description']; ?>
             </p>
 
-            <h2 class="text-2xl font-bold mb-4 text-charcoal">Package Features</h2>
+            <h2 class="text-2xl font-bold mb-4 mt-12 text-charcoal">Package Features</h2>
             <ul id="pkg-features" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <!-- Activities -->
+                <?php if (!empty($pkg['activities'])): 
+                    $acts = is_string($pkg['activities']) ? json_decode($pkg['activities'], true) : $pkg['activities'];
+                    if (!empty($acts)) { ?>
+                    <li class="flex items-start text-gray-700 p-3 bg-gray-50 rounded-lg col-span-1 md:col-span-2">
+                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-500 shadow-sm mr-3 font-bold text-xs flex-shrink-0">✓</span>
+                        <div>
+                            <span class="font-bold">Tour Activities:</span> 
+                            <?php echo htmlspecialchars(implode(', ', $acts)); ?>
+                        </div>
+                    </li>
+                <?php } endif; ?>
+
+                <!-- Themes -->
+                <?php if (!empty($pkg['themes'])): 
+                    $themes = is_string($pkg['themes']) ? json_decode($pkg['themes'], true) : $pkg['themes'];
+                    if (!empty($themes)) { ?>
+                    <li class="flex items-start text-gray-700 p-3 bg-gray-50 rounded-lg col-span-1 md:col-span-2">
+                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-500 shadow-sm mr-3 font-bold text-xs flex-shrink-0">✓</span>
+                        <div>
+                            <span class="font-bold">Tour Themes:</span> 
+                            <?php echo htmlspecialchars(implode(', ', $themes)); ?>
+                        </div>
+                    </li>
+                <?php } endif; ?>
+
+                <!-- Standard Features -->
                 <?php foreach ($pkg['features'] as $f): ?>
                     <li class="flex items-center text-gray-700 p-3 bg-gray-50 rounded-lg">
                         <span
@@ -136,7 +163,7 @@ include __DIR__ . '/../includes/header.php';
                     </div>
 
                     <!-- Key Inclusions -->
-                    <?php if (!empty($pkg['features'])): ?>
+                    <?php if (!empty($pkg['inclusions'])): ?>
                         <div class="mb-6">
                             <h3 class="font-bold text-charcoal mb-3 flex items-center">
                                 <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor"
@@ -147,7 +174,7 @@ include __DIR__ . '/../includes/header.php';
                                 What's Included
                             </h3>
                             <ul class="space-y-2">
-                                <?php foreach (array_slice($pkg['features'], 0, 4) as $feature): ?>
+                                <?php foreach (array_slice($pkg['inclusions'], 0, 5) as $feature): ?>
                                     <li class="flex items-start text-sm text-gray-700">
                                         <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor"
                                             viewBox="0 0 20 20">

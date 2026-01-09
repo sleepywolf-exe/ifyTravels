@@ -42,9 +42,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $inclusions = array_filter(array_map('trim', explode("\n", $_POST['inclusions'])));
     $exclusions = array_filter(array_map('trim', explode("\n", $_POST['exclusions'])));
 
+    // Handle Activities
+    $activities = $_POST['activities'] ?? [];
+    if (!empty($_POST['activities_other'])) {
+        $others = array_map('trim', explode(',', $_POST['activities_other']));
+        $activities = array_merge($activities, $others);
+    }
+    $activities = array_unique(array_filter($activities));
+
+    // Handle Themes
+    $themes = $_POST['themes'] ?? [];
+    if (!empty($_POST['themes_other'])) {
+        $others = array_map('trim', explode(',', $_POST['themes_other']));
+        $themes = array_merge($themes, $others);
+    }
+    $themes = array_unique(array_filter($themes));
+
     $features_json = json_encode(array_values($features));
     $inclusions_json = json_encode(array_values($inclusions));
     $exclusions_json = json_encode(array_values($exclusions));
+    $activities_json = json_encode(array_values($activities));
+    $themes_json = json_encode(array_values($themes));
 
     // Auto-generate slug
     $slug = trim($_POST['slug'] ?? '');
@@ -108,14 +126,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, features=?, inclusions=?, exclusions=? WHERE id=?",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $id]
+                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, features=?, inclusions=?, exclusions=?, activities=?, themes=? WHERE id=?",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $id]
                 );
                 $message = "Package updated successfully!";
             } else {
                 $db->execute(
-                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, features, inclusions, exclusions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json]
+                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, features, inclusions, exclusions, activities, themes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json]
                 );
                 $message = "Package created successfully!";
             }
@@ -264,6 +282,47 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
                                 <textarea id="summernote" name="description" rows="3"
                                     class="w-full border border-gray-300 px-3 py-2 rounded-lg"><?php echo e($editData['description'] ?? ''); ?></textarea>
+                            </div>
+
+                            <!-- New: Activities & Themes -->
+                            <div
+                                class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Tour Activities</label>
+                                    <div class="grid grid-cols-1 gap-2 text-sm">
+                                        <?php
+                                        $allActivities = ['Cable Car', 'Museums', 'Sightseeing', 'Boating', 'Trekking', 'Shopping', 'Cultural Show', 'Wildlife Safari', 'Beach Activities'];
+                                        $currentActivities = isset($editData['activities']) ? json_decode($editData['activities'], true) : [];
+                                        if (!is_array($currentActivities))
+                                            $currentActivities = [];
+
+                                        foreach ($allActivities as $act) {
+                                            $checked = in_array($act, $currentActivities) ? 'checked' : '';
+                                            echo "<label class='flex items-center space-x-2'><input type='checkbox' name='activities[]' value='$act' $checked class='rounded text-blue-600'> <span>$act</span></label>";
+                                        }
+                                        ?>
+                                    </div>
+                                    <input type="text" name="activities_other" placeholder="Other (comma separated)"
+                                        class="mt-2 w-full border border-gray-300 rounded px-2 py-1 text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Tour Themes</label>
+                                    <div class="grid grid-cols-1 gap-2 text-sm">
+                                        <?php
+                                        $allThemes = ['Adventure Tours', 'Hill Stations & Valleys', 'Culture & Heritage', 'Architecture & Gardens', 'Honeymoon', 'Family', 'Religious', 'Beach', 'Luxury'];
+                                        $currentThemes = isset($editData['themes']) ? json_decode($editData['themes'], true) : [];
+                                        if (!is_array($currentThemes))
+                                            $currentThemes = [];
+
+                                        foreach ($allThemes as $theme) {
+                                            $checked = in_array($theme, $currentThemes) ? 'checked' : '';
+                                            echo "<label class='flex items-center space-x-2'><input type='checkbox' name='themes[]' value='$theme' $checked class='rounded text-purple-600'> <span>$theme</span></label>";
+                                        }
+                                        ?>
+                                    </div>
+                                    <input type="text" name="themes_other" placeholder="Other (comma separated)"
+                                        class="mt-2 w-full border border-gray-300 rounded px-2 py-1 text-xs">
+                                </div>
                             </div>
 
                             <!-- JSON Fields -->
