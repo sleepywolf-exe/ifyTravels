@@ -172,6 +172,43 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                 <?php endif; ?>
             </div>
+
+            <!-- Pagination UI -->
+            <?php if ($totalPages > 1): ?>
+                <div class="mt-12 flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        <!-- Prev -->
+                        <?php if ($currentPage > 1): ?>
+                            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage - 1])); ?>"
+                                class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                                    </path>
+                                </svg>
+                            </a>
+                        <?php endif; ?>
+
+                        <!-- Numbers -->
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $i])); ?>"
+                                class="w-10 h-10 flex items-center justify-center rounded-lg font-bold transition <?php echo $i === $currentPage ? 'bg-primary text-white shadow-md' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'; ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endfor; ?>
+
+                        <!-- Next -->
+                        <?php if ($currentPage < $totalPages): ?>
+                            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage + 1])); ?>"
+                                class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                    </path>
+                                </svg>
+                            </a>
+                        <?php endif; ?>
+                    </nav>
+                </div>
+            <?php endif; ?>
         </main>
     </div>
 </div>
