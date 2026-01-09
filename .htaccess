@@ -1,4 +1,19 @@
-php_value upload_max_filesize 64M
-php_value post_max_size 64M
-php_value memory_limit 256M
-php_value max_execution_time 300
+RewriteEngine On
+
+# Ensure HTTPS (Optional)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Route /destinations/slug
+RewriteRule ^destinations/([^/]+)/?$ pages/destination-details.php?slug=$1 [L,QSA]
+
+# Route /packages/slug
+RewriteRule ^packages/([^/]+)/?$ pages/package-details.php?slug=$1 [L,QSA]
+
+# Hide .php extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Prevent directory listing
+Options -Indexes

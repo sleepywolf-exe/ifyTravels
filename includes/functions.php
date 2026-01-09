@@ -40,39 +40,35 @@ function get_setting($key, $default = '')
  */
 function base_url($path = '')
 {
-    // Return absolute path from root to handle all URL depths (router/slugs)
-    // Dynamically detect base path to support subdirectories (e.g. /ifyTravels/)
-    $root = str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
-    // If we are in a subfolder (e.g. /pages/foo.php), we need to be careful. 
-    // Best way: Define BASE_URL in config, or deduce from known root file.
-    // Fallback: Assume ifyTravels structure.
+    // Clean input path
+    $path = ltrim($path, '/');
 
-    // Simpler auto-detection: 
-    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
-    $host = $_SERVER['HTTP_HOST'];
+    // Determine depth of current script to generate correct relative path
+    // e.g., if we are in /pages/contact.php, we need ../ for root assets
+    $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
 
-    // Check if we have a defined BASE_URL constant
-    if (defined('BASE_URL')) {
-        return rtrim(BASE_URL, '/') . '/' . ltrim($path, '/');
+    // Normalize slashes (Windows protection)
+    $scriptDir = str_replace('\\', '/', $scriptDir);
+
+    // Check if we are in a known subdirectory relative to project root
+    // This assumes the project root contains index.php and folders.
+
+    $prefix = '';
+
+    // Simple Depth Check:
+    // If we are in /pages/, /admin/, /services/, /includes/ - we are 1 level deep.
+    // If user is in localhost/ifyTravels/pages/foo.php -> dirname is /ifyTravels/pages
+    // If user is in localhost/pages/foo.php -> dirname is /pages
+
+    // We check if the last segment of the dir is one of our subfolders.
+    $parts = explode('/', trim($scriptDir, '/'));
+    $lastDir = end($parts);
+
+    if (in_array($lastDir, ['pages', 'admin', 'services', 'includes'])) {
+        $prefix = '../';
     }
 
-    // Heuristic: If we are in /pages/, go up one level. 
-    // But base_url() is used for generating links FROM anywhere TO anywhere.
-    // Let's assume the site root is the directory containing 'index.php' and 'includes'.
-    // We can't easily know strictly from URL.
-
-    // For now, let's just make it relative-safe or assume user setup. 
-    // IF the user is using MAMP/localhost/ifyTravels, $_SERVER['SCRIPT_NAME'] starts with /ifyTravels/
-
-    // Best Fix: Use a relative path from the current script to the root? No, hard to calc.
-    // Let's rely on the fact that we are commonly in /ifyTravels.
-
-    // Hacky but effective for this context:
-    if (strpos($_SERVER['REQUEST_URI'], '/ifyTravels') === 0) {
-        return '/ifyTravels/' . ltrim($path, '/');
-    }
-
-    return '/' . ltrim($path, '/');
+    return $prefix . $path;
 }
 
 /**
@@ -194,8 +190,8 @@ function getPackageBySlug($slug)
  */
 function destination_url($slug)
 {
-    // Use explicit path to avoid 404s on servers without rewrite rules
-    return base_url('pages/destination-details.php?slug=' . $slug);
+    // Pretty URL handled by .htaccess
+    return base_url('destinations/' . $slug);
 }
 
 /**
@@ -203,8 +199,8 @@ function destination_url($slug)
  */
 function package_url($slug)
 {
-    // Use explicit path to avoid 404s on servers without rewrite rules
-    return base_url('pages/package-details.php?slug=' . $slug);
+    // Pretty URL handled by .htaccess
+    return base_url('packages/' . $slug);
 }
 
 /**
