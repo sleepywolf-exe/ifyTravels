@@ -113,48 +113,7 @@ Image Categories:
 
 ---
 
-## 🗄️ Database Schema (Relational)
 
-### Users
-- id
-- name
-- email
-- password_hash
-- phone
-- created_at
-
-### Destinations
-- id
-- name
-- country
-- description
-- image
-- best_time_to_visit
-
-### Packages
-- id
-- destination_id
-- title
-- price
-- duration
-- inclusions
-- exclusions
-
-### Bookings
-- id
-- user_id
-- package_id
-- booking_date
-- status
-- total_price
-
-### Payments (Future)
-- id
-- booking_id
-- razorpay_order_id
-- payment_status
-
----
 
 ## 📁 Folder Structure
 
