@@ -172,13 +172,34 @@ $packages = getPackagesByDestination($id);
                                             class="font-bold text-xl text-charcoal mb-3 group-hover:text-primary transition leading-tight">
                                             <?php echo htmlspecialchars($p['title']); ?>
                                         </h4>
-                                        <div class="flex flex-wrap gap-2 mb-6">
-                                            <?php foreach (array_slice($p['features'], 0, 3) as $f): ?>
+                                        <div class="space-y-2 mb-6">
+                                            <!-- Destination Covered -->
+                                            <div
+                                                class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
+                                                <span class="font-bold text-gray-700">Destination Covered :</span>
                                                 <span
-                                                    class="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded border border-gray-100">
-                                                    <?php echo htmlspecialchars($f); ?>
-                                                </span>
-                                            <?php endforeach; ?>
+                                                    class="text-gray-600"><?php echo htmlspecialchars($dest['name']); ?></span>
+                                            </div>
+
+                                            <!-- Tour Activities -->
+                                            <?php if (!empty($p['activities'])): ?>
+                                                <div
+                                                    class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
+                                                    <span class="font-bold text-gray-700">Tour Activities :</span>
+                                                    <span
+                                                        class="text-gray-600"><?php echo htmlspecialchars(implode(', ', array_slice($p['activities'], 0, 4))); ?></span>
+                                                </div>
+                                            <?php endif; ?>
+
+                                            <!-- Tour Themes -->
+                                            <?php if (!empty($p['themes'])): ?>
+                                                <div
+                                                    class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
+                                                    <span class="font-bold text-gray-700">Tour Themes :</span>
+                                                    <span
+                                                        class="text-gray-600"><?php echo htmlspecialchars(implode(', ', array_slice($p['themes'], 0, 3))); ?></span>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="flex items-end justify-between border-t pt-4">
                                             <div>

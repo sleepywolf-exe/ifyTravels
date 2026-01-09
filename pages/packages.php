@@ -321,18 +321,39 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                     </svg>
                                     <?php echo $pkg['duration']; ?>
                                 </div>
-                                <div class="space-y-1 mb-6 flex-1">
-                                    <?php if (!empty($pkg['features'])):
-                                        foreach (array_slice($pkg['features'], 0, 3) as $f): ?>
-                                            <div class="flex items-center text-xs text-gray-600">
-                                                <svg class="w-3.5 h-3.5 mr-2 text-green-500" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                <span class="truncate"><?php echo htmlspecialchars($f); ?></span>
-                                            </div>
-                                        <?php endforeach; endif; ?>
+                                <div class="space-y-2 mb-6 flex-1">
+                                    <?php 
+                                    // Lookup Destination Name
+                                    $destName = 'Unknown';
+                                    foreach ($destinations as $d) { 
+                                        if ($d['id'] == $pkg['destinationId']) { 
+                                            $destName = $d['name']; 
+                                            break; 
+                                        } 
+                                    }
+                                    ?>
+                                    
+                                    <!-- Destination Covered -->
+                                    <div class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
+                                        <span class="font-bold text-gray-700">Destination Covered :</span> 
+                                        <span class="text-gray-600"><?php echo htmlspecialchars($destName); ?></span>
+                                    </div>
+
+                                    <!-- Tour Activities -->
+                                    <?php if (!empty($pkg['activities'])): ?>
+                                    <div class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
+                                        <span class="font-bold text-gray-700">Tour Activities :</span> 
+                                        <span class="text-gray-600"><?php echo htmlspecialchars(implode(', ', array_slice($pkg['activities'], 0, 4))); ?></span>
+                                    </div>
+                                    <?php endif; ?>
+
+                                    <!-- Tour Themes -->
+                                    <?php if (!empty($pkg['themes'])): ?>
+                                    <div class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
+                                        <span class="font-bold text-gray-700">Tour Themes :</span> 
+                                        <span class="text-gray-600"><?php echo htmlspecialchars(implode(', ', array_slice($pkg['themes'], 0, 3))); ?></span>
+                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
