@@ -5,4 +5,5 @@ $destinations = $db->fetchAll("SELECT id, name, image_url, slug FROM destination
 foreach ($destinations as $d) {
     echo "ID: " . $d['id'] . " | Name: " . $d['name'] . " | Slug: " . $d['slug'] . " | Image: " . $d['image_url'] . "\n";
 }
+
 ?>
