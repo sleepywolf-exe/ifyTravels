@@ -263,3 +263,68 @@ function get_source_icon_svg($source)
     // Default fallback (globe)
     return '<svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>';
 }
+
+/**
+ * Send Lead Confirmation Email (Branded HTML)
+ */
+function send_lead_confirmation_email($toEmail, $customerName, $customerPhone)
+{
+    $subject = "Inquiry Received - ifyTravels";
+    $fromEmail = get_setting('contact_email', 'hello@ifytravels.com');
+
+    // Brand Colors
+    $teal = "#0F766E";
+
+    // Email Body
+    $message = '
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Inquiry Confirmation</title>
+        <style>
+            body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: #f9f9f9; padding: 20px; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+            .header { background-color: ' . $teal . '; padding: 30px; text-align: center; color: #ffffff; }
+            .header h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+            .content { padding: 40px 30px; text-align: center; }
+            .h2 { color: #111827; font-size: 20px; margin-bottom: 20px; font-weight: 600; }
+            .p { color: #4B5563; font-size: 16px; margin-bottom: 30px; }
+            .btn { display: inline-block; background-color: ' . $teal . '; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 6px rgba(15, 118, 110, 0.2); transition: background-color 0.2s; }
+            .btn:hover { background-color: #0D9488; }
+            .footer { background-color: #f3f4f6; padding: 20px; text-align: center; font-size: 12px; color: #9CA3AF; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>ifyTravels</h1>
+            </div>
+            <div class="content">
+                <h2 class="h2">Hello ' . htmlspecialchars($customerName) . ',</h2>
+                <p class="p">Thank you for reaching out to us! We have received your inquiry and our travel experts will review it shortly.</p>
+                <p class="p">Need immediate assistance? Click below to call us directly.</p>
+                
+                <!-- Call Action Button -->
+                <a href="tel:' . preg_replace('/[^0-9+]/', '', get_setting('contact_phone', '+919999779870')) . '" class="btn">
+                    📞 Call Us Now
+                </a>
+            </div>
+            <div class="footer">
+                <p>&copy; ' . date('Y') . ' ifyTravels. All rights reserved.<br>
+                ' . htmlspecialchars(get_setting('address', 'Delhi, India')) . '</p>
+            </div>
+        </div>
+    </body>
+    </html>';
+
+    // Headers
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= "From: ifyTravels <" . $fromEmail . ">" . "\r\n";
+    if (filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
+        $headers .= "Reply-To: " . $fromEmail . "\r\n";
+    }
+
+    return @mail($toEmail, $subject, $message, $headers);
+}
