@@ -291,6 +291,13 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                         class="absolute top-4 left-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
                                         🔥 POPULAR
                                     </div>
+                                    <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <a href="<?php echo package_url($pkg['slug']); ?>"
+                                        class="bg-white text-gray-900 font-bold py-2 px-6 rounded-full shadow-lg hover:bg-primary hover:text-white transition transform hover:-translate-y-1">
+                                        View Details
+                                    </a>
+                                </div>
                                 <?php endif; ?>
                                 <?php if (!empty($pkg['is_new'])): ?>
                                     <div class="absolute top-4 <?php echo $pkg['isPopular'] ? 'left-28' : 'left-4'; ?> bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1 animate-pulse">
@@ -327,10 +334,6 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                             </div>
                                         <?php endforeach; endif; ?>
                                 </div>
-                                <a href="<?php echo package_url($pkg['slug']); ?>"
-                                    class="block w-full text-center bg-gray-50 hover:bg-primary hover:text-white text-charcoal font-bold py-3 rounded-lg transition border border-gray-200">
-                                    View Details
-                                </a>
                             </div>
                         </div>
                     <?php endforeach; ?>

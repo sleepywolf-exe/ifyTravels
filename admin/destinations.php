@@ -168,21 +168,26 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Summernote CSS/JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <!-- Quill.js CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Outfit', sans-serif;
         }
 
-        /* Override Summernote font to match theme */
-        .note-editor .note-editing-area {
-            font-family: 'Outfit', sans-serif !important;
+        .ql-toolbar.ql-snow {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            border-color: #d1d5db;
+        }
+
+        .ql-container.ql-snow {
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            border-color: #d1d5db;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
         }
     </style>
 </head>
@@ -260,8 +265,10 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
 
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
-                                <textarea id="summernote" name="description" rows="3"
-                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"><?php echo e($editData['description'] ?? ''); ?></textarea>
+                                <div id="editor-container" class="bg-white" style="height: 200px;">
+                                    <?php echo $editData['description'] ?? ''; ?></div>
+                                <input type="hidden" name="description"
+                                    value="<?php echo htmlspecialchars($editData['description'] ?? ''); ?>">
                             </div>
 
                             <div class="grid grid-cols-2 gap-4">
@@ -389,20 +396,28 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
             </div>
         </div>
     </main>
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
-        $('#summernote').summernote({
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
             placeholder: 'Describe this destination...',
-            tabsize: 2,
-            height: 200,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', ['link', 'picture']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['link', 'clean']
+                ]
+            }
         });
+
+        // Form Submission Handler
+        document.querySelector('form').onsubmit = function() {
+            var description = document.querySelector('input[name=description]');
+            description.value = quill.root.innerHTML;
+        };
     </script>
 </body>
 
