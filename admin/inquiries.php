@@ -1,5 +1,22 @@
 <?php require 'auth_check.php';
-$inquiries = Database::getInstance()->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); ?>
+$db = Database::getInstance();
+
+// Auto-fix: Check if columns exist, if not, add them (Silent Migration)
+try {
+    // Check if 'status' column exists
+    $check = $db->fetch("SHOW COLUMNS FROM inquiries LIKE 'status'");
+    if (!$check) {
+        $db->execute("ALTER TABLE inquiries ADD COLUMN status VARCHAR(50) DEFAULT 'new'");
+        $db->execute("ALTER TABLE inquiries ADD COLUMN admin_notes TEXT");
+        $db->execute("ALTER TABLE inquiries ADD COLUMN utm_source VARCHAR(255)");
+        $db->execute("ALTER TABLE inquiries ADD COLUMN utm_medium VARCHAR(255)");
+        $db->execute("ALTER TABLE inquiries ADD COLUMN utm_campaign VARCHAR(255)");
+    }
+} catch (Exception $e) {
+    // Suppress error if already exists or permission issue
+}
+
+$inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
