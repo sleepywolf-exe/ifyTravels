@@ -28,6 +28,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $bookingId = $pdo->lastInsertId();
 
+        // 1. Send Customer Confirmation
+        send_lead_confirmation_email($email, $name, $phone);
+
+        // 2. Send Admin Notification
+        $adminData = [
+            'Package' => $pkgNamePost ?: 'Custom Inquiry',
+            'Customer Name' => $name,
+            'Email' => $email,
+            'Phone' => $phone,
+            'Travel Date' => $date,
+            'Special Requests' => $requests ?: 'None',
+            'Booking ID' => '#' . $bookingId
+        ];
+        send_admin_notification_email("New Booking: $name", $adminData, "View Booking", base_url("admin/booking-details.php?id=$bookingId"));
+
         header('Location: booking-success.php?id=' . $bookingId);
         exit;
     } catch (Exception $e) {
