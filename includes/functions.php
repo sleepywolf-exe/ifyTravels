@@ -61,6 +61,14 @@ function e($string)
 }
 
 /**
+ * Sanitize input data
+ */
+function sanitize_input($data)
+{
+    return htmlspecialchars(strip_tags(trim($data ?? '')), ENT_QUOTES, 'UTF-8');
+}
+
+/**
  * Redirect helper
  */
 function redirect($url)
