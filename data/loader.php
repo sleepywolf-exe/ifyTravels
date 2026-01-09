@@ -63,6 +63,7 @@ function loadPackages()
         $pkg['features'] = !empty($pkg['features']) ? json_decode($pkg['features'], true) : [];
         $pkg['inclusions'] = !empty($pkg['inclusions']) ? json_decode($pkg['inclusions'], true) : [];
         $pkg['exclusions'] = !empty($pkg['exclusions']) ? json_decode($pkg['exclusions'], true) : [];
+        $pkg['trust_badges'] = !empty($pkg['trust_badges']) ? json_decode($pkg['trust_badges'], true) : [];
         $pkg['destinationId'] = $pkg['destination_id'];
         $pkg['image'] = $pkg['image_url'];
         $pkg['isPopular'] = $pkg['is_popular'] ? true : false;
