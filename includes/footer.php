@@ -133,34 +133,21 @@
                 <div class="grid grid-cols-3 gap-2">
                     <!-- Visa Card -->
                     <div
-                        class="bg-white/10 backdrop-blur-sm rounded-lg p-2 hover:bg-white/20 transition flex items-center justify-center group">
-                        <svg class="h-6" viewBox="0 0 32 32" fill="none">
-                            <rect width="32" height="32" rx="4" fill="white" />
-                            <path
-                                d="M13.743 19.964h-2.185l-1.36-8.484h2.253l0.874 6.075c0.231 1.625 0.252 1.766 0.252 1.766s0.05-0.252 0.292-1.785l1.643-6.056h2.29l-4.06 8.484zM24.796 11.48h-1.688c-0.52 0-0.916 0.151-1.144 0.695l-4.008 9.537h2.296l0.89-2.474h2.724l0.256 1.256c0.046 0.22 0.22 0.368 0.443 0.368h2.02l-1.79-9.382zM21.572 17.514l1.41-4.043 0.812 4.043h-2.222zM28.082 11.48l-2.02 9.382 0.398-0.082c3.558-0.785 4.332-3.824 4.34-3.856l0.024-0.12-2.742-5.324z"
-                                fill="#1434CB" />
-                        </svg>
+                        class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa"
+                            class="h-full w-auto object-contain">
                     </div>
                     <!-- Mastercard -->
                     <div
-                        class="bg-white/10 backdrop-blur-sm rounded-lg p-2 hover:bg-white/20 transition flex items-center justify-center">
-                        <svg class="h-6" viewBox="0 0 48 32" fill="none">
-                            <rect width="48" height="32" rx="4" fill="white" />
-                            <circle cx="18" cy="16" r="8" fill="#EB001B" />
-                            <circle cx="30" cy="16" r="8" fill="#F79E1B" />
-                            <path
-                                d="M24 10.5c-1.5 1.3-2.5 3.2-2.5 5.5s1 4.2 2.5 5.5c1.5-1.3 2.5-3.2 2.5-5.5s-1-4.2-2.5-5.5z"
-                                fill="#FF5F00" />
-                        </svg>
+                        class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                            alt="Mastercard" class="h-full w-auto object-contain">
                     </div>
                     <!-- UPI -->
                     <div
-                        class="bg-white/10 backdrop-blur-sm rounded-lg p-2 hover:bg-white/20 transition flex items-center justify-center">
-                        <svg class="h-6" viewBox="0 0 48 32">
-                            <rect width="48" height="32" rx="4" fill="#097939" />
-                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white"
-                                font-family="Arial, sans-serif" font-size="10" font-weight="bold">UPI</text>
-                        </svg>
+                        class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI"
+                            class="h-full w-auto object-contain">
                     </div>
                     <!-- Rupay -->
                     <div
