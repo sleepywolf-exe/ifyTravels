@@ -60,26 +60,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // 2. Check if file uploaded (File takes precedence over text URL if both present)
-        if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../assets/images/destinations/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
-
-            $fileName = time() . '_' . basename($_FILES['image_file']['name']);
-            $targetPath = $uploadDir . $fileName;
-
-            if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetPath)) {
-                // Delete old image if it exists
-                if (!empty($id)) {
-                    $oldRec = $db->fetch("SELECT image_url FROM destinations WHERE id = ?", [$id]);
-                    if ($oldRec) {
-                        deleteOldImage($oldRec['image_url']);
-                    }
+        // 2. Check if file uploaded
+        if (isset($_FILES['image_file'])) {
+            if ($_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = __DIR__ . '/../assets/images/destinations/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
                 }
-                $image_url = 'assets/images/destinations/' . $fileName;
-            } else {
-                $error = "Failed to upload image file. Check directory permissions.";
+
+                $fileName = time() . '_' . basename($_FILES['image_file']['name']);
+                $targetPath = $uploadDir . $fileName;
+
+                if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetPath)) {
+                    // Delete old image if it exists
+                    if (!empty($id)) {
+                        $oldRec = $db->fetch("SELECT image_url FROM destinations WHERE id = ?", [$id]);
+                        if ($oldRec) {
+                            deleteOldImage($oldRec['image_url']);
+                        }
+                    }
+                    $image_url = 'assets/images/destinations/' . $fileName;
+                } else {
+                    $error = "Failed to upload image file. Check directory permissions.";
+                }
+            } elseif ($_FILES['image_file']['error'] !== UPLOAD_ERR_NO_FILE) {
+                switch ($_FILES['image_file']['error']) {
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        $error = "Image is too large. Server limit: " . ini_get('upload_max_filesize');
+                        break;
+                    default:
+                        $error = "Upload failed with error code: " . $_FILES['image_file']['error'];
+                        break;
+                }
             }
         }
     }

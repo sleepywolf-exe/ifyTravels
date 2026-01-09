@@ -67,26 +67,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image_url = trim($_POST['image_url_input']);
         }
 
-        if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../assets/images/packages/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
-
-            $fileName = time() . '_' . basename($_FILES['image_file']['name']);
-            $targetPath = $uploadDir . $fileName;
-
-            if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetPath)) {
-                // Delete old image
-                if (!empty($id)) {
-                    $oldRec = $db->fetch("SELECT image_url FROM packages WHERE id = ?", [$id]);
-                    if ($oldRec) {
-                        deleteOldImage($oldRec['image_url']);
-                    }
+        if (isset($_FILES['image_file'])) {
+            if ($_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = __DIR__ . '/../assets/images/packages/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
                 }
-                $image_url = 'assets/images/packages/' . $fileName;
-            } else {
-                $error = "Failed to upload image.";
+
+                $fileName = time() . '_' . basename($_FILES['image_file']['name']);
+                $targetPath = $uploadDir . $fileName;
+
+                if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetPath)) {
+                    // Delete old image
+                    if (!empty($id)) {
+                        $oldRec = $db->fetch("SELECT image_url FROM packages WHERE id = ?", [$id]);
+                        if ($oldRec) {
+                            deleteOldImage($oldRec['image_url']);
+                        }
+                    }
+                    $image_url = 'assets/images/packages/' . $fileName;
+                } else {
+                    $error = "Failed to upload image. Verify directory permissions.";
+                }
+            } elseif ($_FILES['image_file']['error'] !== UPLOAD_ERR_NO_FILE) {
+                // Handle specific errors
+                switch ($_FILES['image_file']['error']) {
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        $error = "Image is too large. Server limit: " . ini_get('upload_max_filesize');
+                        break;
+                    default:
+                        $error = "Upload failed with error code: " . $_FILES['image_file']['error'];
+                        break;
+                }
             }
         }
     }

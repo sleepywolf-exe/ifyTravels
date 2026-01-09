@@ -24,32 +24,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fileFields = ['site_logo', 'site_favicon', 'hero_bg', 'contact_bg', 'destinations_bg', 'packages_bg', 'og_image'];
 
     foreach ($fileFields as $field) {
-        if (isset($_FILES[$field]) && $_FILES[$field]['error'] === UPLOAD_ERR_OK) {
-            $fileTmp = $_FILES[$field]['tmp_name'];
-            $fileName = basename($_FILES[$field]['name']);
-            $fileType = $_FILES[$field]['type'];
+        if (isset($_FILES[$field])) {
+            if ($_FILES[$field]['error'] === UPLOAD_ERR_OK) {
+                // ... Existing logic ...
+                $fileTmp = $_FILES[$field]['tmp_name'];
+                $fileName = basename($_FILES[$field]['name']);
+                $fileType = $_FILES[$field]['type'];
 
-            if (in_array($fileType, $allowedTypes)) {
-                // Generate unique name to avoid cache issues or overwrites
-                $newFileName = $field . '_' . time() . '_' . $fileName;
-                $targetPath = $uploadDir . $newFileName;
+                if (in_array($fileType, $allowedTypes)) {
+                    $newFileName = $field . '_' . time() . '_' . $fileName;
+                    $targetPath = $uploadDir . $newFileName;
 
-                // Remove old file if exists (optional, strictly speaking we should query DB first to find old file)
-                // For now, just save new file.
+                    if (move_uploaded_file($fileTmp, $targetPath)) {
+                        $dbPath = 'assets/images/uploads/' . $newFileName;
 
-                if (move_uploaded_file($fileTmp, $targetPath)) {
-                    // Save relative path to DB
-                    $dbPath = 'assets/images/uploads/' . $newFileName;
-
-                    // Insert or Update
-                    // Check if key exists first
-                    $exists = $db->fetch("SELECT id FROM site_settings WHERE setting_key = ?", [$field]);
-                    if ($exists) {
-                        $db->execute("UPDATE site_settings SET setting_value = ? WHERE setting_key = ?", [$dbPath, $field]);
+                        // Check if key exists first
+                        $exists = $db->fetch("SELECT id FROM site_settings WHERE setting_key = ?", [$field]);
+                        if ($exists) {
+                            $db->execute("UPDATE site_settings SET setting_value = ? WHERE setting_key = ?", [$dbPath, $field]);
+                        } else {
+                            $db->execute("INSERT INTO site_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", [$field, $dbPath, 'Uploaded Image']);
+                        }
                     } else {
-                        $db->execute("INSERT INTO site_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", [$field, $dbPath, 'Uploaded Image']);
+                        $message .= " Failed to move uploaded file for $field. Check permissions. ";
                     }
+                } else {
+                    $message .= " Invalid file type for $field. Allowed: JPG, PNG, WEBP, SVG. ";
                 }
+            } elseif ($_FILES[$field]['error'] !== UPLOAD_ERR_NO_FILE) {
+                // Handle Errors
+                $errorCode = $_FILES[$field]['error'];
+                $errorMsg = "Unknown Error";
+                switch ($errorCode) {
+                    case UPLOAD_ERR_INI_SIZE:
+                        $errorMsg = "File too large (exceeds server limit of " . ini_get('upload_max_filesize') . ")";
+                        break;
+                    case UPLOAD_ERR_FORM_SIZE:
+                        $errorMsg = "File too large (exceeds form limit)";
+                        break;
+                    case UPLOAD_ERR_PARTIAL:
+                        $errorMsg = "File only partially uploaded";
+                        break;
+                    case UPLOAD_ERR_NO_TMP_DIR:
+                        $errorMsg = "Missing temporary folder";
+                        break;
+                    case UPLOAD_ERR_CANT_WRITE:
+                        $errorMsg = "Failed to write file to disk";
+                        break;
+                }
+                $message .= " Error uploading $field: $errorMsg. ";
             }
         }
     }
