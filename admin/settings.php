@@ -295,11 +295,22 @@ foreach ($settings as $s) {
                         <div
                             class="p-6 border border-dashed border-gray-200 rounded-2xl hover:border-blue-300 transition-colors bg-gray-50/50">
                             <label class="block text-sm font-bold text-gray-800 mb-4">Favicon</label>
-                            <?php if (!empty($settingsMap['site_favicon'])): ?>
+                            <?php
+                            $favSrc = $settingsMap['site_favicon'] ?? '';
+                            $isFallback = false;
+                            if (empty($favSrc) && !empty($settingsMap['site_logo'])) {
+                                $favSrc = $settingsMap['site_logo'];
+                                $isFallback = true;
+                            }
+
+                            if (!empty($favSrc)): ?>
                                 <div
-                                    class="mb-4 p-4 bg-white border border-gray-100 rounded-xl flex items-center justify-center shadow-sm h-24 w-24 mx-auto">
-                                    <img src="../<?php echo e($settingsMap['site_favicon']); ?>"
-                                        class="max-h-full object-contain">
+                                    class="mb-4 p-4 bg-white border border-gray-100 rounded-xl flex flex-col items-center justify-center shadow-sm h-32 w-32 mx-auto">
+                                    <img src="../<?php echo e($favSrc); ?>" class="max-h-16 object-contain mb-2">
+                                    <?php if ($isFallback): ?>
+                                        <span class="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded-full">Using
+                                            Logo</span>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                             <input type="file" name="site_favicon" accept="image/*"
