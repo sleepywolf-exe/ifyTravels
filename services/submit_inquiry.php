@@ -47,8 +47,9 @@ $finalMessage = "Phone: $phone\nTravel Date: $travelDate\n\nMessage/Request:\n$m
 $db = Database::getInstance();
 
 try {
-    $sql = "INSERT INTO inquiries (name, email, subject, message, created_at) VALUES (?, ?, ?, ?, datetime('now'))";
-    $success = $db->execute($sql, [$name, $email, $subject, $finalMessage]);
+    $now = date('Y-m-d H:i:s');
+    $sql = "INSERT INTO inquiries (name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?)";
+    $success = $db->execute($sql, [$name, $email, $subject, $finalMessage, $now]);
 
     if ($success) {
         $inquiryId = $db->lastInsertId();

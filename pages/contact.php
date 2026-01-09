@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $_POST['message'] ?? '';
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO inquiries (name, email, subject, message, status, created_at) VALUES (?, ?, ?, ?, 'New', datetime('now'))");
-        $stmt->execute([$name, $email, $subject, $message]);
+        $stmt = $pdo->prepare("INSERT INTO inquiries (name, email, subject, message, status, created_at) VALUES (?, ?, ?, ?, 'New', ?)");
+        $stmt->execute([$name, $email, $subject, $message, date('Y-m-d H:i:s')]);
 
         // Send Customer Confirmation
         send_lead_confirmation_email($email, $name, get_setting('contact_phone', ''));

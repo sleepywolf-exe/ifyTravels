@@ -20,11 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert into DB
     try {
-        $stmt = $pdo->prepare("INSERT INTO bookings (customer_name, email, phone, travel_date, special_requests, package_id, package_name, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', datetime('now'))");
-        // Handled null package_id properly
-        $pid = is_numeric($pkgIdPost) ? $pkgIdPost : null;
+        $stmt = $pdo->prepare("INSERT INTO bookings (customer_name, email, phone, travel_date, special_requests, package_id, package_name, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', ?)");
+        
+        $pid = (is_numeric($pkgIdPost) && $pkgIdPost > 0) ? $pkgIdPost : null;
+        $now = date('Y-m-d H:i:s');
 
-        $stmt->execute([$name, $email, $phone, $date, $requests, $pid, $pkgNamePost]);
+        $stmt->execute([$name, $email, $phone, $date, $requests, $pid, $pkgNamePost, $now]);
 
         $bookingId = $pdo->lastInsertId();
 
