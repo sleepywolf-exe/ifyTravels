@@ -83,30 +83,32 @@ include __DIR__ . '/../includes/header.php';
             <h2 class="text-2xl font-bold mb-4 mt-12 text-charcoal">Package Features</h2>
             <ul id="pkg-features" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <!-- Activities -->
-                <?php if (!empty($pkg['activities'])): 
+                <?php if (!empty($pkg['activities'])):
                     $acts = is_string($pkg['activities']) ? json_decode($pkg['activities'], true) : $pkg['activities'];
                     if (!empty($acts)) { ?>
-                    <li class="flex items-start text-gray-700 p-3 bg-gray-50 rounded-lg col-span-1 md:col-span-2">
-                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-500 shadow-sm mr-3 font-bold text-xs flex-shrink-0">✓</span>
-                        <div>
-                            <span class="font-bold">Tour Activities:</span> 
-                            <?php echo htmlspecialchars(implode(', ', $acts)); ?>
-                        </div>
-                    </li>
-                <?php } endif; ?>
+                        <li class="flex items-start text-gray-700 p-3 bg-gray-50 rounded-lg col-span-1 md:col-span-2">
+                            <span
+                                class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-500 shadow-sm mr-3 font-bold text-xs flex-shrink-0">✓</span>
+                            <div>
+                                <span class="font-bold">Tour Activities:</span>
+                                <?php echo htmlspecialchars(implode(', ', $acts)); ?>
+                            </div>
+                        </li>
+                    <?php }endif; ?>
 
                 <!-- Themes -->
-                <?php if (!empty($pkg['themes'])): 
+                <?php if (!empty($pkg['themes'])):
                     $themes = is_string($pkg['themes']) ? json_decode($pkg['themes'], true) : $pkg['themes'];
                     if (!empty($themes)) { ?>
-                    <li class="flex items-start text-gray-700 p-3 bg-gray-50 rounded-lg col-span-1 md:col-span-2">
-                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-500 shadow-sm mr-3 font-bold text-xs flex-shrink-0">✓</span>
-                        <div>
-                            <span class="font-bold">Tour Themes:</span> 
-                            <?php echo htmlspecialchars(implode(', ', $themes)); ?>
-                        </div>
-                    </li>
-                <?php } endif; ?>
+                        <li class="flex items-start text-gray-700 p-3 bg-gray-50 rounded-lg col-span-1 md:col-span-2">
+                            <span
+                                class="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-500 shadow-sm mr-3 font-bold text-xs flex-shrink-0">✓</span>
+                            <div>
+                                <span class="font-bold">Tour Themes:</span>
+                                <?php echo htmlspecialchars(implode(', ', $themes)); ?>
+                            </div>
+                        </li>
+                    <?php }endif; ?>
 
                 <!-- Standard Features -->
                 <?php foreach ($pkg['features'] as $f): ?>
@@ -162,32 +164,97 @@ include __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
-                    <!-- Key Inclusions -->
-                    <?php if (!empty($pkg['inclusions'])): ?>
-                        <div class="mb-6">
-                            <h3 class="font-bold text-charcoal mb-3 flex items-center">
-                                <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                What's Included
-                            </h3>
-                            <ul class="space-y-2">
-                                <?php foreach (array_slice($pkg['inclusions'], 0, 5) as $feature): ?>
-                                    <li class="flex items-start text-sm text-gray-700">
-                                        <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor"
-                                            viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd" />
+                    <!-- Key Inclusions (Carousel) -->
+                    <?php if (!empty($pkg['inclusions'])):
+                        $inclusions = is_array($pkg['inclusions']) ? $pkg['inclusions'] : json_decode($pkg['inclusions'], true);
+                        if (empty($inclusions))
+                            $inclusions = [];
+
+                        // Chunk items into groups of 5
+                        $chunks = array_chunk($inclusions, 5);
+                        if (!empty($chunks)):
+                            ?>
+                            <div class="mb-6" id="inclusions-carousel">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h3 class="font-bold text-charcoal flex items-center">
+                                        <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                        <span><?php echo htmlspecialchars($feature); ?></span>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    <?php endif; ?>
+                                        What's Included
+                                    </h3>
+                                    <!-- Controls -->
+                                    <?php if (count($chunks) > 1): ?>
+                                        <div class="flex space-x-1">
+                                            <button onclick="prevSlide()"
+                                                class="p-1 rounded-full hover:bg-gray-100 text-gray-500 hover:text-primary transition">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                            </button>
+                                            <button onclick="nextSlide()"
+                                                class="p-1 rounded-full hover:bg-gray-100 text-gray-500 hover:text-primary transition">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="relative overflow-hidden min-h-[160px]">
+                                    <?php foreach ($chunks as $index => $chunk): ?>
+                                        <ul class="space-y-2 transition-all duration-300 absolute w-full top-0 left-0 <?php echo $index === 0 ? 'opacity-100 relative translate-x-0' : 'opacity-0 translate-x-full hidden'; ?>"
+                                            data-slide="<?php echo $index; ?>">
+                                            <?php foreach ($chunk as $feature): ?>
+                                                <li class="flex items-start text-sm text-gray-700">
+                                                    <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor"
+                                                        viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd"
+                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                    <span><?php echo htmlspecialchars($feature); ?></span>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                            <script>
+                                let currentSlide = 0;
+                                const totalSlides = <?php echo count($chunks); ?>;
+
+                                function showSlide(index) {
+                                    const slides = document.querySelectorAll('#inclusions-carousel ul[data-slide]');
+                                    slides.forEach(el => {
+                                        el.classList.add('hidden', 'opacity-0', 'translate-x-full');
+                                        el.classList.remove('opacity-100', 'relative', 'translate-x-0');
+                                    });
+
+                                    const active = document.querySelector(`#inclusions-carousel ul[data-slide="${index}"]`);
+                                    active.classList.remove('hidden', 'translate-x-full', 'opacity-0');
+                                    active.classList.add('opacity-100', 'relative', 'translate-x-0');
+                                    currentSlide = index;
+                                }
+
+                                function nextSlide() {
+                                    let next = currentSlide + 1;
+                                    if (next >= totalSlides) next = 0;
+                                    showSlide(next);
+                                }
+
+                                function prevSlide() {
+                                    let prev = currentSlide - 1;
+                                    if (prev < 0) prev = totalSlides - 1;
+                                    showSlide(prev);
+                                }
+                            </script>
+                        <?php endif; endif; ?>
 
                     <!-- Special Offer -->
                     <div class="mb-6 bg-amber-50 border border-amber-200 rounded-lg p-4">

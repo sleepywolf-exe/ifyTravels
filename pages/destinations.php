@@ -76,17 +76,30 @@ include __DIR__ . '/../includes/header.php';
         <main class="w-full md:w-3/4">
             <div id="destinations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                // Simple Filter Logic (Preserved)
+                // Filter Logic
                 $filteredDestinations = $destinations;
-                if (isset($_GET['region']) && is_array($_GET['region'])) {
-                    $regions = $_GET['region'];
-                    $filteredDestinations = array_filter($destinations, function ($d) use ($regions) {
-                        return in_array($d['type'], $regions); // 'type' maps to region in simple data
-                    });
+                if (isset($_GET['region'])) {
+                    $regions = is_array($_GET['region']) ? $_GET['region'] : [$_GET['region']]; // Handle single value too
+                    if (!empty($regions)) {
+                        $filteredDestinations = array_filter($destinations, function ($d) use ($regions) {
+                            return in_array($d['type'], $regions);
+                        });
+                    }
                 }
 
-                if (count($filteredDestinations) > 0):
-                    foreach ($filteredDestinations as $dest):
+                // Pagination Logic (New)
+                $itemsPerPage = 9;
+                $totalItems = count($filteredDestinations);
+                $totalPages = ceil($totalItems / $itemsPerPage);
+                $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+                if ($currentPage > $totalPages && $totalPages > 0)
+                    $currentPage = $totalPages;
+
+                $offset = ($currentPage - 1) * $itemsPerPage;
+                $paginatedDestinations = array_slice($filteredDestinations, $offset, $itemsPerPage);
+
+                if (count($paginatedDestinations) > 0):
+                    foreach ($paginatedDestinations as $dest):
                         ?>
                         <div
                             class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group overflow-hidden">
