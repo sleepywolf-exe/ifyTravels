@@ -3,6 +3,17 @@
 require 'auth_check.php';
 require_once __DIR__ . '/../includes/functions.php';
 $db = Database::getInstance();
+// Auto-Migration: Ensure trust_badges column exists
+try {
+    $db->getConnection()->query("SELECT trust_badges FROM packages LIMIT 1");
+} catch (Exception $e) {
+    try {
+        $db->getConnection()->exec("ALTER TABLE packages ADD COLUMN trust_badges TEXT DEFAULT NULL");
+    } catch (Exception $e2) {
+        // Silent fail or log
+    }
+}
+
 $message = '';
 $error = '';
 
@@ -57,6 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $themes = array_merge($themes, $others);
     }
     $themes = array_unique(array_filter($themes));
+
+    // Handle Trust Badges
+    $trust_badges = $_POST['trust_badges'] ?? [];
+    $trust_badges_json = json_encode(array_values($trust_badges));
 
     $features_json = json_encode(array_values($features));
     $inclusions_json = json_encode(array_values($inclusions));
@@ -126,14 +141,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, features=?, inclusions=?, exclusions=?, activities=?, themes=? WHERE id=?",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $id]
+                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, features=?, inclusions=?, exclusions=?, activities=?, themes=?, trust_badges=? WHERE id=?",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $id]
                 );
                 $message = "Package updated successfully!";
             } else {
                 $db->execute(
-                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, features, inclusions, exclusions, activities, themes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json]
+                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, features, inclusions, exclusions, activities, themes, trust_badges) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json]
                 );
                 $message = "Package created successfully!";
             }
@@ -322,6 +337,32 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                                     </div>
                                     <input type="text" name="themes_other" placeholder="Other (comma separated)"
                                         class="mt-2 w-full border border-gray-300 rounded px-2 py-1 text-xs">
+                                </div>
+                            </div>
+
+                            <!-- Trust Badges (Trust Indicators) -->
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Trust Badges (Displayed on Detail Page)</label>
+                                <div class="grid grid-cols-1 gap-2 text-sm">
+                                    <?php
+                                    $allBadges = [
+                                        'secure_payment' => 'Secure Payment Gateway',
+                                        'customer_support' => '24/7 Customer Support',
+                                        'free_cancellation' => 'Free Cancellation (7 days prior)',
+                                        'verified_operator' => 'Verified Operator',
+                                        'best_price' => 'Best Price Guarantee'
+                                    ];
+                                    $currentBadges = isset($editData['trust_badges']) ? json_decode($editData['trust_badges'], true) : [];
+                                    if (!is_array($currentBadges)) $currentBadges = [];
+
+                                    foreach ($allBadges as $key => $label) {
+                                        $checked = in_array($key, $currentBadges) ? 'checked' : '';
+                                        echo "<label class='flex items-center space-x-2'>
+                                                <input type='checkbox' name='trust_badges[]' value='$key' $checked class='rounded text-green-600'> 
+                                                <span>$label</span>
+                                              </label>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
 
