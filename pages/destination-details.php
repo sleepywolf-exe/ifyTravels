@@ -29,6 +29,9 @@ if (!$dest) {
     exit;
 }
 
+// FIX: Ensure we have the ID for fetching packages, even if we came via slug
+$id = $dest['id'];
+
 $pageTitle = $dest['name'];
 include __DIR__ . '/../includes/header.php';
 $packages = getPackagesByDestination($id);
@@ -202,10 +205,10 @@ $packages = getPackagesByDestination($id);
             </div>
 
             <!-- Right Column: Sidebar -->
-            <aside class="lg:w-1/3">
+            <aside class="w-full">
                 <div class="sticky top-24 space-y-8">
                     <!-- Quick Facts Card -->
-                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
                         <h3 class="font-heading font-bold text-xl mb-6 text-charcoal flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -215,10 +218,11 @@ $packages = getPackagesByDestination($id);
                             Quick Facts
                         </h3>
                         <ul class="space-y-5 text-sm">
-                            <li class="flex items-center justify-between group">
+                            <li
+                                class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 group border-b border-gray-50 pb-3 last:border-0 last:pb-0">
                                 <div class="flex items-center gap-3 text-gray-500">
                                     <div
-                                        class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary/10 transition">
+                                        class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary/10 transition shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -227,12 +231,13 @@ $packages = getPackagesByDestination($id);
                                     </div>
                                     <span>Type</span>
                                 </div>
-                                <span class="font-bold text-charcoal"><?php echo $dest['type']; ?></span>
+                                <span class="font-bold text-charcoal text-right"><?php echo $dest['type']; ?></span>
                             </li>
-                            <li class="flex items-center justify-between group">
+                            <li
+                                class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 group border-b border-gray-50 pb-3 last:border-0 last:pb-0">
                                 <div class="flex items-center gap-3 text-gray-500">
                                     <div
-                                        class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary/10 transition">
+                                        class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary/10 transition shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -241,12 +246,13 @@ $packages = getPackagesByDestination($id);
                                     </div>
                                     <span>Best Time</span>
                                 </div>
-                                <span class="font-bold text-charcoal">All Year</span>
+                                <span class="font-bold text-charcoal text-right">All Year</span>
                             </li>
-                            <li class="flex items-center justify-between group">
+                            <li
+                                class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 group border-b border-gray-50 pb-3 last:border-0 last:pb-0">
                                 <div class="flex items-center gap-3 text-gray-500">
                                     <div
-                                        class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary/10 transition">
+                                        class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary/10 transition shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -255,7 +261,7 @@ $packages = getPackagesByDestination($id);
                                     </div>
                                     <span>Currency</span>
                                 </div>
-                                <span class="font-bold text-charcoal">Local / USD</span>
+                                <span class="font-bold text-charcoal text-right">Local / USD</span>
                             </li>
                         </ul>
                     </div>
