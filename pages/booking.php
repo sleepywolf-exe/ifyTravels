@@ -26,7 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute([$name, $email, $phone, $date, $requests, $pid, $pkgNamePost]);
 
-        header('Location: booking-success.php');
+        $bookingId = $pdo->lastInsertId();
+
+        header('Location: booking-success.php?id=' . $bookingId);
         exit;
     } catch (Exception $e) {
         $error = "Booking failed. Please try again.";
