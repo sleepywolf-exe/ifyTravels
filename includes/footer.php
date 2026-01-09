@@ -128,7 +128,8 @@
                     Secure Payments
                 </h3>
                 <p class="text-gray-400 text-sm mb-4">
-                    <?php echo e(get_setting('footer_payment_text', 'We accept all major payment methods')); ?></p>
+                    <?php echo e(get_setting('footer_payment_text', 'We accept all major payment methods')); ?>
+                </p>
                 <div class="grid grid-cols-3 gap-2">
                     <!-- Visa Card -->
                     <div
@@ -233,6 +234,184 @@
     });
 </script>
 
+
+<!-- Global Lead/Booking Modal -->
+<div id="bookingModal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog"
+    aria-modal="true">
+    <div class="absolute inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity opacity-0" id="modalBackdrop"></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div id="modalPanel"
+                class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+
+                <div
+                    class="bg-gradient-to-r from-primary to-teal-600 px-4 py-4 sm:px-6 flex justify-between items-center">
+                    <h3 class="text-xl font-bold leading-6 text-white" id="modal-title">Inquiry</h3>
+                    <button type="button" onclick="closeBookingModal()"
+                        class="text-white/80 hover:text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="px-4 py-6 sm:p-6">
+                    <form id="bookingForm" class="space-y-4">
+                        <input type="hidden" name="package_id" id="modalPackageId" value="">
+                        <input type="hidden" name="subject" id="modalSubject" value="General Inquiry">
+
+                        <div>
+                            <label for="customer_name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="customer_name" id="customer_name" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm px-4 py-2 border">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input type="email" name="email" id="email" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm px-4 py-2 border">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <input type="tel" name="phone" id="phone" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm px-4 py-2 border">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="travel_date" class="block text-sm font-medium text-gray-700">Travel Date
+                                (Tentative)</label>
+                            <input type="text" name="travel_date" id="modal_travel_date" placeholder="Select Date"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm px-4 py-2 border bg-white">
+                        </div>
+
+                        <div>
+                            <label for="special_requests" class="block text-sm font-medium text-gray-700">Message /
+                                Request</label>
+                            <textarea name="special_requests" id="special_requests" rows="3"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm px-4 py-2 border"></textarea>
+                        </div>
+
+                        <div id="formFeedback" class="hidden rounded-md p-4 text-sm"></div>
+
+                        <div class="mt-5 sm:mt-6">
+                            <button type="submit" id="submitBtn"
+                                class="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:text-sm transition-colors">
+                                Confirm Inquiry
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize Modal Datepicker
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr("#modal_travel_date", {
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            disableMobile: "true"
+        });
+    });
+
+    const modal = document.getElementById('bookingModal');
+    const backdrop = document.getElementById('modalBackdrop');
+    const panel = document.getElementById('modalPanel');
+    const form = document.getElementById('bookingForm');
+    const feedback = document.getElementById('formFeedback');
+    const submitBtn = document.getElementById('submitBtn');
+    const modalTitle = document.getElementById('modal-title');
+    const modalPackageId = document.getElementById('modalPackageId');
+    const modalSubject = document.getElementById('modalSubject');
+
+    // Open Modal Function
+    // packageId: ID of package (if booking), null if general inquiry
+    // prefillSubject: Title for the inquiry (e.g. "Inquiry for Paris")
+    function openLeadModal(packageId = null, prefillSubject = 'General Inquiry') {
+        modal.classList.remove('hidden');
+
+        // Reset Logic
+        modalPackageId.value = packageId || '';
+        modalSubject.value = prefillSubject;
+
+        if (packageId) {
+            modalTitle.textContent = 'Book This Package';
+            submitBtn.textContent = 'Confirm Booking';
+        } else {
+            modalTitle.textContent = prefillSubject;
+            submitBtn.textContent = 'Send Inquiry';
+        }
+
+        setTimeout(() => {
+            backdrop.classList.remove('opacity-0');
+            panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            panel.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
+        }, 10);
+    }
+
+    function closeBookingModal() {
+        backdrop.classList.add('opacity-0');
+        panel.classList.remove('opacity-100', 'translate-y-0', 'sm:scale-100');
+        panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            form.reset();
+            feedback.classList.add('hidden');
+            submitBtn.disabled = false;
+        }, 300);
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Sending...';
+        feedback.classList.add('hidden');
+
+        try {
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Determine Endpoint
+            const endpoint = data.package_id ?
+                '<?php echo base_url("services/submit_booking.php"); ?>' :
+                '<?php echo base_url("services/submit_inquiry.php"); ?>';
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            feedback.classList.remove('hidden');
+            if (result.status === 'success') {
+                feedback.classList.remove('bg-red-50', 'text-red-800');
+                feedback.classList.add('bg-green-50', 'text-green-800');
+                feedback.textContent = result.message;
+                form.reset();
+                setTimeout(closeBookingModal, 2000);
+            } else {
+                throw new Error(result.message || 'Submission failed');
+            }
+        } catch (error) {
+            feedback.classList.remove('bg-green-50', 'text-green-800');
+            feedback.classList.add('bg-red-50', 'text-red-800');
+            feedback.textContent = error.message;
+        } finally {
+            submitBtn.disabled = false;
+            if (submitBtn.textContent === 'Sending...') {
+                submitBtn.textContent = modalPackageId.value ? 'Confirm Booking' : 'Send Inquiry';
+            }
+        }
+    });
+</script>
 </body>
 
 </html>
