@@ -39,7 +39,26 @@ $selectedActivities = $_GET['activities'] ?? []; // Array
 $selectedThemes = $_GET['themes'] ?? []; // Array
 
 // 1.3 Apply Filters
-$filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPrice, $maxPrice, $selectedDurations, $selectedActivities, $selectedThemes) {
+$selectedRegions = $_GET['region_filter'] ?? [];
+$filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPrice, $maxPrice, $selectedDurations, $selectedActivities, $selectedThemes, $selectedRegions) {
+
+    // Region (Match Destination Type logic)
+    // Note: Package doesn't have 'type' but Destination does. Loader joins them? 
+    // Wait, loader.php loads packages with 'destinationId'.
+    // We need to fetch destination type for each package.
+    // 'destination_type' might not be in $pkg unless we joined it or loaded it.
+    // Let's assume user wants us to implement this.
+    // OPTIMIZATION: loader.php does NOT join destination type.
+    // We should fix loader.php or fetch it here.
+    // For now, let's rely on cached 'destinations' from loader to look it up.
+    
+    if (!empty($selectedRegions)) {
+        // Find destination for this package
+        $dest = getDestinationById($pkg['destinationId']);
+        if (!$dest || !in_array($dest['type'], $selectedRegions)) {
+            return false;
+        }
+    }
 
     // Search
     if (!empty($search)) {
@@ -130,6 +149,25 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                     <?php if (!empty($search)): ?><input type="hidden" name="search"
                             value="<?php echo htmlspecialchars($search); ?>"><?php endif; ?>
 
+                    <!-- Region Filter (International / Domestic) -->
+                    <div class="mb-6">
+                        <h4 class="text-sm font-bold text-gray-700 mb-2">Region</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 text-sm text-gray-600">
+                                <input type="checkbox" name="region_filter[]" value="International"
+                                    <?php echo (isset($_GET['region_filter']) && in_array('International', $_GET['region_filter'])) ? 'checked' : ''; ?>
+                                    class="rounded text-primary focus:ring-primary">
+                                <span>International</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-sm text-gray-600">
+                                <input type="checkbox" name="region_filter[]" value="Domestic"
+                                    <?php echo (isset($_GET['region_filter']) && in_array('Domestic', $_GET['region_filter'])) ? 'checked' : ''; ?>
+                                    class="rounded text-primary focus:ring-primary">
+                                <span>Domestic</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- Price -->
                     <div class="mb-6">
                         <h4 class="text-sm font-bold text-gray-700 mb-2">Price Range (₹)</h4>
@@ -173,14 +211,18 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                     <div class="mb-6">
                         <h4 class="text-sm font-bold text-gray-700 mb-2">Themes</h4>
                         <div class="max-h-40 overflow-y-auto space-y-2 custom-scrollbar pr-2">
-                            <?php foreach ($allThemes as $theme): ?>
-                                <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                    <input type="checkbox" name="themes[]" value="<?php echo htmlspecialchars($theme); ?>"
-                                        <?php echo in_array($theme, $selectedThemes) ? 'checked' : ''; ?>
-                                        class="rounded text-primary">
-                                    <span><?php echo htmlspecialchars($theme); ?></span>
-                                </label>
-                            <?php endforeach; ?>
+                            <?php if (empty($allThemes)): ?>
+                                <p class="text-xs text-gray-400 italic">No themes found.</p>
+                            <?php else: ?>
+                                <?php foreach ($allThemes as $theme): ?>
+                                    <label class="flex items-center space-x-2 text-sm text-gray-600">
+                                        <input type="checkbox" name="themes[]" value="<?php echo htmlspecialchars($theme); ?>"
+                                            <?php echo in_array($theme, $selectedThemes) ? 'checked' : ''; ?>
+                                            class="rounded text-primary">
+                                        <span><?php echo htmlspecialchars($theme); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -188,14 +230,18 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                     <div class="mb-6">
                         <h4 class="text-sm font-bold text-gray-700 mb-2">Activities</h4>
                         <div class="max-h-40 overflow-y-auto space-y-2 custom-scrollbar pr-2">
-                            <?php foreach ($allActivities as $act): ?>
-                                <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                    <input type="checkbox" name="activities[]" value="<?php echo htmlspecialchars($act); ?>"
-                                        <?php echo in_array($act, $selectedActivities) ? 'checked' : ''; ?>
-                                        class="rounded text-primary">
-                                    <span><?php echo htmlspecialchars($act); ?></span>
-                                </label>
-                            <?php endforeach; ?>
+                            <?php if (empty($allActivities)): ?>
+                                <p class="text-xs text-gray-400 italic">No activities found.</p>
+                            <?php else: ?>
+                                <?php foreach ($allActivities as $act): ?>
+                                    <label class="flex items-center space-x-2 text-sm text-gray-600">
+                                        <input type="checkbox" name="activities[]" value="<?php echo htmlspecialchars($act); ?>"
+                                            <?php echo in_array($act, $selectedActivities) ? 'checked' : ''; ?>
+                                            class="rounded text-primary">
+                                        <span><?php echo htmlspecialchars($act); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
 
