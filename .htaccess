@@ -1,19 +1,64 @@
-RewriteEngine On
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
 
-# Ensure HTTPS (Optional)
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Deny access to sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
 
-# Route /destinations/slug
-RewriteRule ^destinations/([^/]+)/?$ pages/destination-details.php?slug=$1 [L,QSA]
+# Protect database file
+<Files "database.db">
+    Order allow,deny
+    Deny from all
+</Files>
 
-# Route /packages/slug
-RewriteRule ^packages/([^/]+)/?$ pages/package-details.php?slug=$1 [L,QSA]
+# URL Rewriting for SEO-friendly URLs
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-# Hide .php extension
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [L]
+    # Remove .php extension from URLs
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)$ $1.php [L]
 
-# Prevent directory listing
-Options -Indexes
+    # Redirect old /pages/ URLs to new clean URLs (301 permanent redirect)
+    RewriteRule ^pages/destinations\.php$ /destinations [R=301,L]
+    RewriteRule ^pages/packages\.php$ /packages [R=301,L]
+    RewriteRule ^pages/contact\.php$ /contact [R=301,L]
+    RewriteRule ^pages/booking\.php$ /booking [R=301,L]
+
+    # Redirect old detail pages with IDs to slug-based URLs
+    # Handle URLs like: /destination-details.php?id=1 OR /pages/destination-details.php?id=1
+    RewriteCond %{QUERY_STRING} ^id=(\d+)$
+    RewriteRule ^(pages/)?destination-details\.php$ /destination-redirect.php?id=%1 [L,QSA]
+
+    RewriteCond %{QUERY_STRING} ^id=(\d+)$
+    RewriteRule ^(pages/)?package-details\.php$ /package-redirect.php?id=%1 [L,QSA]
+
+    # Route /destinations to pages/destinations.php
+    RewriteRule ^destinations/?$ pages/destinations.php [L]
+
+    # Route /destinations/{slug} to pages/destination-details.php
+    RewriteRule ^destinations/([a-z0-9\-]+)/?$ pages/destination-details.php?slug=$1 [L,QSA]
+
+    # Route /packages to pages/packages.php
+    RewriteRule ^packages/?$ pages/packages.php [L]
+
+    # Route /packages/{slug} to pages/package-details.php
+    RewriteRule ^packages/([a-z0-9\-]+)/?$ pages/package-details.php?slug=$1 [L,QSA]
+
+    # Route /contact to pages/contact.php
+    RewriteRule ^contact/?$ pages/contact.php [L]
+
+    # Route /booking to pages/booking.php
+    RewriteRule ^booking/?$ pages/booking.php [L,QSA]
+</IfModule>
+
+# Custom 404 error page
+ErrorDocument 404 /404.php

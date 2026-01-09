@@ -190,8 +190,8 @@ function getPackageBySlug($slug)
  */
 function destination_url($slug)
 {
-    // Pretty URL handled by .htaccess
-    return base_url('destinations/' . $slug);
+    // Explicit path for reliability
+    return base_url('pages/destination-details.php?slug=' . $slug);
 }
 
 /**
@@ -199,8 +199,8 @@ function destination_url($slug)
  */
 function package_url($slug)
 {
-    // Pretty URL handled by .htaccess
-    return base_url('packages/' . $slug);
+    // Explicit path for reliability
+    return base_url('pages/package-details.php?slug=' . $slug);
 }
 
 /**
