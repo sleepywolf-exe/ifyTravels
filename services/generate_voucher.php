@@ -1,33 +1,45 @@
 <?php
 ob_start(); // Start buffer to catch stray output
-// services/generate_voucher.php
-// Turn off error reporting for PDF generation to prevent corruption
+
+// Suppress ALL output
 error_reporting(0);
 ini_set('display_errors', 0);
 
+// Include only what we need
 require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/libs/fpdf.php';
 
+// Get booking ID
 if (!isset($_GET['id'])) {
+    ob_end_clean();
     die("Booking ID is required.");
 }
 
 $booking_id = intval($_GET['id']);
-$db = Database::getInstance();
-$booking = $db->fetch("SELECT * FROM bookings WHERE id = ?", [$booking_id]);
 
-if (!$booking) {
-    die("Booking not found.");
-}
+// Try to get database connection
+try {
+    $db = Database::getInstance();
+    $booking = $db->fetch("SELECT * FROM bookings WHERE id = ?", [$booking_id]);
 
-$package = $db->fetch("SELECT * FROM packages WHERE id = ?", [$booking['package_id']]);
-$settings = $db->fetchAll("SELECT * FROM site_settings");
-$config = [];
-foreach ($settings as $s) {
-    $config[$s['setting_key']] = $s['setting_value'];
+    if (!$booking) {
+        ob_end_clean();
+        die("Booking not found.");
+    }
+
+    $package = $db->fetch("SELECT * FROM packages WHERE id = ?", [$booking['package_id']]);
+    $settings = $db->fetchAll("SELECT * FROM site_settings");
+    $config = [];
+    foreach ($settings as $s) {
+        $config[$s['setting_key']] = $s['setting_value'];
+    }
+    $siteName = $config['site_name'] ?? 'ifyTravels';
+
+} catch (Exception $e) {
+    ob_end_clean();
+    die("Database error: " . $e->getMessage());
 }
-$siteName = $config['site_name'] ?? 'ifyTravels';
 
 class TicketPDF extends FPDF
 {
