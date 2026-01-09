@@ -12,9 +12,60 @@ require_once __DIR__ . '/../data/loader.php';
     <title>
         <?php echo isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'ifyTravels') : get_setting('site_name', 'ifyTravels'); ?>
     </title>
+    <!-- SEO & Metadata -->
+    <meta name="description"
+        content="<?php echo e(get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.')); ?>">
+    <meta name="keywords"
+        content="<?php echo e(get_setting('meta_keywords', 'travel, tours, holiday packages, destinations, ifytravels')); ?>">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url"
+        content="<?php echo (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>">
+    <meta property="og:title"
+        content="<?php echo isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'IfyTravels') : get_setting('site_name', 'IfyTravels'); ?>">
+    <meta property="og:description"
+        content="<?php echo e(get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.')); ?>">
+    <?php if ($ogImage = get_setting('og_image')): ?>
+        <meta property="og:image" content="<?php echo base_url($ogImage); ?>">
+    <?php endif; ?>
+
     <?php if ($favicon = get_setting('site_favicon')): ?>
         <link rel="shortcut icon" href="<?php echo base_url($favicon); ?>" type="image/x-icon">
     <?php endif; ?>
+
+    <!-- Google Analytics -->
+    <?php if ($gaId = get_setting('google_analytics_id')): ?>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gaId; ?>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', '<?php echo $gaId; ?>');
+        </script>
+    <?php endif; ?>
+
+    <!-- Meta Pixel Code -->
+    <?php if ($pixelId = get_setting('meta_pixel_id')): ?>
+        <script>
+            !function (f, b, e, v, n, t, s) {
+                if (f.fbq) return; n = f.fbq = function () {
+                    n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                };
+                if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+                n.queue = []; t = b.createElement(e); t.async = !0;
+                t.src = v; s = b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t, s)
+            }(window, document, 'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '<?php echo $pixelId; ?>');
+            fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+                src="https://www.facebook.com/tr?id=<?php echo $pixelId; ?>&ev=PageView&noscript=1" /></noscript>
+    <?php endif; ?>
+
     <!-- Tailwind CSS (CDN for simplicity as per original, or local build) -->
     <!-- We valid link to output.css if built, or CDN as fallback/dev -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -87,7 +138,8 @@ require_once __DIR__ . '/../data/loader.php';
             <a href="<?php echo base_url('index.php'); ?>"
                 class="flex items-center text-2xl font-bold tracking-tight <?php echo (isset($isHome) && $isHome) ? '' : 'text-charcoal'; ?>">
                 <?php if ($logo = get_setting('site_logo')): ?>
-                    <img src="<?php echo base_url($logo); ?>" alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>" class="h-10 object-contain">
+                    <img src="<?php echo base_url($logo); ?>" alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
+                        class="h-10 object-contain">
                 <?php else: ?>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-primary" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">

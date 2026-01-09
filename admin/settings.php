@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $uploadDir = '../assets/images/uploads/';
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/x-icon', 'image/svg+xml'];
 
-    $fileFields = ['site_logo', 'site_favicon', 'hero_bg', 'contact_bg', 'destinations_bg', 'packages_bg'];
+    $fileFields = ['site_logo', 'site_favicon', 'hero_bg', 'contact_bg', 'destinations_bg', 'packages_bg', 'og_image'];
 
     foreach ($fileFields as $field) {
         if (isset($_FILES[$field]) && $_FILES[$field]['error'] === UPLOAD_ERR_OK) {
@@ -164,6 +164,54 @@ foreach ($settings as $s) {
                             class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                     </div>
 
+                </div>
+
+                <div class="border-t pb-2"></div>
+
+                <h3 class="text-xl font-bold text-gray-700 border-b pb-2">Analytics & SEO</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Google Analytics -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Google Analytics ID (Measurement ID)</label>
+                        <input type="text" name="google_analytics_id" value="<?php echo e($settingsMap['google_analytics_id'] ?? ''); ?>"
+                            placeholder="G-XXXXXXXXXX"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+
+                    <!-- Meta Pixel -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Meta Pixel ID</label>
+                        <input type="text" name="meta_pixel_id" value="<?php echo e($settingsMap['meta_pixel_id'] ?? ''); ?>"
+                            placeholder="123456789012345"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+
+                    <!-- Meta Keywords -->
+                    <div class="col-span-2">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Meta Keywords</label>
+                        <input type="text" name="meta_keywords" value="<?php echo e($settingsMap['meta_keywords'] ?? ''); ?>"
+                            placeholder="travel, luxury, tours, holidays, bali, dubai"
+                            class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+
+                    <!-- Meta Description -->
+                    <div class="col-span-2">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Default Meta Description</label>
+                        <textarea name="meta_description" rows="3"
+                            placeholder="Discover the world with IfyTravels. Luxury packages and unforgettable experiences."
+                            class="w-full px-4 py-2 border rounded-lg"><?php echo e($settingsMap['meta_description'] ?? ''); ?></textarea>
+                    </div>
+
+                    <!-- Open Graph Image -->
+                    <div class="col-span-2">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Default Social Share Image (Open Graph)</label>
+                        <?php if (!empty($settingsMap['og_image'])): ?>
+                            <img src="../<?php echo e($settingsMap['og_image']); ?>" class="h-32 object-cover rounded mb-2 border">
+                        <?php endif; ?>
+                        <input type="file" name="og_image" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <p class="text-xs text-gray-400 mt-1">Image displayed when sharing website links on Facebook/WhatsApp (Recomm: 1200x630px)</p>
+                    </div>
                 </div>
 
                 <div class="border-t pb-2"></div>
