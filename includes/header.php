@@ -17,6 +17,7 @@ require_once __DIR__ . '/../data/loader.php';
         content="<?php echo e(get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.')); ?>">
     <meta name="keywords"
         content="<?php echo e(get_setting('meta_keywords', 'travel, tours, holiday packages, destinations, ifytravels')); ?>">
+    <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -51,7 +52,7 @@ require_once __DIR__ . '/../data/loader.php';
             !function (f, b, e, v, n, t, s) {
                 if (f.fbq) return; n = f.fbq = function () {
                     n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
                 };
                 if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
                 n.queue = []; t = b.createElement(e); t.async = !0;

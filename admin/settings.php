@@ -5,6 +5,11 @@ $db = Database::getInstance();
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF Check
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die("Invalid CSRF Token");
+    }
+
     // 1. Handle Text Settings
     foreach ($_POST as $key => $value) {
         if ($key !== 'submit') {
@@ -91,6 +96,7 @@ foreach ($settings as $s) {
 
         <form method="POST" enctype="multipart/form-data"
             class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-4xl">
+            <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
             <div class="space-y-6">
                 <h3 class="text-xl font-bold text-gray-700 border-b pb-2">Branding & Images</h3>
 
@@ -169,28 +175,30 @@ foreach ($settings as $s) {
                 <div class="border-t pb-2"></div>
 
                 <h3 class="text-xl font-bold text-gray-700 border-b pb-2">Analytics & SEO</h3>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Google Analytics -->
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Google Analytics ID (Measurement ID)</label>
-                        <input type="text" name="google_analytics_id" value="<?php echo e($settingsMap['google_analytics_id'] ?? ''); ?>"
-                            placeholder="G-XXXXXXXXXX"
-                            class="w-full px-4 py-2 border rounded-lg">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Google Analytics ID (Measurement
+                            ID)</label>
+                        <input type="text" name="google_analytics_id"
+                            value="<?php echo e($settingsMap['google_analytics_id'] ?? ''); ?>"
+                            placeholder="G-XXXXXXXXXX" class="w-full px-4 py-2 border rounded-lg">
                     </div>
 
                     <!-- Meta Pixel -->
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Meta Pixel ID</label>
-                        <input type="text" name="meta_pixel_id" value="<?php echo e($settingsMap['meta_pixel_id'] ?? ''); ?>"
-                            placeholder="123456789012345"
+                        <input type="text" name="meta_pixel_id"
+                            value="<?php echo e($settingsMap['meta_pixel_id'] ?? ''); ?>" placeholder="123456789012345"
                             class="w-full px-4 py-2 border rounded-lg">
                     </div>
 
                     <!-- Meta Keywords -->
                     <div class="col-span-2">
                         <label class="block text-sm font-bold text-gray-700 mb-2">Meta Keywords</label>
-                        <input type="text" name="meta_keywords" value="<?php echo e($settingsMap['meta_keywords'] ?? ''); ?>"
+                        <input type="text" name="meta_keywords"
+                            value="<?php echo e($settingsMap['meta_keywords'] ?? ''); ?>"
                             placeholder="travel, luxury, tours, holidays, bali, dubai"
                             class="w-full px-4 py-2 border rounded-lg">
                     </div>
@@ -205,12 +213,16 @@ foreach ($settings as $s) {
 
                     <!-- Open Graph Image -->
                     <div class="col-span-2">
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Default Social Share Image (Open Graph)</label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Default Social Share Image (Open
+                            Graph)</label>
                         <?php if (!empty($settingsMap['og_image'])): ?>
-                            <img src="../<?php echo e($settingsMap['og_image']); ?>" class="h-32 object-cover rounded mb-2 border">
+                            <img src="../<?php echo e($settingsMap['og_image']); ?>"
+                                class="h-32 object-cover rounded mb-2 border">
                         <?php endif; ?>
-                        <input type="file" name="og_image" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                        <p class="text-xs text-gray-400 mt-1">Image displayed when sharing website links on Facebook/WhatsApp (Recomm: 1200x630px)</p>
+                        <input type="file" name="og_image" accept="image/*"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <p class="text-xs text-gray-400 mt-1">Image displayed when sharing website links on
+                            Facebook/WhatsApp (Recomm: 1200x630px)</p>
                     </div>
                 </div>
 

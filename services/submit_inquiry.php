@@ -10,6 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// CSRF Check
+$headers = getallheaders();
+$csrf_token = $headers['X-CSRF-Token'] ?? '';
+if (!verify_csrf_token($csrf_token)) {
+    http_response_code(403);
+    echo json_encode(['status' => 'error', 'message' => 'Invalid Security Token. Please refresh.']);
+    exit;
+}
+
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input) {
