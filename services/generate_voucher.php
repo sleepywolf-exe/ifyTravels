@@ -25,124 +25,156 @@ if (!$booking) {
 // Fetch Package Details
 $package = $db->fetch("SELECT * FROM packages WHERE id = ?", [$booking['package_id']]);
 
-// Fetch Site Settings for Logo
+// Fetch Site Settings
 $settings = $db->fetchAll("SELECT * FROM site_settings");
 $config = [];
 foreach ($settings as $s) {
     $config[$s['setting_key']] = $s['setting_value'];
 }
-$siteName = $config['site_name'] ?? 'ifyTravels';
-$sitePhone = $config['contact_phone'] ?? '';
-$siteEmail = $config['contact_email'] ?? '';
 
-// Create PDF
 class PDF extends FPDF
 {
     public $config;
 
+    // Custom Header
     function Header()
     {
         global $config;
-        $logo = '../' . ($config['site_logo'] ?? 'assets/images/logo.png');
 
-        if (file_exists($logo)) {
-            $this->Image($logo, 10, 6, 30);
+        // Brand Color: Teal (#0F766E -> RGB: 15, 118, 110)
+        $this->SetFillColor(15, 118, 110);
+        $this->Rect(0, 0, 210, 40, 'F'); // Full width header background
+
+        // Logo Logic
+        $logoPath = $config['site_logo'] ?? '';
+        $fullLogoPath = __DIR__ . '/../' . $logoPath;
+
+        // Verify if logo exists and is an image
+        if ($logoPath && file_exists($fullLogoPath)) {
+            // Place Logo (White background box optional, or transparent if PNG)
+            // $this->Image($fullLogoPath, 10, 8, 30); 
+            // Better positioning
+            $this->Image($fullLogoPath, 10, 8, 0, 24); // Height 24mm, auto width
         } else {
-            // Text fallback
+            // Fallback: Text Logo
             $this->SetFont('Arial', 'B', 24);
-            $this->Cell(40, 10, $config['site_name'] ?? 'Travels');
+            $this->SetTextColor(255, 255, 255); // White
+            $this->SetXY(10, 10);
+            $this->Cell(60, 20, $config['site_name'] ?? 'ifyTravels', 0, 0, 'L');
         }
 
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(80);
-        $this->Cell(100, 10, 'BOOKING VOUCHER', 0, 0, 'R');
-        $this->Ln(20);
+        // Invoice Title
+        $this->SetFont('Arial', 'B', 20);
+        $this->SetTextColor(255, 255, 255);
+        $this->SetXY(110, 10);
+        $this->Cell(90, 20, 'BOOKING VOUCHER', 0, 0, 'R');
 
-        // Company Info
+        // Company Details (White text below title)
         $this->SetFont('Arial', '', 9);
-        $this->Cell(0, 5, $config['site_name'] ?? 'ifyTravels', 0, 1, 'R');
-        $this->Cell(0, 5, $config['contact_phone'] ?? '', 0, 1, 'R');
-        $this->Cell(0, 5, $config['contact_email'] ?? '', 0, 1, 'R');
-        $this->Ln(10);
-        $this->Line(10, 45, 200, 45); // Horizontal Line
-        $this->Ln(10);
+        $this->SetXY(110, 22);
+        $this->Cell(90, 5, $config['contact_email'] ?? '', 0, 1, 'R');
+        $this->SetX(110);
+        $this->Cell(90, 5, $config['contact_phone'] ?? '', 0, 1, 'R');
+
+        $this->Ln(25); // Move cursor down after header
     }
 
+    // Custom Footer
     function Footer()
     {
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Thank you for booking with us! This is a computer generated invoice.', 0, 0, 'C');
+        $this->SetY(-30);
+
+        // Teal Line
+        $this->SetDrawColor(15, 118, 110);
+        $this->SetLineWidth(1);
+        $this->Line(10, $this->GetY(), 200, $this->GetY());
+
+        // Thank you note
+        $this->SetFont('Arial', 'I', 10);
+        $this->SetTextColor(100, 100, 100);
+        $this->Cell(0, 10, 'Thank you for choosing us for your journey!', 0, 1, 'C');
+
+        // Legal/System text
+        $this->SetFont('Arial', '', 8);
+        $this->SetTextColor(150, 150, 150);
+        $this->Cell(0, 5, 'This is a computer generated document and does not require a signature.', 0, 1, 'C');
+        $this->Cell(0, 5, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 
-    function SectionTitle($label)
+    function SectionHeader($title)
     {
+        $this->Ln(8);
         $this->SetFont('Arial', 'B', 12);
-        $this->SetFillColor(240, 240, 240);
-        $this->Cell(0, 8, " $label", 0, 1, 'L', true);
+        $this->SetTextColor(15, 118, 110); // Teal
+        $this->Cell(0, 8, strtoupper($title), 0, 1, 'L');
+        $this->SetDrawColor(200, 200, 200);
+        $this->SetLineWidth(0.5);
+        $this->Line(10, $this->GetY(), 200, $this->GetY()); // Underline
         $this->Ln(4);
     }
 
-    function InfoRow($label, $value)
+    function KeyValueRow($key, $value)
     {
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(50, 6, $label, 0, 0);
+        $this->SetTextColor(50, 50, 50);
+        $this->Cell(50, 7, $key, 0, 0);
+
         $this->SetFont('Arial', '', 10);
-        $this->Cell(0, 6, $value, 0, 1);
+        $this->SetTextColor(0, 0, 0);
+        $this->Cell(0, 7, $value, 0, 1);
     }
 }
 
+// Instantiate PDF
 $pdf = new PDF();
-$pdf->config = $config; // Pass config
+$pdf->AliasNbPages();
+$pdf->config = $config;
 $pdf->AddPage();
-$pdf->SetFont('Arial', '', 12);
 
-// Booking Info
-$pdf->SectionTitle('Booking Information');
-$pdf->InfoRow('Booking Reference:', '#' . str_pad((string) $booking['id'], 6, '0', STR_PAD_LEFT));
-$pdf->InfoRow('Date of Booking:', date('F j, Y, g:i a', strtotime($booking['created_at'])));
-$pdf->InfoRow('Status:', strtoupper($booking['status']));
-$pdf->Ln(5);
+// 1. Booking Information
+$pdf->SectionHeader('Booking Information');
+$pdf->KeyValueRow('Booking Reference:', '#' . str_pad((string) $booking['id'], 6, '0', STR_PAD_LEFT));
+$pdf->KeyValueRow('Date of Booking:', date('F j, Y, g:i a', strtotime($booking['created_at'])));
+$pdf->KeyValueRow('Status:', strtoupper($booking['status']));
 
-// Customer Info
-$pdf->SectionTitle('Customer Details');
-$pdf->InfoRow('Full Name:', $booking['customer_name'] ?? 'N/A');
-// Corrected keys based on DB schema
-$pdf->InfoRow('Email Address:', $booking['email'] ?? 'N/A');
-$pdf->InfoRow('Phone Number:', $booking['phone'] ?? 'N/A');
-$pdf->Ln(5);
+// 2. Customer Details
+$pdf->SectionHeader('Customer Details');
+$pdf->KeyValueRow('Full Name:', $booking['customer_name'] ?? 'N/A');
+$pdf->KeyValueRow('Email Address:', $booking['email'] ?? 'N/A');
+$pdf->KeyValueRow('Phone Number:', $booking['phone'] ?? 'N/A');
 
-// Travel Details
-$pdf->SectionTitle('Travel Details');
-$pdf->InfoRow('Package Name:', $package['name'] ?? 'N/A');
-$pdf->InfoRow('Travel Date:', date('F j, Y', strtotime($booking['travel_date'])));
-// Fallback for missing travelers column
+// 3. Travel Details
+$pdf->SectionHeader('Travel Details');
+$pdf->KeyValueRow('Package Name:', $package['title'] ?? ($booking['package_name'] ?? 'N/A')); // Use Title from packages, fallback to booking snapshot
+$pdf->KeyValueRow('Travel Date:', date('F j, Y', strtotime($booking['travel_date'])));
 $travelers = $booking['travelers'] ?? 1;
-$pdf->InfoRow('Number of Travelers:', $travelers);
-$pdf->Ln(5);
+$pdf->KeyValueRow('Number of Travelers:', $travelers);
 
-// Pricing (Simulated if not in DB, assuming package price * travelers for now)
-// In a real app, you might save the exact price at time of booking.
-$pricePerPerson = $package['price'] ?? 0;
-$totalPrice = $pricePerPerson * $travelers;
+// 4. Payment Summary (Styled Table)
+$pdf->Ln(10);
+$pdf->SetFillColor(240, 245, 245); // Light Teal/Gray
+$pdf->SetTextColor(15, 118, 110); // Teal Text
+$pdf->SetFont('Arial', 'B', 11);
+$pdf->Cell(140, 10, 'Description', 1, 0, 'L', true);
+$pdf->Cell(50, 10, 'Amount', 1, 1, 'R', true);
 
-$pdf->SectionTitle('Payment Summary');
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(140, 8, 'Description', 1, 0, 'L');
-$pdf->Cell(50, 8, 'Amount', 1, 1, 'R');
+// Row 1
+$pricePerPerson = $package['price'] ?? ($booking['total_price'] / max($travelers, 1)); // Heuristic if price not saved
+$totalPrice = $booking['total_price'] > 0 ? $booking['total_price'] : ($pricePerPerson * $travelers);
 
+$pdf->SetFillColor(255, 255, 255);
+$pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(140, 8, ($package['name'] ?? 'Package') . " (" . $travelers . " Travelers)", 1, 0, 'L');
-$pdf->Cell(50, 8, 'RS ' . number_format($totalPrice), 1, 1, 'R');
 
+$pdf->Cell(140, 10, ($package['title'] ?? 'Package') . " (x$travelers Travelers)", 1, 0, 'L');
+$pdf->Cell(50, 10, 'Rs. ' . number_format($totalPrice), 1, 1, 'R');
+
+// Total Row
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(140, 10, 'Total Value', 1, 0, 'R');
-$pdf->Cell(50, 10, 'RS ' . number_format($totalPrice), 1, 1, 'R');
+$pdf->SetTextColor(15, 118, 110);
+$pdf->Cell(140, 12, 'Total Value', 1, 0, 'R');
+$pdf->Cell(50, 12, 'Rs. ' . number_format($totalPrice), 1, 1, 'R');
 
-$pdf->Ln(20);
-
-// QR Code Placeholder (Future enhancement)
-// $pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=' . $booking['id'], 160, 200, 30, 0, 'PNG');
-
+// Output
 $pdf->Output('I', 'Voucher_' . $booking['id'] . '.pdf');
 ?>
