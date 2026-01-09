@@ -28,7 +28,12 @@ try {
         die("Booking not found.");
     }
 
-    $package = $db->fetch("SELECT * FROM packages WHERE id = ?", [$booking['package_id']]);
+    // Handle package data (may be null for general inquiries)
+    $package = null;
+    if (!empty($booking['package_id'])) {
+        $package = $db->fetch("SELECT * FROM packages WHERE id = ?", [$booking['package_id']]);
+    }
+
     $settings = $db->fetchAll("SELECT * FROM site_settings");
     $config = [];
     foreach ($settings as $s) {
@@ -132,7 +137,8 @@ $pdf->Text(60, $yStart + 29, "Destination");
 $pdf->SetXY(12, $yStart + 35);
 $pdf->SetFont('Arial', 'I', 9);
 $pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
-$pdf->Cell(100, 5, $package['title'] ?? $booking['package_name'], 0, 1);
+$packageName = ($package && !empty($package['title'])) ? $package['title'] : ($booking['package_name'] ?? 'Custom Travel Request');
+$pdf->Cell(100, 5, $packageName, 0, 1);
 
 // DATE / TIME / SEAT
 $yRow2 = $yStart + 48;
