@@ -8,6 +8,9 @@ ini_set('display_errors', 0);
 // Include only what we need
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
+
+// Define Font Path explicitly
+define('FPDF_FONTPATH', __DIR__ . '/../includes/libs/font/');
 require_once __DIR__ . '/../includes/libs/fpdf.php';
 
 // Get booking ID
