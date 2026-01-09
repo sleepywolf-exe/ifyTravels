@@ -1,0 +1,339 @@
+<?php
+// admin/destinations.php
+require 'auth_check.php';
+require_once __DIR__ . '/../includes/functions.php';
+$db = Database::getInstance();
+$message = '';
+$error = '';
+
+// Helper to clean up image files
+function deleteOldImage($imageUrl)
+{
+    if (empty($imageUrl))
+        return;
+    // Check if it's a local file relative to root
+    $filePath = __DIR__ . '/../' . $imageUrl;
+    // Only delete if it starts with assets/images/destinations/
+    if (strpos($imageUrl, 'assets/images/destinations/') === 0 && file_exists($filePath)) {
+        unlink($filePath);
+    }
+}
+
+// Handle Create or Update
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    $id = $_POST['id'] ?? '';
+    $name = trim($_POST['name']);
+    $country = trim($_POST['country']);
+    $type = $_POST['type'];
+    $description = $_POST['description'];
+
+    // Validation
+    if (empty($name))
+        $error = "Destination Name is required.";
+    if (empty($country))
+        $error = "Country is required.";
+    if (empty($action))
+        $error = "Invalid form submission.";
+
+    // Auto-generate slug if empty or create
+    $slug = trim($_POST['slug'] ?? '');
+    if (empty($slug)) {
+        $slug = generateSlug($name); // Using helper from functions.php
+    }
+
+    // Handle Image Logic
+    $image_url = $_POST['existing_image_url'] ?? ''; // Default to keep existing
+
+    if (empty($error)) {
+        // 1. Check if new URL provided (Text Only)
+        // If image_file is unset (or error), we might pick up the text input.
+        if (!empty($_POST['image_url_input'])) {
+            // If we are replacing an old local image with a URL, delete the old one
+            if (!empty($id)) {
+                $oldRec = $db->fetch("SELECT image_url FROM destinations WHERE id = ?", [$id]);
+                if ($oldRec && $oldRec['image_url'] !== $_POST['image_url_input']) {
+                    deleteOldImage($oldRec['image_url']);
+                }
+            }
+            $image_url = trim($_POST['image_url_input']);
+        }
+
+        // 2. Check if file uploaded (File takes precedence over text URL if both present)
+        if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../assets/images/destinations/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+
+            $fileName = time() . '_' . basename($_FILES['image_file']['name']);
+            $targetPath = $uploadDir . $fileName;
+
+            if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetPath)) {
+                // Delete old image if it exists
+                if (!empty($id)) {
+                    $oldRec = $db->fetch("SELECT image_url FROM destinations WHERE id = ?", [$id]);
+                    if ($oldRec) {
+                        deleteOldImage($oldRec['image_url']);
+                    }
+                }
+                $image_url = 'assets/images/destinations/' . $fileName;
+            } else {
+                $error = "Failed to upload image file. Check directory permissions.";
+            }
+        }
+    }
+
+    $rating = $_POST['rating'] ?? 4.5;
+    $is_featured = isset($_POST['is_featured']) ? 1 : 0;
+
+    if (empty($error)) {
+        try {
+            if ($action === 'update' && !empty($id)) {
+                $db->execute(
+                    "UPDATE destinations SET name=?, slug=?, country=?, description=?, type=?, image_url=?, rating=?, is_featured=? WHERE id=?",
+                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $id]
+                );
+                $message = "Destination updated successfully!";
+            } else {
+                $db->execute(
+                    "INSERT INTO destinations (name, slug, country, description, type, image_url, rating, is_featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured]
+                );
+                $message = "Destination created successfully!";
+            }
+        } catch (Exception $e) {
+            $error = "Database Error: " . $e->getMessage();
+        }
+    }
+}
+
+// Handle Delete
+if (isset($_GET['delete'])) {
+    $idToDelete = $_GET['delete'];
+    // Get image to delete
+    $rec = $db->fetch("SELECT image_url FROM destinations WHERE id = ?", [$idToDelete]);
+    if ($rec) {
+        deleteOldImage($rec['image_url']);
+    }
+
+    $db->execute("DELETE FROM destinations WHERE id = ?", [$idToDelete]);
+    redirect('destinations.php');
+}
+
+// Fetch record for editing
+$editData = null;
+if (isset($_GET['edit'])) {
+    $stmt = $db->query("SELECT * FROM destinations WHERE id = ?", [$_GET['edit']]);
+    $editData = $stmt->fetch();
+}
+
+$destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DESC");
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Destinations - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex h-screen overflow-hidden">
+    <?php include 'sidebar_inc.php'; ?>
+
+    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <header class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">
+                <?php echo $editData ? 'Edit Destination' : 'Manage Destinations'; ?>
+            </h1>
+            <?php if ($editData): ?>
+                <a href="destinations.php"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-600">
+                    &larr; Back to List
+                </a>
+            <?php endif; ?>
+        </header>
+
+        <?php if ($message): ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6"><?php echo e($message); ?></div>
+        <?php endif; ?>
+        <?php if ($error): ?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6"><?php echo e($error); ?></div>
+        <?php endif; ?>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Form Section -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-bold mb-4 border-b pb-2">
+                        <?php echo $editData ? 'Update Destination' : 'Add New Destination'; ?>
+                    </h2>
+                    <form method="POST" enctype="multipart/form-data"
+                        action="destinations.php<?php echo $editData ? '?edit=' . $editData['id'] : ''; ?>">
+                        <input type="hidden" name="action" value="<?php echo $editData ? 'update' : 'create'; ?>">
+                        <?php if ($editData): ?>
+                            <input type="hidden" name="id" value="<?php echo $editData['id']; ?>">
+                        <?php endif; ?>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Name</label>
+                                <input type="text" name="name" required
+                                    value="<?php echo e($editData['name'] ?? ''); ?>"
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-1">Country</label>
+                                    <input type="text" name="country" required
+                                        value="<?php echo e($editData['country'] ?? ''); ?>"
+                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-1">Type</label>
+                                    <select name="type"
+                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <option value="International" <?php echo ($editData['type'] ?? '') === 'International' ? 'selected' : ''; ?>>International</option>
+                                        <option value="Domestic" <?php echo ($editData['type'] ?? '') === 'Domestic' ? 'selected' : ''; ?>>Domestic</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Slug (Optional, auto-generated) -->
+                            <?php if ($editData): ?>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-1">Slug (URL)</label>
+                                    <input type="text" name="slug" value="<?php echo e($editData['slug'] ?? ''); ?>"
+                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50">
+                                </div>
+                            <?php endif; ?>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
+                                <textarea name="description" rows="3"
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"><?php echo e($editData['description'] ?? ''); ?></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-1">Rating (1-5)</label>
+                                    <input type="number" step="0.1" min="1" max="5" name="rating"
+                                        value="<?php echo e($editData['rating'] ?? '4.5'); ?>"
+                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg">
+                                </div>
+                                <div class="flex items-center mt-6">
+                                    <input type="checkbox" name="is_featured" id="is_featured" value="1" <?php echo (!empty($editData['is_featured'])) ? 'checked' : ''; ?>
+                                        class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <label for="is_featured" class="ml-2 block text-sm font-bold text-gray-700">Featured
+                                        (Home)</label>
+                                </div>
+                            </div>
+
+                            <!-- Image Management -->
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Destination Image</label>
+
+                                <!-- Current Image Preview -->
+                                <?php if (!empty($editData['image_url'])): ?>
+                                    <div class="mb-3">
+                                        <p class="text-xs text-gray-500 mb-1">Current Image:</p>
+                                        <img src="<?php echo base_url($editData['image_url']); ?>" alt="Current"
+                                            class="h-24 w-full object-cover rounded shadow-sm">
+                                        <input type="hidden" name="existing_image_url"
+                                            value="<?php echo e($editData['image_url']); ?>">
+                                    </div>
+                                <?php endif; ?>
+
+                                <!-- Option 1: URL -->
+                                <div class="mb-3">
+                                    <label class="text-xs font-semibold text-gray-600 block mb-1">Option A: Image URL
+                                        (Link)</label>
+                                    <input type="text" name="image_url_input"
+                                        placeholder="https://example.com/image.jpg"
+                                        class="w-full border border-gray-300 px-3 py-2 rounded text-sm placeholder-gray-400">
+                                </div>
+
+                                <!-- Option 2: Upload -->
+                                <div>
+                                    <label class="text-xs font-semibold text-gray-600 block mb-1">Option B: Upload File
+                                        (Overrides URL)</label>
+                                    <input type="file" name="image_file" accept="image/*"
+                                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button type="submit"
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-blue-700 shadow-md transition transform hover:-translate-y-0.5">
+                                <?php echo $editData ? 'Save Changes' : 'Create Destination'; ?>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- List Section -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-600">
+                            <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500 border-b">
+                                <tr>
+                                    <th class="px-6 py-4">Image</th>
+                                    <th class="px-6 py-4">Name / Country</th>
+                                    <th class="px-6 py-4">Type</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <?php foreach ($destinations as $d): ?>
+                                    <tr
+                                        class="hover:bg-blue-50 transition <?php echo ($editData && $editData['id'] == $d['id']) ? 'bg-blue-50 ring-2 ring-inset ring-blue-100' : ''; ?>">
+                                        <td class="px-6 py-4">
+                                            <div class="w-16 h-12 rounded-lg bg-gray-200 bg-cover bg-center shadow-sm"
+                                                style="background-image: url('<?php echo base_url($d['image_url'] ?? ''); ?>')">
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="font-bold text-gray-900 text-base"><?php echo e($d['name']); ?>
+                                            </div>
+                                            <div class="text-xs text-gray-500"><?php echo e($d['country']); ?></div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-medium">
+                                                <?php echo e($d['type']); ?>
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-2">
+                                            <a href="?edit=<?php echo $d['id']; ?>"
+                                                class="inline-block text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1 rounded-full text-xs font-bold transition">
+                                                <i class="fas fa-edit mr-1"></i> Edit
+                                            </a>
+                                            <a href="?delete=<?php echo $d['id']; ?>"
+                                                class="inline-block text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-full text-xs font-bold transition"
+                                                onclick="return confirm('Are you sure you want to delete this destination? Packages linked to it might break.')">
+                                                <i class="fas fa-trash-alt mr-1"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

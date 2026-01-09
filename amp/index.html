@@ -1,0 +1,244 @@
+<!doctype html>
+<html amp lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <title>Travel Consultant - AMP Home</title>
+    <link rel="canonical" href="https://example.com/index.html">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <!-- AMP Boilerplate -->
+    <style amp-boilerplate>
+        body {
+            -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            animation: -amp-start 8s steps(1, end) 0s 1 normal both
+        }
+
+        @-webkit-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-moz-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-ms-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-o-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+    </style><noscript>
+        <style amp-boilerplate>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none
+            }
+        </style>
+    </noscript>
+
+    <!-- Custom CSS (Inline, <75KB) -->
+    <style amp-custom>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            color: #1F2937;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #0A6CF1;
+            font-weight: bold;
+            font-size: 1.25rem;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #FF7A18;
+        }
+
+        nav a {
+            color: #1F2937;
+            text-decoration: none;
+            margin-left: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .hero {
+            position: relative;
+            text-align: center;
+            color: #fff;
+            background-color: #333;
+        }
+
+        .hero amp-img {
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            padding: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: #FF7A18;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        section {
+            padding: 2rem 1rem;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 350px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card h3 {
+            margin: 0 0 0.5rem;
+        }
+
+        footer {
+            background: #1F2937;
+            color: #fff;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Travel<span>Pro</span></a>
+        <nav>
+            <!-- Simplified Nav for AMP -->
+            <a href="../index.html">Main Site</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <amp-img src="https://placehold.co/800x600" width="800" height="600" layout="responsive" alt="Travel"></amp-img>
+        <div class="hero-content">
+            <h1>Discover Your Next Adventure</h1>
+            <p>Expert travel packages for your dream vocation.</p>
+            <a href="../pages/destinations.html" class="btn">Explore Now</a>
+        </div>
+    </div>
+
+    <!-- Featured -->
+    <section>
+        <h2>Top Destinations</h2>
+        <div class="grid">
+            <a href="../pages/destination-details.html" class="card">
+                <amp-img src="https://placehold.co/400x300?text=Paris" width="400" height="300" layout="responsive"
+                    alt="Paris"></amp-img>
+                <div class="card-content">
+                    <h3>Paris, France</h3>
+                    <p>The city of lights.</p>
+                </div>
+            </a>
+            <a href="../pages/destination-details.html" class="card">
+                <amp-img src="https://placehold.co/400x300?text=Bali" width="400" height="300" layout="responsive"
+                    alt="Bali"></amp-img>
+                <div class="card-content">
+                    <h3>Bali, Indonesia</h3>
+                    <p>Tropical paradise.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 TravelPro Consultant.</p>
+    </footer>
+</body>
+
+</html>
