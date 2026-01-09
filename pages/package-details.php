@@ -77,9 +77,7 @@ include __DIR__ . '/../includes/header.php';
 
             <h2 class="text-2xl font-bold mb-4 text-charcoal">Overview</h2>
             <p class="text-gray-600 mb-8 leading-relaxed">
-                Immerse yourself in a journey like no other. This exclusive package is curated to provide the
-                perfect balance of adventure, relaxation, and cultural exploration. From the moment you arrive until
-                your departure, we ensure a seamless and unforgettable experience.
+                <?php echo $pkg['description']; ?>
             </p>
 
             <h2 class="text-2xl font-bold mb-4 text-charcoal">Package Features</h2>

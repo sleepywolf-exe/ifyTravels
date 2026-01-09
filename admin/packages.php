@@ -154,9 +154,22 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Summernote CSS/JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
     <style>
         body {
             font-family: 'Outfit', sans-serif;
+        }
+
+        /* Override Summernote font to match theme */
+        .note-editor .note-editing-area {
+            font-family: 'Outfit', sans-serif !important;
         }
     </style>
 </head>
@@ -249,7 +262,7 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
 
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
-                                <textarea name="description" rows="3"
+                                <textarea id="summernote" name="description" rows="3"
                                     class="w-full border border-gray-300 px-3 py-2 rounded-lg"><?php echo e($editData['description'] ?? ''); ?></textarea>
                             </div>
 
@@ -381,6 +394,21 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
             </div>
         </div>
     </main>
+    <script>
+        $('#summernote').summernote({
+            placeholder: 'Write a beautiful description...',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    </script>
 </body>
 
 </html>

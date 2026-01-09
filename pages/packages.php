@@ -161,67 +161,136 @@ if (!empty($search)) {
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('package-search-input');
-        const cards = document.querySelectorAll('.package-card');
+        const grid = document.getElementById('packages-grid');
         const noResultsMsg = document.getElementById('js-no-results');
-        const serverNoResults = document.getElementById('no-results-msg');
         const searchTermSpan = document.getElementById('js-search-term');
         const resultsCount = document.getElementById('results-count');
         const visibleCountSpan = document.getElementById('visible-count');
 
         let debounceTimer;
 
+        // Store original content to restore if search is cleared (optional, or just reload)
+        // For simplicity and "futuristic" feel, we'll just keep the API search active or reload if empty.
+        // Actually, if empty, we might want to show original PHP rendered content or fetch all.
+        // Let's fetch all or reload. Reloading is easiest to restore initial state perfectly.
+        // Better: Fetch top packages if empty.
+
         searchInput.addEventListener('input', function (e) {
             clearTimeout(debounceTimer);
-            const query = e.target.value.toLowerCase().trim();
+            const query = e.target.value.trim();
 
             debounceTimer = setTimeout(() => {
-                let visibleCount = 0;
-
-                cards.forEach(card => {
-                    const title = card.getAttribute('data-title');
-                    const features = card.getAttribute('data-features');
-                    const duration = card.getAttribute('data-duration');
-
-                    // Also search price (simple contains check)
-                    const price = card.getAttribute('data-price');
-
-                    if (title.includes(query) ||
-                        features.includes(query) ||
-                        duration.includes(query) ||
-                        price.includes(query)) {
-
-                        card.style.display = 'flex'; // Maintain flex layout
-                        // Add simple fade-in effect
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                        card.style.opacity = '0';
-                    }
-                });
-
-                // Handle No Results
-                if (visibleCount === 0) {
-                    noResultsMsg.classList.remove('hidden');
-                    searchTermSpan.textContent = query;
-                    if (serverNoResults) serverNoResults.classList.add('hidden');
-                    resultsCount.classList.add('hidden');
-                } else {
-                    noResultsMsg.classList.add('hidden');
-                    if (serverNoResults && query === '') serverNoResults.classList.remove('hidden'); // Only show if it was originally there? No, server filter is separate.
-
-                    // Show count if searching
-                    if (query.length > 0) {
-                        resultsCount.classList.remove('hidden');
-                        visibleCountSpan.textContent = visibleCount;
-                    } else {
-                        resultsCount.classList.add('hidden');
-                    }
+                if (query.length === 0) {
+                    // Reload page to restore original state or clear filters
+                    window.location.href = 'packages.php';
+                    return;
                 }
 
-            }, 300); // 300ms debounce
+                // Show loading state
+                grid.style.opacity = '0.5';
+
+                fetch(`../services/search_packages.php?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        grid.innerHTML = ''; // Clear current
+                        grid.style.opacity = '1';
+
+                        if (data.length > 0) {
+                            noResultsMsg.classList.add('hidden');
+                            resultsCount.classList.remove('hidden');
+                            visibleCountSpan.textContent = data.length;
+
+                            data.forEach(pkg => {
+                                const card = createPackageCard(pkg);
+                                grid.appendChild(card);
+                                // Trigger reflow for animation
+                                void card.offsetWidth;
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            });
+                        } else {
+                            noResultsMsg.classList.remove('hidden');
+                            searchTermSpan.textContent = query;
+                            resultsCount.classList.add('hidden');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        grid.style.opacity = '1';
+                    });
+            }, 300);
         });
+
+        function createPackageCard(pkg) {
+            const div = document.createElement('div');
+            div.className = 'package-card group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition flex flex-col h-full transform translate-y-4 opacity-0 transition-all duration-500';
+
+            // Features HTML
+            let featuresHtml = '';
+            if (pkg.features && pkg.features.length) {
+                pkg.features.slice(0, 3).forEach(f => {
+                    featuresHtml += `
+                        <div class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="truncate">${escapeHtml(f)}</span>
+                        </div>`;
+                });
+            }
+
+            const isPopularHtml = pkg.is_popular ?
+                `<div class="absolute top-4 left-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">🔥 POPULAR</div>` : '';
+
+            div.innerHTML = `
+                <div class="relative h-64 overflow-hidden">
+                    <img src="${pkg.image}" alt="${escapeHtml(pkg.title)}"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+                        onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
+                    ${isPopularHtml}
+                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-xl text-lg font-bold text-charcoal shadow-sm">
+                        ₹ ${pkg.price} <span class="text-xs font-normal text-gray-500">/ person</span>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-1 flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-charcoal group-hover:text-primary transition line-clamp-1">
+                            ${escapeHtml(pkg.title)}
+                        </h3>
+                    </div>
+
+                    <div class="flex items-center text-sm text-gray-500 mb-6">
+                        <span class="flex items-center">
+                            <svg class="w-4 h-4 mr-1 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            ${escapeHtml(pkg.duration)}
+                        </span>
+                    </div>
+
+                    <div class="space-y-2 mb-8 flex-1">
+                        ${featuresHtml}
+                    </div>
+
+                    <a href="${pkg.url}"
+                        class="block w-full text-center bg-gray-50 hover:bg-primary hover:text-white text-charcoal font-bold py-3.5 rounded-xl transition border border-gray-200 shadow-sm">
+                        View Details
+                    </a>
+                </div>
+            `;
+            return div;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
     });
 </script>
 

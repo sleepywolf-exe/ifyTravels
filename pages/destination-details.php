@@ -76,7 +76,7 @@ $packages = getPackagesByDestination($id);
                         About <?php echo htmlspecialchars($dest['name']); ?>
                     </h2>
                     <p class="text-gray-600 leading-loose text-lg font-light">
-                        <?php echo nl2br(htmlspecialchars($dest['description'])); ?>
+                        <?php echo $dest['description']; ?>
                     </p>
 
                     <!-- Highlights (Static Placeholder for now, can be dynamic later) -->
@@ -121,6 +121,25 @@ $packages = getPackagesByDestination($id);
                         </div>
                     </div>
                 </div>
+
+                <!-- Interactive Map -->
+                <?php if (!empty($dest['map_embed'])): ?>
+                    <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 overflow-hidden">
+                        <h2 class="text-3xl font-heading font-bold mb-6 text-charcoal flex items-center gap-3">
+                            <span class="w-10 h-1 bg-primary rounded-full"></span>
+                            Location
+                        </h2>
+                        <div class="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden border border-gray-200">
+                            <!-- Helper for responsive iframe -->
+                             <style>
+                                .map-container iframe { width: 100%; height: 400px; border: 0; }
+                             </style>
+                             <div class="map-container">
+                                 <?php echo $dest['map_embed']; ?>
+                             </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
                 <!-- Available Packages -->
                 <div>

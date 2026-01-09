@@ -11,13 +11,26 @@ function deleteOldImage($imageUrl)
 {
     if (empty($imageUrl))
         return;
-    // Check if it's a local file relative to root
     $filePath = __DIR__ . '/../' . $imageUrl;
-    // Only delete if it starts with assets/images/destinations/
     if (strpos($imageUrl, 'assets/images/destinations/') === 0 && file_exists($filePath)) {
         unlink($filePath);
     }
 }
+
+// Lazy Migration for Map Embed
+function ensureMapColumnExists($db)
+{
+    try {
+        $db->fetch("SELECT map_embed FROM destinations LIMIT 1");
+    } catch (Exception $e) {
+        try {
+            $db->execute("ALTER TABLE destinations ADD COLUMN map_embed TEXT");
+        } catch (Exception $ex) {
+            // Ignore if it fails (e.g. read only), but ideally log it
+        }
+    }
+}
+ensureMapColumnExists($db);
 
 // Handle Create or Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -99,19 +112,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $rating = $_POST['rating'] ?? 4.5;
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
+    $map_embed = $_POST['map_embed'] ?? ''; // Raw HTML
 
     if (empty($error)) {
         try {
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE destinations SET name=?, slug=?, country=?, description=?, type=?, image_url=?, rating=?, is_featured=? WHERE id=?",
-                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $id]
+                    "UPDATE destinations SET name=?, slug=?, country=?, description=?, type=?, image_url=?, rating=?, is_featured=?, map_embed=? WHERE id=?",
+                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $map_embed, $id]
                 );
                 $message = "Destination updated successfully!";
             } else {
                 $db->execute(
-                    "INSERT INTO destinations (name, slug, country, description, type, image_url, rating, is_featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured]
+                    "INSERT INTO destinations (name, slug, country, description, type, image_url, rating, is_featured, map_embed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $map_embed]
                 );
                 $message = "Destination created successfully!";
             }
@@ -152,9 +166,22 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Summernote CSS/JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
     <style>
         body {
             font-family: 'Outfit', sans-serif;
+        }
+
+        /* Override Summernote font to match theme */
+        .note-editor .note-editing-area {
+            font-family: 'Outfit', sans-serif !important;
         }
     </style>
 </head>
@@ -232,7 +259,7 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
 
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
-                                <textarea name="description" rows="3"
+                                <textarea id="summernote" name="description" rows="3"
                                     class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"><?php echo e($editData['description'] ?? ''); ?></textarea>
                             </div>
 
@@ -244,11 +271,14 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
                                         class="w-full border border-gray-300 px-3 py-2 rounded-lg">
                                 </div>
                                 <div class="flex items-center mt-6">
-                                    <input type="checkbox" name="is_featured" id="is_featured" value="1" <?php echo (!empty($editData['is_featured'])) ? 'checked' : ''; ?>
-                                        class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
-                                    <label for="is_featured" class="ml-2 block text-sm font-bold text-gray-700">Featured
-                                        (Home)</label>
+                                    <label for="is_featured" class="ml-2 block text-sm font-bold text-gray-700">Featured (Home)</label>
                                 </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Map Embed Code (Google Maps Only)</label>
+                                <textarea name="map_embed" rows="3" placeholder='<iframe src="...">'
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg font-mono text-xs"><?php echo e($editData['map_embed'] ?? ''); ?></textarea>
                             </div>
 
                             <!-- Image Management -->
@@ -347,6 +377,21 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
             </div>
         </div>
     </main>
+    <script>
+        $('#summernote').summernote({
+            placeholder: 'Describe this destination...',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    </script>
 </body>
 
 </html>

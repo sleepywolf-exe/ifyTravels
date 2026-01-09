@@ -162,6 +162,19 @@ if (!$booking) {
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-6">
                     <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Manage Booking</h2>
 
+                    <!-- Actions -->
+                    <div class="mb-6">
+                        <a href="../services/generate_voucher.php?id=<?php echo $id; ?>" target="_blank"
+                            class="w-full flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700 font-bold py-3 rounded-lg hover:bg-emerald-100 transition border border-emerald-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Download Invoice PDF
+                        </a>
+                    </div>
+
                     <form method="POST" class="space-y-6">
                         <!-- Status Update -->
                         <div>
