@@ -39,23 +39,14 @@ $selectedActivities = $_GET['activities'] ?? []; // Array
 $selectedThemes = $_GET['themes'] ?? []; // Array
 
 // 1.3 Apply Filters
-$selectedRegions = $_GET['region_filter'] ?? [];
-$filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPrice, $maxPrice, $selectedDurations, $selectedActivities, $selectedThemes, $selectedRegions) {
+$selectedRegion = $_GET['region_filter'] ?? '';
+$filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPrice, $maxPrice, $selectedDurations, $selectedActivities, $selectedThemes, $selectedRegion) {
 
-    // Region (Match Destination Type logic)
-    // Note: Package doesn't have 'type' but Destination does. Loader joins them? 
-    // Wait, loader.php loads packages with 'destinationId'.
-    // We need to fetch destination type for each package.
-    // 'destination_type' might not be in $pkg unless we joined it or loaded it.
-    // Let's assume user wants us to implement this.
-    // OPTIMIZATION: loader.php does NOT join destination type.
-    // We should fix loader.php or fetch it here.
-    // For now, let's rely on cached 'destinations' from loader to look it up.
-    
-    if (!empty($selectedRegions)) {
+    // Region (Match Destination Type)
+    if (!empty($selectedRegion)) {
         // Find destination for this package
         $dest = getDestinationById($pkg['destinationId']);
-        if (!$dest || !in_array($dest['type'], $selectedRegions)) {
+        if (!$dest || $dest['type'] !== $selectedRegion) {
             return false;
         }
     }
@@ -154,15 +145,21 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                         <h4 class="text-sm font-bold text-gray-700 mb-2">Region</h4>
                         <div class="space-y-2">
                             <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="checkbox" name="region_filter[]" value="International"
-                                    <?php echo (isset($_GET['region_filter']) && is_array($_GET['region_filter']) && in_array('International', $_GET['region_filter'])) ? 'checked' : ''; ?>
-                                    class="rounded text-primary focus:ring-primary">
+                                <input type="radio" name="region_filter" value="" 
+                                    <?php echo (empty($_GET['region_filter'])) ? 'checked' : ''; ?>
+                                    class="text-primary focus:ring-primary">
+                                <span>All Regions</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-sm text-gray-600">
+                                <input type="radio" name="region_filter" value="International"
+                                    <?php echo (isset($_GET['region_filter']) && $_GET['region_filter'] === 'International') ? 'checked' : ''; ?>
+                                    class="text-primary focus:ring-primary">
                                 <span>International</span>
                             </label>
                             <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="checkbox" name="region_filter[]" value="Domestic"
-                                    <?php echo (isset($_GET['region_filter']) && is_array($_GET['region_filter']) && in_array('Domestic', $_GET['region_filter'])) ? 'checked' : ''; ?>
-                                    class="rounded text-primary focus:ring-primary">
+                                <input type="radio" name="region_filter" value="Domestic"
+                                    <?php echo (isset($_GET['region_filter']) && $_GET['region_filter'] === 'Domestic') ? 'checked' : ''; ?>
+                                    class="text-primary focus:ring-primary">
                                 <span>Domestic</span>
                             </label>
                         </div>
@@ -293,6 +290,11 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                     <div
                                         class="absolute top-4 left-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
                                         🔥 POPULAR
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (!empty($pkg['is_new'])): ?>
+                                    <div class="absolute top-4 <?php echo $pkg['isPopular'] ? 'left-28' : 'left-4'; ?> bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1 animate-pulse">
+                                        NEW
                                     </div>
                                 <?php endif; ?>
                                 <div

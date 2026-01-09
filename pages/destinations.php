@@ -52,25 +52,28 @@ include __DIR__ . '/../includes/header.php';
                         <div class="space-y-3">
                             <label class="flex items-center text-gray-600 hover:text-primary cursor-pointer group transition">
                                 <span class="relative flex items-center">
-                                    <input type="checkbox" name="region[]" value="International"
-                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 checked:border-primary checked:bg-primary transition-all"
-                                        <?php echo (isset($_GET['region']) && is_array($_GET['region']) && in_array('International', $_GET['region'])) ? 'checked' : ''; ?>>
-                                    <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"
-                                        viewBox="0 0 14 14" fill="none">
-                                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <input type="radio" name="region" value=""
+                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-gray-200 checked:border-primary checked:bg-primary transition-all"
+                                        <?php echo (empty($_GET['region'])) ? 'checked' : ''; ?>>
+                                    <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></span>
+                                </span>
+                                <span class="ml-3 group-hover:translate-x-1 transition-transform">All Regions</span>
+                            </label>
+                            <label class="flex items-center text-gray-600 hover:text-primary cursor-pointer group transition">
+                                <span class="relative flex items-center">
+                                    <input type="radio" name="region" value="International"
+                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-gray-200 checked:border-primary checked:bg-primary transition-all"
+                                        <?php echo (isset($_GET['region']) && $_GET['region'] === 'International') ? 'checked' : ''; ?>>
+                                    <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></span>
                                 </span>
                                 <span class="ml-3 group-hover:translate-x-1 transition-transform">International</span>
                             </label>
                             <label class="flex items-center text-gray-600 hover:text-primary cursor-pointer group transition">
                                 <span class="relative flex items-center">
-                                    <input type="checkbox" name="region[]" value="Domestic"
-                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 checked:border-primary checked:bg-primary transition-all"
-                                        <?php echo (isset($_GET['region']) && is_array($_GET['region']) && in_array('Domestic', $_GET['region'])) ? 'checked' : ''; ?>>
-                                    <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"
-                                        viewBox="0 0 14 14" fill="none">
-                                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <input type="radio" name="region" value="Domestic"
+                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-gray-200 checked:border-primary checked:bg-primary transition-all"
+                                        <?php echo (isset($_GET['region']) && $_GET['region'] === 'Domestic') ? 'checked' : ''; ?>>
+                                    <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></span>
                                 </span>
                                 <span class="ml-3 group-hover:translate-x-1 transition-transform">Domestic</span>
                             </label>
@@ -118,13 +121,12 @@ include __DIR__ . '/../includes/header.php';
                 $filteredDestinations = $destinations;
 
                 // 1. Region Filter
-                if (isset($_GET['region'])) {
-                    $regions = is_array($_GET['region']) ? $_GET['region'] : [$_GET['region']]; 
-                    if (!empty($regions)) {
-                        $filteredDestinations = array_filter($filteredDestinations, function ($d) use ($regions) {
-                            return in_array($d['type'], $regions);
-                        });
-                    }
+                // 1. Region Filter
+                if (!empty($_GET['region'])) {
+                    $selectedRegion = $_GET['region'];
+                    $filteredDestinations = array_filter($filteredDestinations, function ($d) use ($selectedRegion) {
+                        return $d['type'] === $selectedRegion;
+                    });
                 }
 
                 // 2. Search Filter
@@ -171,6 +173,11 @@ include __DIR__ . '/../includes/header.php';
                                     class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-primary shadow-sm">
                                     <?php echo $dest['type']; ?>
                                 </div>
+                                <?php if (!empty($dest['is_new'])): ?>
+                                    <div class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm animate-pulse">
+                                        NEW
+                                    </div>
+                                <?php endif; ?>
                             </a>
 
                             <div class="p-6 flex-1 flex flex-col">

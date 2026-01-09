@@ -20,7 +20,7 @@ function loadDestinations()
         return $destinations;
     }
 
-    $rawDestinations = $db->fetchAll("SELECT * FROM destinations ORDER BY is_featured DESC, created_at DESC");
+    $rawDestinations = $db->fetchAll("SELECT * FROM destinations ORDER BY is_new DESC, is_featured DESC, created_at DESC");
 
     // Map DB keys to frontend keys
     $destinations = array_map(function ($d) {
@@ -56,7 +56,7 @@ function loadPackages()
         return $packages;
     }
 
-    $fetchedPackages = $db->fetchAll("SELECT * FROM packages ORDER BY is_popular DESC, created_at DESC");
+    $fetchedPackages = $db->fetchAll("SELECT * FROM packages ORDER BY is_new DESC, is_popular DESC, created_at DESC");
 
     // Process JSON fields & Map Keys
     $packages = array_map(function ($pkg) {

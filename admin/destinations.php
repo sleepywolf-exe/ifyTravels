@@ -112,14 +112,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $rating = $_POST['rating'] ?? 4.5;
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
+    $is_new = isset($_POST['is_new']) ? 1 : 0;
     $map_embed = $_POST['map_embed'] ?? ''; // Raw HTML
 
     if (empty($error)) {
         try {
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE destinations SET name=?, slug=?, country=?, description=?, type=?, image_url=?, rating=?, is_featured=?, map_embed=? WHERE id=?",
-                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $map_embed, $id]
+                    "UPDATE destinations SET name=?, slug=?, country=?, description=?, type=?, image_url=?, rating=?, is_featured=?, is_new=?, map_embed=? WHERE id=?",
+                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $is_new, $map_embed, $id]
                 );
                 $message = "Destination updated successfully!";
             } else {
@@ -271,9 +272,18 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
                                         class="w-full border border-gray-300 px-3 py-2 rounded-lg">
                                 </div>
                                 <div class="flex items-center mt-6">
+                                    <input type="checkbox" name="is_featured" id="is_featured" value="1" <?php echo ($editData && !empty($editData['is_featured'])) ? 'checked' : ''; ?>
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
                                     <label for="is_featured" class="ml-2 block text-sm font-bold text-gray-700">Featured
                                         / Top Priority</label>
                                 </div>
+                            </div>
+
+                            <div class="flex items-center mt-2">
+                                <input type="checkbox" name="is_new" id="is_new" value="1" <?php echo ($editData && !empty($editData['is_new'])) ? 'checked' : ''; ?>
+                                    class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+                                <label for="is_new" class="ml-2 block text-sm font-bold text-gray-700">Mark as NEW (Top
+                                    of List)</label>
                             </div>
 
                             <div>

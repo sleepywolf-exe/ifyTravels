@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $duration = $_POST['duration'];
     $description = $_POST['description'];
     $is_popular = isset($_POST['is_popular']) ? 1 : 0;
+    $is_new = isset($_POST['is_new']) ? 1 : 0;
 
     // Validation
     if (empty($title))
@@ -141,14 +142,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, features=?, inclusions=?, exclusions=?, activities=?, themes=?, trust_badges=? WHERE id=?",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $id]
+                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, is_new=?, features=?, inclusions=?, exclusions=?, activities=?, themes=?, trust_badges=? WHERE id=?",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $id]
                 );
                 $message = "Package updated successfully!";
             } else {
                 $db->execute(
-                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, features, inclusions, exclusions, activities, themes, trust_badges) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json]
+                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, is_new, features, inclusions, exclusions, activities, themes, trust_badges) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json]
                 );
                 $message = "Package created successfully!";
             }
@@ -292,6 +293,13 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                                     class="w-4 h-4 text-blue-600 rounded">
                                 <label for="is_popular" class="text-sm font-bold text-gray-700">Mark as Popular / Top
                                     Priority</label>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" name="is_new" id="is_new" value="1" <?php echo ($editData && !empty($editData['is_new'])) ? 'checked' : ''; ?>
+                                    class="w-4 h-4 text-green-600 rounded">
+                                <label for="is_new" class="text-sm font-bold text-gray-700">Mark as NEW (Top of
+                                    List)</label>
                             </div>
 
                             <div>
