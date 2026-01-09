@@ -10,10 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($email)) {
         $db = Database::getInstance();
-        
+
         // 1. Check if user exists
         $user = $db->fetch("SELECT * FROM users WHERE email = ?", [$email]);
-        
+
         if ($user) {
             // 2. Generate Token
             $token = bin2hex(random_bytes(32));
@@ -22,33 +22,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // 3. Store Token
             $db->execute("INSERT INTO password_resets (email, token, expiry) VALUES (?, ?, ?)", [$email, $token, $expiry]);
 
-            // 4. Send Email (Simulated)
+            // 4. Send Email
             $resetLink = base_url("admin/reset_password.php?token=$token&email=" . urlencode($email));
-            
-            // In Production: mail($email, "Password Reset", "Link: $resetLink");
-            
-            // For Sandbox/Dev: Log it and show success message
-            // We usually can't rely on mail() in dev environments without config.
-            // The user asked "email pe option mile".
-            // Since we upgraded the user's email to parasasd@gmail.com, we simulate sending to it.
-            
-            // Log for developer reference
+
+            // Attempt to send email
+            $subject = "Password Reset Request";
+            $emailMessage = "Hello,\n\nPlease click the following link to reset your administrator password:\n$resetLink\n\nIf you did not request this, please ignore this email.\n\nRegards,\nifyTravels Admin";
+            $headers = "From: no-reply@ifytravels.com";
+
+            // Try sending email (might fail on localhost without SMTP)
+            @mail($email, $subject, $emailMessage, $headers);
+
             error_log("Password Reset Link for $email: $resetLink");
 
             $message = "If an account exists for this email, a reset link has been sent.";
-            
-            // FOR DEMO PURPOSES ONLY: Display link if strictly dev (optional, but helpful for user to proceed)
-            // But let's stick to professional "Sent" message. User can look at address bar if I use notify_user to tell them the link.
-            // Actually, I'll pass the link to the UI if it's localhost for convenience? No, let's stick to "Sent".
-            // Wait, if I don't give the link, the user CANNOT verify it. 
-            // I will print it in a debug box if the host is localhost.
-            if ($_SERVER['SERVER_NAME'] === 'localhost') {
+
+            // Show link on localhost or if explicitly requested for testing
+            if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_ADDR'] === '127.0.0.1' || strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
                 $debugLink = $resetLink;
             }
         } else {
-             // Security: Don't reveal if user exists or not, but for admin panel usually fine.
-             // Let's use generic message.
-             $message = "If an account exists for this email, a reset link has been sent.";
+            // Security: Don't reveal if user exists or not, but for admin panel usually fine.
+            // Let's use generic message.
+            $message = "If an account exists for this email, a reset link has been sent.";
         }
     } else {
         $error = "Please enter your email.";
@@ -57,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password - Admin</title>
@@ -69,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
         }
+
         .admin-bg {
             background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80');
             background-size: cover;
@@ -76,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
+
 <body class="admin-bg flex items-center justify-center min-h-screen relative">
     <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
 
@@ -86,7 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <?php if ($message): ?>
-            <div class="bg-green-500/20 text-white p-3 rounded-lg border border-green-500/30 text-center mb-6 backdrop-blur-sm">
+            <div
+                class="bg-green-500/20 text-white p-3 rounded-lg border border-green-500/30 text-center mb-6 backdrop-blur-sm">
                 <?php echo e($message); ?>
             </div>
             <?php if (isset($debugLink)): ?>
@@ -120,4 +120,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </body>
+
 </html>
