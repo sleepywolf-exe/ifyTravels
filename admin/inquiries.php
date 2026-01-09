@@ -270,83 +270,106 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
         </div>
     </main>
 
-    <!-- Details/Edit Modal -->
+    <!-- Details/Edit Modal (Premium UX) -->
     <div id="inquiryModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
         aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closeModal()"></div>
+        <!-- Backdrop with Blur -->
+        <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" aria-hidden="true"
+            onclick="closeModal()"></div>
+
+        <div class="flex items-center justify-center min-h-screen p-4 text-center sm:p-0">
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
             <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                class="relative inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full border border-gray-100">
+                
                 <form action="inquiry_actions.php" method="POST">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="id" id="modalId">
                     <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4" id="modalTitle">Inquiry Details
-                        </h3>
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-5 flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-white/20 p-2 rounded-lg backdrop-blur-md">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white tracking-wide" id="modalTitle">Inquiry Details</h3>
+                        </div>
+                        <button type="button" onclick="closeModal()" class="text-white/70 hover:text-white transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
 
-                        <div class="space-y-4">
-                            <!-- Read Only Info -->
-                            <div class="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                    <label class="block text-gray-500 text-xs uppercase">Name</label>
-                                    <p id="modalName" class="font-medium text-gray-800"></p>
+                    <div class="px-6 py-6 sm:p-8">
+                        <div class="space-y-6">
+                            <!-- Read Only Info Grid -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-1">
+                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Customer Name</label>
+                                    <p id="modalName" class="text-lg font-semibold text-gray-900 break-words"></p>
                                 </div>
-                                <div>
-                                    <label class="block text-gray-500 text-xs uppercase">Email</label>
-                                    <p id="modalEmail" class="font-medium text-gray-800"></p>
+                                <div class="col-span-1 text-right">
+                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Date Received</label>
+                                    <p id="modalDate" class="text-sm font-medium text-gray-600"></p>
                                 </div>
-                                <div>
-                                    <label class="block text-gray-500 text-xs uppercase">Phone</label>
-                                    <p id="modalPhone" class="font-medium text-gray-800"></p>
+                                <div class="col-span-2 sm:col-span-1">
+                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email Address</label>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                        <p id="modalEmail" class="text-sm text-gray-700 font-medium break-all"></p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-gray-500 text-xs uppercase">Date</label>
-                                    <p id="modalDate" class="font-medium text-gray-800"></p>
+                                <div class="col-span-2 sm:col-span-1">
+                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Phone Number</label>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C7.82 21 2 15.18 2 7V5z"></path></svg>
+                                        <p id="modalPhone" class="text-sm text-gray-700 font-medium"></p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="block text-gray-500 text-xs uppercase mb-1">Message</label>
-                                <div id="modalMessage"
-                                    class="bg-gray-50 p-3 rounded text-sm text-gray-700 whitespace-pre-wrap max-h-32 overflow-y-auto">
+                            <!-- Message Box -->
+                            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 relative">
+                                <div class="absolute -top-2 left-4 bg-white px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Message</div>
+                                <div id="modalMessage" class="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap max-h-40 overflow-y-auto italic"></div>
+                            </div>
+
+                            <hr class="border-gray-100 my-4">
+
+                            <!-- Editable Fields Grid -->
+                            <div class="grid grid-cols-1 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Update Status</label>
+                                    <div class="relative">
+                                        <select name="status" id="modalStatus"
+                                            class="block w-full pl-4 pr-10 py-3 text-base border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg bg-gray-50 transition-colors hover:bg-white border">
+                                            <option value="new">🆕 New Inquiry</option>
+                                            <option value="contacted">📞 Contacted</option>
+                                            <option value="converted">✅ Converted (Won)</option>
+                                            <option value="closed">❌ Closed (Lost)</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <hr>
-
-                            <!-- Editable Fields -->
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                                <select name="status" id="modalStatus"
-                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                                    <option value="new">New</option>
-                                    <option value="contacted">Contacted</option>
-                                    <option value="converted">Converted</option>
-                                    <option value="closed">Closed</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Admin Notes</label>
-                                <textarea name="admin_notes" id="modalNotes" rows="3"
-                                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-                                    placeholder="Add internal notes here..."></textarea>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Internal Notes</label>
+                                    <textarea name="admin_notes" id="modalNotes" rows="3"
+                                        class="shadow-sm block w-full focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-200 rounded-lg p-3 bg-gray-50 focus:bg-white transition-all placeholder-gray-400"
+                                        placeholder="Write private notes for your team here..."></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <!-- Footer Actions -->
+                    <div class="bg-gray-50 px-6 py-4 sm:px-8 sm:flex sm:flex-row-reverse border-t border-gray-100">
                         <button type="submit"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                            class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-lg shadow-blue-500/30 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-base font-semibold text-white hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm transition-all transform hover:scale-[1.02]">
                             Save Changes
                         </button>
                         <button type="button"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-200 shadow-sm px-6 py-2.5 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors"
                             onclick="closeModal()">
                             Cancel
                         </button>
