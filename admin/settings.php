@@ -121,6 +121,34 @@ foreach ($settings as $s) {
             // Open the first tab by default
             document.querySelector('.tab-link').click();
         });
+
+        function previewImage(input, previewIdSuffix) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var preview = document.getElementById('preview_' + previewIdSuffix);
+                    var placeholder = document.getElementById('placeholder_' + previewIdSuffix);
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+
+                    // Update button text or filename if elements exist
+                    var fn = document.getElementById('filename_' + previewIdSuffix);
+                    if (fn) fn.textContent = input.files[0].name;
+
+                    // Remove fallback badge if previewing favicon
+                    if (previewIdSuffix === 'site_favicon') {
+                        var badge = document.getElementById('fallback_badge');
+                        if (badge) badge.style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 </head>
 
@@ -278,23 +306,36 @@ foreach ($settings as $s) {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <!-- Logo -->
                         <div
-                            class="p-6 border border-dashed border-gray-200 rounded-2xl hover:border-blue-300 transition-colors bg-gray-50/50">
+                            class="p-6 border border-dashed border-gray-200 rounded-2xl bg-gray-50/50 flex flex-col items-center text-center">
                             <label class="block text-sm font-bold text-gray-800 mb-4">Site Logo</label>
-                            <?php if (!empty($settingsMap['site_logo'])): ?>
-                                <div
-                                    class="mb-4 p-4 bg-white border border-gray-100 rounded-xl flex items-center justify-center shadow-sm h-24">
-                                    <img src="../<?php echo e($settingsMap['site_logo']); ?>"
-                                        class="max-h-full object-contain">
-                                </div>
-                            <?php endif; ?>
-                            <input type="file" name="site_logo" accept="image/*"
-                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+
+                            <!-- Preview Container -->
+                            <div
+                                class="relative w-48 h-32 bg-white border border-gray-200 rounded-lg flex items-center justify-center mb-4 overflow-hidden group">
+                                <?php if (!empty($settingsMap['site_logo'])): ?>
+                                    <img id="preview_site_logo" src="../<?php echo e($settingsMap['site_logo']); ?>"
+                                        class="max-h-full max-w-full object-contain">
+                                <?php else: ?>
+                                    <img id="preview_site_logo" class="hidden max-h-full max-w-full object-contain">
+                                    <span class="text-gray-400 text-xs" id="placeholder_site_logo">No Logo</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Styled File Input -->
+                            <label
+                                class="cursor-pointer bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-4 rounded-lg shadow-sm transition-all focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2">
+                                <span id="btn_text_site_logo">Choose New Logo</span>
+                                <input type="file" name="site_logo" accept="image/*" class="hidden"
+                                    onchange="previewImage(this, 'site_logo')">
+                            </label>
+                            <p class="text-xs text-gray-400 mt-2">Recommended: PNG / SVG</p>
                         </div>
 
                         <!-- Favicon -->
                         <div
-                            class="p-6 border border-dashed border-gray-200 rounded-2xl hover:border-blue-300 transition-colors bg-gray-50/50">
+                            class="p-6 border border-dashed border-gray-200 rounded-2xl bg-gray-50/50 flex flex-col items-center text-center">
                             <label class="block text-sm font-bold text-gray-800 mb-4">Favicon</label>
+
                             <?php
                             $favSrc = $settingsMap['site_favicon'] ?? '';
                             $isFallback = false;
@@ -302,19 +343,36 @@ foreach ($settings as $s) {
                                 $favSrc = $settingsMap['site_logo'];
                                 $isFallback = true;
                             }
+                            ?>
 
-                            if (!empty($favSrc)): ?>
-                                <div
-                                    class="mb-4 p-4 bg-white border border-gray-100 rounded-xl flex flex-col items-center justify-center shadow-sm h-32 w-32 mx-auto">
-                                    <img src="../<?php echo e($favSrc); ?>" class="max-h-16 object-contain mb-2">
-                                    <?php if ($isFallback): ?>
-                                        <span class="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded-full">Using
+                            <!-- Preview Container -->
+                            <div
+                                class="relative w-32 h-32 bg-white border border-gray-200 rounded-lg flex items-center justify-center mb-4 overflow-hidden">
+                                <?php if (!empty($favSrc)): ?>
+                                    <img id="preview_site_favicon" src="../<?php echo e($favSrc); ?>"
+                                        class="max-h-16 w-auto object-contain">
+                                <?php else: ?>
+                                    <img id="preview_site_favicon" class="hidden max-h-16 w-auto object-contain">
+                                    <span class="text-gray-400 text-xs" id="placeholder_site_favicon">No Favicon</span>
+                                <?php endif; ?>
+
+                                <?php if ($isFallback): ?>
+                                    <div id="fallback_badge" class="absolute bottom-2 left-1/2 transform -translate-x-1/2">
+                                        <span
+                                            class="text-[10px] text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100 whitespace-nowrap">Using
                                             Logo</span>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
-                            <input type="file" name="site_favicon" accept="image/*"
-                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Styled File Input -->
+                            <label
+                                class="cursor-pointer bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-4 rounded-lg shadow-sm transition-all focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2">
+                                <span id="btn_text_site_favicon">Upload Custom Favicon</span>
+                                <input type="file" name="site_favicon" accept="image/*" class="hidden"
+                                    onchange="previewImage(this, 'site_favicon')">
+                            </label>
+                            <p class="text-xs text-gray-400 mt-2">Recommended: 32x32 or 64x64 PNG</p>
                         </div>
                     </div>
 
@@ -331,14 +389,28 @@ foreach ($settings as $s) {
                             foreach ($bgFields as $key => $label): ?>
                                 <div>
                                     <label class="block text-sm font-bold text-gray-700 mb-2"><?php echo $label; ?></label>
-                                    <?php if (!empty($settingsMap[$key])): ?>
-                                        <div class="relative group mb-3">
-                                            <img src="../<?php echo e($settingsMap[$key]); ?>"
-                                                class="h-32 w-full object-cover rounded-xl shadow-sm border border-gray-100">
-                                        </div>
-                                    <?php endif; ?>
-                                    <input type="file" name="<?php echo $key; ?>" accept="image/*"
-                                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer">
+                                    <div
+                                        class="relative group mb-3 w-full h-40 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 flex items-center justify-center">
+                                        <?php if (!empty($settingsMap[$key])): ?>
+                                            <img id="preview_<?php echo $key; ?>" src="../<?php echo e($settingsMap[$key]); ?>"
+                                                class="w-full h-full object-cover">
+                                        <?php else: ?>
+                                            <img id="preview_<?php echo $key; ?>" class="hidden w-full h-full object-cover">
+                                            <span class="text-gray-400 text-xs">No Image</span>
+                                        <?php endif; ?>
+
+                                        <!-- Overlay Button -->
+                                        <label
+                                            class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                                            <span
+                                                class="bg-white text-gray-800 font-bold py-2 px-4 rounded-lg shadow-lg transform scale-95 group-hover:scale-100 transition-transform">Change
+                                                Image</span>
+                                            <input type="file" name="<?php echo $key; ?>" accept="image/*" class="hidden"
+                                                onchange="previewImage(this, '<?php echo $key; ?>')">
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500 text-right truncate" id="filename_<?php echo $key; ?>">
+                                    </p>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -390,12 +462,26 @@ foreach ($settings as $s) {
                     <div class="border-t border-gray-100 pt-8">
                         <label class="block text-sm font-bold text-gray-700 mb-2">Social Share Image (Open
                             Graph)</label>
-                        <?php if (!empty($settingsMap['og_image'])): ?>
-                            <img src="../<?php echo e($settingsMap['og_image']); ?>"
-                                class="h-48 w-auto object-cover rounded-xl mb-4 border border-gray-200 shadow-sm">
-                        <?php endif; ?>
-                        <input type="file" name="og_image" accept="image/*"
-                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+                        <div
+                            class="relative group mb-3 w-full max-w-md h-48 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 flex items-center justify-center">
+                            <?php if (!empty($settingsMap['og_image'])): ?>
+                                <img id="preview_og_image" src="../<?php echo e($settingsMap['og_image']); ?>"
+                                    class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <img id="preview_og_image" class="hidden w-full h-full object-cover">
+                                <span class="text-gray-400 text-xs">No OG Image</span>
+                            <?php endif; ?>
+
+                            <!-- Overlay Button -->
+                            <label
+                                class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                                <span
+                                    class="bg-white text-gray-800 font-bold py-2 px-4 rounded-lg shadow-lg transform scale-95 group-hover:scale-100 transition-transform">Change
+                                    Image</span>
+                                <input type="file" name="og_image" accept="image/*" class="hidden"
+                                    onchange="previewImage(this, 'og_image')">
+                            </label>
+                        </div>
                     </div>
                 </div>
 
