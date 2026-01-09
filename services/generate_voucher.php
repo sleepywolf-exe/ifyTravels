@@ -185,5 +185,7 @@ $pdf->SetTextColor(255, 255, 255);
 $pdf->SetFont('Courier', '', 8);
 $pdf->Text(160, 86, "TK-" . str_pad($booking['id'], 8, '0', STR_PAD_LEFT));
 
+// Clear any buffered output (whitespace, warnings, etc.)
+ob_end_clean();
 $pdf->Output('I', 'BoardingPass_' . $booking['id'] . '.pdf');
 ?>
