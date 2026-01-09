@@ -216,11 +216,39 @@ foreach ($settings as $s) {
                             </div>
                             <div class="col-span-full">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Subtitle</label>
-                                <textarea name="hero_subtitle" rows="2"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all"><?php echo e($settingsMap['hero_subtitle'] ?? ''); ?></textarea>
+                                <!-- Quill Editor Container -->
+                                <div id="editor-hero-subtitle" class="bg-white rounded-xl" style="height: 150px;">
+                                    <?php echo $settingsMap['hero_subtitle'] ?? ''; ?>
+                                </div>
+                                <input type="hidden" name="hero_subtitle" id="hero_subtitle">
                             </div>
                         </div>
                     </div>
+
+                    <!-- Quill JS & Init -->
+                    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+                    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var quill = new Quill('#editor-hero-subtitle', {
+                                theme: 'snow',
+                                modules: {
+                                    toolbar: [
+                                        ['bold', 'italic', 'underline'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        ['clean']
+                                    ]
+                                }
+                            });
+
+                            // Sync content on form submit
+                            var form = document.querySelector('form');
+                            form.onsubmit = function() {
+                                var content = document.querySelector('input[name=hero_subtitle]');
+                                content.value = quill.root.innerHTML;
+                            };
+                        });
+                    </script>
 
                     <div class="border-t border-gray-100 pt-8">
                         <h3 class="text-xl font-bold text-gray-900 mb-6">Contact Details</h3>

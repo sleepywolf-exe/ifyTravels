@@ -44,9 +44,10 @@ try {
             <h1 class="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6 leading-tight drop-shadow-lg">
                 <?php echo e(get_setting('hero_title', "Discover the World's Hidden Gems")); ?>
             </h1>
-            <p class="text-lg md:text-2xl mb-8 md:mb-10 max-w-2xl mx-auto font-light drop-shadow-md px-2 opacity-90">
-                <?php echo e(get_setting('hero_subtitle', 'Curated luxury travel experiences designed just for you.')); ?>
-            </p>
+            <div
+                class="text-lg md:text-2xl mb-8 md:mb-10 max-w-3xl mx-auto font-light drop-shadow-md px-2 opacity-90 prose prose-invert">
+                <?php echo get_setting('hero_subtitle', 'Curated luxury travel experiences designed just for you.'); ?>
+            </div>
         </div>
 
         <!-- Glassmorphism Booking Form -->
