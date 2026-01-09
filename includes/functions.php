@@ -40,6 +40,11 @@ function get_setting($key, $default = '')
  */
 function base_url($path = '')
 {
+    // Check for absolute URL
+    if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
+        return $path;
+    }
+
     // Clean input path
     $path = ltrim($path, '/');
 
