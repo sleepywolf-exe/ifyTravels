@@ -377,6 +377,22 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
+            // Caputure content from form
+            // ... (existing code for modal inputs)
+
+            // Capture UTM Parameters (Auto-fill)
+            const urlParams = new URLSearchParams(window.location.search);
+            data.utm_source = urlParams.get('utm_source') || localStorage.getItem('utm_source') || '';
+            data.utm_medium = urlParams.get('utm_medium') || localStorage.getItem('utm_medium') || '';
+            data.utm_campaign = urlParams.get('utm_campaign') || localStorage.getItem('utm_campaign') || '';
+
+            // Persist UTM if found in URL (so we don't lose it on page nav)
+            if (urlParams.get('utm_source')) {
+                localStorage.setItem('utm_source', urlParams.get('utm_source'));
+                localStorage.setItem('utm_medium', urlParams.get('utm_medium'));
+                localStorage.setItem('utm_campaign', urlParams.get('utm_campaign'));
+            }
+
             // Determine Endpoint
             const endpoint = data.package_id ?
                 '<?php echo base_url("services/submit_booking.php"); ?>' :
