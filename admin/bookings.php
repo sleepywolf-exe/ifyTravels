@@ -27,11 +27,14 @@ $bookings = Database::getInstance()->fetchAll("SELECT * FROM bookings ORDER BY c
                         <th class="px-6 py-3">Package</th>
                         <th class="px-6 py-3">Travel Date</th>
                         <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100"><?php foreach ($bookings as $b): ?>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-3 font-mono text-xs">#<?php echo $b['id']; ?></td>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-3 font-mono text-xs text-primary font-bold">
+                                <a href="booking-details.php?id=<?php echo $b['id']; ?>">#<?php echo $b['id']; ?></a>
+                            </td>
                             <td class="px-6 py-3">
                                 <div class="font-bold text-gray-800"><?php echo e($b['customer_name']); ?></div>
                                 <div class="text-xs text-gray-400"><?php echo e($b['email']); ?></div>
@@ -39,7 +42,11 @@ $bookings = Database::getInstance()->fetchAll("SELECT * FROM bookings ORDER BY c
                             <td class="px-6 py-3"><?php echo e($b['package_name']); ?></td>
                             <td class="px-6 py-3"><?php echo e($b['travel_date']); ?></td>
                             <td class="px-6 py-3"><span
-                                    class="inline-block px-2 py-1 rounded text-xs font-semibold <?php echo $b['status'] == 'Confirmed' ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600'; ?>"><?php echo e($b['status']); ?></span>
+                                    class="inline-block px-2 py-1 rounded text-xs font-semibold <?php echo $b['status'] == 'Confirmed' ? 'bg-green-100 text-green-600' : ($b['status'] == 'Cancelled' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'); ?>"><?php echo e($b['status']); ?></span>
+                            </td>
+                            <td class="px-6 py-3">
+                                <a href="booking-details.php?id=<?php echo $b['id']; ?>"
+                                    class="text-blue-600 hover:text-blue-800 font-medium text-sm">View Details</a>
                             </td>
                         </tr><?php endforeach; ?>
                 </tbody>
