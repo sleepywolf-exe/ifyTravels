@@ -161,6 +161,11 @@ include __DIR__ . '/../includes/header.php';
                                 <span
                                     class="font-semibold text-charcoal"><?php echo htmlspecialchars($locationName); ?></span>
                             </div>
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Destination Covered</span>
+                                <span
+                                    class="font-semibold text-charcoal text-right"><?php echo htmlspecialchars(!empty($pkg['destination_covered']) ? $pkg['destination_covered'] : $dest['name']); ?></span>
+                            </div>
                         </div>
                     </div>
 
