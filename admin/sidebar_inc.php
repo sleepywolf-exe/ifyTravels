@@ -34,6 +34,10 @@
         </a>
     </nav>
     <div class="p-4 border-t border-gray-200">
+        <a href="change_password.php"
+            class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg hover:text-blue-600 transition">
+            <span>🔒</span> <span>Change Password</span>
+        </a>
         <a href="logout.php"
             class="flex items-center space-x-3 px-4 py-2 text-red-500 hover:bg-red-50 rounded-lg transition">
             <span>🚪</span> <span>Logout</span>

@@ -102,6 +102,10 @@ if ($loginAttempts >= 5 && (time() - $lastAttempt) < 900) {
                 <label class="glass-label text-white">Password</label>
                 <input type="password" name="password" required placeholder="••••••••"
                     class="glass-input w-full placeholder-white/50 text-white">
+                <div class="text-right mt-1">
+                    <a href="forgot_password.php" class="text-xs text-white/80 hover:text-white transition">Forgot
+                        Password?</a>
+                </div>
             </div>
 
             <?php if ($error): ?>
