@@ -18,6 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $pdo->prepare("INSERT INTO inquiries (name, email, subject, message, status, created_at) VALUES (?, ?, ?, ?, 'New', datetime('now'))");
         $stmt->execute([$name, $email, $subject, $message]);
+
+        // Send Confirmation Email
+        // Assuming phone is not in this form, pass empty or 'Not Provided'
+        send_lead_confirmation_email($email, $name, get_setting('contact_phone', ''));
+
         $msgSent = true;
     } catch (Exception $e) {
         $error = "Failed to send message.";

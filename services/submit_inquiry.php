@@ -51,6 +51,9 @@ try {
     $success = $db->execute($sql, [$name, $email, $subject, $finalMessage]);
 
     if ($success) {
+        // Send Confirmation Email
+        send_lead_confirmation_email($email, $name, $phone);
+
         // Optional: Send Notification Email (Reuse logic if needed, skipping for concise file)
         echo json_encode(['status' => 'success', 'message' => 'Inquiry sent successfully! We will contact you soon.']);
     } else {
