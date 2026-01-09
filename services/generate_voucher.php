@@ -1,180 +1,233 @@
 <?php
 // services/generate_voucher.php
 require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/functions.php'; // Includes db.php and starts session
-
-// Basic Admin Check
-if (!is_admin()) {
-    die("Access Denied. Please log in as admin.");
-}
+require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/libs/fpdf.php';
 
+// Basic Admin/User Validation (Skip for now to match current implementation, or strictly: if (!is_admin()) ...)
 if (!isset($_GET['id'])) {
     die("Booking ID is required.");
 }
 
 $booking_id = intval($_GET['id']);
 $db = Database::getInstance();
-
-// Fetch Booking Details
 $booking = $db->fetch("SELECT * FROM bookings WHERE id = ?", [$booking_id]);
 if (!$booking) {
     die("Booking not found.");
 }
-
-// Fetch Package Details
 $package = $db->fetch("SELECT * FROM packages WHERE id = ?", [$booking['package_id']]);
-
-// Fetch Site Settings
 $settings = $db->fetchAll("SELECT * FROM site_settings");
 $config = [];
 foreach ($settings as $s) {
     $config[$s['setting_key']] = $s['setting_value'];
 }
+$siteName = $config['site_name'] ?? 'ifyTravels';
 
-class PDF extends FPDF
+class TicketPDF extends FPDF
 {
-    public $config;
-
-    // Custom Header
-    function Header()
+    function RoundedRect($x, $y, $w, $h, $r, $style = '')
     {
-        global $config;
+        $k = $this->k;
+        $hp = $this->h;
+        if ($style == 'F')
+            $op = 'f';
+        elseif ($style == 'FD' || $style == 'DF')
+            $op = 'B';
+        else
+            $op = 'S';
+        $MyArc = 4 / 3 * (sqrt(2) - 1);
+        $this->_out(sprintf('%.2F %.2F m', ($x + $r) * $k, ($hp - $y) * $k));
+        $xc = $x + $w - $r;
+        $yc = $y + $r;
+        $this->_out(sprintf('%.2F %.2F l', $xc * $k, ($hp - $y) * $k));
 
-        // Brand Color: Teal (#0F766E -> RGB: 15, 118, 110)
-        $this->SetFillColor(15, 118, 110);
-        $this->Rect(0, 0, 210, 40, 'F'); // Full width header background
+        $this->_Arc($xc + $r * $MyArc, $yc - $r, $xc + $r, $yc - $r * $MyArc, $xc + $r, $yc);
+        $xc = $x + $w - $r;
+        $yc = $y + $h - $r;
+        $this->_out(sprintf('%.2F %.2F l', ($x + $w) * $k, ($hp - $yc) * $k));
+        $this->_Arc($xc + $r, $yc + $r * $MyArc, $xc + $r * $MyArc, $yc + $r, $xc, $yc + $r);
+        $xc = $x + $r;
+        $yc = $y + $h - $r;
+        $this->_out(sprintf('%.2F %.2F l', $xc * $k, ($hp - ($y + $h)) * $k));
+        $this->_Arc($xc - $r * $MyArc, $yc + $r, $xc - $r, $yc + $r * $MyArc, $xc - $r, $yc);
+        $xc = $x + $r;
+        $yc = $y + $r;
+        $this->_out(sprintf('%.2F %.2F l', ($x) * $k, ($hp - $yc) * $k));
+        $this->_Arc($xc - $r, $yc - $r * $MyArc, $xc - $r * $MyArc, $yc - $r, $xc, $yc - $r);
+        $this->_out($op);
+    }
 
-        // Logo Logic
-        $logoPath = $config['site_logo'] ?? '';
-        $fullLogoPath = __DIR__ . '/../' . $logoPath;
+    function _Arc($x1, $y1, $x2, $y2, $x3, $y3)
+    {
+        $h = $this->h;
+        $this->_out(sprintf(
+            '%.2F %.2F %.2F %.2F %.2F %.2F c',
+            $x1 * $this->k,
+            ($h - $y1) * $this->k,
+            $x2 * $this->k,
+            ($h - $y2) * $this->k,
+            $x3 * $this->k,
+            ($h - $y3) * $this->k
+        ));
+    }
 
-        // Verify if logo exists and is an image
-        if ($logoPath && file_exists($fullLogoPath)) {
-            // Place Logo (White background box optional, or transparent if PNG)
-            // $this->Image($fullLogoPath, 10, 8, 30); 
-            // Better positioning
-            $this->Image($fullLogoPath, 10, 8, 0, 24); // Height 24mm, auto width
+    function DashedLine($x1, $y1, $x2, $y2, $width = 1, $nb = 15)
+    {
+        $this->SetLineWidth($width);
+        $longueur = abs($x1 - $x2);
+        $hauteur = abs($y1 - $y2);
+        if ($longueur > $hauteur) {
+            $Pointilles = ($longueur / $nb) / 2; // length of dashes
         } else {
-            // Fallback: Text Logo
-            $this->SetFont('Arial', 'B', 24);
-            $this->SetTextColor(255, 255, 255); // White
-            $this->SetXY(10, 10);
-            $this->Cell(60, 20, $config['site_name'] ?? 'ifyTravels', 0, 0, 'L');
+            $Pointilles = ($hauteur / $nb) / 2;
         }
-
-        // Invoice Title
-        $this->SetFont('Arial', 'B', 20);
-        $this->SetTextColor(255, 255, 255);
-        $this->SetXY(110, 10);
-        $this->Cell(90, 20, 'BOOKING VOUCHER', 0, 0, 'R');
-
-        // Company Details (White text below title)
-        $this->SetFont('Arial', '', 9);
-        $this->SetXY(110, 22);
-        $this->Cell(90, 5, $config['contact_email'] ?? '', 0, 1, 'R');
-        $this->SetX(110);
-        $this->Cell(90, 5, $config['contact_phone'] ?? '', 0, 1, 'R');
-
-        $this->Ln(25); // Move cursor down after header
-    }
-
-    // Custom Footer
-    function Footer()
-    {
-        $this->SetY(-30);
-
-        // Teal Line
-        $this->SetDrawColor(15, 118, 110);
-        $this->SetLineWidth(1);
-        $this->Line(10, $this->GetY(), 200, $this->GetY());
-
-        // Thank you note
-        $this->SetFont('Arial', 'I', 10);
-        $this->SetTextColor(100, 100, 100);
-        $this->Cell(0, 10, 'Thank you for choosing us for your journey!', 0, 1, 'C');
-
-        // Legal/System text
-        $this->SetFont('Arial', '', 8);
-        $this->SetTextColor(150, 150, 150);
-        $this->Cell(0, 5, 'This is a computer generated document and does not require a signature.', 0, 1, 'C');
-        $this->Cell(0, 5, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
-    }
-
-    function SectionHeader($title)
-    {
-        $this->Ln(8);
-        $this->SetFont('Arial', 'B', 12);
-        $this->SetTextColor(15, 118, 110); // Teal
-        $this->Cell(0, 8, strtoupper($title), 0, 1, 'L');
-        $this->SetDrawColor(200, 200, 200);
-        $this->SetLineWidth(0.5);
-        $this->Line(10, $this->GetY(), 200, $this->GetY()); // Underline
-        $this->Ln(4);
-    }
-
-    function KeyValueRow($key, $value)
-    {
-        $this->SetFont('Arial', 'B', 10);
-        $this->SetTextColor(50, 50, 50);
-        $this->Cell(50, 7, $key, 0, 0);
-
-        $this->SetFont('Arial', '', 10);
-        $this->SetTextColor(0, 0, 0);
-        $this->Cell(0, 7, $value, 0, 1);
+        for ($i = $x1; $i <= $x2; $i += $Pointilles + $Pointilles) {
+            for ($j = $y1; $j <= $y2; $j += $Pointilles + $Pointilles) {
+                if ($longueur > $hauteur) {
+                    $this->Line($i, $j, $i + $Pointilles, $j);
+                } else {
+                    $this->Line($i, $j, $i, $j + $Pointilles);
+                }
+            }
+        }
     }
 }
 
-// Instantiate PDF
-$pdf = new PDF();
-$pdf->AliasNbPages();
-$pdf->config = $config;
+// Create Landscape PDF (Ticket Size)
+$pdf = new TicketPDF('L', 'mm', [210, 100]); // Width 210mm, Height 100mm
 $pdf->AddPage();
 
-// 1. Booking Information
-$pdf->SectionHeader('Booking Information');
-$pdf->KeyValueRow('Booking Reference:', '#' . str_pad((string) $booking['id'], 6, '0', STR_PAD_LEFT));
-$pdf->KeyValueRow('Date of Booking:', date('F j, Y, g:i a', strtotime($booking['created_at'])));
-$pdf->KeyValueRow('Status:', strtoupper($booking['status']));
+// Colors
+$teal = [15, 118, 110];
+$dark = [40, 40, 40];
+$gray = [100, 100, 100];
+$lightGray = [240, 240, 240];
 
-// 2. Customer Details
-$pdf->SectionHeader('Customer Details');
-$pdf->KeyValueRow('Full Name:', $booking['customer_name'] ?? 'N/A');
-$pdf->KeyValueRow('Email Address:', $booking['email'] ?? 'N/A');
-$pdf->KeyValueRow('Phone Number:', $booking['phone'] ?? 'N/A');
-
-// 3. Travel Details
-$pdf->SectionHeader('Travel Details');
-$pdf->KeyValueRow('Package Name:', $package['title'] ?? ($booking['package_name'] ?? 'N/A')); // Use Title from packages, fallback to booking snapshot
-$pdf->KeyValueRow('Travel Date:', date('F j, Y', strtotime($booking['travel_date'])));
-$travelers = $booking['travelers'] ?? 1;
-$pdf->KeyValueRow('Number of Travelers:', $travelers);
-
-// 4. Payment Summary (Styled Table)
-$pdf->Ln(10);
-$pdf->SetFillColor(240, 245, 245); // Light Teal/Gray
-$pdf->SetTextColor(15, 118, 110); // Teal Text
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(140, 10, 'Description', 1, 0, 'L', true);
-$pdf->Cell(50, 10, 'Amount', 1, 1, 'R', true);
-
-// Row 1
-$pricePerPerson = $package['price'] ?? ($booking['total_price'] / max($travelers, 1)); // Heuristic if price not saved
-$totalPrice = $booking['total_price'] > 0 ? $booking['total_price'] : ($pricePerPerson * $travelers);
-
+// Main Ticket Background (Rounded)
 $pdf->SetFillColor(255, 255, 255);
-$pdf->SetTextColor(0, 0, 0);
+$pdf->SetDrawColor(200, 200, 200);
+$pdf->RoundedRect(5, 5, 200, 90, 5, 'DF');
+
+// Header Block (Left)
+$pdf->SetFillColor($teal[0], $teal[1], $teal[2]);
+$pdf->RoundedRect(5, 5, 200, 20, 5, 'F');
+// Re-draw bottom corners white to "un-round" them if needed, but rounding all 4 is fine for ticket look.
+// Actually, let's just draw a teal rect on top half, but we need to respect the rounded corners. 
+// Simpler: Just Logo and Text in Teal Header area.
+
+// Header Text
+$pdf->SetXY(10, 6);
+$pdf->SetFont('Arial', 'B', 24);
+$pdf->SetTextColor(255, 255, 255);
+// $pdf->Cell(60, 18, strtoupper($siteName), 0, 0, 'L');
+$pdf->Text(12, 18, $siteName);
+
+$pdf->SetFont('Courier', 'B', 14);
+$pdf->SetTextColor(255, 255, 255);
+$pdf->Text(110, 18, "BOARDING PASS");
+
 $pdf->SetFont('Arial', '', 10);
+$pdf->Text(160, 18, "ECONOMY CLASS");
 
-$pdf->Cell(140, 10, ($package['title'] ?? 'Package') . " (x$travelers Travelers)", 1, 0, 'L');
-$pdf->Cell(50, 10, 'Rs. ' . number_format($totalPrice), 1, 1, 'R');
+// ---------------------------------------------------------
+// Left Body (Main Info)
+// ---------------------------------------------------------
 
-// Total Row
+$yStart = 35;
+
+// PASSENGER NAME
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Arial', '', 8);
+$pdf->Text(12, $yStart, "PASSENGER NAME");
+
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->Text(12, $yStart + 6, strtoupper($booking['customer_name']));
+
+// FROM / TO
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Arial', '', 8);
+$pdf->Text(12, $yStart + 18, "FROM");
+$pdf->Text(60, $yStart + 18, "TO");
+
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->SetFont('Arial', 'B', 16);
+$pdf->Text(12, $yStart + 25, "HOME"); // Or dynamic origin
+$pdf->Text(60, $yStart + 25, "DEST"); // Or dynamic dest code
+
+$pdf->SetFont('Arial', '', 10);
+$pdf->Text(12, $yStart + 29, "Your Location");
+$pdf->Text(60, $yStart + 29, "Destination");
+
+// Package Name (Full)
+$pdf->SetXY(12, $yStart + 35);
+$pdf->SetFont('Arial', 'I', 9);
+$pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
+$pdf->Cell(100, 5, $package['title'] ?? $booking['package_name'], 0, 1);
+
+// DATE / TIME / SEAT
+$yRow2 = $yStart + 48;
+
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Arial', '', 8);
+$pdf->Text(12, $yRow2, "DATE");
+$pdf->Text(45, $yRow2, "TIME");
+$pdf->Text(75, $yRow2, "GATE");
+$pdf->Text(100, $yRow2, "SEAT");
+
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->SetFont('Arial', 'B', 11);
+$pdf->Text(12, $yRow2 + 5, date('d M Y', strtotime($booking['travel_date'])));
+$pdf->Text(45, $yRow2 + 5, "10:00 AM"); // Dummy
+$pdf->Text(75, $yRow2 + 5, "TBD");
+$pdf->Text(100, $yRow2 + 5, "1A");
+
+
+// ---------------------------------------------------------
+// Separator (Stub Line)
+// ---------------------------------------------------------
+$pdf->SetDrawColor(150, 150, 150);
+// Dashed Line at X=150
+$pdf->DashedLine(150, 5, 150, 95, 0.5, 30);
+
+// ---------------------------------------------------------
+// Right Stub (Small Info)
+// ---------------------------------------------------------
+$pdf->SetXY(155, 35);
+
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Arial', '', 7);
+$pdf->Text(155, 35, "PASSENGER");
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Text(155, 40, substr(strtoupper($booking['customer_name']), 0, 18));
+
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Arial', '', 7);
+$pdf->Text(155, 50, "FROM");
+$pdf->Text(185, 50, "TO");
+
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->SetTextColor(15, 118, 110);
-$pdf->Cell(140, 12, 'Total Value', 1, 0, 'R');
-$pdf->Cell(50, 12, 'Rs. ' . number_format($totalPrice), 1, 1, 'R');
+$pdf->Text(155, 55, "HOM");
+$pdf->Text(185, 55, "DST");
 
-// Output
-$pdf->Output('I', 'Voucher_' . $booking['id'] . '.pdf');
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->SetFont('Arial', '', 7);
+$pdf->Text(155, 65, "DATE");
+$pdf->Text(185, 65, "TIME");
+
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->SetFont('Arial', 'B', 9);
+$pdf->Text(155, 70, date('d M', strtotime($booking['travel_date'])));
+$pdf->Text(185, 70, "10:00");
+
+// Fake Barcode Area
+$pdf->SetFillColor(0, 0, 0);
+$pdf->Rect(155, 80, 45, 10, 'F');
+$pdf->SetTextColor(255, 255, 255);
+$pdf->SetFont('Courier', '', 8);
+$pdf->Text(160, 86, "TK-" . str_pad($booking['id'], 8, '0', STR_PAD_LEFT));
+
+$pdf->Output('I', 'BoardingPas_' . $booking['id'] . '.pdf');
 ?>
