@@ -17,7 +17,8 @@ $commands = [
     "ALTER TABLE inquiries ADD COLUMN admin_notes TEXT",
     "ALTER TABLE inquiries ADD COLUMN utm_source VARCHAR(255)",
     "ALTER TABLE inquiries ADD COLUMN utm_medium VARCHAR(255)",
-    "ALTER TABLE inquiries ADD COLUMN utm_campaign VARCHAR(255)"
+    "ALTER TABLE inquiries ADD COLUMN utm_campaign VARCHAR(255)",
+    "ALTER TABLE packages ADD COLUMN trust_badges TEXT DEFAULT NULL"
 ];
 
 foreach ($commands as $sql) {
