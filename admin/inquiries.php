@@ -34,99 +34,125 @@ $inquiries = $db->fetchAll("SELECT * FROM inquiries ORDER BY created_at DESC"); 
 
 <body class="bg-gray-50 flex h-screen">
     <?php include 'sidebar_inc.php'; ?>
-    <main class="flex-1 overflow-y-auto p-8">
-        <header class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">Inquiries</h1>
-            <div class="text-sm text-gray-500">
-                Manage your leads and customer questions
+    <main class="flex-1 overflow-y-auto p-8 lg:p-12 relative z-0">
+        <header class="flex justify-between items-end mb-10">
+            <div>
+                <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Inquiries</h1>
+                <p class="text-gray-500 mt-2 text-lg font-light">Manage your leads and customer questions</p>
+            </div>
+            <div class="hidden md:block">
+                <!-- Aesthetic decorative element or summary stat could go here -->
             </div>
         </header>
 
         <!-- Messages -->
         <?php if (isset($_SESSION['flash_message'])): ?>
-            <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-6">
+            <div
+                class="bg-emerald-50 text-emerald-700 px-6 py-4 rounded-2xl mb-8 shadow-sm flex items-center border border-emerald-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
                 <?php echo $_SESSION['flash_message'];
                 unset($_SESSION['flash_message']); ?>
             </div>
         <?php endif; ?>
 
         <!-- Inquiries List -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-3xl shadow-xl shadow-gray-100 border border-gray-100 overflow-hidden">
             <?php if (empty($inquiries)): ?>
-                <div class="p-12 text-center text-gray-500">
-                    <p>No inquiries found yet.</p>
+                <div class="p-20 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                        📩</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">No Inquiries Yet</h3>
+                    <p class="text-gray-500">New leads will appear here.</p>
                 </div>
             <?php else: ?>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Date</th>
-                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">User</th>
-                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Type / Source</th>
-                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Status</th>
-                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase text-right">Actions</th>
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-100">
+                                <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Date</th>
+                                <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">User Details
+                                </th>
+                                <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Source &
+                                    Subject</th>
+                                <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                                <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
+                                    Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody class="divide-y divide-gray-50">
                             <?php foreach ($inquiries as $i): ?>
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <?php echo date('M d, H:i', strtotime($i['created_at'])); ?>
+                                <tr class="hover:bg-blue-50/50 transition duration-150 group">
+                                    <td class="px-8 py-6 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo date('M d, Y', strtotime($i['created_at'])); ?>
+                                        <span
+                                            class="block text-xs text-gray-400 mt-1"><?php echo date('h:i A', strtotime($i['created_at'])); ?></span>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-bold text-gray-800"><?php echo e($i['name']); ?></div>
-                                        <div class="text-xs text-gray-500"><?php echo e($i['email']); ?></div>
-                                        <?php if (!empty($i['phone'])): ?>
-                                            <div class="text-xs text-gray-500"><?php echo e($i['phone']); ?></div>
-                                        <?php endif; ?>
+                                    <td class="px-8 py-6">
+                                        <div class="flex items-center">
+                                            <div
+                                                class="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm mr-4">
+                                                <?php echo strtoupper(substr($i['name'], 0, 1)); ?>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-bold text-gray-900"><?php echo e($i['name']); ?></div>
+                                                <div class="text-sm text-gray-500"><?php echo e($i['email']); ?></div>
+                                                <?php if (!empty($i['phone'])): ?>
+                                                    <div class="text-xs text-gray-400 mt-0.5"><?php echo e($i['phone']); ?></div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-medium text-gray-800 truncate max-w-xs"
+                                    <td class="px-8 py-6">
+                                        <div class="text-sm font-medium text-gray-900 truncate max-w-xs"
                                             title="<?php echo e($i['subject']); ?>">
                                             <?php echo e($i['subject']); ?>
                                         </div>
                                         <?php if (!empty($i['utm_source'])): ?>
-                                            <div class="mt-1 flex gap-1 flex-wrap">
+                                            <div class="mt-2 flex gap-2 flex-wrap">
                                                 <span
-                                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                                                    Source: <?php echo e($i['utm_source']); ?>
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                                                    <?php echo e($i['utm_source']); ?>
                                                 </span>
-                                                <?php if (!empty($i['utm_campaign'])): ?>
-                                                    <span
-                                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
-                                                        Cmp: <?php echo e($i['utm_campaign']); ?>
-                                                    </span>
-                                                <?php endif; ?>
                                             </div>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-8 py-6">
                                         <?php
                                         $statusColors = [
-                                            'new' => 'bg-green-100 text-green-800',
-                                            'contacted' => 'bg-yellow-100 text-yellow-800',
-                                            'converted' => 'bg-blue-100 text-blue-800',
-                                            'closed' => 'bg-gray-100 text-gray-800',
+                                            'new' => 'bg-green-100 text-green-700 border-green-200',
+                                            'contacted' => 'bg-orange-100 text-orange-700 border-orange-200',
+                                            'converted' => 'bg-blue-100 text-blue-700 border-blue-200',
+                                            'closed' => 'bg-gray-100 text-gray-600 border-gray-200',
                                         ];
                                         $status = $i['status'] ?? 'new';
                                         $color = $statusColors[$status] ?? 'bg-gray-100 text-gray-800';
                                         ?>
                                         <span
-                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo $color; ?>">
+                                            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border <?php echo $color; ?>">
                                             <?php echo ucfirst($status); ?>
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
+                                    <td class="px-8 py-6 text-right text-sm font-medium ">
                                         <button onclick='openModal(<?php echo json_encode($i); ?>)'
-                                            class="text-primary hover:text-teal-700 mr-3">View/Edit</button>
+                                            class="text-indigo-600 hover:text-indigo-900 mr-4 font-semibold transition hover:underline">View
+                                            Details</button>
 
                                         <form method="POST" action="inquiry_actions.php" class="inline-block"
                                             onsubmit="return confirm('Delete this inquiry?');">
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="id" value="<?php echo $i['id']; ?>">
                                             <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
-                                            <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                            <button type="submit" class="text-gray-400 hover:text-red-600 transition">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
