@@ -256,7 +256,7 @@ $pdf->SetX(120);
 $pdf->SetFont('Helvetica', 'B', 14);
 $pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
 $pdf->Cell(40, 10, "Total Due:", 0, 0, 'R');
-$pdf->Cell(30, 10, "$" . number_format($totalAmount, 2), 0, 1, 'R');
+$pdf->Cell(30, 10, "Rs " . number_format($totalAmount, 2), 0, 1, 'R');
 
 
 // --- SECTION 4: FOOTER & TERMS ---
