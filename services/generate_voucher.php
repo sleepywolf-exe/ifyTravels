@@ -91,16 +91,7 @@ class InvoicePDF extends FPDF
         $this->Cell(50, 10, 'TRAVEL INVOICE', 0, 0, 'R');
     }
 
-    function Footer()
-    {
-        $this->SetY(-30);
-        $this->SetDrawColor(200, 200, 200);
-        $this->Line(10, $this->GetY(), 200, $this->GetY());
-        $this->SetFont('Helvetica', 'I', 8);
-        $this->SetTextColor(128, 128, 128);
-        $this->Cell(0, 10, 'Thank you for booking with ifyTravels. For support, verify your booking at ifytravels.com', 0, 1, 'C');
-        $this->Cell(0, 5, 'This is a computer generated invoice and requires no signature.', 0, 0, 'C');
-    }
+    // Footer removed to prevent auto-paging conflicts
 }
 
 // Init PDF in Portrait A4
@@ -268,16 +259,38 @@ $pdf->Cell(40, 10, "Total Due:", 0, 0, 'R');
 $pdf->Cell(30, 10, "$" . number_format($totalAmount, 2), 0, 1, 'R');
 
 
-// --- SECTION 4: FOOTER NOTE ---
-$pdf->SetY(-50);
-$pdf->SetFont('Helvetica', '', 9);
-$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->MultiCell(0, 5, "Terms & Conditions:\n1. All bookings are subject to availability.\n2. Please carry a valid ID proof during travel.\n3. Cancellations are subject to the company's refund policy.\n4. For any queries, contact us at checks@ifytravels.com.", 0, 'L');
+// --- SECTION 4: FOOTER & TERMS ---
+// Disable AutoPageBreak to allow writing to the absolute bottom without triggering a new page
+$pdf->SetAutoPageBreak(false);
 
-// Decorative Footer Line
+$y_footer_start = 240;
+
+// Terms & Conditions
+$pdf->SetY($y_footer_start);
+$pdf->SetFont('Helvetica', 'B', 9);
+$pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
+$pdf->Cell(0, 6, "Terms & Conditions", 0, 1, 'L');
+
+$pdf->SetFont('Helvetica', '', 8);
+$pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
+$pdf->MultiCell(0, 4, "1. This voucher must be presented upon arrival at the destination.\n2. Cancellations made within 24 hours of travel differ by package policy.\n3. Please verify visa requirements for international travel.\n4. For emergency assistance or changes, contact support@ifytravels.com.", 0, 'L');
+
+// Divider Line
+$pdf->SetY($y_footer_start + 25);
+$pdf->SetDrawColor(220, 220, 220);
+$pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());
+
+// Thank You Note
+$pdf->SetY($y_footer_start + 28);
+$pdf->SetFont('Helvetica', 'I', 8);
+$pdf->SetTextColor(100, 100, 100);
+$pdf->Cell(0, 5, 'Thank you for booking with ifyTravels. For support, verify your booking at ifytravels.com', 0, 1, 'C');
+$pdf->Cell(0, 5, 'This is a computer generated invoice and requires no signature.', 0, 1, 'C');
+
+// Decorative Footer Line (Bottom of A4)
 $pdf->SetY(-5);
 $pdf->SetFillColor($teal[0], $teal[1], $teal[2]);
-$pdf->Rect(0, 292, 210, 5, 'F'); // Bottom strip (A4 height is 297mm)
+$pdf->Rect(0, 292, 210, 5, 'F');
 
 // -- OUTPUT --
 
