@@ -1,0 +1,11 @@
+# Database
+*.sqlite
+*.db
+data/*.sqlite
+data/*.db
+
+# OS
+.DS_Store
+
+# User Specific
+.gemini/
