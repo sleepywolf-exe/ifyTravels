@@ -121,10 +121,11 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-bold text-lg text-charcoal">Filters</h3>
-                    <a href="packages.php" class="text-xs text-primary font-bold hover:underline">Reset All</a>
+                    <a href="<?php echo base_url('packages'); ?>"
+                        class="text-xs text-primary font-bold hover:underline">Reset All</a>
                 </div>
 
-                <form action="packages.php" method="GET" id="filterForm">
+                <form action="<?php echo base_url('packages'); ?>" method="GET" id="filterForm">
                     <!-- Search Hidden -->
                     <?php if (!empty($search)): ?><input type="hidden" name="search"
                             value="<?php echo htmlspecialchars($search); ?>"><?php endif; ?>
@@ -209,7 +210,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
         <main class="lg:col-span-3">
             <!-- Search Bar -->
             <div class="mb-8">
-                <form action="packages.php" method="GET" class="relative">
+                <form action="<?php echo base_url('packages'); ?>" method="GET" class="relative">
                     <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>"
                         placeholder="Search packages by name..."
                         class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-primary outline-none">

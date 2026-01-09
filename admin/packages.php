@@ -290,7 +290,8 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                             <div class="flex items-center gap-2">
                                 <input type="checkbox" name="is_popular" id="is_popular" value="1" <?php echo ($editData && $editData['is_popular']) ? 'checked' : ''; ?>
                                     class="w-4 h-4 text-blue-600 rounded">
-                                <label for="is_popular" class="text-sm font-bold text-gray-700">Mark as Popular?</label>
+                                <label for="is_popular" class="text-sm font-bold text-gray-700">Mark as Popular / Top
+                                    Priority</label>
                             </div>
 
                             <div>
@@ -342,7 +343,8 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
 
                             <!-- Trust Badges (Trust Indicators) -->
                             <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Trust Badges (Displayed on Detail Page)</label>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Trust Badges (Displayed on
+                                    Detail Page)</label>
                                 <div class="grid grid-cols-1 gap-2 text-sm">
                                     <?php
                                     $allBadges = [
@@ -353,7 +355,8 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                                         'best_price' => 'Best Price Guarantee'
                                     ];
                                     $currentBadges = isset($editData['trust_badges']) ? json_decode($editData['trust_badges'], true) : [];
-                                    if (!is_array($currentBadges)) $currentBadges = [];
+                                    if (!is_array($currentBadges))
+                                        $currentBadges = [];
 
                                     foreach ($allBadges as $key => $label) {
                                         $checked = in_array($key, $currentBadges) ? 'checked' : '';

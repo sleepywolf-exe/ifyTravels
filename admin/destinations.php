@@ -271,12 +271,14 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
                                         class="w-full border border-gray-300 px-3 py-2 rounded-lg">
                                 </div>
                                 <div class="flex items-center mt-6">
-                                    <label for="is_featured" class="ml-2 block text-sm font-bold text-gray-700">Featured (Home)</label>
+                                    <label for="is_featured" class="ml-2 block text-sm font-bold text-gray-700">Featured
+                                        / Top Priority</label>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Map Embed Code (Google Maps Only)</label>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Map Embed Code (Google Maps
+                                    Only)</label>
                                 <textarea name="map_embed" rows="3" placeholder='<iframe src="...">'
                                     class="w-full border border-gray-300 px-3 py-2 rounded-lg font-mono text-xs"><?php echo e($editData['map_embed'] ?? ''); ?></textarea>
                             </div>

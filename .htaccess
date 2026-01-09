@@ -42,19 +42,19 @@
     RewriteRule ^(pages/)?package-details\.php$ /package-redirect.php?id=%1 [L,QSA]
 
     # Route /destinations to pages/destinations.php
-    RewriteRule ^destinations/?$ pages/destinations.php [L]
+    RewriteRule ^destinations/?$ pages/destinations.php [L,QSA]
 
     # Route /destinations/{slug} to pages/destination-details.php
     RewriteRule ^destinations/([a-z0-9\-]+)/?$ pages/destination-details.php?slug=$1 [L,QSA]
 
     # Route /packages to pages/packages.php
-    RewriteRule ^packages/?$ pages/packages.php [L]
+    RewriteRule ^packages/?$ pages/packages.php [L,QSA]
 
     # Route /packages/{slug} to pages/package-details.php
     RewriteRule ^packages/([a-z0-9\-]+)/?$ pages/package-details.php?slug=$1 [L,QSA]
 
     # Route /contact to pages/contact.php
-    RewriteRule ^contact/?$ pages/contact.php [L]
+    RewriteRule ^contact/?$ pages/contact.php [L,QSA]
 
     # Route /booking to pages/booking.php
     RewriteRule ^booking/?$ pages/booking.php [L,QSA]
