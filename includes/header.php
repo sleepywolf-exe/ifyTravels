@@ -141,7 +141,7 @@ require_once __DIR__ . '/../data/loader.php';
     <header
         class="<?php echo (isset($isHome) && $isHome) ? 'fixed w-full z-50 transition-all duration-300 bg-transparent py-4 text-white' : 'fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-md py-3 text-charcoal'; ?> transition-header">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="<?php echo base_url('index.php'); ?>"
+            <a href="<?php echo base_url(''); ?>"
                 class="flex items-center text-2xl font-bold tracking-tight <?php echo (isset($isHome) && $isHome) ? '' : 'text-charcoal'; ?>">
                 <?php if ($logo = get_setting('site_logo')): ?>
                     <img src="<?php echo base_url($logo); ?>" alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
@@ -157,7 +157,7 @@ require_once __DIR__ . '/../data/loader.php';
             </a>
 
             <nav class="hidden md:flex space-x-8">
-                <a href="<?php echo base_url('index.php'); ?>"
+                <a href="<?php echo base_url(''); ?>"
                     class="font-medium hover:text-primary transition <?php echo (isset($isHome) && $isHome) ? 'text-white' : 'text-gray-700'; ?>">Home</a>
                 <a href="<?php echo base_url('pages/destinations.php'); ?>"
                     class="font-medium hover:text-primary transition <?php echo (isset($isHome) && $isHome) ? 'text-white' : 'text-gray-700'; ?>">Destinations</a>
@@ -194,7 +194,7 @@ require_once __DIR__ . '/../data/loader.php';
         <div id="mobile-menu"
             class="hidden md:hidden bg-white border-t mt-4 shadow-xl absolute w-full left-0 z-50 p-6 text-charcoal">
             <nav class="flex flex-col space-y-4">
-                <a href="<?php echo base_url('index.php'); ?>" class="block font-medium hover:text-primary">Home</a>
+                <a href="<?php echo base_url(''); ?>" class="block font-medium hover:text-primary">Home</a>
                 <a href="<?php echo base_url('pages/destinations.php'); ?>"
                     class="block font-medium hover:text-primary">Destinations</a>
                 <a href="<?php echo base_url('pages/packages.php'); ?>"

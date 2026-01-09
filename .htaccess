@@ -22,6 +22,9 @@
     RewriteEngine On
     RewriteBase /
 
+    # Redirect index.php to root
+    RewriteRule ^index\.php$ / [R=301,L]
+
     # Remove .php extension from URLs
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}\.php -f
