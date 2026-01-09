@@ -36,10 +36,10 @@
     # Redirect old detail pages with IDs to slug-based URLs
     # Handle URLs like: /destination-details.php?id=1 OR /pages/destination-details.php?id=1
     RewriteCond %{QUERY_STRING} ^id=(\d+)$
-    RewriteRule ^(pages/)?destination-details\.php$ /destination-redirect.php?id=%1 [L,QSA]
+    RewriteRule ^(pages/)?destination-details\.php$ /services/destination-redirect.php?id=%1 [L,QSA]
 
     RewriteCond %{QUERY_STRING} ^id=(\d+)$
-    RewriteRule ^(pages/)?package-details\.php$ /package-redirect.php?id=%1 [L,QSA]
+    RewriteRule ^(pages/)?package-details\.php$ /services/package-redirect.php?id=%1 [L,QSA]
 
     # Route /destinations to pages/destinations.php
     RewriteRule ^destinations/?$ pages/destinations.php [L,QSA]
