@@ -92,15 +92,15 @@ $pdf->Rect(5, 5, 200, 20, 'F');
 
 // Header Text
 $pdf->SetXY(10, 6);
-$pdf->SetFont('Arial', 'B', 24);
+$pdf->SetFont('Helvetica', 'B', 24);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->Text(12, 18, $siteName);
 
-$pdf->SetFont('Courier', 'B', 14);
+$pdf->SetFont('Helvetica', 'B', 14);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->Text(110, 18, "BOARDING PASS");
 
-$pdf->SetFont('Arial', '', 10);
+$pdf->SetFont('Helvetica', '', 10);
 $pdf->Text(160, 18, "ECONOMY CLASS");
 
 // ---------------------------------------------------------
@@ -111,31 +111,31 @@ $yStart = 35;
 
 // PASSENGER NAME
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Helvetica', '', 8);
 $pdf->Text(12, $yStart, "PASSENGER NAME");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->SetFont('Arial', 'B', 14);
+$pdf->SetFont('Helvetica', 'B', 14);
 $pdf->Text(12, $yStart + 6, strtoupper($booking['customer_name']));
 
 // FROM / TO
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Helvetica', '', 8);
 $pdf->Text(12, $yStart + 18, "FROM");
 $pdf->Text(60, $yStart + 18, "TO");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->SetFont('Arial', 'B', 16);
+$pdf->SetFont('Helvetica', 'B', 16);
 $pdf->Text(12, $yStart + 25, "HOME");
 $pdf->Text(60, $yStart + 25, "DEST");
 
-$pdf->SetFont('Arial', '', 10);
+$pdf->SetFont('Helvetica', '', 10);
 $pdf->Text(12, $yStart + 29, "Your Location");
 $pdf->Text(60, $yStart + 29, "Destination");
 
 // Package Name (Full)
 $pdf->SetXY(12, $yStart + 35);
-$pdf->SetFont('Arial', 'I', 9);
+$pdf->SetFont('Helvetica', 'I', 9);
 $pdf->SetTextColor($teal[0], $teal[1], $teal[2]);
 $packageName = ($package && !empty($package['title'])) ? $package['title'] : ($booking['package_name'] ?? 'Custom Travel Request');
 $pdf->Cell(100, 5, $packageName, 0, 1);
@@ -144,14 +144,14 @@ $pdf->Cell(100, 5, $packageName, 0, 1);
 $yRow2 = $yStart + 48;
 
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Helvetica', '', 8);
 $pdf->Text(12, $yRow2, "DATE");
 $pdf->Text(45, $yRow2, "TIME");
 $pdf->Text(75, $yRow2, "GATE");
 $pdf->Text(100, $yRow2, "SEAT");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Helvetica', 'B', 11);
 $pdf->Text(12, $yRow2 + 5, date('d M Y', strtotime($booking['travel_date'])));
 $pdf->Text(45, $yRow2 + 5, "10:00 AM");
 $pdf->Text(75, $yRow2 + 5, "TBD");
@@ -170,19 +170,19 @@ $pdf->DashedLine(150, 5, 150, 95, 0.5, 30);
 $pdf->SetXY(155, 35);
 
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->SetFont('Arial', '', 7);
+$pdf->SetFont('Helvetica', '', 7);
 $pdf->Text(155, 35, "PASSENGER");
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->SetFont('Arial', 'B', 10);
+$pdf->SetFont('Helvetica', 'B', 10);
 $pdf->Text(155, 40, substr(strtoupper($booking['customer_name']), 0, 18));
 
 $pdf->SetTextColor($gray[0], $gray[1], $gray[2]);
-$pdf->SetFont('Arial', '', 7);
+$pdf->SetFont('Helvetica', '', 7);
 $pdf->Text(155, 50, "FROM");
 $pdf->Text(185, 50, "TO");
 
 $pdf->SetTextColor($dark[0], $dark[1], $dark[2]);
-$pdf->SetFont('Arial', 'B', 12);
+$pdf->SetFont('Helvetica', 'B', 12);
 $pdf->Text(155, 55, "HOM");
 $pdf->Text(185, 55, "DST");
 
