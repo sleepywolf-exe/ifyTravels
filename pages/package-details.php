@@ -283,12 +283,49 @@ include __DIR__ . '/../includes/header.php';
                         // $badges is already an array thanks to functions.php
                         $badges = $pkg['trust_badges'];
                         if (!empty($badges)):
+                            $allBadges = [
+                                'secure_payment' => 'Secure Payment Gateway',
+                                'customer_support' => '24/7 Customer Support',
+                                'free_cancellation' => 'Free Cancellation (7 days prior)',
+                                'verified_operator' => 'Verified Operator',
+                                'best_price' => 'Best Price Guarantee'
+                            ];
                             $badgeDetails = [
-                                'secure_payment' => ['icon' => 'path d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"', 'color' => 'text-green-500', 'label' => 'Secure Payment Gateway'],
-                                'customer_support' => ['icon' => 'path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"', 'color' => 'text-blue-500', 'label' => '24/7 Customer Support'],
-                                'free_cancellation' => ['icon' => 'path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"', 'color' => 'text-red-500', 'label' => 'Free Cancellation (7 days prior)'],
-                                'verified_operator' => ['icon' => 'path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"', 'color' => 'text-purple-500', 'label' => 'Verified Operator', 'fill' => 'none', 'stroke' => 'currentColor'],
-                                'best_price' => ['icon' => 'path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"', 'color' => 'text-yellow-500', 'label' => 'Best Price Guarantee', 'fill' => 'none', 'stroke' => 'currentColor']
+                                'secure_payment' => [
+                                    'inner' => '<path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />',
+                                    'color' => 'text-green-500',
+                                    'viewBox' => '0 0 20 20',
+                                    'fill' => 'currentColor',
+                                    'stroke' => 'none'
+                                ],
+                                'customer_support' => [
+                                    'inner' => '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />',
+                                    'color' => 'text-blue-500',
+                                    'viewBox' => '0 0 20 20',
+                                    'fill' => 'currentColor',
+                                    'stroke' => 'none'
+                                ],
+                                'free_cancellation' => [
+                                    'inner' => '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />',
+                                    'color' => 'text-red-500',
+                                    'viewBox' => '0 0 20 20',
+                                    'fill' => 'currentColor',
+                                    'stroke' => 'none'
+                                ],
+                                'verified_operator' => [
+                                    'inner' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />',
+                                    'color' => 'text-purple-500',
+                                    'viewBox' => '0 0 24 24', // Notice the 24 24 viewbox for stroke icons usually
+                                    'fill' => 'none',
+                                    'stroke' => 'currentColor'
+                                ],
+                                'best_price' => [
+                                    'inner' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
+                                    'color' => 'text-yellow-500',
+                                    'viewBox' => '0 0 24 24',
+                                    'fill' => 'none',
+                                    'stroke' => 'currentColor'
+                                ]
                             ];
                             ?>
                             <div class="space-y-3 pt-4 border-t border-gray-100">
@@ -296,16 +333,13 @@ include __DIR__ . '/../includes/header.php';
                                     if (!isset($badgeDetails[$badgeKey]))
                                         continue;
                                     $b = $badgeDetails[$badgeKey];
-                                    $fill = $b['fill'] ?? 'currentColor';
-                                    $stroke = $b['stroke'] ?? 'none';
-                                    $pathAttr = ($stroke !== 'none') ? 'stroke-linecap="round" stroke-linejoin="round" stroke-width="2"' : 'fill-rule="evenodd" clip-rule="evenodd"';
                                     ?>
                                     <div class="flex items-center text-xs text-gray-600">
-                                        <svg class="w-4 h-4 mr-2 <?php echo $b['color']; ?>" fill="<?php echo $fill; ?>"
-                                            stroke="<?php echo $stroke; ?>" viewBox="0 0 20 20">
-                                            <path <?php echo $fill === 'currentColor' ? 'fill-rule="evenodd" clip-rule="evenodd"' : ''; ?> d="<?php echo str_replace(['path d="', '"'], '', $b['icon']); ?>"></path>
+                                        <svg class="w-4 h-4 mr-2 <?php echo $b['color']; ?>" fill="<?php echo $b['fill']; ?>"
+                                            stroke="<?php echo $b['stroke']; ?>" viewBox="<?php echo $b['viewBox']; ?>">
+                                            <?php echo $b['inner']; ?>
                                         </svg>
-                                        <span><?php echo $b['label']; ?></span>
+                                        <span><?php echo $allBadges[$badgeKey] ?? ucwords(str_replace('_', ' ', $badgeKey)); ?></span>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
