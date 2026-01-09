@@ -32,32 +32,32 @@ try {
 ?>
 
 <!-- Hero Section with Background Image and Glassmorphism Search Form -->
-<section class="relative h-screen flex items-center mb-0 overflow-hidden"
+<section class="relative min-h-screen flex items-center justify-center pt-24 pb-12 mb-0 overflow-hidden"
     style="background-image: url('<?php echo get_setting('hero_bg', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); ?>'); background-size: cover; background-position: center;">
 
     <!-- Dark Overlay for Better Contrast -->
     <div class="absolute inset-0 bg-black/40"></div>
 
-    <div class="hero-content container mx-auto px-6 relative z-10">
+    <div class="hero-content container mx-auto px-4 relative z-10 w-full">
         <!-- Hero Content -->
-        <div class="text-center text-white mb-12">
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight drop-shadow-lg">
+        <div class="text-center text-white mb-8 md:mb-12">
+            <h1 class="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6 leading-tight drop-shadow-lg">
                 <?php echo e(get_setting('hero_title', "Discover the World's Hidden Gems")); ?>
             </h1>
-            <p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto font-light drop-shadow-md">
+            <p class="text-lg md:text-2xl mb-8 md:mb-10 max-w-2xl mx-auto font-light drop-shadow-md px-2 opacity-90">
                 <?php echo e(get_setting('hero_subtitle', 'Curated luxury travel experiences designed just for you.')); ?>
             </p>
         </div>
 
         <!-- Glassmorphism Booking Form -->
         <div class="max-w-5xl mx-auto">
-            <div class="glass-form p-8">
-                <form action="<?php echo base_url('/packages'); ?>" method="GET" class="space-y-6">
+            <div class="glass-form p-5 md:p-8 rounded-2xl">
+                <form action="<?php echo base_url('/packages'); ?>" method="GET" class="space-y-4 md:space-y-6">
 
                     <!-- Tabs -->
-                    <div class="flex gap-4 mb-6 overflow-x-auto pb-2 md:pb-0">
+                    <div class="flex gap-4 mb-4 md:mb-6 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
                         <button type="button" id="tab-packages" onclick="switchTab('packages')"
-                            class="px-6 py-2 rounded-full text-white font-bold transition backdrop-blur-md border border-white/20 shadow-sm whitespace-nowrap"
+                            class="px-5 py-2 rounded-full text-white text-sm md:text-base font-bold transition backdrop-blur-md border border-white/20 shadow-sm whitespace-nowrap"
                             style="background: rgba(255, 255, 255, 0.3);">
                             Packages
                         </button>
@@ -67,8 +67,9 @@ try {
 
                         <!-- Destination Select -->
                         <div class="md:col-span-4">
-                            <label class="glass-label text-white mb-2 block font-medium">Where to?</label>
-                            <div class="relative">
+                            <label class="glass-label text-white mb-1.5 block font-medium text-sm md:text-base">Where
+                                to?</label>
+                            <div class="relative h-12">
                                 <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white/90 pointer-events-none z-10"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -78,7 +79,7 @@ try {
                                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
                                 <select name="destination"
-                                    class="glass-select w-full !pl-12 appearance-none text-gray-800">
+                                    class="glass-select w-full h-full !pl-12 appearance-none text-gray-800 text-sm md:text-base rounded-xl">
                                     <option value="" class="text-gray-800">Select Destination</option>
                                     <?php if (isset($destinations) && is_array($destinations)): ?>
                                         <?php foreach ($destinations as $dest): ?>
@@ -100,23 +101,26 @@ try {
 
                         <!-- Date Input -->
                         <div class="md:col-span-3">
-                            <label class="glass-label text-white mb-2 block font-medium">Date</label>
-                            <div class="relative">
+                            <label
+                                class="glass-label text-white mb-1.5 block font-medium text-sm md:text-base">Date</label>
+                            <div class="relative h-12">
                                 <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white/90 pointer-events-none z-10"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                                     </path>
                                 </svg>
-                                <input type="text" id="departure-date" name="date" class="glass-input w-full !pl-12"
+                                <input type="text" id="departure-date" name="date"
+                                    class="glass-input w-full h-full !pl-12 text-sm md:text-base rounded-xl"
                                     placeholder="Select Date">
                             </div>
                         </div>
 
                         <!-- Travelers Input -->
                         <div class="md:col-span-2">
-                            <label class="glass-label text-white mb-2 block font-medium">Travelers</label>
-                            <div class="relative">
+                            <label
+                                class="glass-label text-white mb-1.5 block font-medium text-sm md:text-base">Travelers</label>
+                            <div class="relative h-12">
                                 <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white/90 pointer-events-none z-10"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -124,16 +128,17 @@ try {
                                     </path>
                                 </svg>
                                 <input type="number" name="travelers" min="1"
-                                    class="glass-input w-full !pl-12 no-spinner" placeholder="Travelers">
+                                    class="glass-input w-full h-full !pl-12 no-spinner text-sm md:text-base rounded-xl"
+                                    placeholder="Travelers">
                             </div>
                         </div>
 
                         <!-- Search Button -->
                         <div class="md:col-span-3">
                             <label
-                                class="glass-label text-transparent mb-2 block font-medium select-none">&nbsp;</label>
+                                class="glass-label text-transparent mb-1.5 block font-medium select-none hidden md:block">&nbsp;</label>
                             <button type="submit"
-                                class="glass-button w-full flex items-center justify-center font-bold">
+                                class="glass-button w-full h-12 flex items-center justify-center font-bold text-sm md:text-base rounded-xl shadow-lg hover:shadow-xl transform active:scale-95 transition-all">
                                 Search
                             </button>
                         </div>
