@@ -1,7 +1,12 @@
 <?php
 // services/generate_voucher.php
 require_once '../includes/config.php';
-require_once '../includes/auth_check.php'; // Ensure admin is logged in
+require_once '../includes/functions.php'; // Includes db.php and starts session
+
+// Basic Admin Check
+if (!is_admin()) {
+    die("Access Denied. Please log in as admin.");
+}
 require_once '../includes/libs/fpdf.php';
 
 if (!isset($_GET['id'])) {
