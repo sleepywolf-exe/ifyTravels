@@ -20,7 +20,8 @@ $commands = [
     "ALTER TABLE inquiries ADD COLUMN utm_campaign VARCHAR(255)",
     "ALTER TABLE packages ADD COLUMN activities TEXT DEFAULT NULL",
     "ALTER TABLE packages ADD COLUMN themes TEXT DEFAULT NULL",
-    "ALTER TABLE packages ADD COLUMN trust_badges TEXT DEFAULT NULL"
+    "ALTER TABLE packages ADD COLUMN trust_badges TEXT DEFAULT NULL",
+    "ALTER TABLE destinations ADD COLUMN map_embed TEXT DEFAULT NULL"
 ];
 
 foreach ($commands as $sql) {

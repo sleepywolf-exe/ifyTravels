@@ -64,7 +64,11 @@ try {
     $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo "Total columns: " . count($columns) . "<br>";
     $columnNames = array_column($columns, 'Field');
-    echo "<pre>" . implode("\n", $columnNames) . "</pre>";
+    if (in_array('map_embed', $columnNames)) {
+        echo "<span class='success'>✅ 'map_embed' column EXISTS</span><br>";
+    } else {
+        echo "<span class='error'>❌ 'map_embed' column MISSING (Destinations won't save!)</span><br>";
+    }
 } catch (Exception $e) {
     echo "<span class='error'>❌ Error: " . $e->getMessage() . "</span>";
 }
