@@ -61,6 +61,9 @@
 
     # Route /booking to pages/booking.php
     RewriteRule ^booking/?$ pages/booking.php [L,QSA]
+
+    # Route /booking-success.php to pages/booking-success.php
+    RewriteRule ^booking-success(\.php)?$ pages/booking-success.php [L,QSA]
 </IfModule>
 
 # Custom 404 error page
