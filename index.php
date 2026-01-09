@@ -52,7 +52,8 @@ try {
         <!-- Glassmorphism Booking Form -->
         <div class="max-w-5xl mx-auto">
             <div class="glass-form p-5 md:p-8 rounded-2xl">
-                <form action="<?php echo base_url('/packages'); ?>" method="GET" class="space-y-4 md:space-y-6">
+                <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET"
+                    class="space-y-4 md:space-y-6">
 
                     <!-- Tabs -->
                     <div class="flex gap-4 mb-4 md:mb-6 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">

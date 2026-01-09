@@ -194,7 +194,8 @@ function getPackageBySlug($slug)
  */
 function destination_url($slug)
 {
-    return '/destinations/' . $slug;
+    // Use explicit path to avoid 404s on servers without rewrite rules
+    return base_url('pages/destination-details.php?slug=' . $slug);
 }
 
 /**
@@ -202,7 +203,8 @@ function destination_url($slug)
  */
 function package_url($slug)
 {
-    return '/packages/' . $slug;
+    // Use explicit path to avoid 404s on servers without rewrite rules
+    return base_url('pages/package-details.php?slug=' . $slug);
 }
 
 /**
