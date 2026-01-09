@@ -188,6 +188,7 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
 <head>
     <meta charset="UTF-8">
     <title>Packages - Admin</title>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/admin-favicon.png'); ?>" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">

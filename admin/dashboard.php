@@ -45,6 +45,7 @@ $recentBookings = $db->fetchAll("SELECT * FROM bookings ORDER BY created_at DESC
 <head>
     <meta charset="UTF-8">
     <title>Dashboard - Admin Panel</title>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/admin-favicon.png'); ?>" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -81,7 +82,8 @@ $recentBookings = $db->fetchAll("SELECT * FROM bookings ORDER BY created_at DESC
                         <div>
                             <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Destinations</p>
                             <p class="text-3xl font-bold text-gray-800 mt-2">
-                                <?php echo number_format($stats['destinations']); ?></p>
+                                <?php echo number_format($stats['destinations']); ?>
+                            </p>
                         </div>
                         <div class="bg-teal-50 p-3 rounded-xl text-teal-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -100,7 +102,8 @@ $recentBookings = $db->fetchAll("SELECT * FROM bookings ORDER BY created_at DESC
                         <div>
                             <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Packages</p>
                             <p class="text-3xl font-bold text-gray-800 mt-2">
-                                <?php echo number_format($stats['packages']); ?></p>
+                                <?php echo number_format($stats['packages']); ?>
+                            </p>
                         </div>
                         <div class="bg-purple-50 p-3 rounded-xl text-purple-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -119,7 +122,8 @@ $recentBookings = $db->fetchAll("SELECT * FROM bookings ORDER BY created_at DESC
                         <div>
                             <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Bookings</p>
                             <p class="text-3xl font-bold text-gray-800 mt-2">
-                                <?php echo number_format($stats['bookings']); ?></p>
+                                <?php echo number_format($stats['bookings']); ?>
+                            </p>
                         </div>
                         <div class="bg-blue-50 p-3 rounded-xl text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -157,7 +161,8 @@ $recentBookings = $db->fetchAll("SELECT * FROM bookings ORDER BY created_at DESC
                         <div>
                             <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">New Inquiries</p>
                             <p class="text-3xl font-bold text-gray-800 mt-2">
-                                <?php echo number_format($stats['inquiries']); ?></p>
+                                <?php echo number_format($stats['inquiries']); ?>
+                            </p>
                         </div>
                         <div class="bg-orange-50 p-3 rounded-xl text-orange-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"

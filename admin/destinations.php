@@ -164,6 +164,7 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
 <head>
     <meta charset="UTF-8">
     <title>Destinations - Admin</title>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/admin-favicon.png'); ?>" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -266,7 +267,8 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
                                 <div id="editor-container" class="bg-white" style="height: 200px;">
-                                    <?php echo $editData['description'] ?? ''; ?></div>
+                                    <?php echo $editData['description'] ?? ''; ?>
+                                </div>
                                 <input type="hidden" name="description"
                                     value="<?php echo htmlspecialchars($editData['description'] ?? ''); ?>">
                             </div>
@@ -406,7 +408,7 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
                 toolbar: [
                     [{ 'header': [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                     [{ 'color': [] }, { 'background': [] }],
                     ['link', 'clean']
                 ]
@@ -414,7 +416,7 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
         });
 
         // Form Submission Handler
-        document.querySelector('form').onsubmit = function() {
+        document.querySelector('form').onsubmit = function () {
             var description = document.querySelector('input[name=description]');
             description.value = quill.root.innerHTML;
         };
