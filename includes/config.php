@@ -2,8 +2,9 @@
 // includes/config.php
 
 // DB_CONNECTION: 'sqlite' or 'mysql'
-// CHANGE THIS TO 'mysql' WHEN UPLOADING TO CPANEL
-define('DB_CONNECTION', 'sqlite');
+// DB_CONNECTION: 'sqlite' or 'mysql'
+// Default to MySQL for Cloud/cPanel deployment. Change to 'sqlite' if testing locally without MySQL.
+define('DB_CONNECTION', 'mysql');
 
 // Database Credentails (cPanel / Remote)
 define('DB_HOST', 'localhost');

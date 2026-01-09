@@ -12,10 +12,12 @@
  */
 
 // --- CONFIGURATION ---
-$mysql_host = 'localhost';          // Usually 'localhost' on cPanel if script runs there
-$mysql_user = 'bikesraj_ifytravels';
-$mysql_pass = 'Secure@123.';
-$mysql_db = 'bikesraj_ifytravels';
+require_once __DIR__ . '/../includes/config.php';
+
+$mysql_host = defined('DB_HOST') ? DB_HOST : 'localhost';
+$mysql_user = defined('DB_USER') ? DB_USER : '';
+$mysql_pass = defined('DB_PASS') ? DB_PASS : '';
+$mysql_db   = defined('DB_NAME') ? DB_NAME : '';
 // ---------------------
 
 // Enable error reporting
