@@ -5,7 +5,7 @@ include __DIR__ . '/../includes/header.php';
 
 <!-- Page Header -->
 <div class="relative pt-32 pb-12 bg-cover bg-center min-h-[300px] flex items-center justify-center"
-    style="background-image: url('<?php echo base_url('assets/images/hero/adventure.png'); ?>');">
+    style="background-image: url('<?php echo get_setting('destinations_bg', base_url('assets/images/hero/adventure.png')); ?>');">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="container mx-auto px-6 text-center relative z-10">
         <h1 class="text-4xl font-bold text-white mb-4">Explore Destinations</h1>
@@ -89,8 +89,7 @@ include __DIR__ . '/../includes/header.php';
                         ?>
                         <div
                             class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group overflow-hidden">
-                            <a href="<?php echo destination_url($dest['slug']); ?>"
-                                class="block relative h-56 overflow-hidden">
+                            <a href="<?php echo destination_url($dest['slug']); ?>" class="block relative h-56 overflow-hidden">
                                 <img src="<?php echo base_url($dest['image']); ?>"
                                     alt="<?php echo htmlspecialchars($dest['name']); ?>"
                                     class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
@@ -123,7 +122,8 @@ include __DIR__ . '/../includes/header.php';
 
                                 <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                                     <span class="text-xs text-gray-500 flex items-center">
-                                        <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
                                             </path>

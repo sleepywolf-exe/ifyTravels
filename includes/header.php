@@ -12,6 +12,9 @@ require_once __DIR__ . '/../data/loader.php';
     <title>
         <?php echo isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'ifyTravels') : get_setting('site_name', 'ifyTravels'); ?>
     </title>
+    <?php if ($favicon = get_setting('site_favicon')): ?>
+        <link rel="shortcut icon" href="<?php echo base_url($favicon); ?>" type="image/x-icon">
+    <?php endif; ?>
     <!-- Tailwind CSS (CDN for simplicity as per original, or local build) -->
     <!-- We valid link to output.css if built, or CDN as fallback/dev -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -83,12 +86,16 @@ require_once __DIR__ . '/../data/loader.php';
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="<?php echo base_url('index.php'); ?>"
                 class="flex items-center text-2xl font-bold tracking-tight <?php echo (isset($isHome) && $isHome) ? '' : 'text-charcoal'; ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-primary" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-                <?php echo e(get_setting('site_name', 'ifyTravels')); ?>
+                <?php if ($logo = get_setting('site_logo')): ?>
+                    <img src="<?php echo base_url($logo); ?>" alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>" class="h-10 object-contain">
+                <?php else: ?>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-primary" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    <?php echo e(get_setting('site_name', 'ifyTravels')); ?>
+                <?php endif; ?>
             </a>
 
             <nav class="hidden md:flex space-x-8">

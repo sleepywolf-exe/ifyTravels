@@ -46,7 +46,7 @@ if (!empty($search)) {
 
 <!-- Header (Dynamic) -->
 <div class="relative pt-32 pb-12 bg-cover bg-center min-h-[300px] flex items-center justify-center"
-    style="background-image: url('<?php echo base_url('assets/images/packages/thailand.jpg'); ?>');">
+    style="background-image: url('<?php echo get_setting('packages_bg', base_url('assets/images/packages/thailand.jpg')); ?>');">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="container mx-auto px-6 text-center relative z-10">
         <h1 class="text-4xl font-bold text-white mb-4">Exclusive Packages</h1>

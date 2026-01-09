@@ -5,12 +5,51 @@ $db = Database::getInstance();
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 1. Handle Text Settings
     foreach ($_POST as $key => $value) {
         if ($key !== 'submit') {
             $db->execute("UPDATE site_settings SET setting_value = ? WHERE setting_key = ?", [$value, $key]);
         }
     }
-    $message = "Settings updated successfully!";
+
+    // 2. Handle File Uploads
+    $uploadDir = '../assets/images/uploads/';
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/x-icon', 'image/svg+xml'];
+
+    $fileFields = ['site_logo', 'site_favicon', 'hero_bg', 'contact_bg', 'destinations_bg', 'packages_bg'];
+
+    foreach ($fileFields as $field) {
+        if (isset($_FILES[$field]) && $_FILES[$field]['error'] === UPLOAD_ERR_OK) {
+            $fileTmp = $_FILES[$field]['tmp_name'];
+            $fileName = basename($_FILES[$field]['name']);
+            $fileType = $_FILES[$field]['type'];
+
+            if (in_array($fileType, $allowedTypes)) {
+                // Generate unique name to avoid cache issues or overwrites
+                $newFileName = $field . '_' . time() . '_' . $fileName;
+                $targetPath = $uploadDir . $newFileName;
+
+                // Remove old file if exists (optional, strictly speaking we should query DB first to find old file)
+                // For now, just save new file.
+
+                if (move_uploaded_file($fileTmp, $targetPath)) {
+                    // Save relative path to DB
+                    $dbPath = 'assets/images/uploads/' . $newFileName;
+
+                    // Insert or Update
+                    // Check if key exists first
+                    $exists = $db->fetch("SELECT id FROM site_settings WHERE setting_key = ?", [$field]);
+                    if ($exists) {
+                        $db->execute("UPDATE site_settings SET setting_value = ? WHERE setting_key = ?", [$dbPath, $field]);
+                    } else {
+                        $db->execute("INSERT INTO site_settings (setting_key, setting_value, description) VALUES (?, ?, ?)", [$field, $dbPath, 'Uploaded Image']);
+                    }
+                }
+            }
+        }
+    }
+
+    $message = "Settings and Images updated successfully!";
 
     // Clear settings cache
     global $globalSettings;
@@ -50,8 +89,85 @@ foreach ($settings as $s) {
             <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-6"><?php echo e($message); ?></div>
         <?php endif; ?>
 
-        <form method="POST" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-4xl">
+        <form method="POST" enctype="multipart/form-data"
+            class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-4xl">
             <div class="space-y-6">
+                <h3 class="text-xl font-bold text-gray-700 border-b pb-2">Branding & Images</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Logo -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Site Logo</label>
+                        <?php if (!empty($settingsMap['site_logo'])): ?>
+                            <div class="mb-2 p-2 bg-gray-100 rounded flex items-center justify-center">
+                                <img src="../<?php echo e($settingsMap['site_logo']); ?>" class="h-12 object-contain">
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" name="site_logo" accept="image/*"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <p class="text-xs text-gray-400 mt-1">Recommended: Transparent PNG</p>
+                    </div>
+
+                    <!-- Favicon -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Favicon</label>
+                        <?php if (!empty($settingsMap['site_favicon'])): ?>
+                            <div class="mb-2 p-2 bg-gray-100 rounded w-16 h-16 flex items-center justify-center">
+                                <img src="../<?php echo e($settingsMap['site_favicon']); ?>" class="w-8 h-8 object-contain">
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" name="site_favicon" accept="image/*"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
+                    <!-- Hero BG -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Hero Background (Home)</label>
+                        <?php if (!empty($settingsMap['hero_bg'])): ?>
+                            <img src="../<?php echo e($settingsMap['hero_bg']); ?>"
+                                class="h-20 w-full object-cover rounded mb-2 opacity-80">
+                        <?php endif; ?>
+                        <input type="file" name="hero_bg" accept="image/*"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
+                    <!-- Contact BG -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Contact Header Image</label>
+                        <?php if (!empty($settingsMap['contact_bg'])): ?>
+                            <img src="../<?php echo e($settingsMap['contact_bg']); ?>"
+                                class="h-20 w-full object-cover rounded mb-2 opacity-80">
+                        <?php endif; ?>
+                        <input type="file" name="contact_bg" accept="image/*"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
+                    <!-- Destinations BG -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Destinations Header Image</label>
+                        <?php if (!empty($settingsMap['destinations_bg'])): ?>
+                            <img src="../<?php echo e($settingsMap['destinations_bg']); ?>"
+                                class="h-20 w-full object-cover rounded mb-2 opacity-80">
+                        <?php endif; ?>
+                        <input type="file" name="destinations_bg" accept="image/*"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
+                    <!-- Packages BG -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Packages Header Image</label>
+                        <?php if (!empty($settingsMap['packages_bg'])): ?>
+                            <img src="../<?php echo e($settingsMap['packages_bg']); ?>"
+                                class="h-20 w-full object-cover rounded mb-2 opacity-80">
+                        <?php endif; ?>
+                        <input type="file" name="packages_bg" accept="image/*"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
+                </div>
+
+                <div class="border-t pb-2"></div>
+
                 <h3 class="text-xl font-bold text-gray-700 border-b pb-2">General Information</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
