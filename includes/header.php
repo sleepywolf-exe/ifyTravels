@@ -146,11 +146,13 @@ require_once __DIR__ . '/../data/loader.php';
 
                 <img src="<?php echo base_url('assets/images/logo-white.png'); ?>"
                     alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
-                    class="h-12 object-contain logo-white <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>">
+                    class="h-12 object-contain logo-white <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>"
+                    style="mix-blend-mode: screen;">
 
                 <img src="<?php echo base_url('assets/images/logo-color.png'); ?>"
                     alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
-                    class="h-12 object-contain logo-color <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>">
+                    class="h-12 object-contain logo-color <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>"
+                    style="mix-blend-mode: multiply;">
             </a>
 
             <nav class="hidden md:flex space-x-8">
@@ -231,17 +233,17 @@ require_once __DIR__ . '/../data/loader.php';
                     header.classList.remove('bg-transparent', 'py-4', 'text-white');
                     links.forEach(l => { if (!l.classList.contains('text-2xl')) l.classList.replace('text-white', 'text-gray-700'); });
                     if (btn) btn.classList.replace('text-white', 'text-charcoal');
-                    
-                    if(logoWhite) logoWhite.classList.add('hidden');
-                    if(logoColor) logoColor.classList.remove('hidden');
+
+                    if (logoWhite) logoWhite.classList.add('hidden');
+                    if (logoColor) logoColor.classList.remove('hidden');
                 } else {
                     header.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-3', 'text-charcoal');
                     header.classList.add('bg-transparent', 'py-4', 'text-white');
                     links.forEach(l => { if (!l.classList.contains('text-2xl')) l.classList.replace('text-gray-700', 'text-white'); });
                     if (btn) btn.classList.replace('text-charcoal', 'text-white');
-                    
-                    if(logoWhite) logoWhite.classList.remove('hidden');
-                    if(logoColor) logoColor.classList.add('hidden');
+
+                    if (logoWhite) logoWhite.classList.remove('hidden');
+                    if (logoColor) logoColor.classList.add('hidden');
                 }
             });
 
