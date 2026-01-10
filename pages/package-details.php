@@ -19,12 +19,13 @@ if (!$pkg) {
     // 404 Handling
     $pageTitle = "Package Not Found";
     include __DIR__ . '/../includes/header.php';
-    echo '
+    ?>
     <div id="error-state" class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 pt-32">
         <h1 class="text-6xl font-bold text-gray-200 mb-4">404</h1>
         <h2 class="text-2xl font-bold text-charcoal mb-2">Package Not Found</h2>
-        <a href="packages.php" class="bg-primary text-white px-6 py-2 rounded-lg font-bold mt-4">Browse Packages</a>
-    </div>';
+        <a href="<?php echo base_url('packages'); ?>" class="bg-primary text-white px-6 py-2 rounded-lg font-bold mt-4">Browse Packages</a>
+    </div>
+    <?php
     include __DIR__ . '/../includes/footer.php';
     exit;
 }
@@ -41,8 +42,8 @@ include __DIR__ . '/../includes/header.php';
         <!-- Left Content -->
         <div class="lg:w-2/3">
             <nav class="flex mb-4 text-sm text-gray-500">
-                <a href="../index.php" class="hover:text-primary">Home</a> <span class="mx-2">/</span>
-                <a href="packages.php" class="hover:text-primary">Packages</a> <span class="mx-2">/</span>
+                <a href="<?php echo base_url(); ?>" class="hover:text-primary">Home</a> <span class="mx-2">/</span>
+                <a href="<?php echo base_url('packages'); ?>" class="hover:text-primary">Packages</a> <span class="mx-2">/</span>
                 <span id="breadcrumb-title" class="text-gray-800 font-medium">
                     <?php echo htmlspecialchars($pkg['title']); ?>
                 </span>

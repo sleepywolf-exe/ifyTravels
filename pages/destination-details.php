@@ -23,7 +23,7 @@ if (!$dest) {
     <div id="error-state" class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 pt-32">
         <h1 class="text-6xl font-bold text-gray-200 mb-4">404</h1>
         <h2 class="text-2xl font-bold text-charcoal mb-2">Destination Not Found</h2>
-        <a href="destinations.php" class="bg-primary text-white px-6 py-2 rounded-lg font-bold mt-4">Browse Destinations</a>
+        <a href="' . base_url('destinations') . '" class="bg-primary text-white px-6 py-2 rounded-lg font-bold mt-4">Browse Destinations</a>
     </div>';
     include __DIR__ . '/../includes/footer.php';
     exit;
@@ -238,7 +238,7 @@ $packages = getPackagesByDestination($id);
                             <h3 class="text-xl font-bold text-charcoal mb-2">No Packages Listed Yet</h3>
                             <p class="text-gray-500 max-w-md mx-auto mb-8">We are crafting the perfect itinerary for this
                                 destination. Want a custom plan?</p>
-                            <a href="contact.php"
+                            <a href="<?php echo base_url('contact'); ?>"
                                 class="inline-block bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-700 transition shadow-lg hover:shadow-primary/30">
                                 Request Custom Quote
                             </a>
