@@ -31,14 +31,7 @@ require_once __DIR__ . '/../data/loader.php';
         <meta property="og:image" content="<?php echo base_url($ogImage); ?>">
     <?php endif; ?>
 
-    <?php
-    $favicon = get_setting('site_favicon');
-    if (!$favicon) {
-        $favicon = get_setting('site_logo');
-    }
-    if ($favicon): ?>
-        <link rel="shortcut icon" href="<?php echo base_url($favicon); ?>" type="image/x-icon">
-    <?php endif; ?>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png?v=' . time()); ?>" type="image/x-icon">
 
     <!-- Google Analytics -->
     <?php if ($gaId = get_setting('google_analytics_id')): ?>

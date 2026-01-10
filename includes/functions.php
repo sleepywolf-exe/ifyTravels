@@ -282,30 +282,29 @@ function send_lead_confirmation_email($toEmail, $customerName, $customerPhone)
     <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Inquiry Confirmation</title>
+        <title>Confirmation</title>
         <style>
-            body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-            .wrapper { width: 100%; background-color: #f3f4f6; padding: 40px 0; }
-            .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-
-            /* Modern Header */
-            .header { background-color: #ffffff; padding: 30px 40px; text-align: center; border-bottom: 4px solid ' . $teal . '; }
-            .header h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: ' . $teal . '; }
+            body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0; }
+            .wrapper { width: 100%; table-layout: fixed; background-color: #f3f4f6; padding-bottom: 40px; }
+            .container { max-width: 600px; background-color: #ffffff; margin: 0 auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+            
+            /* Header */
+            .header { background-color: #ffffff; padding: 30px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+            .header img { height: 50px; width: auto; }
 
             /* Content */
-            .content { padding: 40px 40px; text-align: left; color: #374151; }
-            .h2 { color: #111827; font-size: 22px; margin-top: 0; margin-bottom: 16px; font-weight: 700; line-height: 1.3; }
-            .p { color: #4B5563; font-size: 16px; margin-bottom: 24px; line-height: 1.6; }
+            .content { padding: 40px 30px; color: #374151; line-height: 1.6; }
+            .h2 { font-size: 22px; font-weight: 700; color: #111827; margin-top: 0; margin-bottom: 15px; }
+            .p {font-size: 16px; margin-bottom: 20px; color: #4B5563; }
 
             /* Detailed Info Box */
             .info-box { background-color: #F0FDFA; border: 1px solid #CCFBF1; border-radius: 8px; padding: 20px; margin-bottom: 30px; }
             .info-text { font-size: 14px; color: #134E4A; margin: 0; }
 
             /* Button */
-            .btn-container { text-align: center; margin-top: 10px; margin-bottom: 10px; }
-            .btn { display: inline-block; background-color: ' . $teal . '; color: #ffffff !important; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; letter-spacing: 0.5px; transition: all 0.2s; border: 1px solid ' . $teal . '; }
-            .btn:hover { background-color: ' . $tealLighter . '; border-color: ' . $tealLighter . '; }
+            .btn-container { text-align: center; margin-top: 25px; margin-bottom: 10px; }
+            .btn { display: inline-block; background-color: ' . $teal . '; color: #ffffff !important; text-decoration: none; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 16px; letter-spacing: 0.5px; transition: all 0.2s; }
+            .btn:hover { background-color: ' . $tealLighter . '; }
 
             /* Footer */
             .footer { background-color: #F9FAFB; padding: 30px; text-align: center; font-size: 13px; color: #9CA3AF; border-top: 1px solid #E5E7EB; }
@@ -317,7 +316,7 @@ function send_lead_confirmation_email($toEmail, $customerName, $customerPhone)
         <div class="wrapper">
             <div class="container">
                 <div class="header">
-                    <h1>ifyTravels</h1>
+                    <img src="' . base_url('assets/images/logo-color.png?v=' . time()) . '" alt="ifyTravels">
                 </div>
                 <div class="content">
                     <h2 class="h2">Hello ' . htmlspecialchars($customerName) . ',</h2>
@@ -333,7 +332,7 @@ function send_lead_confirmation_email($toEmail, $customerName, $customerPhone)
                     <!-- Call Action Button -->
                     <div class="btn-container">
                         <a href="tel:' . preg_replace('/[^0-9+]/', '', get_setting('contact_phone', '+919999779870')) . '" class="btn">
-                            📞 &nbsp; Call Us Now
+                            Call Us Now
                         </a>
                     </div>
                 </div>
@@ -394,20 +393,31 @@ function send_admin_notification_email($subject, $data, $actionText = 'View in A
         <meta charset="UTF-8">
         <title>Admin Notification</title>
         <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 20px; }
-            .card { background: #ffffff; max-width: 600px; margin: 0 auto; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
-            .header { background: ' . $teal . '; padding: 20px; color: white; text-align: center; }
-            .header h2 { margin: 0; font-size: 18px; font-weight: 600; }
-            .body { padding: 20px; }
-            table { width: 100%; border-collapse: collapse; font-size: 14px; }
-            .btn-container { text-align: center; margin-top: 30px; margin-bottom: 20px; }
-            .btn { background: ' . $teal . '; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; display: inline-block; }
-            .footer { text-align: center; padding: 20px; font-size: 12px; color: #999; }
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f9fafb; margin: 0; padding: 40px 0; }
+            .card { background: #ffffff; max-width: 600px; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e5e7eb; }
+            
+            .header { background: #ffffff; padding: 30px; text-align: center; border-bottom: 1px solid #f3f4f6; }
+            .header img { height: 40px; width: auto; }
+            
+            .subheader { background: #F3F4F6; padding: 15px 30px; text-align: center; border-bottom: 1px solid #e5e7eb; }
+            .subheader h2 { margin: 0; font-size: 16px; font-weight: 600; color: #374151; }
+            
+            .body { padding: 30px; }
+            table { width: 100%; border-collapse: collapse; font-size: 15px; }
+            
+            .btn-container { text-align: center; margin-top: 35px; margin-bottom: 10px; }
+            .btn { background: ' . $teal . '; color: white !important; padding: 14px 30px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block; box-shadow: 0 2px 4px rgba(15, 118, 110, 0.2); }
+            .btn:hover { background: #0d6e66; }
+            
+            .footer { text-align: center; padding: 25px; font-size: 12px; color: #9CA3AF; }
         </style>
     </head>
     <body>
         <div class="card">
             <div class="header">
+                 <img src="' . base_url('assets/images/logo-color.png?v=' . time()) . '" alt="ifyTravels">
+            </div>
+            <div class="subheader">
                 <h2>' . htmlspecialchars($subject) . '</h2>
             </div>
             <div class="body">

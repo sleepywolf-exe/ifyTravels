@@ -324,7 +324,7 @@
 
         if (packageId) {
             modalTitle.textContent = 'Book This Package';
-            submitBtn.textContent = 'Confirm Booking';
+            submitBtn.textContent = 'Send Inquiry';
         } else {
             modalTitle.textContent = prefillSubject;
             submitBtn.textContent = 'Send Inquiry';
@@ -406,7 +406,7 @@
         } finally {
             submitBtn.disabled = false;
             if (submitBtn.textContent === 'Sending...') {
-                submitBtn.textContent = modalPackageId.value ? 'Confirm Booking' : 'Send Inquiry';
+                submitBtn.textContent = 'Send Inquiry';
             }
         }
     });
