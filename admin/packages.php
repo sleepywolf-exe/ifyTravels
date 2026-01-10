@@ -227,9 +227,10 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                 <?php echo $editData ? 'Edit Package' : 'Manage Packages'; ?>
             </h1>
             <?php if ($editData): ?>
-                <a href="packages.php" class="bg-gray-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-600">
-                    &larr; Back to List
-                </a>
+                <button onclick="openModal()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 shadow-md transition">
+                    + Add Package
+                </button>
             <?php endif; ?>
         </header>
 
@@ -240,294 +241,308 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6"><?php echo e($error); ?></div>
         <?php endif; ?>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Form -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-sm p-6">
-                    <h2 class="text-lg font-bold mb-4 border-b pb-2">
-                        <?php echo $editData ? 'Update Package' : 'Add New Package'; ?>
+        <!-- Modal Background -->
+        <div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity duration-300">
+        </div>
+
+        <!-- Modal Content (Drawer style for more space) -->
+        <div id="formModal"
+            class="fixed inset-y-0 right-0 w-full md:w-2/5 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                    <h2 class="text-xl font-bold text-gray-800">
+                        <?php echo $editData ? 'Edit Package' : 'Add New Package'; ?>
                     </h2>
-                    <form method="POST" enctype="multipart/form-data"
-                        action="packages.php<?php echo $editData ? '?edit=' . $editData['id'] : ''; ?>">
-                        <input type="hidden" name="action" value="<?php echo $editData ? 'update' : 'create'; ?>">
+                    <a href="packages.php" class="text-gray-500 hover:text-gray-700 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </a>
+                </div>
+                <form method="POST" enctype="multipart/form-data"
+                    action="packages.php<?php echo $editData ? '?edit=' . $editData['id'] : ''; ?>">
+                    <input type="hidden" name="action" value="<?php echo $editData ? 'update' : 'create'; ?>">
+                    <?php if ($editData): ?>
+                        <input type="hidden" name="id" value="<?php echo $editData['id']; ?>">
+                    <?php endif; ?>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Title</label>
+                            <input type="text" name="title" required value="<?php echo e($editData['title'] ?? ''); ?>"
+                                class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Destination</label>
+                            <select name="destination_id" required
+                                class="w-full border border-gray-300 px-3 py-2 rounded-lg">
+                                <option value="">Select Destination</option>
+                                <?php foreach ($destinations as $dest): ?>
+                                    <option value="<?php echo $dest['id']; ?>" <?php echo ($editData && $editData['destination_id'] == $dest['id']) ? 'selected' : ''; ?>>
+                                        <?php echo e($dest['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Destination Covered (Specific
+                                Cities)</label>
+                            <input type="text" name="destination_covered"
+                                value="<?php echo e($editData['destination_covered'] ?? ''); ?>"
+                                placeholder="e.g. Baku, Qusar, Qabala"
+                                class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Price (₹)</label>
+                                <input type="number" name="price" required
+                                    value="<?php echo e($editData['price'] ?? ''); ?>"
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Duration</label>
+                                <input type="text" name="duration" placeholder="e.g. 5 Days / 4 Nights" required
+                                    value="<?php echo e($editData['duration'] ?? ''); ?>"
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg">
+                            </div>
+                        </div>
+
                         <?php if ($editData): ?>
-                            <input type="hidden" name="id" value="<?php echo $editData['id']; ?>">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Slug</label>
+                                <input type="text" name="slug" value="<?php echo e($editData['slug'] ?? ''); ?>"
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg bg-gray-50">
+                            </div>
                         <?php endif; ?>
 
-                        <div class="space-y-4">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" name="is_popular" id="is_popular" value="1" <?php echo ($editData && $editData['is_popular']) ? 'checked' : ''; ?> class="w-4 h-4 text-blue-600 rounded">
+                            <label for="is_popular" class="text-sm font-bold text-gray-700">Mark as Popular / Top
+                                Priority</label>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" name="is_new" id="is_new" value="1" <?php echo ($editData && !empty($editData['is_new'])) ? 'checked' : ''; ?>
+                                class="w-4 h-4 text-green-600 rounded">
+                            <label for="is_new" class="text-sm font-bold text-gray-700">Mark as NEW (Top of
+                                List)</label>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
+                            <!-- Hidden input to store Quill's HTML content -->
+                            <input type="hidden" name="description"
+                                value="<?php echo e($editData['description'] ?? ''); ?>">
+                            <!-- Quill editor container -->
+                            <div id="editor-container" class="h-48 bg-white border border-gray-300 rounded-lg">
+                                <?php echo $editData['description'] ?? ''; ?>
+                            </div>
+                        </div>
+
+                        <!-- New: Activities & Themes -->
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Title</label>
-                                <input type="text" name="title" required
-                                    value="<?php echo e($editData['title'] ?? ''); ?>"
-                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Destination</label>
-                                <select name="destination_id" required
-                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg">
-                                    <option value="">Select Destination</option>
-                                    <?php foreach ($destinations as $dest): ?>
-                                        <option value="<?php echo $dest['id']; ?>" <?php echo ($editData && $editData['destination_id'] == $dest['id']) ? 'selected' : ''; ?>>
-                                            <?php echo e($dest['name']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Destination Covered (Specific
-                                    Cities)</label>
-                                <input type="text" name="destination_covered"
-                                    value="<?php echo e($editData['destination_covered'] ?? ''); ?>"
-                                    placeholder="e.g. Baku, Qusar, Qabala"
-                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-1">Price (₹)</label>
-                                    <input type="number" name="price" required
-                                        value="<?php echo e($editData['price'] ?? ''); ?>"
-                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-1">Duration</label>
-                                    <input type="text" name="duration" placeholder="e.g. 5 Days / 4 Nights" required
-                                        value="<?php echo e($editData['duration'] ?? ''); ?>"
-                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg">
-                                </div>
-                            </div>
-
-                            <?php if ($editData): ?>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-1">Slug</label>
-                                    <input type="text" name="slug" value="<?php echo e($editData['slug'] ?? ''); ?>"
-                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg bg-gray-50">
-                                </div>
-                            <?php endif; ?>
-
-                            <div class="flex items-center gap-2">
-                                <input type="checkbox" name="is_popular" id="is_popular" value="1" <?php echo ($editData && $editData['is_popular']) ? 'checked' : ''; ?>
-                                    class="w-4 h-4 text-blue-600 rounded">
-                                <label for="is_popular" class="text-sm font-bold text-gray-700">Mark as Popular / Top
-                                    Priority</label>
-                            </div>
-
-                            <div class="flex items-center gap-2">
-                                <input type="checkbox" name="is_new" id="is_new" value="1" <?php echo ($editData && !empty($editData['is_new'])) ? 'checked' : ''; ?>
-                                    class="w-4 h-4 text-green-600 rounded">
-                                <label for="is_new" class="text-sm font-bold text-gray-700">Mark as NEW (Top of
-                                    List)</label>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Description</label>
-                                <!-- Hidden input to store Quill's HTML content -->
-                                <input type="hidden" name="description"
-                                    value="<?php echo e($editData['description'] ?? ''); ?>">
-                                <!-- Quill editor container -->
-                                <div id="editor-container" class="h-48 bg-white border border-gray-300 rounded-lg">
-                                    <?php echo $editData['description'] ?? ''; ?>
-                                </div>
-                            </div>
-
-                            <!-- New: Activities & Themes -->
-                            <div
-                                class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Tour Activities</label>
-                                    <div class="grid grid-cols-1 gap-2 text-sm">
-                                        <?php
-                                        $allActivities = ['Cable Car', 'Museums', 'Sightseeing', 'Boating', 'Trekking', 'Shopping', 'Cultural Show', 'Wildlife Safari', 'Beach Activities'];
-                                        $currentActivities = isset($editData['activities']) ? json_decode($editData['activities'], true) : [];
-                                        if (!is_array($currentActivities))
-                                            $currentActivities = [];
-
-                                        foreach ($allActivities as $act) {
-                                            $checked = in_array($act, $currentActivities) ? 'checked' : '';
-                                            echo "<label class='flex items-center space-x-2'><input type='checkbox' name='activities[]' value='$act' $checked class='rounded text-blue-600'> <span>$act</span></label>";
-                                        }
-                                        ?>
-                                    </div>
-                                    <input type="text" name="activities_other" placeholder="Other (comma separated)"
-                                        class="mt-2 w-full border border-gray-300 rounded px-2 py-1 text-xs">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Tour Themes</label>
-                                    <div class="grid grid-cols-1 gap-2 text-sm">
-                                        <?php
-                                        $allThemes = ['Adventure Tours', 'Hill Stations & Valleys', 'Culture & Heritage', 'Architecture & Gardens', 'Honeymoon', 'Family', 'Religious', 'Beach', 'Luxury'];
-                                        $currentThemes = isset($editData['themes']) ? json_decode($editData['themes'], true) : [];
-                                        if (!is_array($currentThemes))
-                                            $currentThemes = [];
-
-                                        foreach ($allThemes as $theme) {
-                                            $checked = in_array($theme, $currentThemes) ? 'checked' : '';
-                                            echo "<label class='flex items-center space-x-2'><input type='checkbox' name='themes[]' value='$theme' $checked class='rounded text-purple-600'> <span>$theme</span></label>";
-                                        }
-                                        ?>
-                                    </div>
-                                    <input type="text" name="themes_other" placeholder="Other (comma separated)"
-                                        class="mt-2 w-full border border-gray-300 rounded px-2 py-1 text-xs">
-                                </div>
-                            </div>
-
-                            <!-- Trust Badges (Trust Indicators) -->
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Trust Badges (Displayed on
-                                    Detail Page)</label>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Tour Activities</label>
                                 <div class="grid grid-cols-1 gap-2 text-sm">
                                     <?php
-                                    $allBadges = [
-                                        'secure_payment' => 'Secure Payment Gateway',
-                                        'customer_support' => '24/7 Customer Support',
-                                        'free_cancellation' => 'Free Cancellation (7 days prior)',
-                                        'verified_operator' => 'Verified Operator',
-                                        'best_price' => 'Best Price Guarantee'
-                                    ];
-                                    $currentBadges = isset($editData['trust_badges']) ? json_decode($editData['trust_badges'], true) : [];
-                                    if (!is_array($currentBadges))
-                                        $currentBadges = [];
+                                    $allActivities = ['Cable Car', 'Museums', 'Sightseeing', 'Boating', 'Trekking', 'Shopping', 'Cultural Show', 'Wildlife Safari', 'Beach Activities'];
+                                    $currentActivities = isset($editData['activities']) ? json_decode($editData['activities'], true) : [];
+                                    if (!is_array($currentActivities))
+                                        $currentActivities = [];
 
-                                    foreach ($allBadges as $key => $label) {
-                                        $checked = in_array($key, $currentBadges) ? 'checked' : '';
-                                        echo "<label class='flex items-center space-x-2'>
-                                                <input type='checkbox' name='trust_badges[]' value='$key' $checked class='rounded text-green-600'> 
-                                                <span>$label</span>
-                                              </label>";
+                                    foreach ($allActivities as $act) {
+                                        $checked = in_array($act, $currentActivities) ? 'checked' : '';
+                                        echo "<label class='flex items-center space-x-2'><input type='checkbox' name='activities[]' value='$act' $checked class='rounded text-blue-600'> <span>$act</span></label>";
                                     }
                                     ?>
                                 </div>
+                                <input type="text" name="activities_other" placeholder="Other (comma separated)"
+                                    class="mt-2 w-full border border-gray-300 rounded px-2 py-1 text-xs">
                             </div>
-
-                            <!-- JSON Fields -->
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Features (One per
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Tour Themes</label>
+                                <div class="grid grid-cols-1 gap-2 text-sm">
+                                    <?php
+                                    $allThemes = ['Adventure Tours', 'Hill Stations & Valleys', 'Culture & Heritage', 'Architecture & Gardens', 'Honeymoon', 'Family', 'Religious', 'Beach', 'Luxury'];
+                                    $currentThemes = isset($editData['themes']) ? json_decode($editData['themes'], true) : [];
+                                    if (!is_array($currentThemes))
+                                        $currentThemes = [];
+
+                                    foreach ($allThemes as $theme) {
+                                        $checked = in_array($theme, $currentThemes) ? 'checked' : '';
+                                        echo "<label class='flex items-center space-x-2'><input type='checkbox' name='themes[]' value='$theme' $checked class='rounded text-purple-600'> <span>$theme</span></label>";
+                                    }
+                                    ?>
+                                </div>
+                                <input type="text" name="themes_other" placeholder="Other (comma separated)"
+                                    class="mt-2 w-full border border-gray-300 rounded px-2 py-1 text-xs">
+                            </div>
+                        </div>
+
+                        <!-- Trust Badges (Trust Indicators) -->
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Trust Badges (Displayed on
+                                Detail Page)</label>
+                            <div class="grid grid-cols-1 gap-2 text-sm">
+                                <?php
+                                $allBadges = [
+                                    'secure_payment' => 'Secure Payment Gateway',
+                                    'customer_support' => '24/7 Customer Support',
+                                    'free_cancellation' => 'Free Cancellation (7 days prior)',
+                                    'verified_operator' => 'Verified Operator',
+                                    'best_price' => 'Best Price Guarantee'
+                                ];
+                                $currentBadges = isset($editData['trust_badges']) ? json_decode($editData['trust_badges'], true) : [];
+                                if (!is_array($currentBadges))
+                                    $currentBadges = [];
+
+                                foreach ($allBadges as $key => $label) {
+                                    $checked = in_array($key, $currentBadges) ? 'checked' : '';
+                                    echo "<label class='flex items-center space-x-2'>
+                                                <input type='checkbox' name='trust_badges[]' value='$key' $checked class='rounded text-green-600'> 
+                                                <span>$label</span>
+                                              </label>";
+                                }
+                                ?>
+                            </div>
+                        </div>
+
+                        <!-- JSON Fields -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Features (One per
+                                line)</label>
+                            <textarea name="features" rows="3"
+                                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm"><?php
+                                if (isset($editData['features'])) {
+                                    $arr = json_decode($editData['features'], true);
+                                    echo is_array($arr) ? implode("\n", $arr) : '';
+                                }
+                                ?></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Inclusions (One
                                     line)</label>
-                                <textarea name="features" rows="3"
+                                <textarea name="inclusions" rows="3"
                                     class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm"><?php
-                                    if (isset($editData['features'])) {
-                                        $arr = json_decode($editData['features'], true);
+                                    if (isset($editData['inclusions'])) {
+                                        $arr = json_decode($editData['inclusions'], true);
                                         echo is_array($arr) ? implode("\n", $arr) : '';
                                     }
                                     ?></textarea>
                             </div>
-
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-1">Inclusions (One
-                                        line)</label>
-                                    <textarea name="inclusions" rows="3"
-                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm"><?php
-                                        if (isset($editData['inclusions'])) {
-                                            $arr = json_decode($editData['inclusions'], true);
-                                            echo is_array($arr) ? implode("\n", $arr) : '';
-                                        }
-                                        ?></textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-1">Exclusions (One
-                                        line)</label>
-                                    <textarea name="exclusions" rows="3"
-                                        class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm"><?php
-                                        if (isset($editData['exclusions'])) {
-                                            $arr = json_decode($editData['exclusions'], true);
-                                            echo is_array($arr) ? implode("\n", $arr) : '';
-                                        }
-                                        ?></textarea>
-                                </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Exclusions (One
+                                    line)</label>
+                                <textarea name="exclusions" rows="3"
+                                    class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm"><?php
+                                    if (isset($editData['exclusions'])) {
+                                        $arr = json_decode($editData['exclusions'], true);
+                                        echo is_array($arr) ? implode("\n", $arr) : '';
+                                    }
+                                    ?></textarea>
                             </div>
+                        </div>
 
-                            <!-- Image Management -->
-                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Package Image</label>
-                                <?php if (!empty($editData['image_url'])): ?>
-                                    <div class="mb-3">
-                                        <img src="<?php echo base_url($editData['image_url']); ?>"
-                                            class="h-24 w-full object-cover rounded shadow-sm">
-                                        <input type="hidden" name="existing_image_url"
-                                            value="<?php echo e($editData['image_url']); ?>">
-                                    </div>
-                                <?php endif; ?>
+                        <!-- Image Management -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Package Image</label>
+                            <?php if (!empty($editData['image_url'])): ?>
                                 <div class="mb-3">
-                                    <label class="text-xs font-semibold text-gray-600 block mb-1">Option A: Image
-                                        URL</label>
-                                    <input type="text" name="image_url_input" placeholder="https://..."
-                                        class="w-full border border-gray-300 px-3 py-2 rounded text-sm">
+                                    <img src="<?php echo base_url($editData['image_url']); ?>"
+                                        class="h-24 w-full object-cover rounded shadow-sm">
+                                    <input type="hidden" name="existing_image_url"
+                                        value="<?php echo e($editData['image_url']); ?>">
                                 </div>
-                                <div>
-                                    <label class="text-xs font-semibold text-gray-600 block mb-1">Option B: Upload
-                                        File</label>
-                                    <input type="file" name="image_file" accept="image/*"
-                                        class="w-full text-sm text-gray-500">
-                                </div>
+                            <?php endif; ?>
+                            <div class="mb-3">
+                                <label class="text-xs font-semibold text-gray-600 block mb-1">Option A: Image
+                                    URL</label>
+                                <input type="text" name="image_url_input" placeholder="https://..."
+                                    class="w-full border border-gray-300 px-3 py-2 rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-gray-600 block mb-1">Option B: Upload
+                                    File</label>
+                                <input type="file" name="image_file" accept="image/*"
+                                    class="w-full text-sm text-gray-500">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="mt-6">
-                            <button type="submit"
-                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-blue-700 shadow-md">
-                                <?php echo $editData ? 'Save Changes' : 'Create Package'; ?>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="mt-6">
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-blue-700 shadow-md">
+                            <?php echo $editData ? 'Save Changes' : 'Create Package'; ?>
+                        </button>
+                    </div>
+                </form>
             </div>
+        </div>
+        </div>
+
+        <!-- List -->
+        <div class="w-full">
 
             <!-- List -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-gray-600">
-                            <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500 border-b">
-                                <tr>
-                                    <th class="px-6 py-4">Image</th>
-                                    <th class="px-6 py-4">Title / Dest</th>
-                                    <th class="px-6 py-4">Price</th>
-                                    <th class="px-6 py-4 text-right">Actions</th>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-600">
+                        <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500 border-b">
+                            <tr>
+                                <th class="px-6 py-4">Image</th>
+                                <th class="px-6 py-4">Title / Dest</th>
+                                <th class="px-6 py-4">Price</th>
+                                <th class="px-6 py-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <?php foreach ($packages as $p): ?>
+                                <tr
+                                    class="hover:bg-blue-50 transition <?php echo ($editData && $editData['id'] == $p['id']) ? 'bg-blue-50 ring-2 ring-inset ring-blue-100' : ''; ?>">
+                                    <td class="px-6 py-4">
+                                        <div class="w-16 h-12 rounded-lg bg-gray-200 bg-cover bg-center shadow-sm"
+                                            style="background-image: url('<?php echo base_url($p['image_url'] ?? ''); ?>')">
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="font-bold text-gray-900 text-base"><?php echo e($p['title']); ?>
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            <?php echo e($p['destination_name'] ?? 'N/A'); ?>
+                                            • <?php echo e($p['duration']); ?>
+                                            <?php if ($p['is_popular']): ?><span class="text-yellow-600 ml-1">★
+                                                    Popular</span><?php endif; ?>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-semibold text-green-700">
+                                        ₹<?php echo number_format($p['price']); ?></td>
+                                    <td class="px-6 py-4 text-right space-x-2">
+                                        <a href="?edit=<?php echo $p['id']; ?>"
+                                            class="inline-block text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1 rounded-full text-xs font-bold transition">
+                                            <i class="fas fa-edit mr-1"></i> Edit
+                                        </a>
+                                        <a href="?delete=<?php echo $p['id']; ?>"
+                                            class="inline-block text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-full text-xs font-bold transition"
+                                            onclick="return confirm('Delete this package?')">
+                                            <i class="fas fa-trash-alt mr-1"></i>
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <?php foreach ($packages as $p): ?>
-                                    <tr
-                                        class="hover:bg-blue-50 transition <?php echo ($editData && $editData['id'] == $p['id']) ? 'bg-blue-50 ring-2 ring-inset ring-blue-100' : ''; ?>">
-                                        <td class="px-6 py-4">
-                                            <div class="w-16 h-12 rounded-lg bg-gray-200 bg-cover bg-center shadow-sm"
-                                                style="background-image: url('<?php echo base_url($p['image_url'] ?? ''); ?>')">
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="font-bold text-gray-900 text-base"><?php echo e($p['title']); ?>
-                                            </div>
-                                            <div class="text-xs text-gray-500">
-                                                <?php echo e($p['destination_name'] ?? 'N/A'); ?>
-                                                • <?php echo e($p['duration']); ?>
-                                                <?php if ($p['is_popular']): ?><span class="text-yellow-600 ml-1">★
-                                                        Popular</span><?php endif; ?>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 font-semibold text-green-700">
-                                            ₹<?php echo number_format($p['price']); ?></td>
-                                        <td class="px-6 py-4 text-right space-x-2">
-                                            <a href="?edit=<?php echo $p['id']; ?>"
-                                                class="inline-block text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1 rounded-full text-xs font-bold transition">
-                                                <i class="fas fa-edit mr-1"></i> Edit
-                                            </a>
-                                            <a href="?delete=<?php echo $p['id']; ?>"
-                                                class="inline-block text-red-500 hover:text-red-700 bg-red-50 px-3 py-1 rounded-full text-xs font-bold transition"
-                                                onclick="return confirm('Delete this package?')">
-                                                <i class="fas fa-trash-alt mr-1"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
     </main>
 
     <!-- Quill JS -->
@@ -561,6 +576,22 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
             var descriptionInput = document.querySelector('input[name=description]');
             descriptionInput.value = quill.root.innerHTML;
         };
+
+        // Modal Logic
+        const modalOverlay = document.getElementById('modalOverlay');
+        const formModal = document.getElementById('formModal');
+        const body = document.body;
+
+        function openModal() {
+            modalOverlay.classList.remove('hidden');
+            formModal.classList.remove('translate-x-full');
+            body.classList.add('overflow-hidden');
+        }
+
+        // Auto-open if Editing or Error
+        <?php if ($editData || $error): ?>
+            openModal();
+        <?php endif; ?>
     </script>
 </body>
 
