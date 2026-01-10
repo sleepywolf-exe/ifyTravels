@@ -144,11 +144,11 @@ require_once __DIR__ . '/../data/loader.php';
             <a href="<?php echo base_url(''); ?>"
                 class="flex items-center text-2xl font-bold tracking-tight <?php echo (isset($isHome) && $isHome) ? '' : 'text-charcoal'; ?>">
 
-                <img src="<?php echo base_url('assets/images/logo-white.png'); ?>"
+                <img src="<?php echo base_url('assets/images/logo-white.png?v=' . time()); ?>"
                     alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
                     class="h-12 object-contain logo-white <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>">
 
-                <img src="<?php echo base_url('assets/images/logo-color.png'); ?>"
+                <img src="<?php echo base_url('assets/images/logo-color.png?v=' . time()); ?>"
                     alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
                     class="h-12 object-contain logo-color <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>">
             </a>
