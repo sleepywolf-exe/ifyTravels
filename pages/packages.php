@@ -40,7 +40,16 @@ $selectedThemes = $_GET['themes'] ?? []; // Array
 
 // 1.3 Apply Filters
 $selectedRegion = $_GET['region_filter'] ?? '';
-$filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPrice, $maxPrice, $selectedDurations, $selectedActivities, $selectedThemes, $selectedRegion) {
+$destinationFilter = $_GET['destination'] ?? ''; // New Filter
+
+$filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPrice, $maxPrice, $selectedDurations, $selectedActivities, $selectedThemes, $selectedRegion, $destinationFilter) {
+
+    // Destination Filter (From Home Page)
+    if (!empty($destinationFilter)) {
+        if ($pkg['destinationId'] != $destinationFilter) {
+            return false;
+        }
+    }
 
     // Region (Match Destination Type)
     if (!empty($selectedRegion)) {
@@ -55,7 +64,6 @@ $filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPr
     if (!empty($search)) {
         $term = strtolower(trim($search));
         $inTitle = strpos(strtolower($pkg['title']), $term) !== false;
-        $inDest = false; // You could search destination name if linked
         if (!$inTitle)
             return false;
     }

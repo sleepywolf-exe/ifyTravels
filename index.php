@@ -57,10 +57,10 @@ try {
                     class="space-y-4 md:space-y-6">
 
                     <!-- Tabs -->
-                    <div class="flex gap-4 mb-4 md:mb-6 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                    <div class="flex justify-center mb-6 md:mb-8">
                         <button type="button" id="tab-packages" onclick="switchTab('packages')"
-                            class="px-5 py-2 rounded-full text-white text-sm md:text-base font-bold transition backdrop-blur-md border border-white/20 shadow-sm whitespace-nowrap"
-                            style="background: rgba(255, 255, 255, 0.3);">
+                            class="px-8 py-3 rounded-full text-white text-lg font-bold transition backdrop-blur-md border border-white/30 shadow-md whitespace-nowrap hover:bg-white/10"
+                            style="background: rgba(255, 255, 255, 0.2);">
                             Packages
                         </button>
                     </div>
