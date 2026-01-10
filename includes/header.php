@@ -143,17 +143,14 @@ require_once __DIR__ . '/../data/loader.php';
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="<?php echo base_url(''); ?>"
                 class="flex items-center text-2xl font-bold tracking-tight <?php echo (isset($isHome) && $isHome) ? '' : 'text-charcoal'; ?>">
-                <?php if ($logo = get_setting('site_logo')): ?>
-                    <img src="<?php echo base_url($logo); ?>" alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
-                        class="h-10 object-contain">
-                <?php else: ?>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-primary" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                    </svg>
-                    <?php echo e(get_setting('site_name', 'ifyTravels')); ?>
-                <?php endif; ?>
+
+                <img src="<?php echo base_url('assets/images/logo-white.png'); ?>"
+                    alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
+                    class="h-12 object-contain logo-white <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>">
+
+                <img src="<?php echo base_url('assets/images/logo-color.png'); ?>"
+                    alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
+                    class="h-12 object-contain logo-color <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>">
             </a>
 
             <nav class="hidden md:flex space-x-8">
@@ -226,17 +223,25 @@ require_once __DIR__ . '/../data/loader.php';
                 const header = document.querySelector('.transition-header');
                 const links = header.querySelectorAll('a:not(.bg-primary)'); // Exclude buttons
                 const btn = document.getElementById('mobile-menu-btn');
+                const logoWhite = document.querySelector('.logo-white');
+                const logoColor = document.querySelector('.logo-color');
 
                 if (window.scrollY > 10) {
                     header.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-3', 'text-charcoal');
                     header.classList.remove('bg-transparent', 'py-4', 'text-white');
                     links.forEach(l => { if (!l.classList.contains('text-2xl')) l.classList.replace('text-white', 'text-gray-700'); });
                     if (btn) btn.classList.replace('text-white', 'text-charcoal');
+                    
+                    if(logoWhite) logoWhite.classList.add('hidden');
+                    if(logoColor) logoColor.classList.remove('hidden');
                 } else {
                     header.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-3', 'text-charcoal');
                     header.classList.add('bg-transparent', 'py-4', 'text-white');
                     links.forEach(l => { if (!l.classList.contains('text-2xl')) l.classList.replace('text-gray-700', 'text-white'); });
                     if (btn) btn.classList.replace('text-charcoal', 'text-white');
+                    
+                    if(logoWhite) logoWhite.classList.remove('hidden');
+                    if(logoColor) logoColor.classList.add('hidden');
                 }
             });
 
