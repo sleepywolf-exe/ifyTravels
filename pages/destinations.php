@@ -160,8 +160,9 @@ include __DIR__ . '/../includes/header.php';
                     foreach ($paginatedDestinations as $dest):
                         ?>
                         <div
-                            class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group overflow-hidden">
-                            <a href="<?php echo destination_url($dest['slug']); ?>" class="block relative h-56 overflow-hidden">
+                            class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group overflow-hidden relative">
+                            <a href="<?php echo destination_url($dest['slug']); ?>" class="absolute inset-0 z-10"></a>
+                            <div class="block relative h-56 overflow-hidden">
                                 <img src="<?php echo base_url($dest['image']); ?>"
                                     alt="<?php echo htmlspecialchars($dest['name']); ?>"
                                     class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
@@ -178,14 +179,12 @@ include __DIR__ . '/../includes/header.php';
                                         NEW
                                     </div>
                                 <?php endif; ?>
-                            </a>
+                            </div>
 
                             <div class="p-6 flex-1 flex flex-col">
                                 <div class="flex justify-between items-start mb-3">
                                     <h3 class="text-xl font-bold text-charcoal group-hover:text-primary transition-colors">
-                                        <a href="<?php echo destination_url($dest['slug']); ?>">
                                             <?php echo htmlspecialchars($dest['name']); ?>
-                                        </a>
                                     </h3>
                                     <div class="flex items-center bg-yellow-100 px-2 py-0.5 rounded text-xs text-yellow-700">
                                         <span>★</span>
@@ -209,7 +208,7 @@ include __DIR__ . '/../includes/header.php';
                                         </svg>
                                         <?php echo $dest['country'] ?? 'Explore'; ?>
                                     </span>
-                                    <a href="<?php echo destination_url($dest['slug']); ?>"
+                                    <span
                                         class="text-sm font-bold text-primary hover:text-secondary transition-colors flex items-center group/link">
                                         View Details
                                         <svg class="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform"
@@ -217,7 +216,7 @@ include __DIR__ . '/../includes/header.php';
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M9 5l7 7-7 7"></path>
                                         </svg>
-                                    </a>
+                                    </span>
                                 </div>
                             </div>
                         </div>

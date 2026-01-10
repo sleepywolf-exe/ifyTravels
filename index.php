@@ -57,7 +57,7 @@ try {
                     class="space-y-4 md:space-y-6">
 
                     <!-- Tabs -->
-                    <div class="flex justify-center mb-6 md:mb-8">
+                    <div class="flex justify-start mb-6 md:mb-8">
                         <button type="button" id="tab-packages" onclick="switchTab('packages')"
                             class="px-8 py-3 rounded-full text-white text-lg font-bold transition backdrop-blur-md border border-white/30 shadow-md whitespace-nowrap hover:bg-white/10"
                             style="background: rgba(255, 255, 255, 0.2);">
@@ -81,7 +81,7 @@ try {
                                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
                                 <select name="destination"
-                                    class="glass-select w-full h-full !pl-12 appearance-none text-gray-800 text-sm md:text-base rounded-xl">
+                                    class="glass-select w-full h-full !pl-12 appearance-none text-gray-800 text-base md:text-base rounded-xl">
                                     <option value="" class="text-gray-800">Select Destination</option>
                                     <?php if (isset($destinations) && is_array($destinations)): ?>
                                         <?php foreach ($destinations as $dest): ?>
@@ -113,7 +113,7 @@ try {
                                     </path>
                                 </svg>
                                 <input type="text" id="departure-date" name="date"
-                                    class="glass-input w-full h-full !pl-12 text-sm md:text-base rounded-xl"
+                                    class="glass-input w-full h-full !pl-12 text-base md:text-base rounded-xl"
                                     placeholder="Select Date">
                             </div>
                         </div>
@@ -130,7 +130,7 @@ try {
                                     </path>
                                 </svg>
                                 <input type="number" name="travelers" min="1"
-                                    class="glass-input w-full h-full !pl-12 no-spinner text-sm md:text-base rounded-xl"
+                                    class="glass-input w-full h-full !pl-12 no-spinner text-base md:text-base rounded-xl"
                                     placeholder="Travelers">
                             </div>
                         </div>
@@ -266,8 +266,8 @@ try {
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <?php foreach ($popularPackages as $pkg): ?>
-                    <div
-                        class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
+                    <a href="<?php echo package_url($pkg['slug']); ?>"
+                        class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group block">
                         <div class="relative h-56 overflow-hidden">
                             <div
                                 class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-sm font-bold z-10">
@@ -292,26 +292,25 @@ try {
                                     </div>
                                     <div class="text-xs text-gray-500">per person</div>
                                 </div>
-                                <a href="<?php echo package_url($pkg['slug']); ?>"
+                                <span
                                     class="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 transition">
                                     View Details
-                                </a>
+                                </span>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-            <div class="text-center mt-12">
-                <a href="<?php echo base_url('/packages'); ?>"
-                    class="inline-flex items-center text-primary font-semibold hover:text-teal-700 transition">
-                    Browse All Packages
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </a>
-            </div>
+        <div class="text-center mt-12">
+            <a href="<?php echo base_url('/packages'); ?>"
+                class="inline-flex items-center text-primary font-semibold hover:text-teal-700 transition">
+                Browse All Packages
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
         </div>
     </section>
 <?php endif; ?>

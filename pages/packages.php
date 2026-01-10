@@ -287,8 +287,8 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
                 <?php if (!empty($paginatedPackages)): ?>
                     <?php foreach ($paginatedPackages as $pkg): ?>
-                        <div
-                            class="package-card group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition flex flex-col h-full hover:-translate-y-1">
+                        <a href="<?php echo package_url($pkg['slug']); ?>"
+                            class="package-card group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition flex flex-col h-full hover:-translate-y-1 block">
                             <div class="relative h-56 overflow-hidden">
                                 <img src="<?php echo base_url($pkg['image']); ?>"
                                     alt="<?php echo htmlspecialchars($pkg['title']); ?>"
@@ -300,11 +300,11 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                         🔥 POPULAR
                                     </div>
                                     <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 opacity-0 group-hover:opacity-100 transition duration-300">
-                                    <a href="<?php echo package_url($pkg['slug']); ?>"
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <span
                                         class="bg-white text-gray-900 font-bold py-2 px-6 rounded-full shadow-lg hover:bg-primary hover:text-white transition transform hover:-translate-y-1">
                                         View Details
-                                    </a>
+                                    </span>
                                 </div>
                                 <?php endif; ?>
                                 <?php if (!empty($pkg['is_new'])): ?>
@@ -367,7 +367,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                     <?php endif; ?>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="col-span-full text-center py-20">
