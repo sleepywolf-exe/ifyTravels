@@ -13,12 +13,8 @@
             <div class="transform hover:scale-105 transition duration-300">
                 <a href="<?php echo base_url('index.php'); ?>"
                     class="text-2xl font-bold text-white mb-4 block flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-primary" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                    </svg>
-                    <?php echo e(get_setting('site_name', 'ifyTravels')); ?>
+                    <img src="<?php echo base_url('assets/images/logo-white.png?v=' . time()); ?>"
+                        alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>" class="h-12 object-contain">
                 </a>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">
                     <?php echo e(get_setting('footer_description', 'Curating unforgettable journeys...')); ?>
