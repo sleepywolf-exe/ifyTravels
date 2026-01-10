@@ -157,8 +157,8 @@ $packages = getPackagesByDestination($id);
                     <?php if (count($packages) > 0): ?>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <?php foreach ($packages as $p): ?>
-                                <div
-                                    class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                                <a href="<?php echo package_url($p['slug']); ?>"
+                                    class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block">
                                     <div class="relative h-56 overflow-hidden">
                                         <img src="<?php echo base_url($p['image']); ?>"
                                             class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
@@ -209,7 +209,7 @@ $packages = getPackagesByDestination($id);
                                                 <span
                                                     class="text-2xl font-bold text-primary">₹<?php echo number_format($p['price']); ?></span>
                                             </div>
-                                            <a href="<?php echo package_url($p['slug']); ?>"
+                                            <div
                                                 class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-teal-700 transition shadow-lg group-hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                                     fill="currentColor">
@@ -217,10 +217,10 @@ $packages = getPackagesByDestination($id);
                                                         d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
                                                         clip-rule="evenodd" />
                                                 </svg>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             <?php endforeach; ?>
                         </div>
                     <?php else: ?>
