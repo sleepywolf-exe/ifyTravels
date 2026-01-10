@@ -57,7 +57,7 @@ try {
                     class="space-y-4 md:space-y-6">
 
                     <!-- Tabs -->
-                    <div class="flex justify-start mb-6 md:mb-8">
+                    <div class="flex justify-center md:justify-start mb-6 md:mb-8">
                         <button type="button" id="tab-packages" onclick="switchTab('packages')"
                             class="px-8 py-3 rounded-full text-white text-lg font-bold transition backdrop-blur-md border border-white/30 shadow-md whitespace-nowrap hover:bg-white/10"
                             style="background: rgba(255, 255, 255, 0.2);">
@@ -113,7 +113,7 @@ try {
                                     </path>
                                 </svg>
                                 <input type="text" id="departure-date" name="date"
-                                    class="glass-input w-full h-full !pl-12 text-base md:text-base rounded-xl"
+                                    class="glass-input w-full h-full !pl-12 text-base md:text-base rounded-xl appearance-none placeholder-gray-800"
                                     placeholder="Select Date">
                             </div>
                         </div>
