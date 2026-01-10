@@ -298,19 +298,20 @@ try {
                                 </span>
                             </div>
                         </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+                    </a>
+                <?php endforeach; ?>
+            </div>
 
-        <div class="text-center mt-12">
-            <a href="<?php echo base_url('/packages'); ?>"
-                class="inline-flex items-center text-primary font-semibold hover:text-teal-700 transition">
-                Browse All Packages
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-            </a>
-        </div>
+            <div class="text-center mt-12">
+                <a href="<?php echo base_url('/packages'); ?>"
+                    class="inline-flex items-center text-primary font-semibold hover:text-teal-700 transition">
+                    Browse All Packages
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+            </div>
         </div>
     </section>
 <?php endif; ?>
