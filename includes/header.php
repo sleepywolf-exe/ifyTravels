@@ -146,13 +146,11 @@ require_once __DIR__ . '/../data/loader.php';
 
                 <img src="<?php echo base_url('assets/images/logo-white.png'); ?>"
                     alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
-                    class="h-12 object-contain logo-white <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>"
-                    style="mix-blend-mode: screen;">
+                    class="h-12 object-contain logo-white <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>">
 
                 <img src="<?php echo base_url('assets/images/logo-color.png'); ?>"
                     alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
-                    class="h-12 object-contain logo-color <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>"
-                    style="mix-blend-mode: multiply;">
+                    class="h-12 object-contain logo-color <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>">
             </a>
 
             <nav class="hidden md:flex space-x-8">
