@@ -201,12 +201,10 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
             <h1 class="text-2xl font-bold text-gray-800">
                 <?php echo $editData ? 'Edit Destination' : 'Manage Destinations'; ?>
             </h1>
-            <?php if ($editData): ?>
-                <button onclick="openModal()"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 shadow-md transition">
-                    + Add Destination
-                </button>
-            <?php endif; ?>
+            <button onclick="openModal()"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 shadow-md transition">
+                + Add Destination
+            </button>
         </header>
 
         <?php if ($message): ?>
