@@ -13,23 +13,33 @@ require_once __DIR__ . '/../data/loader.php';
         <?php echo isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'ifyTravels') : get_setting('site_name', 'ifyTravels'); ?>
     </title>
     <!-- SEO & Metadata -->
-    <meta name="description"
-        content="<?php echo e(get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.')); ?>">
-    <meta name="keywords"
-        content="<?php echo e(get_setting('meta_keywords', 'travel, tours, holiday packages, destinations, ifytravels')); ?>">
+    <!-- Dynamic SEO Variables -->
+    <?php
+    $metaTitle = isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'ifyTravels') : get_setting('site_name', 'ifyTravels');
+    $metaDesc = isset($pageDescription) ? $pageDescription : get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.');
+    $metaUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $metaImage = isset($pageImage) ? base_url($pageImage) : (get_setting('og_image') ? base_url(get_setting('og_image')) : base_url('assets/images/logo-color.png'));
+    ?>
+
+    <!-- Standard SEO -->
+    <meta name="description" content="<?php echo e($metaDesc); ?>">
+    <meta name="keywords" content="<?php echo e(get_setting('meta_keywords', 'travel, tours, holiday packages, destinations, ifytravels')); ?>">
     <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
 
-    <!-- Open Graph / Facebook -->
+    <!-- Facebook Meta Tags -->
     <meta property="og:type" content="website">
-    <meta property="og:url"
-        content="<?php echo (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>">
-    <meta property="og:title"
-        content="<?php echo isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'IfyTravels') : get_setting('site_name', 'IfyTravels'); ?>">
-    <meta property="og:description"
-        content="<?php echo e(get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.')); ?>">
-    <?php if ($ogImage = get_setting('og_image')): ?>
-        <meta property="og:image" content="<?php echo base_url($ogImage); ?>">
-    <?php endif; ?>
+    <meta property="og:url" content="<?php echo $metaUrl; ?>">
+    <meta property="og:title" content="<?php echo e($metaTitle); ?>">
+    <meta property="og:description" content="<?php echo e($metaDesc); ?>">
+    <meta property="og:image" content="<?php echo $metaImage; ?>">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="<?php echo $_SERVER['HTTP_HOST']; ?>">
+    <meta property="twitter:url" content="<?php echo $metaUrl; ?>">
+    <meta name="twitter:title" content="<?php echo e($metaTitle); ?>">
+    <meta name="twitter:description" content="<?php echo e($metaDesc); ?>">
+    <meta name="twitter:image" content="<?php echo $metaImage; ?>">
 
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png?v=' . time()); ?>"
         type="image/x-icon">
