@@ -23,7 +23,8 @@ require_once __DIR__ . '/../data/loader.php';
 
     <!-- Standard SEO -->
     <meta name="description" content="<?php echo e($metaDesc); ?>">
-    <meta name="keywords" content="<?php echo e(get_setting('meta_keywords', 'travel, tours, holiday packages, destinations, ifytravels')); ?>">
+    <meta name="keywords"
+        content="<?php echo e(get_setting('meta_keywords', 'travel, tours, holiday packages, destinations, ifytravels')); ?>">
     <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
 
     <!-- Facebook Meta Tags -->
@@ -32,6 +33,7 @@ require_once __DIR__ . '/../data/loader.php';
     <meta property="og:title" content="<?php echo e($metaTitle); ?>">
     <meta property="og:description" content="<?php echo e($metaDesc); ?>">
     <meta property="og:image" content="<?php echo $metaImage; ?>">
+    <meta property="og:logo" content="<?php echo base_url('assets/images/logo-color.png'); ?>">
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
