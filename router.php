@@ -12,6 +12,12 @@ parse_str($queryString ?? '', $queryParams);
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Handle sitemap.xml
+if ($requestUri === '/sitemap.xml') {
+    include 'sitemap.php';
+    exit;
+}
+
 // Handle static files (let PHP serve them directly)
 if (preg_match('/\.(css|js|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|pdf|mp4)$/i', $requestUri)) {
     return false; // Serve the requested file as-is
