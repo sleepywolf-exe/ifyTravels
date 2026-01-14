@@ -86,11 +86,19 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     <!-- Dynamic Destinations -->
     <?php
     try {
-        $destinations = $db->fetchAll("SELECT slug, updated_at FROM destinations ORDER BY created_at DESC");
+        // SELECT * is safer to avoid "Column not found" errors for specific columns like updated_at
+        $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DESC");
         foreach ($destinations as $dest) {
             $slug = htmlspecialchars($dest['slug']);
-            // Use updated_at if available, else current time or specific date
-            $lastMod = !empty($dest['updated_at']) ? date('Y-m-d', strtotime($dest['updated_at'])) : date('Y-m-d');
+            // Use updated_at if available, else created_at, else now
+            if (!empty($dest['updated_at'])) {
+                $lastMod = date('Y-m-d', strtotime($dest['updated_at']));
+            } elseif (!empty($dest['created_at'])) {
+                $lastMod = date('Y-m-d', strtotime($dest['created_at']));
+            } else {
+                $lastMod = date('Y-m-d');
+            }
+
             echo "    <url>\n";
             echo "        <loc>{$baseUrl}/destinations/{$slug}</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
@@ -99,18 +107,24 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
             echo "    </url>\n";
         }
     } catch (Exception $e) {
-        // Log error silently
-        error_log("Sitemap Error (Destinations): " . $e->getMessage());
+        echo "<!-- Error loading destinations: " . $e->getMessage() . " -->\n";
     }
     ?>
 
     <!-- Dynamic Packages -->
     <?php
     try {
-        $packages = $db->fetchAll("SELECT slug, updated_at FROM packages ORDER BY created_at DESC");
+        $packages = $db->fetchAll("SELECT * FROM packages ORDER BY created_at DESC");
         foreach ($packages as $pkg) {
             $slug = htmlspecialchars($pkg['slug']);
-            $lastMod = !empty($pkg['updated_at']) ? date('Y-m-d', strtotime($pkg['updated_at'])) : date('Y-m-d');
+            if (!empty($pkg['updated_at'])) {
+                $lastMod = date('Y-m-d', strtotime($pkg['updated_at']));
+            } elseif (!empty($pkg['created_at'])) {
+                $lastMod = date('Y-m-d', strtotime($pkg['created_at']));
+            } else {
+                $lastMod = date('Y-m-d');
+            }
+
             echo "    <url>\n";
             echo "        <loc>{$baseUrl}/packages/{$slug}</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
@@ -119,7 +133,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
             echo "    </url>\n";
         }
     } catch (Exception $e) {
-        error_log("Sitemap Error (Packages): " . $e->getMessage());
+        echo "<!-- Error loading packages: " . $e->getMessage() . " -->\n";
     }
     ?>
 
