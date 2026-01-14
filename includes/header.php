@@ -31,7 +31,32 @@ require_once __DIR__ . '/../data/loader.php';
         <meta property="og:image" content="<?php echo base_url($ogImage); ?>">
     <?php endif; ?>
 
-    <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png?v=' . time()); ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png?v=' . time()); ?>"
+        type="image/x-icon">
+    <link rel="apple-touch-icon" href="<?php echo base_url('assets/images/favicon.png?v=' . time()); ?>">
+
+    <!-- Schema.org Organization for Google Knowledge Graph -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "<?php echo e(get_setting('site_name', 'ifyTravels')); ?>",
+      "url": "<?php echo base_url(); ?>",
+      "logo": "<?php echo base_url('assets/images/logo-color.png'); ?>",
+      "description": "<?php echo e(get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.')); ?>",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "<?php echo get_setting('contact_phone', '+919999779870'); ?>",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "<?php echo get_setting('social_facebook', 'https://facebook.com/ifytravels'); ?>",
+        "<?php echo get_setting('social_instagram', 'https://instagram.com/ifytravels'); ?>",
+        "<?php echo get_setting('social_twitter', 'https://twitter.com/ifytravels'); ?>",
+        "<?php echo get_setting('social_linkedin', 'https://linkedin.com/company/ifytravels'); ?>"
+      ]
+    }
+    </script>
 
     <!-- Google Analytics -->
     <?php if ($gaId = get_setting('google_analytics_id')): ?>
