@@ -95,6 +95,15 @@ if (isset($_GET['toggle_status']) && isset($_GET['id'])) {
     $current = $_GET['current'];
     $newStatus = ($current === 'active') ? 'inactive' : 'active';
     $db->execute("UPDATE affiliates SET status = ? WHERE id = ?", [$newStatus, $id]);
+
+    // Send Approval Email if Activated
+    if ($newStatus === 'active') {
+        $aff = $db->fetch("SELECT email, name FROM affiliates WHERE id = ?", [$id]);
+        if ($aff) {
+            send_partner_approval_email($aff['email'], $aff['name']);
+        }
+    }
+
     redirect('affiliates.php');
 }
 

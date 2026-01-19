@@ -102,9 +102,17 @@ try {
         ];
         send_admin_notification_email("New Booking: $customer_name", $adminData, "View Booking", base_url("admin/booking-details.php?id=$booking_id"));
 
-        // 2. Send Customer Confirmation (Using the function we made earlier? No, voucher is better)
-        // Actually, let's send them the generic "Lead Received" email for now as immediate ack
-        send_lead_confirmation_email($email, $customer_name, $phone);
+        // 2. Send Customer Confirmation
+        $customerBookingDetails = [
+            'Booking ID' => '#' . $booking_id,
+            'Package' => $package_name,
+            'Travel Date' => $travel_date,
+            'Travelers' => "$adults Adults" . ($children > 0 ? ", $children Children" : ""),
+            'Hotel Category' => $hotel_category,
+            'Duration' => $duration ?: 'N/A',
+            'Estimated Price' => ($total_price > 0) ? 'Rs. ' . number_format($total_price, 2) : 'Pending Quote'
+        ];
+        send_booking_confirmation_email($email, $customer_name, $customerBookingDetails);
 
         // Log it
         error_log("Booking Submitted: ID $booking_id");

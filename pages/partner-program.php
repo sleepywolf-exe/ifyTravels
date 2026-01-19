@@ -62,12 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($db->execute($sql, [$name, $email, $code, $hash])) {
                     $generatedLink = base_url("?ref=$code");
                     $successMsg = "Welcome to the family, $name!";
-                    
+
                     // Link to dashboard
                     $successMsg .= "<br><a href='" . base_url('partner/login.php') . "' class='text-primary underline mt-2 inline-block'>Login to Dashboard</a>";
 
-                    // Optional: Send Welcome Email
-                    // send_partner_welcome_email($email, $name, $generatedLink);
+                    // Send Welcome Email
+                    send_partner_welcome_email($email, $name);
                 } else {
                     $errorMsg = "Database Error: Unable to register. Please contact support.";
                     error_log("Partner Signup Failed: Database insert returned false.");

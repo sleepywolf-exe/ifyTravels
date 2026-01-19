@@ -442,4 +442,150 @@ function send_admin_notification_email($subject, $data, $actionText = 'View in A
 
     return @mail($adminEmail, $subject, $message, $headers);
 }
+
+/**
+ * Send Booking Confirmation Email (Detailed HTML)
+ */
+function send_booking_confirmation_email($toEmail, $customerName, $bookingDetails)
+{
+    $subject = "Booking Confirmation - ifyTravels";
+    $fromEmail = get_setting('contact_email', 'hello@ifytravels.com');
+    $teal = "#0F766E";
+
+    // Build Items List
+    $itemsHtml = '';
+    foreach ($bookingDetails as $label => $val) {
+        if (!empty($val)) {
+            $itemsHtml .= '<tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #666;">' . htmlspecialchars($label) . '</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #111; font-weight: 600; text-align: right;">' . htmlspecialchars($val) . '</td>
+            </tr>';
+        }
+    }
+
+    $message = '
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body { font-family: "Segoe UI", sans-serif; background: #f3f4f6; margin: 0; padding: 20px; }
+            .container { max-width: 600px; background: #fff; margin: 0 auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+            .header { background: ' . $teal . '; padding: 30px; text-align: center; color: white; }
+            .content { padding: 30px; }
+            .h2 { margin: 0 0 10px; color: #111; }
+            .p { color: #555; line-height: 1.6; }
+            .btn { display: inline-block; background: ' . $teal . '; color: #fff !important; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; margin-top: 20px; }
+            .footer { background: #f9fafb; padding: 20px; text-align: center; font-size: 12px; color: #999; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1 style="margin:0; font-size: 24px;">Booking Confirmed</h1>
+            </div>
+            <div class="content">
+                <h2 class="h2">Hi ' . htmlspecialchars($customerName) . ',</h2>
+                <p class="p">We are thrilled to confirm your booking request! Our team is reviewing the details and will contact you shortly to finalize everything.</p>
+                
+                <table style="width: 100%; margin: 20px 0; border-collapse: collapse;">
+                    ' . $itemsHtml . '
+                </table>
+
+                <p class="p">If you have any questions, simply reply to this email or call us.</p>
+                <div style="text-align: center;">
+                    <a href="' . base_url('contact.php') . '" class="btn">View Support</a>
+                </div>
+            </div>
+            <div class="footer">
+                &copy; ' . date('Y') . ' ifyTravels. All rights reserved.
+            </div>
+        </div>
+    </body>
+    </html>';
+
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= "From: ifyTravels <" . $fromEmail . ">" . "\r\n";
+
+    return @mail($toEmail, $subject, $message, $headers);
+}
+
+/**
+ * Send Partner Welcome Email
+ */
+function send_partner_welcome_email($toEmail, $name)
+{
+    $subject = "Welcome to ifyTravels Partner Program!";
+    $fromEmail = get_setting('contact_email', 'partners@ifytravels.com');
+
+    $message = "
+    Hello $name,
+
+    Welcome to the ifyTravels Partner Program! We are excited to have you on board.
+
+    Your application has been received and is currently active. You can log in to your dashboard to get your tracking link and viewing your performance.
+
+    Login here: " . base_url('partner/login.php') . "
+
+    If you need any help, feel free to reach out.
+
+    Best regards,
+    ifyTravels Team
+    ";
+
+    $headers = "From: ifyTravels Partners <" . $fromEmail . ">";
+
+    return @mail($toEmail, $subject, $message, $headers);
+}
+
+/**
+ * Send Partner Approval Email
+ */
+function send_partner_approval_email($toEmail, $name)
+{
+    $subject = "Your Partner Account is Active!";
+    $fromEmail = get_setting('contact_email', 'partners@ifytravels.com');
+
+    $message = "
+    Hello $name,
+
+    Great news! Your partner account has been fully activated.
+
+    You can now access all features of your partner dashboard.
+
+    Login Now: " . base_url('partner/login.php') . "
+
+    Let's grow together!
+    ifyTravels Team
+    ";
+
+    $headers = "From: ifyTravels Partners <" . $fromEmail . ">";
+
+    return @mail($toEmail, $subject, $message, $headers);
+}
+
+/**
+ * Send Password Reset Email
+ */
+function send_password_reset_email($toEmail, $token)
+{
+    $subject = "Reset Your Password - ifyTravels";
+    $fromEmail = get_setting('contact_email', 'support@ifytravels.com');
+    $resetLink = base_url('partner/reset_password.php?token=' . $token);
+
+    $message = "
+    Click the link below to reset your partner account password:
+    
+    $resetLink
+
+    This link will expire in 1 hour.
+    
+    If you didn't request this, please ignore this email.
+    ";
+
+    $headers = "From: ifyTravels Support <" . $fromEmail . ">";
+
+    return @mail($toEmail, $subject, $message, $headers);
+}
 ?>

@@ -180,7 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="group">
                     <div class="flex justify-between items-center mb-2 ml-1">
                         <label class="block text-sm font-semibold text-gray-700">Password</label>
-                        <a href="#" class="text-xs font-semibold text-primary hover:text-teal-700 transition">Forgot
+                        <a href="forgot_password.php"
+                            class="text-xs font-semibold text-primary hover:text-teal-700 transition">Forgot
                             password?</a>
                     </div>
                     <div class="relative">

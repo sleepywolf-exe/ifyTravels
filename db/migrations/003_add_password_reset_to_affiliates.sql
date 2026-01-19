@@ -1,0 +1,3 @@
+ALTER TABLE affiliates 
+ADD COLUMN reset_token VARCHAR(64) NULL DEFAULT NULL AFTER password_hash,
+ADD COLUMN reset_expiry DATETIME NULL DEFAULT NULL AFTER reset_token;
