@@ -38,59 +38,39 @@ function get_setting($key, $default = '')
 /**
  * Generate base URL for assets and pages
  */
+/**
+ * Generate base URL for assets and pages (Optimized)
+ */
 function base_url($path = '')
 {
-    // Check for absolute URL
-    if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
+    static $baseUrl = null;
+
+    if ($baseUrl === null) {
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https://" : "http://";
+        $host = $_SERVER['HTTP_HOST'];
+
+        // Simple and fast root detection
+        $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+        $scriptDir = str_replace('\\', '/', $scriptDir);
+
+        // Remove known subdirs to find true root
+        $remove = ['/admin', '/pages', '/services', '/includes', '/seo', '/api', '/partner'];
+        foreach ($remove as $dir) {
+            if (substr($scriptDir, -strlen($dir)) === $dir) {
+                $scriptDir = substr($scriptDir, 0, -strlen($dir));
+                break; // Assume only one level deep for these
+            }
+        }
+
+        $baseUrl = $protocol . $host . rtrim($scriptDir, '/') . '/';
+    }
+
+    // Return absolute URL
+    if (strpos($path, 'http') === 0) {
         return $path;
     }
 
-    // Clean input path
-    $path = ltrim($path, '/');
-
-    // Get the protocol
-    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
-
-    // Get the server name
-    $host = $_SERVER['HTTP_HOST'];
-
-    // Calculate the project root
-    // This assumes the project is in a subdirectory of the web root, or at the root itself.
-    // We want to find the path to index.php relative to the web root.
-
-    // Fallback if SCRIPT_NAME is not reliable
-    $scriptName = $_SERVER['SCRIPT_NAME'];
-    $scriptDir = dirname($scriptName);
-
-    // Normalize slashes
-    $scriptDir = str_replace('\\', '/', $scriptDir);
-
-    // Removing known subdirectories from the script path to find the "root" of the app
-    // If we are in /ifyTravels/admin, we want /ifyTravels
-    // If we are in /ifyTravels/pages, we want /ifyTravels
-
-    $knownDirs = ['admin', 'pages', 'services', 'includes', 'seo', 'api', 'partner'];
-    $parts = explode('/', trim($scriptDir, '/'));
-
-    $rootParts = [];
-    foreach ($parts as $part) {
-        if (!in_array($part, $knownDirs)) {
-            $rootParts[] = $part;
-        } else {
-            // Once we hit a known subdir, we stop, assuming everything before it is the base
-            break;
-        }
-    }
-
-    $basePath = implode('/', $rootParts);
-    if (!empty($basePath)) {
-        $basePath = '/' . $basePath;
-    }
-
-    // Ensure trailing slash
-    $baseUrl = $protocol . $host . $basePath . '/';
-
-    return $baseUrl . $path;
+    return $baseUrl . ltrim($path, '/');
 }
 
 /**
