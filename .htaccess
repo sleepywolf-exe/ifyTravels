@@ -5,6 +5,9 @@
     Header set X-XSS-Protection "1; mode=block"
 </IfModule>
 
+# Disable Directory Listing
+Options -Indexes
+
 # Deny access to sensitive files
 <FilesMatch "^\.">
     Order allow,deny
