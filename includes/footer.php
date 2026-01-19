@@ -111,6 +111,12 @@
                                 class="w-0 group-hover:w-2 h-px bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>
                             Help Center
                         </a></li>
+                    <li><a href="<?php echo base_url('partner-program'); ?>"
+                            class="hover:text-primary transition flex items-center group">
+                            <span
+                                class="w-0 group-hover:w-2 h-px bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>
+                            Partner Program
+                        </a></li>
                 </ul>
             </div>
 

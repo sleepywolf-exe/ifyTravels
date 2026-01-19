@@ -35,9 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // New Query with Join
 $booking = $db->fetch("
-    SELECT b.*, p.title as package_title, p.price as package_price
+    SELECT b.*, p.title as package_title, p.price as package_price,
+           a.name as affiliate_name, a.code as affiliate_code
     FROM bookings b
     LEFT JOIN packages p ON b.package_id = p.id
+    LEFT JOIN affiliates a ON b.affiliate_id = a.id
     WHERE b.id = ?
 ", [$id]);
 
@@ -148,6 +150,20 @@ if (!$booking) {
                             <span class="text-xs text-gray-400">per person</span>
                         </div>
                     </div>
+
+                    <?php if (!empty($booking['affiliate_id'])): ?>
+                        <div class="mt-4 pt-4 border-t">
+                            <dt class="text-sm text-gray-500 font-medium mb-1">Referred By (Affiliate)</dt>
+                            <dd class="flex items-center gap-2">
+                                <span
+                                    class="font-semibold text-gray-800"><?php echo e($booking['affiliate_name']); ?></span>
+                                <span
+                                    class="bg-blue-50 text-blue-700 text-xs px-2 py-0.5 rounded border border-blue-100 font-mono">
+                                    <?php echo e($booking['affiliate_code']); ?>
+                                </span>
+                            </dd>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="mt-4">
                         <dt class="text-sm text-gray-500 font-medium mb-1">Special Requests</dt>
