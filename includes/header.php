@@ -110,9 +110,16 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <?php
     $metaTitle = isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'ifyTravels') : get_setting('site_name', 'ifyTravels');
     $metaDesc = isset($pageDescription) ? $pageDescription : get_setting('meta_description', 'Discover luxury travel packages and unforgettable destinations with IfyTravels.');
-    $metaUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+    // Force HTTPS for Canonical/Meta URLs
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? "https" : "https";
+    $metaUrl = $protocol . "://" . $_SERVER['HTTP_HOST'] . strtok($_SERVER["REQUEST_URI"], '?'); // Strip query params for canonical (optional but recommended for clean URLs)
+    
     $metaImage = isset($pageImage) ? base_url($pageImage) : (get_setting('og_image') ? base_url(get_setting('og_image')) : base_url('assets/images/logo-color.png'));
     ?>
+
+    <!-- Canonical Tag (Critical for SEO) -->
+    <link rel="canonical" href="<?php echo $metaUrl; ?>">
 
     <!-- Standard SEO -->
     <meta name="description" content="<?php echo e($metaDesc); ?>">
