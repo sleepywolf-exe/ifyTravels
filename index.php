@@ -221,7 +221,7 @@ try {
         <div id="destinations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <?php foreach ($topDestinations as $dest): ?>
                 <a href="<?php echo destination_url($dest['slug']); ?>"
-                    class="group relative rounded-3xl overflow-hidden aspect-[3/4] shadow-xl cursor-pointer transform transition-all duration-500 hover:rotate-1 hover:scale-105">
+                    class="group relative rounded-3xl overflow-hidden aspect-[3/4] shadow-xl hover:shadow-2xl cursor-pointer transition-all duration-500">
                     <img src="<?php echo base_url($dest['image']); ?>"
                         class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110"
                         alt="<?php echo htmlspecialchars($dest['name']); ?>"
