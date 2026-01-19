@@ -184,10 +184,18 @@ if (!$booking) {
                         </div>
                         <div class="text-right">
                             <dt class="text-sm text-gray-500 font-medium">Estimated Price</dt>
-                            <dd class="text-xl font-bold text-gray-800">₹
-                                <?php echo number_format($booking['package_price'] ?? 0); ?>
+                            <dd class="text-xl font-bold text-gray-800">
+                                <?php if ($booking['total_price'] > 0): ?>
+                                    ₹<?php echo number_format($booking['total_price']); ?>
+                                <?php else: ?>
+                                    <span class="text-orange-500 text-lg">Quote Requested</span>
+                                <?php endif; ?>
                             </dd>
-                            <span class="text-xs text-gray-400">per person</span>
+                            <?php if ($booking['total_price'] > 0): ?>
+                                <span class="text-xs text-gray-400">Total Price</span>
+                            <?php else: ?>
+                                <span class="text-xs text-orange-400">Customized Package</span>
+                            <?php endif; ?>
                         </div>
                     </div>
 

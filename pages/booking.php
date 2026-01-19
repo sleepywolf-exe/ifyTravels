@@ -149,105 +149,165 @@ include __DIR__ . '/../includes/header.php';
 
                 <!-- New Fields -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Duration (Days) -->
                     <div>
-                        <label class="glass-label">Duration (Days)</label>
-                        <input type="number" name="duration" min="1" placeholder="e.g. 5" required
-                            class="glass-input w-full">
+                        <label class="block text-white text-sm font-bold mb-2">Duration (Days)</label>
+                        <input type="text" name="duration" id="duration"
+                            value="<?php echo htmlspecialchars($package['duration']); ?>"
+                            class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm"
+                            placeholder="e.g. 5 Days">
                     </div>
+
+                    <!-- Hotel Category -->
                     <div>
-                        <label class="glass-label">Hotel Category</label>
-                        <select name="hotel_category" class="glass-input w-full text-gray-700">
-                            <option value="Budget">Budget</option>
-                            <option value="Mid-range" selected>Mid-range</option>
-                            <option value="Luxury">Luxury</option>
+                        <label class="block text-white text-sm font-bold mb-2">Hotel Category</label>
+                        <select name="hotel_category"
+                            class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm [&>option]:text-gray-900">
+                            <option value="Standard">Standard (3 Star)</option>
+                            <option value="Deluxe">Deluxe (4 Star)</option>
+                            <option value="Luxury">Luxury (5 Star)</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-6">
+                <!-- Customization Toggle -->
+                <div class="mb-6 bg-white/10 p-4 rounded-xl border border-white/20">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="customizeToggle" name="is_customized" value="1" class="sr-only peer">
+                        <div
+                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600">
+                        </div>
+                        <span class="ms-3 text-sm font-medium text-white">I want to customize this package</span>
+                    </label>
+                    <p class="text-xs text-teal-100 mt-2 hidden" id="customMsg">
+                        Note: For customized packages, the price will be calculated by our experts based on your
+                        requirements.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <!-- Adults -->
                     <div>
-                        <label class="glass-label">Adults</label>
-                        <input type="number" name="adults" id="adults" min="1" value="2" required
-                            class="glass-input w-full">
+                        <label class="block text-white text-sm font-bold mb-2">Adults (12+ yrs)</label>
+                        <div class="relative">
+                            <input type="number" name="adults" id="adults" min="1"
+                                value="<?php echo max(1, $presetTravelers); ?>"
+                                class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm pl-10"
+                                required>
+                            <svg class="w-5 h-5 absolute left-3 top-3.5 text-gray-300" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
                     </div>
+
+                    <!-- Children -->
                     <div>
-                        <label class="glass-label">Children</label>
-                        <input type="number" name="children" id="children" min="0" value="0" class="glass-input w-full">
+                        <label class="block text-white text-sm font-bold mb-2">Children (2-12 yrs)</label>
+                        <div class="relative">
+                            <input type="number" name="children" id="children" min="0" value="0"
+                                class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm pl-10">
+                            <svg class="w-5 h-5 absolute left-3 top-3.5 text-gray-300" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <label class="glass-label">Sightseeing Interests</label>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                <div class="mb-6">
+                    <span class="block text-white text-sm font-bold mb-2">Sightseeing Interests</span>
+                    <div class="flex flex-wrap gap-4">
+                        <label class="inline-flex items-center text-white">
                             <input type="checkbox" name="interests[]" value="Wildlife"
-                                class="form-checkbox text-teal-600 rounded">
-                            <span>Wildlife</span>
+                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
+                            <span class="ml-2 text-sm">Wildlife</span>
                         </label>
-                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                        <label class="inline-flex items-center text-white">
                             <input type="checkbox" name="interests[]" value="Waterfalls"
-                                class="form-checkbox text-teal-600 rounded">
-                            <span>Waterfalls</span>
+                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
+                            <span class="ml-2 text-sm">Waterfalls</span>
                         </label>
-                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                        <label class="inline-flex items-center text-white">
                             <input type="checkbox" name="interests[]" value="Monasteries"
-                                class="form-checkbox text-teal-600 rounded">
-                            <span>Monasteries</span>
+                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
+                            <span class="ml-2 text-sm">Monasteries</span>
                         </label>
-                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                        <label class="inline-flex items-center text-white">
                             <input type="checkbox" name="interests[]" value="Tea Gardens"
-                                class="form-checkbox text-teal-600 rounded">
-                            <span>Tea Gardens</span>
+                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
+                            <span class="ml-2 text-sm">Tea Gardens</span>
                         </label>
                     </div>
                 </div>
 
-                <div>
-                    <label class="glass-label">Special Requests (Optional)</label>
-                    <textarea name="requests" rows="3" placeholder="Any special requirements or preferences?"
-                        class="glass-textarea w-full"></textarea>
+                <!-- Special Requests -->
+                <div class="mb-6">
+                    <label class="block text-white text-sm font-bold mb-2">Special Requests (Optional)</label>
+                    <textarea name="message"
+                        class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm h-24"
+                        placeholder="Any special requirements or preferences?"></textarea>
                 </div>
 
-                <div class="pt-4">
-                    <button type="submit" class="glass-button w-full">
-                        Confirm Booking
-                    </button>
-                </div>
+                <input type="hidden" name="total_price" id="hiddenTotalPrice"
+                    value="<?php echo $package['price'] * $presetTravelers; ?>">
+
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transform hover:-translate-y-0.5 transition duration-200">
+                    Confirm Booking
+                </button>
             </form>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Dynamic Price Calculation
-        const priceLabel = document.getElementById('pkg-price');
-        const adultsInput = document.getElementById('adults');
-        const childrenInput = document.getElementById('children');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Price Calculation
+            const basePrice = <?php echo $package['price']; ?>;
+            const adultsInput = document.getElementById('adults');
+            const childrenInput = document.getElementById('children');
+            const totalPriceEl = document.getElementById('totalPrice');
+            const hiddenTotalPrice = document.getElementById('hiddenTotalPrice');
+            const customizeToggle = document.getElementById('customizeToggle');
+            const customMsg = document.getElementById('customMsg');
 
-        // Extract base price from PHP/HTML (remove currency symbol and commas)
-        const basePrice = parseFloat('<?php echo $selectedPkg["price"]; ?>'.replace(/[^0-9.]/g, '')) || 0;
+            function updatePrice() {
+                if (customizeToggle.checked) {
+                    totalPriceEl.textContent = "Price on Request";
+                    totalPriceEl.classList.add('text-lg'); // Adjust size for text
+                    hiddenTotalPrice.value = 0;
+                    customMsg.classList.remove('hidden');
+                } else {
+                    const adults = parseInt(adultsInput.value) || 0;
+                    const children = parseInt(childrenInput.value) || 0;
+                    const totalPax = adults + children;
 
-        function updatePrice() {
-            const adults = parseInt(adultsInput.value) || 0;
-            const children = parseInt(childrenInput.value) || 0;
-            const totalTravelers = adults + children;
+                    // Logic: Base Price per person
+                    const total = totalPax * basePrice;
 
-            // Calculate Total Price
-            const totalPrice = totalTravelers * basePrice;
+                    // Format Number
+                    const formatted = new Intl.NumberFormat('en-IN', {
+                        style: 'currency',
+                        currency: 'INR',
+                        maximumFractionDigits: 0
+                    }).format(total);
 
-            // Update UI
-            // Format number with commas for Indian currency style if possible, or standard locale
-            priceLabel.textContent = '₹' + totalPrice.toLocaleString('en-IN');
-        }
+                    totalPriceEl.textContent = formatted;
+                    totalPriceEl.classList.remove('text-lg');
+                    hiddenTotalPrice.value = total;
+                    customMsg.classList.add('hidden');
+                }
+            }
 
-        // Event Listeners
-        adultsInput.addEventListener('input', updatePrice);
-        childrenInput.addEventListener('input', updatePrice);
+            adultsInput.addEventListener('input', updatePrice);
+            childrenInput.addEventListener('input', updatePrice);
+            customizeToggle.addEventListener('change', updatePrice);
 
-        // Initial Calculation
-        updatePrice();
-    });
-</script>
+            // Initial Run
+            updatePrice();
+        });
+    </script>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
