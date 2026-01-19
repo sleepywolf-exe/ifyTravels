@@ -28,6 +28,9 @@
     # Sitemap
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
 
+    # Partner Program
+    RewriteRule ^partner-program$ router.php [L]
+
     # Remove .php extension from URLs
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}\.php -f
