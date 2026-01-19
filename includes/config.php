@@ -7,7 +7,7 @@
 define('DB_CONNECTION', 'mysql');
 
 // Database Credentails (cPanel / Remote)
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'bikesraj_ifytravels');
 define('DB_USER', 'bikesraj_ifytravels');
 define('DB_PASS', 'Secure@123.');

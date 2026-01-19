@@ -299,7 +299,8 @@ try {
                             <div class="flex justify-between items-start mb-4">
                                 <div>
                                     <h3 class="text-2xl font-bold text-charcoal mb-1 leading-tight">
-                                        <?php echo htmlspecialchars($pkg['title']); ?></h3>
+                                        <?php echo htmlspecialchars($pkg['title']); ?>
+                                    </h3>
                                     <p class="text-gray-500 text-sm flex items-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -343,7 +344,11 @@ try {
 
 <!-- Why Choose Us -->
 <section class="py-24 bg-gray-900 text-white relative overflow-hidden">
-    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+    <!-- Travel Doodle Background -->
+    <div class="absolute inset-0 bg-[url('../images/travel-doodles.png')] opacity-10 bg-repeat bg-center"></div>
+    <!-- Overlay Gradient to ensure text readability -->
+    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent"></div>
+
     <div class="container mx-auto px-6 relative z-10">
         <div class="text-center mb-16">
             <h2 class="text-4xl font-bold mb-4">Why Choose Us?</h2>

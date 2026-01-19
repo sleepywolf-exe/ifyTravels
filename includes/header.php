@@ -24,12 +24,28 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             $_SESSION['affiliate_id'] = $affId;
 
             // 2. Set Cookie (30 Days)
-            // Path '/' makes it available across the entire domain
             setcookie('affiliate_id', $affId, time() + (86400 * 30), "/");
 
-            // Optional: Redirect to clean URL to hide ref code? 
-            // The user didn't ask for this explicitly, but it's good practice. 
-            // For now, we keep it simple.
+            // 3. Log Referral Click (Anti-Cheat / Analytics)
+            try {
+                $ip = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
+                $ua = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+                $referrer = $_SERVER['HTTP_REFERER'] ?? '';
+
+                // Simple Rate Limit: Check if same IP clicked in last minute for this affiliate
+                // Cross-DB compatible: Use PHP calculated timestamp
+                $oneMinuteAgo = date('Y-m-d H:i:s', time() - 60);
+                $recent = $db->fetch("SELECT id FROM referral_clicks WHERE affiliate_id = ? AND ip_address = ? AND created_at > ?", [$affId, $ip, $oneMinuteAgo]);
+
+                if (!$recent) {
+                    $db->execute(
+                        "INSERT INTO referral_clicks (affiliate_id, ip_address, user_agent, referrer_url) VALUES (?, ?, ?, ?)",
+                        [$affId, $ip, $ua, $referrer]
+                    );
+                }
+            } catch (Exception $e) {
+                // Ignore logging errors to not break user flow
+            }
         }
     } catch (Exception $e) {
         // Ignore DB errors specifically for tracking to avoid blocking page load
