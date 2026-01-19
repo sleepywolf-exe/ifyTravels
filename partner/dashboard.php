@@ -16,21 +16,26 @@ try {
     $clickResult = $db->fetch("SELECT COUNT(*) as count FROM referral_clicks WHERE affiliate_id = ?", [$partnerId]);
     $totalClicks = $clickResult['count'] ?? 0;
 
-    // 2. Total Bookings
-    $bookingResult = $db->fetch("SELECT COUNT(*) as count, SUM(total_price) as total_revenue FROM bookings WHERE affiliate_id = ? AND status != 'cancelled'", [$partnerId]);
-    $totalBookings = $bookingResult['count'] ?? 0;
-    $totalRevenue = $bookingResult['total_revenue'] ?? 0;
+    // 2. Total Leads (All Bookings)
+    $leadsResult = $db->fetch("SELECT COUNT(*) as count FROM bookings WHERE affiliate_id = ?", [$partnerId]);
+    $totalLeads = $leadsResult['count'] ?? 0;
 
-    // 3. Earnings
-    $totalEarnings = ($totalRevenue * $commissionRate) / 100;
+    // 3. Conversions (Confirmed Sales)
+    $conversionResult = $db->fetch("SELECT COUNT(*) as count, SUM(total_price) as total_revenue FROM bookings WHERE affiliate_id = ? AND status = 'Confirmed'", [$partnerId]);
+    $totalConversions = $conversionResult['count'] ?? 0;
+    $confirmedRevenue = $conversionResult['total_revenue'] ?? 0;
 
-    // 4. Recent Clicks
+    // 4. Earnings (Based on Confirmed Revenue)
+    $totalEarnings = ($confirmedRevenue * $commissionRate) / 100;
+
+    // 5. Recent Clicks
     $recentClicks = $db->fetchAll("SELECT * FROM referral_clicks WHERE affiliate_id = ? ORDER BY created_at DESC LIMIT 10", [$partnerId]);
 
 } catch (Exception $e) {
     // handle error
     $totalClicks = 0;
-    $totalBookings = 0;
+    $totalLeads = 0;
+    $totalConversions = 0;
     $totalEarnings = 0;
 }
 ?>
@@ -160,11 +165,11 @@ try {
             </div>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <!-- Clicks -->
                 <div class="glass-card p-6 rounded-2xl">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-gray-400 font-medium text-sm border-b border-gray-600 pb-1">TOTAL CLICKS</h3>
+                        <h3 class="text-gray-400 font-medium text-sm border-b border-gray-600 pb-1">CLICKS</h3>
                         <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -178,7 +183,23 @@ try {
                     </p>
                 </div>
 
-                <!-- Bookings -->
+                <!-- Leads -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-gray-400 font-medium text-sm border-b border-gray-600 pb-1">LEADS</h3>
+                        <div class="p-2 bg-purple-500/20 rounded-lg text-purple-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-4xl font-bold font-heading text-white">
+                        <?php echo number_format($totalLeads); ?>
+                    </p>
+                </div>
+
+                <!-- Conversions (Sales) -->
                 <div class="glass-card p-6 rounded-2xl">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-gray-400 font-medium text-sm border-b border-gray-600 pb-1">CONVERSIONS</h3>
@@ -190,7 +211,7 @@ try {
                         </div>
                     </div>
                     <p class="text-4xl font-bold font-heading text-white">
-                        <?php echo number_format($totalBookings); ?>
+                        <?php echo number_format($totalConversions); ?>
                     </p>
                 </div>
 
@@ -198,7 +219,7 @@ try {
                 <div class="glass-card p-6 rounded-2xl relative overflow-hidden">
                     <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-secondary/20 rounded-full blur-2xl"></div>
                     <div class="flex items-center justify-between mb-4 relative z-10">
-                        <h3 class="text-gray-400 font-medium text-sm border-b border-gray-600 pb-1">TOTAL EARNINGS</h3>
+                        <h3 class="text-gray-400 font-medium text-sm border-b border-gray-600 pb-1">EARNINGS</h3>
                         <div class="p-2 bg-yellow-500/20 rounded-lg text-yellow-400">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

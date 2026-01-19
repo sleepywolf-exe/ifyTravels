@@ -30,11 +30,12 @@ if (!$affiliate)
 // Fetch Stats
 $stats = $db->fetch("
     SELECT 
-        COUNT(id) as total_bookings,
+        (SELECT COUNT(*) FROM bookings WHERE affiliate_id = ?) as total_leads,
+        (SELECT COUNT(*) FROM bookings WHERE affiliate_id = ? AND status = 'Confirmed') as total_conversions,
         COALESCE(SUM(total_price), 0) as total_revenue
     FROM bookings 
-    WHERE affiliate_id = ?
-", [$id]);
+    WHERE affiliate_id = ? AND status = 'Confirmed'
+", [$id, $id, $id]);
 
 // Fetch Booking History
 $bookings = $db->fetchAll("
@@ -107,10 +108,16 @@ $bookings = $db->fetchAll("
             </div>
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <div class="text-gray-500 text-sm font-medium mb-1">Total Bookings</div>
-                    <div class="text-3xl font-bold text-gray-800"><?php echo number_format($stats['total_bookings']); ?>
+                    <div class="text-gray-500 text-sm font-medium mb-1">Total Leads</div>
+                    <div class="text-3xl font-bold text-gray-800"><?php echo number_format($stats['total_leads']); ?>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="text-gray-500 text-sm font-medium mb-1">Verified Conversions</div>
+                    <div class="text-3xl font-bold text-green-600">
+                        <?php echo number_format($stats['total_conversions']); ?>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
@@ -118,14 +125,14 @@ $bookings = $db->fetchAll("
                     <div class="text-3xl font-bold text-emerald-600">
                         ₹<?php echo number_format($stats['total_revenue']); ?></div>
                 </div>
-                <!-- Placeholder for Earnings (e.g. 10% commission) -->
+                <!-- Earnings -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <div class="text-gray-500 text-sm font-medium mb-1">Estimated Earnings
                         (<?php echo number_format($affiliate['commission_rate'], 1); ?>%)</div>
                     <div class="text-3xl font-bold text-blue-600">
                         ₹<?php echo number_format(($stats['total_revenue'] * $affiliate['commission_rate']) / 100); ?>
                     </div>
-                    <p class="text-xs text-gray-400 mt-1">* Based on current commission rate</p>
+                    <p class="text-xs text-gray-400 mt-1">* Paid on Conversions</p>
                 </div>
             </div>
 
@@ -234,7 +241,8 @@ $bookings = $db->fetchAll("
                                     <tr class="hover:bg-gray-50 transition">
                                         <td
                                             class="p-4 font-mono text-gray-600 bg-gray-50/50 rounded-lg inline-block my-1 mx-2 text-xs">
-                                            <?php echo e($c['ip_address']); ?></td>
+                                            <?php echo e($c['ip_address']); ?>
+                                        </td>
                                         <td class="p-4 text-gray-500 text-xs truncate max-w-xs"
                                             title="<?php echo e($c['user_agent']); ?>">
                                             <?php echo e(substr($c['user_agent'], 0, 50)) . '...'; ?>
