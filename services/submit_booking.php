@@ -50,9 +50,17 @@ try {
     $package_name = $pkg ? $pkg['title'] : 'Unknown Package';
     $total_price = $pkg ? $pkg['price'] : 0.00; // Base price
 
+    // Capture Affiliate ID
+    $affiliate_id = null;
+    if (isset($_SESSION['affiliate_id'])) {
+        $affiliate_id = intval($_SESSION['affiliate_id']);
+    } elseif (isset($_COOKIE['affiliate_id'])) {
+        $affiliate_id = intval($_COOKIE['affiliate_id']);
+    }
+
     // Insert Booking
-    $sql = "INSERT INTO bookings (package_id, package_name, customer_name, email, phone, travel_date, special_requests, total_price, status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO bookings (package_id, package_name, customer_name, email, phone, travel_date, special_requests, total_price, status, affiliate_id) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $success = $db->execute($sql, [
         $package_id,
@@ -63,7 +71,8 @@ try {
         $travel_date,
         $special_requests,
         $total_price,
-        $status
+        $status,
+        $affiliate_id
     ]);
 
     if ($success) {

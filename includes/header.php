@@ -4,6 +4,59 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/../data/loader.php';
 ?>
 <!DOCTYPE html>
+<?php
+// Check for Affiliate Referral
+if (isset($_GET['ref']) && !empty($_GET['ref'])) {
+    $refCode = sanitize_input($_GET['ref']);
+
+    // Validate Code from DB
+    // (Assuming $db is available via functions.php which is required above)
+    // We need to use raw PDO or DB helper since header includes functions which includes db
+    // Just to be safe, we use the singleton
+    try {
+        $db = Database::getInstance();
+        $aff = $db->fetch("SELECT id FROM affiliates WHERE code = ? AND status = 'active'", [$refCode]);
+
+        if ($aff) {
+            $affId = $aff['id'];
+
+            // 1. Set Session
+            $_SESSION['affiliate_id'] = $affId;
+
+            // 2. Set Cookie (30 Days)
+            // Path '/' makes it available across the entire domain
+            setcookie('affiliate_id', $affId, time() + (86400 * 30), "/");
+
+            // Optional: Redirect to clean URL to hide ref code? 
+            // The user didn't ask for this explicitly, but it's good practice. 
+            // For now, we keep it simple.
+        }
+    } catch (Exception $e) {
+        // Ignore DB errors specifically for tracking to avoid blocking page load
+        error_log("Affiliate Tracking Error: " . $e->getMessage());
+    }
+} else {
+    // If no ref in URL, check if valid cookie exists but session is empty
+    if (!isset($_SESSION['affiliate_id']) && isset($_COOKIE['affiliate_id'])) {
+        $cookieAffId = intval($_COOKIE['affiliate_id']);
+        // Re-validate against DB to ensure it wasn't tampered or deactivated
+        try {
+            $db = Database::getInstance();
+            $aff = $db->fetch("SELECT id FROM affiliates WHERE id = ? AND status = 'active'", [$cookieAffId]);
+            if ($aff) {
+                $_SESSION['affiliate_id'] = $aff['id'];
+                // Refresh cookie expiry
+                setcookie('affiliate_id', $aff['id'], time() + (86400 * 30), "/");
+            } else {
+                // Invalid/Inactive affiliate in cookie, clear it
+                setcookie('affiliate_id', '', time() - 3600, "/");
+            }
+        } catch (Exception $e) {
+            // Ignore
+        }
+    }
+}
+?>
 <html lang="en">
 
 <head>
