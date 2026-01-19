@@ -449,20 +449,58 @@ try {
 </section>
 
 <!-- CTA Section -->
-<section class="py-20 bg-gradient-to-r from-primary to-teal-600 text-white">
-    <div class="container mx-auto px-6 text-center">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Start Your Adventure?</h2>
-        <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Join thousands of happy travelers who have discovered
-            their dream destinations with us</p>
-        <div class="flex flex-col md:flex-row gap-4 justify-center">
-            <a href="<?php echo base_url('pages/booking.php'); ?>"
-                class="bg-white text-primary font-bold py-4 px-10 rounded-full hover:bg-gray-100 transition transform hover:scale-105 shadow-xl">
-                Book Your Trip Now
-            </a>
-            <a href="<?php echo base_url('pages/contact.php'); ?>"
-                class="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white font-bold py-4 px-10 rounded-full transition border border-white/30 shadow-xl">
-                Contact Us
-            </a>
+<!-- CTA Section -->
+<section class="py-20 relative overflow-hidden">
+    <!-- Background with Doodles -->
+    <div class="absolute inset-0 bg-gray-900">
+        <div class="absolute inset-0 bg-[url('assets/images/travel-doodles.png')] opacity-10 bg-repeat bg-center"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-teal-900/90"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <div
+            class="glass-card max-w-4xl mx-auto rounded-3xl p-10 md:p-16 text-center transform transition duration-500 hover:scale-[1.01] border border-white/20 relative overflow-hidden group">
+
+            <!-- Decorative Glow -->
+            <div
+                class="absolute -top-24 -right-24 w-64 h-64 bg-secondary/30 rounded-full blur-3xl group-hover:bg-secondary/40 transition duration-700">
+            </div>
+            <div
+                class="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/30 rounded-full blur-3xl group-hover:bg-primary/40 transition duration-700">
+            </div>
+
+            <div class="relative z-10">
+                <span
+                    class="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold tracking-wider mb-6 uppercase">
+                    Start Your Journey
+                </span>
+
+                <h2 class="text-4xl md:text-6xl font-bold mb-6 text-white font-heading">
+                    Ready to Explore the <br /><span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-white to-teal-100">Unknown?</span>
+                </h2>
+
+                <p class="text-xl mb-10 text-gray-200 max-w-2xl mx-auto leading-relaxed">
+                    Join thousands of happy travelers who have discovered their dream destinations with us. Your next
+                    great adventure is just a click away.
+                </p>
+
+                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <a href="<?php echo base_url('pages/booking.php'); ?>"
+                        class="bg-white text-primary font-bold py-4 px-10 rounded-full hover:bg-gray-100 transition shadow-xl hover:shadow-2xl hover:shadow-white/20 transform hover:-translate-y-1 w-full md:w-auto">
+                        Book Your Trip Now
+                    </a>
+                    <a href="<?php echo base_url('pages/contact.php'); ?>"
+                        class="bg-transparent hover:bg-white/10 text-white font-bold py-4 px-10 rounded-full transition border-2 border-white/30 hover:border-white w-full md:w-auto flex items-center justify-center gap-2 group-btn">
+                        <span>Contact Us</span>
+                        <svg class="w-5 h-5 group-btn-hover:translate-x-1 transition" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
