@@ -158,6 +158,7 @@ $affiliates = $db->fetchAll($query);
                             <th class="p-4">Partner Name</th>
                             <th class="p-4">Affiliate Code</th>
                             <th class="p-4">Email</th>
+                            <th class="p-4 text-center">Commission</th>
                             <th class="p-4 text-center">Bookings</th>
                             <th class="p-4 text-center">Status</th>
                             <th class="p-4">Registered</th>
@@ -167,7 +168,7 @@ $affiliates = $db->fetchAll($query);
                     <tbody class="divide-y divide-gray-50 text-sm">
                         <?php if (empty($affiliates)): ?>
                             <tr id="emptyRow">
-                                <td colspan="8" class="p-8 text-center text-gray-400">No affiliates found.</td>
+                                <td colspan="9" class="p-8 text-center text-gray-400">No affiliates found.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($affiliates as $aff): ?>
@@ -186,6 +187,11 @@ $affiliates = $db->fetchAll($query);
                                     </td>
                                     <td class="p-4 text-gray-600" id="email-<?php echo $aff['id']; ?>">
                                         <?php echo e($aff['email']); ?>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-xs font-bold">
+                                            <?php echo number_format($aff['commission_rate'], 1); ?>%
+                                        </span>
                                     </td>
                                     <td class="p-4 text-center font-bold text-gray-700">
                                         <?php echo $aff['booking_count']; ?>
