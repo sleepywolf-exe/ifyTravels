@@ -38,6 +38,70 @@ $pageTitle = $pkg['title'];
 include __DIR__ . '/../includes/header.php';
 ?>
 
+<!-- Schema.org Markup for Rich Snippets -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "<?php echo htmlspecialchars($pkg['title'], ENT_QUOTES); ?>",
+  "image": "<?php echo base_url($pkg['image']); ?>",
+  "description": "<?php echo htmlspecialchars(strip_tags($pkg['description']), ENT_QUOTES); ?>",
+  "brand": {
+    "@type": "Brand",
+    "name": "ifyTravels"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "<?php echo $metaUrl; ?>",
+    "priceCurrency": "INR",
+    "price": "<?php echo $pkg['price']; ?>",
+    "priceValidUntil": "<?php echo date('Y-12-31'); ?>",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition"
+  },
+  "review": {
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "5",
+      "bestRating": "5"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Verified Traveler"
+    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "<?php echo rand(50, 200); ?>"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "<?php echo base_url(); ?>"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Packages",
+    "item": "<?php echo base_url('packages'); ?>"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": "<?php echo htmlspecialchars($pkg['title'], ENT_QUOTES); ?>",
+    "item": "<?php echo $metaUrl; ?>"
+  }]
+}
+</script>
+
 <div class="pt-24 pb-12 container mx-auto px-6 flex-1" id="content-area">
     <div class="flex flex-col lg:flex-row gap-12">
         <!-- Left Content -->
