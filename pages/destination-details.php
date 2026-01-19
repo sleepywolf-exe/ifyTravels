@@ -317,12 +317,11 @@ $packages = getPackagesByDestination($id);
                         <p class="text-gray-300 text-sm mb-6">Our travel experts can help you craft the perfect
                             itinerary.</p>
 
-                        <!-- Desktop: Open Modal -->
-                        <button
-                            onclick="openLeadModal(null, 'Trip Inquiry: <?php echo htmlspecialchars($dest['name']); ?>')"
+                        <!-- Desktop: Contact Page -->
+                        <a href="<?php echo base_url('contact'); ?>"
                             class="hidden md:block w-full bg-white text-charcoal font-bold py-3 rounded-xl hover:bg-gray-100 transition">
                             Contact Expert
-                        </button>
+                        </a>
 
                         <!-- Mobile: Call Directly -->
                         <a href="tel:<?php echo get_setting('contact_phone', '+919999779870'); ?>"

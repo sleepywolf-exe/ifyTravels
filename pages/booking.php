@@ -4,8 +4,15 @@ include __DIR__ . '/../includes/functions.php';
 
 $pkgId = $_GET['packageId'] ?? null;
 $selectedPkg = null;
+
 if ($pkgId) {
     $selectedPkg = getPackageById($pkgId);
+}
+
+// Enforce Package Selection
+if (!$pkgId || !$selectedPkg) {
+    header('Location: ' . base_url('packages'));
+    exit;
 }
 
 // Handle POST Submission
@@ -99,24 +106,6 @@ include __DIR__ . '/../includes/header.php';
                         <span id="pkg-price"
                             class="font-bold text-primary text-xl">₹<?php echo $selectedPkg['price']; ?></span>
                     </div>
-                </div>
-            <?php else: ?>
-                <div id="no-package-msg" class="flex flex-col items-center justify-center h-full text-center py-10">
-                    <div class="w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                    <h4 class="font-bold text-gray-800 mb-2">No Package Selected</h4>
-                    <p class="text-gray-500 text-sm mb-6 leading-relaxed">
-                        You can fill out this form for a general inquiry, or browse our packages to book a specific tour.
-                    </p>
-                    <a href="<?php echo base_url('packages'); ?>"
-                        class="inline-block bg-white border border-primary text-primary px-6 py-2 rounded-lg font-bold hover:bg-primary hover:text-white transition shadow-sm">
-                        Browse Packages
-                    </a>
                 </div>
             <?php endif; ?>
         </div>

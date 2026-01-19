@@ -23,7 +23,8 @@ if (!$pkg) {
     <div id="error-state" class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 pt-32">
         <h1 class="text-6xl font-bold text-gray-200 mb-4">404</h1>
         <h2 class="text-2xl font-bold text-charcoal mb-2">Package Not Found</h2>
-        <a href="<?php echo base_url('packages'); ?>" class="bg-primary text-white px-6 py-2 rounded-lg font-bold mt-4">Browse Packages</a>
+        <a href="<?php echo base_url('packages'); ?>"
+            class="bg-primary text-white px-6 py-2 rounded-lg font-bold mt-4">Browse Packages</a>
     </div>
     <?php
     include __DIR__ . '/../includes/footer.php';
@@ -43,7 +44,8 @@ include __DIR__ . '/../includes/header.php';
         <div class="lg:w-2/3">
             <nav class="flex mb-4 text-sm text-gray-500">
                 <a href="<?php echo base_url(); ?>" class="hover:text-primary">Home</a> <span class="mx-2">/</span>
-                <a href="<?php echo base_url('packages'); ?>" class="hover:text-primary">Packages</a> <span class="mx-2">/</span>
+                <a href="<?php echo base_url('packages'); ?>" class="hover:text-primary">Packages</a> <span
+                    class="mx-2">/</span>
                 <span id="breadcrumb-title" class="text-gray-800 font-medium">
                     <?php echo htmlspecialchars($pkg['title']); ?>
                 </span>
@@ -275,14 +277,13 @@ include __DIR__ . '/../includes/header.php';
                     </div>
 
                     <!-- CTA Button -->
-                    <button
-                        onclick="openLeadModal(<?php echo $pkg['id']; ?>, 'Book: <?php echo htmlspecialchars($pkg['title']); ?>')"
+                    <a href="<?php echo base_url('booking.php?packageId=' . $pkg['id']); ?>"
                         class="block w-full bg-gradient-to-r from-primary to-teal-600 text-white text-center font-bold py-4 rounded-xl hover:shadow-2xl transition-all duration-300 shadow-lg mb-4 transform hover:-translate-y-1">
                         <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                         Book This Package
-                    </button>
+                    </a>
 
                     <!-- Trust Indicators -->
                     <?php if (!empty($pkg['trust_badges'])):
