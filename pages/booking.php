@@ -143,7 +143,8 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                     <div>
                         <label class="glass-label">Travel Date</label>
-                        <input type="date" name="date" required min="<?php echo date('Y-m-d'); ?>" class="glass-input w-full">
+                        <input type="date" name="date" required min="<?php echo date('Y-m-d'); ?>"
+                            class="glass-input w-full">
                     </div>
                 </div>
 
@@ -243,7 +244,7 @@ include __DIR__ . '/../includes/header.php';
         const form = document.getElementById('booking-form');
         const adultsInput = document.getElementById('adults');
         const childrenInput = document.getElementById('children');
-        const totalPriceEl = document.getElementById('totalPrice');
+        const totalPriceEl = document.getElementById('pkg-price');
         const hiddenTotalPrice = document.getElementById('hiddenTotalPrice');
         const customizeToggle = document.getElementById('customizeToggle');
         const customMsg = document.getElementById('customMsg');
