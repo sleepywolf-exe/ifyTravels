@@ -130,7 +130,14 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM bookings WHERE utm_sou
                                         <div class="font-bold text-gray-900"><?php echo e($b['customer_name']); ?></div>
                                         <div class="text-xs text-gray-400 mt-0.5"><?php echo e($b['email']); ?></div>
                                     </td>
-                                    <td class="px-6 py-4 font-medium text-gray-700"><?php echo e($b['package_name']); ?></td>
+                                    <td class="px-6 py-4 font-medium text-gray-700">
+                                        <?php echo e($b['package_name'] ?? 'Custom Package'); ?>
+                                        <?php if ($b['total_price'] == 0): ?>
+                                            <span
+                                                class="inline-block ml-1 px-1.5 py-0.5 bg-purple-100 text-purple-700 text-[10px] font-bold uppercase tracking-wide rounded">Custom
+                                                Request</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="px-6 py-4 text-gray-500"><?php echo e($b['travel_date']); ?></td>
 
                                     <!-- Source Icon -->

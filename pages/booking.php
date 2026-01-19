@@ -143,30 +143,7 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                     <div>
                         <label class="glass-label">Travel Date</label>
-                        <input type="date" name="date" required class="glass-input w-full">
-                    </div>
-                </div>
-
-                <!-- New Fields -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Duration (Days) -->
-                    <div>
-                        <label class="block text-white text-sm font-bold mb-2">Duration (Days)</label>
-                        <input type="text" name="duration" id="duration"
-                            value="<?php echo htmlspecialchars($package['duration']); ?>"
-                            class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm"
-                            placeholder="e.g. 5 Days">
-                    </div>
-
-                    <!-- Hotel Category -->
-                    <div>
-                        <label class="block text-white text-sm font-bold mb-2">Hotel Category</label>
-                        <select name="hotel_category"
-                            class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm [&>option]:text-gray-900">
-                            <option value="Standard">Standard (3 Star)</option>
-                            <option value="Deluxe">Deluxe (4 Star)</option>
-                            <option value="Luxury">Luxury (5 Star)</option>
-                        </select>
+                        <input type="date" name="date" required min="<?php echo date('Y-m-d'); ?>" class="glass-input w-full">
                     </div>
                 </div>
 
@@ -183,6 +160,29 @@ include __DIR__ . '/../includes/header.php';
                         Note: For customized packages, the price will be calculated by our experts based on your
                         requirements.
                     </p>
+                </div>
+
+                <!-- Custom Fields (Hidden by default) -->
+                <div id="customFields" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 hidden">
+                    <!-- Duration (Days) -->
+                    <div>
+                        <label class="block text-white text-sm font-bold mb-2">Duration (Days)</label>
+                        <input type="text" name="duration" id="duration"
+                            value="<?php echo htmlspecialchars($package['duration']); ?>"
+                            class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm"
+                            placeholder="e.g. 5 Days">
+                    </div>
+
+                    <!-- Hotel Category -->
+                    <div>
+                        <label class="block text-white text-sm font-bold mb-2">Hotel Category</label>
+                        <select name="hotel_category"
+                            class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm [&>option]:text-gray-900">
+                            <option value="Budget">Budget</option>
+                            <option value="Mid-range" selected>Mid-range</option>
+                            <option value="Luxury">Luxury</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -217,32 +217,6 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                 </div>
 
-                <div class="mb-6">
-                    <span class="block text-white text-sm font-bold mb-2">Sightseeing Interests</span>
-                    <div class="flex flex-wrap gap-4">
-                        <label class="inline-flex items-center text-white">
-                            <input type="checkbox" name="interests[]" value="Wildlife"
-                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
-                            <span class="ml-2 text-sm">Wildlife</span>
-                        </label>
-                        <label class="inline-flex items-center text-white">
-                            <input type="checkbox" name="interests[]" value="Waterfalls"
-                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
-                            <span class="ml-2 text-sm">Waterfalls</span>
-                        </label>
-                        <label class="inline-flex items-center text-white">
-                            <input type="checkbox" name="interests[]" value="Monasteries"
-                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
-                            <span class="ml-2 text-sm">Monasteries</span>
-                        </label>
-                        <label class="inline-flex items-center text-white">
-                            <input type="checkbox" name="interests[]" value="Tea Gardens"
-                                class="form-checkbox text-teal-500 rounded focus:ring-teal-500 h-5 w-5 bg-white/20 border-white/30">
-                            <span class="ml-2 text-sm">Tea Gardens</span>
-                        </label>
-                    </div>
-                </div>
-
                 <!-- Special Requests -->
                 <div class="mb-6">
                     <label class="block text-white text-sm font-bold mb-2">Special Requests (Optional)</label>
@@ -254,60 +228,106 @@ include __DIR__ . '/../includes/header.php';
                 <input type="hidden" name="total_price" id="hiddenTotalPrice"
                     value="<?php echo $package['price'] * $presetTravelers; ?>">
 
-                <button type="submit"
+                <button type="submit" id="submitBtn"
                     class="w-full bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transform hover:-translate-y-0.5 transition duration-200">
-                    Confirm Booking
+                    Send Request
                 </button>
             </form>
         </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Price Calculation
-            const basePrice = <?php echo $package['price']; ?>;
-            const adultsInput = document.getElementById('adults');
-            const childrenInput = document.getElementById('children');
-            const totalPriceEl = document.getElementById('totalPrice');
-            const hiddenTotalPrice = document.getElementById('hiddenTotalPrice');
-            const customizeToggle = document.getElementById('customizeToggle');
-            const customMsg = document.getElementById('customMsg');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Elements
+        const form = document.getElementById('booking-form');
+        const adultsInput = document.getElementById('adults');
+        const childrenInput = document.getElementById('children');
+        const totalPriceEl = document.getElementById('totalPrice');
+        const hiddenTotalPrice = document.getElementById('hiddenTotalPrice');
+        const customizeToggle = document.getElementById('customizeToggle');
+        const customMsg = document.getElementById('customMsg');
+        const customFields = document.getElementById('customFields');
+        const submitBtn = document.getElementById('submitBtn');
+        const dateInput = document.querySelector('input[name="date"]');
+        const phoneInput = document.querySelector('input[name="phone"]');
 
-            function updatePrice() {
-                if (customizeToggle.checked) {
-                    totalPriceEl.textContent = "Price on Request";
-                    totalPriceEl.classList.add('text-lg'); // Adjust size for text
-                    hiddenTotalPrice.value = 0;
-                    customMsg.classList.remove('hidden');
-                } else {
-                    const adults = parseInt(adultsInput.value) || 0;
-                    const children = parseInt(childrenInput.value) || 0;
-                    const totalPax = adults + children;
+        // 1. Price Calculation
+        const basePrice = <?php echo $package['price']; ?>;
 
-                    // Logic: Base Price per person
-                    const total = totalPax * basePrice;
+        function updatePrice() {
+            if (customizeToggle.checked) {
+                // Customize Mode
+                totalPriceEl.textContent = "Price on Request";
+                totalPriceEl.classList.add('text-lg');
+                hiddenTotalPrice.value = 0;
 
-                    // Format Number
-                    const formatted = new Intl.NumberFormat('en-IN', {
-                        style: 'currency',
-                        currency: 'INR',
-                        maximumFractionDigits: 0
-                    }).format(total);
+                customMsg.classList.remove('hidden');
+                customFields.classList.remove('hidden');
+                submitBtn.textContent = "Request Custom Package";
+            } else {
+                // Standard Mode
+                const adults = parseInt(adultsInput.value) || 0;
+                const children = parseInt(childrenInput.value) || 0;
+                const totalPax = adults + children;
 
-                    totalPriceEl.textContent = formatted;
-                    totalPriceEl.classList.remove('text-lg');
-                    hiddenTotalPrice.value = total;
-                    customMsg.classList.add('hidden');
-                }
+                const total = totalPax * basePrice;
+
+                const formatted = new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    maximumFractionDigits: 0
+                }).format(total);
+
+                totalPriceEl.textContent = formatted;
+                totalPriceEl.classList.remove('text-lg');
+                hiddenTotalPrice.value = total;
+
+                customMsg.classList.add('hidden');
+                customFields.classList.add('hidden');
+                submitBtn.textContent = "Send Request";
+            }
+        }
+
+        adultsInput.addEventListener('input', updatePrice);
+        childrenInput.addEventListener('input', updatePrice);
+        customizeToggle.addEventListener('change', updatePrice);
+
+        // Initial Run
+        updatePrice();
+
+        // 2. Form Validation
+        form.addEventListener('submit', function (e) {
+            let isValid = true;
+            const errors = [];
+
+            // Reset styles
+            [dateInput, phoneInput].forEach(el => el.classList.remove('border-red-500', 'ring-2', 'ring-red-500'));
+
+            // Date Validation (Not in past)
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (selectedDate < today) {
+                isValid = false;
+                errors.push("Travel date cannot be in the past.");
+                dateInput.classList.add('border-red-500', 'ring-2', 'ring-red-500');
             }
 
-            adultsInput.addEventListener('input', updatePrice);
-            childrenInput.addEventListener('input', updatePrice);
-            customizeToggle.addEventListener('change', updatePrice);
+            // Phone Validation (Simple 10 digit check)
+            const phone = phoneInput.value.replace(/\D/g, ''); // Remove non-digits
+            if (phone.length < 10) {
+                isValid = false;
+                errors.push("Please enter a valid phone number (at least 10 digits).");
+                phoneInput.classList.add('border-red-500', 'ring-2', 'ring-red-500');
+            }
 
-            // Initial Run
-            updatePrice();
+            if (!isValid) {
+                e.preventDefault();
+                alert(errors.join("\n"));
+            }
         });
-    </script>
+    });
+</script>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

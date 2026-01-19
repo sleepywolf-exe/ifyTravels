@@ -156,19 +156,7 @@ if (!$booking) {
                                     class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-sm"><?php echo e($booking['hotel_category']); ?></span>
                             </dd>
                         </div>
-                        <div>
-                            <dt class="text-sm text-gray-500 font-medium">Interests</dt>
-                            <dd class="text-gray-900 flex flex-wrap gap-1 mt-1">
-                                <?php if (!empty($booking['interests'])): ?>
-                                    <?php foreach (explode(',', $booking['interests']) as $interest): ?>
-                                        <span
-                                            class="px-2 py-1 bg-teal-50 text-teal-700 border border-teal-100 rounded text-xs font-medium"><?php echo trim(e($interest)); ?></span>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <span class="text-gray-400 text-sm">None</span>
-                                <?php endif; ?>
-                            </dd>
-                        </div>
+
                     </dl>
                 </div>
 
