@@ -452,9 +452,9 @@ try {
 <!-- CTA Section -->
 <section class="py-20 relative overflow-hidden">
     <!-- Background with Doodles -->
-    <div class="absolute inset-0 bg-gray-900">
-        <div class="absolute inset-0 bg-[url('assets/images/travel-doodles.png')] opacity-10 bg-repeat bg-center"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-teal-900/90"></div>
+    <div class="absolute inset-0 bg-teal-800">
+        <div class="absolute inset-0 bg-[url('assets/images/flight-pattern.png')] opacity-10 bg-repeat bg-center bg-contain"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-teal-900/80"></div>
     </div>
 
     <div class="container mx-auto px-6 relative z-10">
