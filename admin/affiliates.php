@@ -11,10 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $code = strtoupper(trim($_POST['code'] ?? ''));
+    $commission = isset($_POST['commission']) ? floatval($_POST['commission']) : 10.00;
+    $password = $_POST['password'] ?? '';
     $id = isset($_POST['id']) ? intval($_POST['id']) : null;
 
     if (empty($name) || empty($email) || empty($code)) {
-        echo json_encode(['success' => false, 'message' => 'All fields are required.']);
+        echo json_encode(['success' => false, 'message' => 'Name, Email, and Code are required.']);
         exit;
     }
 
@@ -28,7 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
     }
 
     if ($action === 'create') {
-        if ($db->execute("INSERT INTO affiliates (name, email, code, status) VALUES (?, ?, ?, 'active')", [$name, $email, $code])) {
+        // Require password for new accounts
+        if (empty($password)) {
+            echo json_encode(['success' => false, 'message' => 'Password is required for new partners.']);
+            exit;
+        }
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        if ($db->execute("INSERT INTO affiliates (name, email, code, status, commission_rate, password_hash) VALUES (?, ?, ?, 'active', ?, ?)", [$name, $email, $code, $commission, $hash])) {
             $newId = $db->lastInsertId();
             echo json_encode([
                 'success' => true,
@@ -40,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
                     'code' => $code,
                     'booking_count' => 0,
                     'status' => 'active',
+                    'commission_rate' => $commission,
                     'created_at' => date('Y-m-d H:i:s')
                 ]
             ]);
@@ -47,22 +57,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
             echo json_encode(['success' => false, 'message' => 'Database insert failed.']);
         }
     } elseif ($action === 'update' && $id) {
-        if ($db->execute("UPDATE affiliates SET name = ?, email = ?, code = ? WHERE id = ?", [$name, $email, $code, $id])) {
-            echo json_encode([
-                'success' => true,
-                'message' => 'Affiliate updated successfully',
-                'affiliate' => [
-                    'id' => $id,
-                    'name' => $name,
-                    'email' => $email,
-                    'code' => $code
-                ]
-            ]);
+        // Password update is optional
+        if (!empty($password)) {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $db->execute("UPDATE affiliates SET name = ?, email = ?, code = ?, commission_rate = ?, password_hash = ? WHERE id = ?", [$name, $email, $code, $commission, $hash, $id]);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Database update failed.']);
+            $db->execute("UPDATE affiliates SET name = ?, email = ?, code = ?, commission_rate = ? WHERE id = ?", [$name, $email, $code, $commission, $id]);
         }
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Affiliate updated successfully',
+            'affiliate' => [
+                'id' => $id,
+                'name' => $name,
+                'email' => $email,
+                'code' => $code,
+                'commission_rate' => $commission
+            ]
+        ]);
     } elseif ($action === 'delete' && $id) {
-        // preserve history (set id null) or delete? 
+        // preserve history (set id null) or delete?
         // User requested DELETE functionality. Safe way: NULLify bookings, Delete affiliate.
         $db->execute("UPDATE bookings SET affiliate_id = NULL WHERE affiliate_id = ?", [$id]);
         if ($db->execute("DELETE FROM affiliates WHERE id = ?", [$id])) {
@@ -191,7 +206,7 @@ $affiliates = $db->fetchAll($query);
                                         </a>
 
                                         <button
-                                            onclick="openPanel('update', {id: <?php echo $aff['id']; ?>, name: '<?php echo addslashes($aff['name']); ?>', email: '<?php echo addslashes($aff['email']); ?>', code: '<?php echo addslashes($aff['code']); ?>'})"
+                                            onclick="openPanel('update', {id: <?php echo $aff['id']; ?>, name: '<?php echo addslashes($aff['name']); ?>', email: '<?php echo addslashes($aff['email']); ?>', code: '<?php echo addslashes($aff['code']); ?>', commission: '<?php echo $aff['commission_rate'] ?? 10.00; ?>'})"
                                             class="text-xs font-medium px-2 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition"
                                             title="Edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -270,6 +285,19 @@ $affiliates = $db->fetchAll($query);
                         placeholder="partner@example.com">
                 </div>
                 <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Commission Rate (%)</label>
+                    <input type="number" step="0.01" name="commission" id="affCommission" required
+                        class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary outline-none transition"
+                        placeholder="10.00" value="10.00">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Password</label>
+                    <input type="password" name="password" id="affPassword"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary outline-none transition"
+                        placeholder="Leave blank to keep unchanged">
+                    <p class="text-xs text-gray-500 mt-1" id="passwordHelp">Required for new partners.</p>
+                </div>
+                <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Affiliate Code</label>
                     <div class="flex gap-2">
                         <input type="text" name="code" id="affCode" required
@@ -311,11 +339,17 @@ $affiliates = $db->fetchAll($query);
                 document.getElementById('affName').value = data.name;
                 document.getElementById('affEmail').value = data.email;
                 document.getElementById('affCode').value = data.code;
+                document.getElementById('affCommission').value = data.commission || 10.00;
+                document.getElementById('affPassword').required = false;
+                document.getElementById('passwordHelp').innerText = 'Leave blank to keep current password.';
                 document.getElementById('saveBtn').innerText = 'Update Partner';
             } else {
                 document.getElementById('panelTitle').innerText = 'Add New Affiliate';
                 document.getElementById('formAction').value = 'create';
                 document.getElementById('affiliateId').value = '';
+                document.getElementById('affCommission').value = '10.00';
+                document.getElementById('affPassword').required = true;
+                document.getElementById('passwordHelp').innerText = 'Required for new partners.';
                 document.getElementById('saveBtn').innerText = 'Create Partner';
             }
 

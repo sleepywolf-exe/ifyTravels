@@ -15,9 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = sanitize_input($_POST['email']);
     $phone = sanitize_input($_POST['phone']);
     $customCode = sanitize_input($_POST['custom_code']);
+    $password = $_POST['password'] ?? '';
 
-    if (empty($name) || empty($email)) {
-        $errorMsg = "Name and Email are required.";
+    if (empty($name) || empty($email) || empty($password)) {
+        $errorMsg = "Name, Email, and Password are required.";
+    } elseif (strlen($password) < 8) {
+        $errorMsg = "Password must be at least 8 characters.";
     } else {
         $db = Database::getInstance();
 
@@ -53,11 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($errorMsg)) {
             try {
-                // 2. Insert into DB
-                $sql = "INSERT INTO affiliates (name, email, code, status) VALUES (?, ?, ?, 'active')";
-                if ($db->execute($sql, [$name, $email, $code])) {
+                // 2. Insert into DB with Password Hash
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO affiliates (name, email, code, status, password_hash) VALUES (?, ?, ?, 'active', ?)";
+                if ($db->execute($sql, [$name, $email, $code, $hash])) {
                     $generatedLink = base_url("?ref=$code");
                     $successMsg = "Welcome to the family, $name!";
+                    
+                    // Link to dashboard
+                    $successMsg .= "<br><a href='" . base_url('partner/login.php') . "' class='text-primary underline mt-2 inline-block'>Login to Dashboard</a>";
 
                     // Optional: Send Welcome Email
                     // send_partner_welcome_email($email, $name, $generatedLink);
@@ -197,6 +204,13 @@ include __DIR__ . '/../includes/header.php';
                         <input type="tel" name="phone"
                             class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary outline-none transition"
                             placeholder="+91 98765 43210">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Create Password</label>
+                        <input type="password" name="password" required
+                            class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary outline-none transition"
+                            placeholder="Min. 8 characters">
                     </div>
 
                     <div>
