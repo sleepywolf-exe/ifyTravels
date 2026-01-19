@@ -277,7 +277,7 @@ include __DIR__ . '/../includes/header.php';
                     </div>
 
                     <!-- CTA Button -->
-                    <a href="<?php echo base_url('booking.php?packageId=' . $pkg['id']); ?>"
+                    <a href="<?php echo base_url('pages/booking.php?packageId=' . $pkg['id']); ?>"
                         class="block w-full bg-gradient-to-r from-primary to-teal-600 text-white text-center font-bold py-4 rounded-xl hover:shadow-2xl transition-all duration-300 shadow-lg mb-4 transform hover:-translate-y-1">
                         <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
