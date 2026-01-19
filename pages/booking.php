@@ -16,6 +16,8 @@ if (!$pkgId || !$selectedPkg) {
     exit;
 }
 
+$presetTravelers = $_GET['travelers'] ?? 1;
+
 // Handle POST Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? '';
@@ -169,7 +171,7 @@ include __DIR__ . '/../includes/header.php';
                     <div>
                         <label class="block text-white text-sm font-bold mb-2">Duration (Days)</label>
                         <input type="text" name="duration" id="duration"
-                            value="<?php echo htmlspecialchars($package['duration']); ?>"
+                            value="<?php echo htmlspecialchars($selectedPkg['duration']); ?>"
                             class="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-300 backrop-blur-sm"
                             placeholder="e.g. 5 Days">
                     </div>
@@ -227,7 +229,7 @@ include __DIR__ . '/../includes/header.php';
                 </div>
 
                 <input type="hidden" name="total_price" id="hiddenTotalPrice"
-                    value="<?php echo $package['price'] * $presetTravelers; ?>">
+                    value="<?php echo $selectedPkg['price'] * $presetTravelers; ?>">
 
                 <button type="submit" id="submitBtn"
                     class="w-full bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transform hover:-translate-y-0.5 transition duration-200">
@@ -254,7 +256,7 @@ include __DIR__ . '/../includes/header.php';
         const phoneInput = document.querySelector('input[name="phone"]');
 
         // 1. Price Calculation
-        const basePrice = <?php echo $package['price']; ?>;
+        const basePrice = <?php echo $selectedPkg['price']; ?>;
 
         function updatePrice() {
             if (customizeToggle.checked) {
