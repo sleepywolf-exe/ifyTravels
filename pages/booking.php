@@ -1,5 +1,5 @@
 <?php
-$pageTitle = "Book Your Trip";
+$pageTitle = isset($package) ? "Book: " . $package['title'] : "Plan Your Code Trip";
 include __DIR__ . '/../includes/functions.php';
 include __DIR__ . '/../data/loader.php';
 

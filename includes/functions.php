@@ -16,6 +16,23 @@ $pdo = $db->getConnection();
 // Cache for settings to avoid repeated queries
 $globalSettings = null;
 
+// Global Exception Handler
+set_exception_handler(function ($e) {
+    error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
+
+    // Don't show details in production
+    if (ini_get('display_errors')) {
+        echo "<h1>Error</h1><p>" . $e->getMessage() . "</p>";
+    } else {
+        if (file_exists(__DIR__ . '/../pages/503.php')) {
+            include __DIR__ . '/../pages/503.php';
+        } else {
+            echo "Something went wrong. Please try again later.";
+        }
+    }
+    exit;
+});
+
 /**
  * Get site setting by key
  */

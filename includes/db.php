@@ -24,7 +24,14 @@ class Database
 
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
-            die("Database Connection Error.");
+
+            // Graceful Failure
+            if (file_exists(__DIR__ . '/../pages/503.php')) {
+                include __DIR__ . '/../pages/503.php';
+                exit;
+            } else {
+                die("Briefly unavailable for scheduled maintenance. Check back in a minute.");
+            }
         }
     }
 

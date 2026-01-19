@@ -20,6 +20,15 @@ if (!$input) {
     exit;
 }
 
+// CSRF Verification
+$headers = getallheaders();
+$csrf_token = $headers['X-CSRF-Token'] ?? '';
+if (!verify_csrf_token($csrf_token)) {
+    http_response_code(403);
+    echo json_encode(['status' => 'error', 'message' => 'Security check failed. Please refresh the page.']);
+    exit;
+}
+
 // Validation
 $required = ['package_id', 'customer_name', 'email', 'phone', 'travel_date'];
 foreach ($required as $field) {
