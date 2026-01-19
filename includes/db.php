@@ -15,37 +15,16 @@ class Database
         }
 
         try {
-            if (defined('DB_CONNECTION') && DB_CONNECTION === 'mysql') {
-                // MySQL Connection
-                $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-                $this->pdo = new PDO($dsn, DB_USER, DB_PASS);
-            } else {
-                // SQLite Connection (Default fallback)
-                $dbPath = defined('DB_SQLITE_PATH') ? DB_SQLITE_PATH : __DIR__ . '/../db/database.db';
-                $isNew = !file_exists($dbPath);
-
-                $this->pdo = new PDO('sqlite:' . $dbPath);
-
-                if ($isNew) {
-                    $this->initSchema();
-                }
-            }
+            // MySQL Connection Only
+            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+            $this->pdo = new PDO($dsn, DB_USER, DB_PASS);
 
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
-            // Check for specific MySQL errors effectively
-            $msg = $e->getMessage();
-            if (strpos($msg, 'Connection refused') !== false || strpos($msg, 'Access denied') !== false) {
-                // Fallback to SQLite if MySQL fails? No, user explicitly requested CPanel connection.
-                // We should throw error to warn them configuration is wrong.
-                error_log("DB Connection Failed: $msg");
-                die("Database Connection Error. Please check config.php settings.");
-            }
-
             error_log("Database connection failed: " . $e->getMessage());
-            die("Database Error.");
+            die("Database Connection Error.");
         }
     }
 
