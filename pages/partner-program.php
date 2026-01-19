@@ -35,14 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $code = $cleanCode;
             }
         } else {
-            // Auto-generate based on name
-            $base = strtoupper(substr(preg_replace('/[^a-zA-Z]/', '', $name), 0, 4));
-            $rand = rand(100, 999);
-            $code = $base . $rand;
+            // Auto-generate Random String (8 chars)
+            $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $code = '';
+            for ($i = 0; $i < 8; $i++) {
+                $code .= $chars[rand(0, strlen($chars) - 1)];
+            }
 
             // Minimal collision check (retry once)
             if ($db->fetch("SELECT id FROM affiliates WHERE code = ?", [$code])) {
-                $code = $base . rand(1000, 9999);
+                $code = ''; // Regenerate
+                for ($i = 0; $i < 8; $i++) {
+                    $code .= $chars[rand(0, strlen($chars) - 1)];
+                }
             }
         }
 
