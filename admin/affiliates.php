@@ -88,14 +88,23 @@ $affiliates = $db->fetchAll($query);
                                     <td class="p-4 text-gray-400">#
                                         <?php echo $aff['id']; ?>
                                     </td>
-                                    <td class="p-4 font-medium text-gray-800">
-                                        <?php echo e($aff['name']); ?>
+                                    <td class="p-4 font-medium text-gray-800 group-hover:text-primary transition-colors">
+                                        <a href="affiliate_details.php?id=<?php echo $aff['id']; ?>"
+                                            class="flex items-center gap-2">
+                                            <?php echo e($aff['name']); ?>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                        </a>
                                     </td>
                                     <td class="p-4">
                                         <code
                                             class="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100 text-xs font-bold font-mono">
-                                                                                            <?php echo e($aff['code']); ?>
-                                                                                        </code>
+                                                                                                            <?php echo e($aff['code']); ?>
+                                                                                                        </code>
                                     </td>
                                     <td class="p-4 text-gray-600">
                                         <?php echo e($aff['email']); ?>
@@ -114,14 +123,21 @@ $affiliates = $db->fetchAll($query);
                                     </td>
                                     <td class="p-4 text-center">
                                         <a href="?toggle_status=1&id=<?php echo $aff['id']; ?>&current=<?php echo $aff['status']; ?>"
+                                            class="text-xs font-medium px-3 py-1.5 rounded-lg border transition <?php echo $aff['status'] === 'active' ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'; ?>">
                                             <?php echo $aff['status'] === 'active' ? 'Deactivate' : 'Activate'; ?>
                                         </a>
 
-                                        <!-- Copy Link Button -->
-                                        <button onclick="copyAffiliateLink('<?php echo base_url('?ref=' . $aff['code']); ?>')" 
-                                                class="ml-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 transition" title="Copy Affiliate Link">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                        <a href="affiliate_details.php?id=<?php echo $aff['id']; ?>"
+                                            class="ml-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition">
+                                            View
+                                        </a> <button
+                                            onclick="copyAffiliateLink('<?php echo base_url('?ref=' . $aff['code']); ?>')"
+                                            class="ml-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 transition"
+                                            title="Copy Affiliate Link">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 inline mr-1" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                                             </svg>
                                             Copy Link
                                         </button>
