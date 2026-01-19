@@ -36,6 +36,11 @@ $customer_name = sanitize_input($input['customer_name']);
 $email = sanitize_input($input['email']);
 $phone = sanitize_input($input['phone']);
 $travel_date = sanitize_input($input['travel_date']);
+$duration = sanitize_input($input['duration'] ?? '');
+$adults = intval($input['adults'] ?? 1);
+$children = intval($input['children'] ?? 0);
+$hotel_category = sanitize_input($input['hotel_category'] ?? 'Mid-range');
+$interests = sanitize_input(is_array($input['interests'] ?? []) ? implode(', ', $input['interests']) : ($input['interests'] ?? ''));
 $special_requests = sanitize_input($input['special_requests'] ?? ''); // Optional
 
 // Determine Status: 'Pending'
@@ -59,8 +64,8 @@ try {
     }
 
     // Insert Booking
-    $sql = "INSERT INTO bookings (package_id, package_name, customer_name, email, phone, travel_date, special_requests, total_price, status, affiliate_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO bookings (package_id, package_name, customer_name, email, phone, travel_date, duration, adults, children, hotel_category, interests, special_requests, total_price, status, affiliate_id) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $success = $db->execute($sql, [
         $package_id,
@@ -69,6 +74,11 @@ try {
         $email,
         $phone,
         $travel_date,
+        $duration,
+        $adults,
+        $children,
+        $hotel_category,
+        $interests,
         $special_requests,
         $total_price,
         $status,

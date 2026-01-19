@@ -132,6 +132,46 @@ if (!$booking) {
                     </dl>
                 </div>
 
+                <!-- Trip Preferences -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Trip Preferences</h2>
+                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <dt class="text-sm text-gray-500 font-medium">Duration</dt>
+                            <dd class="text-gray-900 font-semibold">
+                                <?php echo e($booking['duration']); ?> Days
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500 font-medium">Passengers</dt>
+                            <dd class="text-gray-900 font-semibold">
+                                <?php echo e($booking['adults']); ?> Adults, <?php echo e($booking['children']); ?>
+                                Children
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500 font-medium">Hotel Category</dt>
+                            <dd class="text-gray-900 font-semibold">
+                                <span
+                                    class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-sm"><?php echo e($booking['hotel_category']); ?></span>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-gray-500 font-medium">Interests</dt>
+                            <dd class="text-gray-900 flex flex-wrap gap-1 mt-1">
+                                <?php if (!empty($booking['interests'])): ?>
+                                    <?php foreach (explode(',', $booking['interests']) as $interest): ?>
+                                        <span
+                                            class="px-2 py-1 bg-teal-50 text-teal-700 border border-teal-100 rounded text-xs font-medium"><?php echo trim(e($interest)); ?></span>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <span class="text-gray-400 text-sm">None</span>
+                                <?php endif; ?>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+
                 <!-- Package Info -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                     <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Package Details</h2>

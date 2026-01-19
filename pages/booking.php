@@ -14,18 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $phone = $_POST['phone'] ?? '';
     $date = $_POST['date'] ?? '';
+    // New Fields
+    $duration = $_POST['duration'] ?? '';
+    $adults = $_POST['adults'] ?? 1;
+    $children = $_POST['children'] ?? 0;
+    $hotel = $_POST['hotel_category'] ?? 'Mid-range';
+    $interests = isset($_POST['interests']) ? implode(', ', $_POST['interests']) : '';
+
     $requests = $_POST['requests'] ?? '';
     $pkgIdPost = $_POST['package_id'] ?? null;
     $pkgNamePost = $_POST['package_name'] ?? '';
 
     // Insert into DB
     try {
-        $stmt = $pdo->prepare("INSERT INTO bookings (customer_name, email, phone, travel_date, special_requests, package_id, package_name, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', ?)");
-        
+        $stmt = $pdo->prepare("INSERT INTO bookings (customer_name, email, phone, travel_date, duration, adults, children, hotel_category, interests, special_requests, package_id, package_name, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', ?)");
+
         $pid = (is_numeric($pkgIdPost) && $pkgIdPost > 0) ? $pkgIdPost : null;
         $now = date('Y-m-d H:i:s');
 
-        $stmt->execute([$name, $email, $phone, $date, $requests, $pid, $pkgNamePost, $now]);
+        $stmt->execute([$name, $email, $phone, $date, $duration, $adults, $children, $hotel, $interests, $requests, $pid, $pkgNamePost, $now]);
 
         $bookingId = $pdo->lastInsertId();
 
@@ -39,6 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'Email' => $email,
             'Phone' => $phone,
             'Travel Date' => $date,
+            'Duration' => $duration . ' Days',
+            'Passengers' => "$adults Adults, $children Children",
+            'Hotel Category' => $hotel,
+            'Interests' => $interests ?: 'None',
             'Special Requests' => $requests ?: 'None',
             'Booking ID' => '#' . $bookingId
         ];
@@ -143,6 +154,60 @@ include __DIR__ . '/../includes/header.php';
                     <div>
                         <label class="glass-label">Travel Date</label>
                         <input type="date" name="date" required class="glass-input w-full">
+                    </div>
+                </div>
+
+                <!-- New Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="glass-label">Duration (Days)</label>
+                        <input type="number" name="duration" min="1" placeholder="e.g. 5" required
+                            class="glass-input w-full">
+                    </div>
+                    <div>
+                        <label class="glass-label">Hotel Category</label>
+                        <select name="hotel_category" class="glass-input w-full text-gray-700">
+                            <option value="Budget">Budget</option>
+                            <option value="Mid-range" selected>Mid-range</option>
+                            <option value="Luxury">Luxury</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="glass-label">Adults</label>
+                        <input type="number" name="adults" min="1" value="2" required class="glass-input w-full">
+                    </div>
+                    <div>
+                        <label class="glass-label">Children</label>
+                        <input type="number" name="children" min="0" value="0" class="glass-input w-full">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="glass-label">Sightseeing Interests</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                            <input type="checkbox" name="interests[]" value="Wildlife"
+                                class="form-checkbox text-teal-600 rounded">
+                            <span>Wildlife</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                            <input type="checkbox" name="interests[]" value="Waterfalls"
+                                class="form-checkbox text-teal-600 rounded">
+                            <span>Waterfalls</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                            <input type="checkbox" name="interests[]" value="Monasteries"
+                                class="form-checkbox text-teal-600 rounded">
+                            <span>Monasteries</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-white/90 cursor-pointer">
+                            <input type="checkbox" name="interests[]" value="Tea Gardens"
+                                class="form-checkbox text-teal-600 rounded">
+                            <span>Tea Gardens</span>
+                        </label>
                     </div>
                 </div>
 
