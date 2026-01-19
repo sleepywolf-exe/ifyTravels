@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Book Your Trip";
 include __DIR__ . '/../includes/functions.php';
+include __DIR__ . '/../data/loader.php';
 
 $pkgId = $_GET['packageId'] ?? null;
 $selectedPkg = null;
