@@ -167,11 +167,12 @@ include __DIR__ . '/../includes/header.php';
                 <div class="grid grid-cols-2 gap-6">
                     <div>
                         <label class="glass-label">Adults</label>
-                        <input type="number" name="adults" min="1" value="2" required class="glass-input w-full">
+                        <input type="number" name="adults" id="adults" min="1" value="2" required
+                            class="glass-input w-full">
                     </div>
                     <div>
                         <label class="glass-label">Children</label>
-                        <input type="number" name="children" min="0" value="0" class="glass-input w-full">
+                        <input type="number" name="children" id="children" min="0" value="0" class="glass-input w-full">
                     </div>
                 </div>
 
@@ -216,5 +217,37 @@ include __DIR__ . '/../includes/header.php';
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Dynamic Price Calculation
+        const priceLabel = document.getElementById('pkg-price');
+        const adultsInput = document.getElementById('adults');
+        const childrenInput = document.getElementById('children');
+
+        // Extract base price from PHP/HTML (remove currency symbol and commas)
+        const basePrice = parseFloat('<?php echo $selectedPkg["price"]; ?>'.replace(/[^0-9.]/g, '')) || 0;
+
+        function updatePrice() {
+            const adults = parseInt(adultsInput.value) || 0;
+            const children = parseInt(childrenInput.value) || 0;
+            const totalTravelers = adults + children;
+
+            // Calculate Total Price
+            const totalPrice = totalTravelers * basePrice;
+
+            // Update UI
+            // Format number with commas for Indian currency style if possible, or standard locale
+            priceLabel.textContent = '₹' + totalPrice.toLocaleString('en-IN');
+        }
+
+        // Event Listeners
+        adultsInput.addEventListener('input', updatePrice);
+        childrenInput.addEventListener('input', updatePrice);
+
+        // Initial Calculation
+        updatePrice();
+    });
+</script>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
