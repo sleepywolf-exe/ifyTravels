@@ -4,6 +4,21 @@ $isHome = true;
 include 'includes/header.php';
 ?>
 
+<!-- Schema.org Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "<?php echo get_setting('site_name', 'ifyTravels'); ?>",
+  "url": "<?php echo base_url(); ?>",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "<?php echo base_url('packages?search={search_term_string}'); ?>",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
 <!-- Link Glassmorphism CSS -->
 <link rel="stylesheet" href="assets/css/glassmorphism.css">
 
@@ -453,7 +468,9 @@ try {
 <section class="py-20 relative overflow-hidden">
     <!-- Background with Doodles -->
     <div class="absolute inset-0 bg-teal-800">
-        <div class="absolute inset-0 bg-[url('assets/images/flight-pattern.png')] opacity-10 bg-repeat bg-center bg-contain"></div>
+        <div
+            class="absolute inset-0 bg-[url('assets/images/flight-pattern.png')] opacity-10 bg-repeat bg-center bg-contain">
+        </div>
         <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-teal-900/80"></div>
     </div>
 

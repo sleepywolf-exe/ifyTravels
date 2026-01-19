@@ -3,6 +3,48 @@ $pageTitle = "Destinations";
 include __DIR__ . '/../includes/header.php';
 ?>
 
+<!-- Schema.org Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Destinations",
+  "description": "Discover top travel destinations around the world.",
+  "url": "<?php echo base_url('destinations'); ?>",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      <?php 
+      // We need to access $paginatedDestinations which is defined lower down. 
+      // Ideally schema should be printed after pagination logic.
+      // However, usually header includes are top level.
+      // Strategy: Since pagination logic is INSIDE main body in this file,
+      // we can't print the ItemList HERE if we rely on $paginatedDestinations being calculated later.
+      // But we can print the static parts here or move this block down.
+      // Let's implement a simpler breadcrumb here and Move the ItemList block lower down in the file after pagination logic is done.
+      ?>
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "<?php echo base_url(); ?>"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Destinations",
+    "item": "<?php echo base_url('destinations'); ?>"
+  }]
+}
+</script>
+
 <!-- Page Header -->
 <div class="relative pt-32 pb-12 bg-cover bg-center min-h-[300px] flex items-center justify-center"
     style="background-image: url('<?php echo get_setting('destinations_bg', base_url('assets/images/hero/adventure.png')); ?>');">
@@ -157,6 +199,29 @@ include __DIR__ . '/../includes/header.php';
                 $paginatedDestinations = array_slice($filteredDestinations, $offset, $itemsPerPage);
 
                 if (count($paginatedDestinations) > 0):
+                ?>
+                <!-- Dynamic ItemList Schema -->
+                <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org",
+                  "@type": "ItemList",
+                  "itemListElement": [
+                    <?php 
+                    $pos = 1;
+                    $last = count($paginatedDestinations);
+                    foreach($paginatedDestinations as $dest) {
+                        echo '{';
+                        echo '"@type": "ListItem",';
+                        echo '"position": ' . $pos . ',';
+                        echo '"url": "' . destination_url($dest['slug']) . '"';
+                        echo '}' . ($pos < $last ? ',' : '');
+                        $pos++;
+                    }
+                    ?>
+                  ]
+                }
+                </script>
+                <?php
                     foreach ($paginatedDestinations as $dest):
                         ?>
                         <div

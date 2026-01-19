@@ -121,6 +121,52 @@ $offset = ($currentPage - 1) * $itemsPerPage;
 $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
 ?>
 
+<!-- Schema.org Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Travel Packages",
+  "description": "Explore our exclusive travel packages and holiday deals.",
+  "url": "<?php echo base_url('packages'); ?>",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      <?php 
+      $pos = 1;
+      $last = count($paginatedPackages);
+      foreach($paginatedPackages as $pkg) {
+          echo '{';
+          echo '"@type": "ListItem",';
+          echo '"position": ' . $pos . ',';
+          echo '"url": "' . package_url($pkg['slug']) . '"';
+          echo '}' . ($pos < $last ? ',' : '');
+          $pos++;
+      }
+      ?>
+    ]
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "<?php echo base_url(); ?>"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Packages",
+    "item": "<?php echo base_url('packages'); ?>"
+  }]
+}
+</script>
+
 <!-- Header -->
 <div class="relative pt-32 pb-12 bg-cover bg-center min-h-[300px] flex items-center justify-center"
     style="background-image: url('<?php echo get_setting('packages_bg', base_url('assets/images/packages/thailand.jpg')); ?>');">

@@ -37,6 +37,45 @@ include __DIR__ . '/../includes/header.php';
 $packages = getPackagesByDestination($id);
 ?>
 
+<!-- Schema.org Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristDestination",
+  "name": "<?php echo htmlspecialchars($dest['name'], ENT_QUOTES); ?>",
+  "description": "<?php echo htmlspecialchars(strip_tags($dest['description']), ENT_QUOTES); ?>",
+  "image": "<?php echo base_url($dest['image']); ?>",
+  "touristType": "<?php echo htmlspecialchars($dest['type'], ENT_QUOTES); ?>",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "addressCountry": "<?php echo htmlspecialchars($dest['country'], ENT_QUOTES); ?>"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "<?php echo base_url(); ?>"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Destinations",
+    "item": "<?php echo base_url('destinations'); ?>"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": "<?php echo htmlspecialchars($dest['name'], ENT_QUOTES); ?>",
+    "item": "<?php echo $metaUrl; ?>" // metaUrl is defined in header.php
+  }]
+}
+</script>
+
 <div id="content-area" class="flex-1">
     <!-- Hero Section -->
     <div class="relative h-[70vh]">
@@ -308,6 +347,67 @@ $packages = getPackagesByDestination($id);
                                 <span class="font-bold text-charcoal text-right">Local / USD</span>
                             </li>
                         </ul>
+                    </div>
+
+                    <!-- Trust Indicators (Why Book With Us) -->
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                        <h3 class="font-heading font-bold text-xl mb-4 text-charcoal flex items-center gap-2">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Why Travel With Us?
+                        </h3>
+                        <?php
+                        $badges = ['secure_payment', 'customer_support', 'verified_operator', 'best_price'];
+                        $badgeDetails = [
+                            'secure_payment' => [
+                                'inner' => '<path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />',
+                                'color' => 'text-green-500',
+                                'viewBox' => '0 0 20 20',
+                                'fill' => 'currentColor',
+                                'stroke' => 'none'
+                            ],
+                            'customer_support' => [
+                                'inner' => '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />',
+                                'color' => 'text-blue-500',
+                                'viewBox' => '0 0 20 20',
+                                'fill' => 'currentColor',
+                                'stroke' => 'none'
+                            ],
+                            'verified_operator' => [
+                                'inner' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />',
+                                'color' => 'text-purple-500', // Changed to purple for distinction
+                                'viewBox' => '0 0 24 24',
+                                'fill' => 'none',
+                                'stroke' => 'currentColor'
+                            ],
+                            'best_price' => [
+                                'inner' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
+                                'color' => 'text-yellow-500',
+                                'viewBox' => '0 0 24 24',
+                                'fill' => 'none',
+                                'stroke' => 'currentColor'
+                            ]
+                        ];
+                        $allBadges = [
+                            'secure_payment' => 'Secure Payment Gateway',
+                            'customer_support' => '24/7 Customer Support',
+                            'verified_operator' => 'Verified Local Experts',
+                            'best_price' => 'Best Price Guarantee'
+                        ];
+                        ?>
+                        <div class="space-y-4">
+                            <?php foreach ($badges as $badgeKey): 
+                                $b = $badgeDetails[$badgeKey];
+                            ?>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <svg class="w-5 h-5 mr-3 <?php echo $b['color']; ?>" fill="<?php echo $b['fill']; ?>" stroke="<?php echo $b['stroke']; ?>" viewBox="<?php echo $b['viewBox']; ?>">
+                                        <?php echo $b['inner']; ?>
+                                    </svg>
+                                    <span><?php echo $allBadges[$badgeKey]; ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
 
                     <!-- Need Help CTA -->

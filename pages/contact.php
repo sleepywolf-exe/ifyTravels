@@ -3,6 +3,35 @@ $pageTitle = "Contact Us";
 include __DIR__ . '/../includes/header.php'; // Includes db.php/functions.php
 ?>
 
+<!-- Schema.org Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Us",
+  "description": "Get in touch with ifyTravels for bookings, inquiries, and support.",
+  "url": "<?php echo base_url('contact'); ?>"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "<?php echo base_url(); ?>"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Contact",
+    "item": "<?php echo base_url('contact'); ?>"
+  }]
+}
+</script>
+
 <!-- Link Glassmorphism CSS -->
 <link rel="stylesheet" href="../assets/css/glassmorphism.css">
 
