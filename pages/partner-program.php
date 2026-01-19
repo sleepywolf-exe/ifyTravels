@@ -50,13 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 // 2. Insert into DB
                 $sql = "INSERT INTO affiliates (name, email, code, status) VALUES (?, ?, ?, 'active')";
-                $db->execute($sql, [$name, $email, $code]);
+                if ($db->execute($sql, [$name, $email, $code])) {
+                    $generatedLink = base_url("?ref=$code");
+                    $successMsg = "Welcome to the family, $name!";
 
-                $generatedLink = base_url("?ref=$code");
-                $successMsg = "Welcome to the family, $name!";
-
-                // Optional: Send Welcome Email
-                // send_partner_welcome_email($email, $name, $generatedLink);
+                    // Optional: Send Welcome Email
+                    // send_partner_welcome_email($email, $name, $generatedLink);
+                } else {
+                    $errorMsg = "Database Error: Unable to register. Please contact support.";
+                    error_log("Partner Signup Failed: Database insert returned false.");
+                }
 
             } catch (Exception $e) {
                 if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
