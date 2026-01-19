@@ -345,7 +345,7 @@ try {
 <!-- Why Choose Us -->
 <section class="py-24 bg-gray-900 text-white relative overflow-hidden">
     <!-- Travel Doodle Background -->
-    <div class="absolute inset-0 bg-[url('../images/travel-doodles.png')] opacity-10 bg-repeat bg-center"></div>
+    <div class="absolute inset-0 bg-[url('assets/images/travel-doodles.png')] opacity-10 bg-repeat bg-center"></div>
     <!-- Overlay Gradient to ensure text readability -->
     <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent"></div>
 
