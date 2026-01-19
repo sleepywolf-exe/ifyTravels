@@ -114,9 +114,17 @@ $affiliates = $db->fetchAll($query);
                                     </td>
                                     <td class="p-4 text-center">
                                         <a href="?toggle_status=1&id=<?php echo $aff['id']; ?>&current=<?php echo $aff['status']; ?>"
-                                            class="text-xs font-medium px-3 py-1.5 rounded-lg border transition <?php echo $aff['status'] === 'active' ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-600 hover:bg-green-50'; ?>">
                                             <?php echo $aff['status'] === 'active' ? 'Deactivate' : 'Activate'; ?>
                                         </a>
+
+                                        <!-- Copy Link Button -->
+                                        <button onclick="copyAffiliateLink('<?php echo base_url('?ref=' . $aff['code']); ?>')" 
+                                                class="ml-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 transition" title="Copy Affiliate Link">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                            </svg>
+                                            Copy Link
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -126,6 +134,23 @@ $affiliates = $db->fetchAll($query);
             </div>
         </div>
     </main>
+
+    <script>
+        function copyAffiliateLink(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                // Show a quick toast or alert
+                // Simple alert for now, could be improved with a custom toast
+                const el = document.createElement('div');
+                el.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50 animate-bounce';
+                el.innerText = 'Link Copied: ' + url;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy link. Please manually copy: ' + url);
+            });
+        }
+    </script>
 </body>
 
 </html>
