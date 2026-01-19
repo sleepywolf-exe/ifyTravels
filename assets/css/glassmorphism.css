@@ -120,3 +120,24 @@
 .no-spinner {
     -moz-appearance: textfield;
 }
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    transition: all 0.4s ease;
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.2);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #0F766E, #0D9488);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
