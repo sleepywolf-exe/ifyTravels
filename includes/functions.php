@@ -69,7 +69,7 @@ function base_url($path = '')
     // If we are in /ifyTravels/admin, we want /ifyTravels
     // If we are in /ifyTravels/pages, we want /ifyTravels
 
-    $knownDirs = ['admin', 'pages', 'services', 'includes', 'seo', 'api'];
+    $knownDirs = ['admin', 'pages', 'services', 'includes', 'seo', 'api', 'partner'];
     $parts = explode('/', trim($scriptDir, '/'));
 
     $rootParts = [];
