@@ -108,7 +108,7 @@ try {
             <div class="p-4 border-t border-white/10">
                 <div class="flex items-center mb-4 gap-3">
                     <div
-                        class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-bold text-white">
+                        class="w-12 h-12 shrink-0 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-bold text-white text-lg shadow-lg border-2 border-white/10">
                         <?php echo strtoupper(substr($partner['name'], 0, 1)); ?>
                     </div>
                     <div>
