@@ -44,7 +44,31 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                     );
                 }
             } catch (Exception $e) {
-                // Ignore logging errors to not break user flow
+                // Check if table missing (MySQL error 1146)
+                if (strpos($e->getMessage(), "doesn't exist") !== false) {
+                    try {
+                        // Create Table
+                        $db->execute("
+                            CREATE TABLE IF NOT EXISTS referral_clicks (
+                                id INT AUTO_INCREMENT PRIMARY KEY,
+                                affiliate_id INT NOT NULL,
+                                ip_address VARCHAR(45),
+                                user_agent TEXT,
+                                referrer_url TEXT,
+                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                            )
+                        ");
+
+                        // Retry Insert
+                        $db->execute(
+                            "INSERT INTO referral_clicks (affiliate_id, ip_address, user_agent, referrer_url) VALUES (?, ?, ?, ?)",
+                            [$affId, $ip, $ua, $referrer]
+                        );
+                    } catch (Exception $ex) {
+                        // Still failed? Just ignore.
+                        error_log("Referral Table Create Failed: " . $ex->getMessage());
+                    }
+                }
             }
         }
     } catch (Exception $e) {
