@@ -168,7 +168,8 @@ $bookings = $db->fetchAll("
                                         <td class="p-4 font-bold text-gray-800">₹<?php echo number_format($b['total_price']); ?>
                                         </td>
                                         <td class="p-4 text-center text-gray-500 text-xs">
-                                            <?php echo date('M j, Y', strtotime($b['created_at'])); ?></td>
+                                            <?php echo date('M j, Y', strtotime($b['created_at'])); ?>
+                                        </td>
                                         <td class="p-4 text-center">
                                             <span class="inline-flex px-2 py-1 rounded-full text-xs font-semibold
                                                 <?php
@@ -192,6 +193,57 @@ $bookings = $db->fetchAll("
                                         <td class="p-4 text-center">
                                             <a href="booking-details.php?id=<?php echo $b['id']; ?>"
                                                 class="text-blue-600 hover:underline text-xs font-medium">View</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Clicks (Anti-Cheat Logs) -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mt-8">
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <h2 class="text-lg font-bold text-gray-800">Recent Referral Clicks (Anti-Cheat Logs)</h2>
+                </div>
+
+                <?php
+                // Fetch Recent Clicks
+                $clicks = $db->fetchAll("SELECT * FROM referral_clicks WHERE affiliate_id = ? ORDER BY created_at DESC LIMIT 50", [$id]);
+                ?>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b border-gray-100">
+                                <th class="p-4">IP Address</th>
+                                <th class="p-4">User Agent</th>
+                                <th class="p-4">Referrer</th>
+                                <th class="p-4 text-center">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50 text-sm">
+                            <?php if (empty($clicks)): ?>
+                                <tr>
+                                    <td colspan="4" class="p-8 text-center text-gray-400">No clicks recorded yet.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($clicks as $c): ?>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td
+                                            class="p-4 font-mono text-gray-600 bg-gray-50/50 rounded-lg inline-block my-1 mx-2 text-xs">
+                                            <?php echo e($c['ip_address']); ?></td>
+                                        <td class="p-4 text-gray-500 text-xs truncate max-w-xs"
+                                            title="<?php echo e($c['user_agent']); ?>">
+                                            <?php echo e(substr($c['user_agent'], 0, 50)) . '...'; ?>
+                                        </td>
+                                        <td class="p-4 text-gray-500 text-xs truncate max-w-xs">
+                                            <?php echo !empty($c['referrer_url']) ? e($c['referrer_url']) : '<span class="text-gray-300">Direct</span>'; ?>
+                                        </td>
+                                        <td class="p-4 text-center text-gray-500 text-xs">
+                                            <?php echo date('M j, H:i:s', strtotime($c['created_at'])); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
