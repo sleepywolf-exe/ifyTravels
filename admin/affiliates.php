@@ -61,6 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
         } else {
             echo json_encode(['success' => false, 'message' => 'Database update failed.']);
         }
+    } elseif ($action === 'delete' && $id) {
+        // preserve history (set id null) or delete? 
+        // User requested DELETE functionality. Safe way: NULLify bookings, Delete affiliate.
+        $db->execute("UPDATE bookings SET affiliate_id = NULL WHERE affiliate_id = ?", [$id]);
+        if ($db->execute("DELETE FROM affiliates WHERE id = ?", [$id])) {
+            echo json_encode(['success' => true, 'message' => 'Affiliate deleted successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Database delete failed.']);
+        }
     }
     exit;
 }
@@ -262,9 +271,15 @@ $affiliates = $db->fetchAll($query);
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Affiliate Code</label>
-                    <input type="text" name="code" id="affCode" required
-                        class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary outline-none transition uppercase"
-                        placeholder="e.g. SUMMER25">
+                    <div class="flex gap-2">
+                        <input type="text" name="code" id="affCode" required
+                            class="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary outline-none transition uppercase"
+                            placeholder="e.g. SUMMER25">
+                        <button type="button" onclick="generateRandomCode()"
+                            class="bg-gray-100 px-4 rounded-lg font-medium text-gray-600 hover:bg-gray-200 transition text-sm">
+                            Random
+                        </button>
+                    </div>
                     <p class="text-xs text-gray-500 mt-1">Must be unique. Will be converted to uppercase.</p>
                 </div>
             </form>
@@ -360,6 +375,40 @@ $affiliates = $db->fetchAll($query);
                     btn.innerHTML = originalText;
                     btn.disabled = false;
                 });
+        }
+        function generateRandomCode() {
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('affCode').value = code;
+        }
+
+        function confirmDelete(id) {
+            if (!confirm('Are you sure you want to delete this affiliate? This action cannot be undone.')) return;
+
+            const formData = new FormData();
+            formData.append('action', 'delete');
+            formData.append('id', id);
+
+            fetch('affiliates.php', {
+                method: 'POST',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove row from DOM
+                        const row = document.getElementById('row-' + id);
+                        if (row) row.remove();
+                        // Optional: Check if table empty
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(err => alert('An unexpected error occurred.'));
         }
     </script>
 </body>
