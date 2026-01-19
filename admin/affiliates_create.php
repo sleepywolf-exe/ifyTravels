@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="pt-4">
                         <button type="submit"
-                            class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition shadow-lg">
+                            class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition shadow-lg">
                             Create Partner
                         </button>
                     </div>
