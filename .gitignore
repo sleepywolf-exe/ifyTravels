@@ -9,3 +9,4 @@ data/*.db
 
 # User Specific
 .gemini/
+.agent/
