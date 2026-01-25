@@ -18,60 +18,6 @@ if (!$pkgId || !$selectedPkg) {
 
 $presetTravelers = $_GET['travelers'] ?? 1;
 
-// Handle POST Submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $phone = $_POST['phone'] ?? '';
-    $date = $_POST['date'] ?? '';
-    // New Fields
-    $duration = $_POST['duration'] ?? '';
-    $adults = $_POST['adults'] ?? 1;
-    $children = $_POST['children'] ?? 0;
-    $hotel = $_POST['hotel_category'] ?? 'Mid-range';
-    $interests = isset($_POST['interests']) ? implode(', ', $_POST['interests']) : '';
-
-    $requests = $_POST['requests'] ?? '';
-    $pkgIdPost = $_POST['package_id'] ?? null;
-    $pkgNamePost = $_POST['package_name'] ?? '';
-
-    // Insert into DB
-    try {
-        $stmt = $pdo->prepare("INSERT INTO bookings (customer_name, email, phone, travel_date, duration, adults, children, hotel_category, interests, special_requests, package_id, package_name, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending', ?)");
-
-        $pid = (is_numeric($pkgIdPost) && $pkgIdPost > 0) ? $pkgIdPost : null;
-        $now = date('Y-m-d H:i:s');
-
-        $stmt->execute([$name, $email, $phone, $date, $duration, $adults, $children, $hotel, $interests, $requests, $pid, $pkgNamePost, $now]);
-
-        $bookingId = $pdo->lastInsertId();
-
-        // 1. Send Customer Confirmation
-        send_lead_confirmation_email($email, $name, $phone);
-
-        // 2. Send Admin Notification
-        $adminData = [
-            'Package' => $pkgNamePost ?: 'Custom Inquiry',
-            'Customer Name' => $name,
-            'Email' => $email,
-            'Phone' => $phone,
-            'Travel Date' => $date,
-            'Duration' => $duration . ' Days',
-            'Passengers' => "$adults Adults, $children Children",
-            'Hotel Category' => $hotel,
-            'Interests' => $interests ?: 'None',
-            'Special Requests' => $requests ?: 'None',
-            'Booking ID' => '#' . $bookingId
-        ];
-        send_admin_notification_email("New Booking: $name", $adminData, "View Booking", base_url("admin/booking-details.php?id=$bookingId"));
-
-        header('Location: booking-success.php?id=' . $bookingId);
-        exit;
-    } catch (Exception $e) {
-        $error = "Booking failed. Please try again.";
-    }
-}
-
 include __DIR__ . '/../includes/header.php';
 ?>
 
@@ -115,9 +61,7 @@ include __DIR__ . '/../includes/header.php';
 
         <!-- Form -->
         <div class="md:w-2/3 p-8 glass-form" style="background: linear-gradient(135deg, #0F766E 0%, #0d9488 100%);">
-            <?php if (isset($error)): ?>
-                <div class="bg-red-100 text-red-700 p-3 rounded mb-4"><?php echo $error; ?></div>
-            <?php endif; ?>
+            <!-- Booking Form V2 -->
 
             <form id="booking-form" method="POST" class="space-y-6">
                 <input type="hidden" name="package_id" value="<?php echo htmlspecialchars($pkgId); ?>">
@@ -256,13 +200,15 @@ include __DIR__ . '/../includes/header.php';
         const phoneInput = document.querySelector('input[name="phone"]');
 
         // 1. Price Calculation
-        const basePrice = <?php echo $selectedPkg['price']; ?>;
+        const basePrice = <?php echo $selectedPkg ? $selectedPkg['price'] : 0; ?>;
 
         function updatePrice() {
             if (customizeToggle.checked) {
                 // Customize Mode
-                totalPriceEl.textContent = "Price on Request";
-                totalPriceEl.classList.add('text-lg');
+                if (totalPriceEl) {
+                    totalPriceEl.textContent = "Price on Request";
+                    totalPriceEl.classList.add('text-lg');
+                }
                 hiddenTotalPrice.value = 0;
 
                 customMsg.classList.remove('hidden');
@@ -282,8 +228,10 @@ include __DIR__ . '/../includes/header.php';
                     maximumFractionDigits: 0
                 }).format(total);
 
-                totalPriceEl.textContent = formatted;
-                totalPriceEl.classList.remove('text-lg');
+                if (totalPriceEl) {
+                    totalPriceEl.textContent = formatted;
+                    totalPriceEl.classList.remove('text-lg');
+                }
                 hiddenTotalPrice.value = total;
 
                 customMsg.classList.add('hidden');
@@ -299,35 +247,74 @@ include __DIR__ . '/../includes/header.php';
         // Initial Run
         updatePrice();
 
-        // 2. Form Validation
-        form.addEventListener('submit', function (e) {
-            let isValid = true;
-            const errors = [];
+        // 2. Form Submission (AJAX via Secure API)
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-            // Reset styles
+            // Clear previous errors
             [dateInput, phoneInput].forEach(el => el.classList.remove('border-red-500', 'ring-2', 'ring-red-500'));
 
-            // Date Validation (Not in past)
+            // Client-side Validation (Basic)
             const selectedDate = new Date(dateInput.value);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
+
             if (selectedDate < today) {
-                isValid = false;
-                errors.push("Travel date cannot be in the past.");
+                alert("Travel date cannot be in the past.");
                 dateInput.classList.add('border-red-500', 'ring-2', 'ring-red-500');
+                return;
             }
 
-            // Phone Validation (Simple 10 digit check)
-            const phone = phoneInput.value.replace(/\D/g, ''); // Remove non-digits
+            const phone = phoneInput.value.replace(/\D/g, '');
             if (phone.length < 10) {
-                isValid = false;
-                errors.push("Please enter a valid phone number (at least 10 digits).");
+                alert("Please enter a valid phone number.");
                 phoneInput.classList.add('border-red-500', 'ring-2', 'ring-red-500');
+                return;
             }
 
-            if (!isValid) {
-                e.preventDefault();
-                alert(errors.join("\n"));
+            // Prepare Data
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            // Add array fields (interests) manually if needed or ensure name="interests[]" works with specific logic if applicable
+            // For simple implementation, handle checkbox arrays:
+            const interests = Array.from(document.querySelectorAll('input[name="interests[]"]:checked')).map(el => el.value);
+            if (interests.length > 0) data['interests'] = interests;
+
+            // UI Feedback
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = "Sending...";
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                const response = await fetch('<?php echo base_url('services/submit_booking.php'); ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    // Success!
+                    window.location.href = '<?php echo base_url('pages/booking-success.php?id='); ?>' + result.booking_id;
+                } else {
+                    throw new Error(result.message || "Booking failed. Please try again.");
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert(err.message);
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
             }
         });
     });
