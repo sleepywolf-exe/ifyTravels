@@ -34,6 +34,17 @@ $globalSettings = null;
 set_exception_handler(function ($e) {
     error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
 
+    // JSON Response for APIs
+    if (defined('IS_API') && IS_API) {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Internal Server Error',
+            'debug' => (ini_get('display_errors') ? $e->getMessage() : null)
+        ]);
+        exit;
+    }
+
     // Don't show details in production
     if (ini_get('display_errors')) {
         echo "<h1>Error</h1><p>" . $e->getMessage() . "</p>";
