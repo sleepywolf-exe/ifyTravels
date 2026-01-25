@@ -63,7 +63,9 @@ try {
     $adults = intval($input['adults'] ?? 1);
     $children = intval($input['children'] ?? 0);
     $hotel_category = sanitize_input($input['hotel_category'] ?? 'Mid-range');
-    $interests = sanitize_input(is_array($input['interests'] ?? []) ? implode(', ', $input['interests']) : ($input['interests'] ?? ''));
+    $interests = isset($input['interests']) && is_array($input['interests'])
+        ? sanitize_input(implode(', ', $input['interests']))
+        : sanitize_input($input['interests'] ?? '');
     $special_requests = sanitize_input($input['special_requests'] ?? ''); // Optional
 
     // Determine Status: 'Pending'
