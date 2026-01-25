@@ -9,9 +9,23 @@ if (session_status() === PHP_SESSION_NONE) {
 // Include database
 require_once __DIR__ . '/db.php';
 
-// Get singleton DB instance
-$db = Database::getInstance();
-$pdo = $db->getConnection();
+// Get singleton DB instance with Error Handling
+try {
+    $db = Database::getInstance();
+    $pdo = $db->getConnection();
+} catch (Exception $e) {
+    // If this is an API request, return JSON error
+    if (defined('IS_API') && IS_API) {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Database connection failed. Please try again later.'
+        ]);
+        exit;
+    }
+    // Otherwise, let the global exception handler (defined below) or the DB class itself handle it (503 page)
+    throw $e;
+}
 
 // Cache for settings to avoid repeated queries
 $globalSettings = null;

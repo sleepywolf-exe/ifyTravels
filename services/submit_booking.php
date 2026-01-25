@@ -1,5 +1,6 @@
 <?php
 // services/submit_booking.php
+define('IS_API', true);
 require_once __DIR__ . '/../includes/functions.php';
 
 header('Content-Type: application/json');
