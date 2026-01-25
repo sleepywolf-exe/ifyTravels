@@ -49,26 +49,29 @@ foreach ($required as $field) {
     }
 }
 
-// Data Sanitization
-$package_id = intval($input['package_id']);
-$customer_name = sanitize_input($input['customer_name']);
-$email = sanitize_input($input['email']);
-$phone = sanitize_input($input['phone']);
-$travel_date = sanitize_input($input['travel_date']);
-$duration = sanitize_input($input['duration'] ?? '');
-$adults = intval($input['adults'] ?? 1);
-$children = intval($input['children'] ?? 0);
-$hotel_category = sanitize_input($input['hotel_category'] ?? 'Mid-range');
-$interests = sanitize_input(is_array($input['interests'] ?? []) ? implode(', ', $input['interests']) : ($input['interests'] ?? ''));
-$special_requests = sanitize_input($input['special_requests'] ?? ''); // Optional
-
-// Determine Status: 'Pending'
-$status = 'Pending';
-$total_price = 0.00; // Will be calculated/confirmed by admin later or fetched from package
-
-$db = Database::getInstance();
+// Moved inside try block for better error handling
 
 try {
+    // Data Sanitization
+    $package_id = intval($input['package_id']);
+    $customer_name = sanitize_input($input['customer_name']);
+    $email = sanitize_input($input['email']);
+    $phone = sanitize_input($input['phone']);
+    $travel_date = sanitize_input($input['travel_date']);
+    $duration = sanitize_input($input['duration'] ?? '');
+    $adults = intval($input['adults'] ?? 1);
+    $children = intval($input['children'] ?? 0);
+    $hotel_category = sanitize_input($input['hotel_category'] ?? 'Mid-range');
+    $interests = sanitize_input(is_array($input['interests'] ?? []) ? implode(', ', $input['interests']) : ($input['interests'] ?? ''));
+    $special_requests = sanitize_input($input['special_requests'] ?? ''); // Optional
+
+    // Determine Status: 'Pending'
+    $status = 'Pending';
+    $total_price = 0.00; // Will be calculated/confirmed by admin later or fetched from package
+
+    // DB Init (Inside try to catch connection errors)
+    $db = Database::getInstance();
+
     // Optional: Fetch package name/price for record keeping
     $pkg = $db->fetch("SELECT title, price FROM packages WHERE id = ?", [$package_id]);
     $package_name = $pkg ? $pkg['title'] : 'Unknown Package';
