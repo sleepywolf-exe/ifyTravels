@@ -11,6 +11,10 @@ $errorMsg = '';
 $generatedLink = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF Protection
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die("Security check failed. Please refresh the page and try again.");
+    }
     $name = sanitize_input($_POST['name']);
     $email = sanitize_input($_POST['email']);
     $phone = sanitize_input($_POST['phone']);
@@ -185,6 +189,7 @@ include __DIR__ . '/../includes/header.php';
                 <?php endif; ?>
 
                 <form method="POST" action="" class="space-y-5">
+                    <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">Full Name</label>
                         <input type="text" name="name" required
