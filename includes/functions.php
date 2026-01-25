@@ -39,8 +39,10 @@ set_exception_handler(function ($e) {
         http_response_code(500);
         echo json_encode([
             'status' => 'error',
-            'message' => 'Internal Server Error',
-            'debug' => (ini_get('display_errors') ? $e->getMessage() : null)
+            'message' => $e->getMessage(), // Show actual error for debugging
+            // 'message' => 'Internal Server Error', // Revert to this after fixing
+            'file' => basename($e->getFile()),
+            'line' => $e->getLine()
         ]);
         exit;
     }
@@ -609,5 +611,20 @@ function send_password_reset_email($toEmail, $token)
     $headers = "From: ifyTravels Support <" . $fromEmail . ">";
 
     return @mail($toEmail, $subject, $message, $headers);
+}
+/**
+ * Polyfill for getallheaders() if not exists (e.g. Nginx/FPM)
+ */
+if (!function_exists('getallheaders')) {
+    function getallheaders()
+    {
+        $headers = [];
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
+        return $headers;
+    }
 }
 ?>
