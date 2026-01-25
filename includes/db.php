@@ -27,6 +27,7 @@ class Database
 
             // Check if API request (JSON)
             $isApi = (
+                (defined('IS_API') && IS_API) ||
                 (!empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) ||
                 (!empty($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false)
             );
