@@ -21,9 +21,19 @@ if (!$input) {
 }
 
 // CSRF Verification
-$headers = getallheaders();
-$csrf_token = $headers['X-CSRF-Token'] ?? '';
+$csrf_token = '';
+if (!empty($_SERVER['HTTP_X_CSRF_TOKEN'])) {
+    $csrf_token = $_SERVER['HTTP_X_CSRF_TOKEN'];
+} else {
+    $headers = getallheaders();
+    $csrf_token = $headers['X-CSRF-Token'] ?? ($headers['X-Csrf-Token'] ?? '');
+}
+
 if (!verify_csrf_token($csrf_token)) {
+    // Debug Logging
+    error_log("CSRF FAILED: Received [" . ($csrf_token ? 'YES' : 'NO') . "] Expected [" . ($_SESSION['csrf_token'] ?? 'NONE') . "]");
+    error_log("Session ID: " . session_id());
+
     http_response_code(403);
     echo json_encode(['status' => 'error', 'message' => 'Security check failed. Please refresh the page.']);
     exit;
