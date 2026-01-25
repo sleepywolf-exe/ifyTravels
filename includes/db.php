@@ -25,7 +25,18 @@ class Database
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
 
-            // Graceful Failure
+            // Check if API request (JSON)
+            $isApi = (
+                (!empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) ||
+                (!empty($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false)
+            );
+
+            if ($isApi) {
+                // For APIs, let the caller handle the error (to return JSON)
+                throw new Exception("Database Connection Failed");
+            }
+
+            // Graceful Failure for Web Pages
             if (file_exists(__DIR__ . '/../pages/503.php')) {
                 include __DIR__ . '/../pages/503.php';
                 exit;
