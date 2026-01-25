@@ -71,7 +71,7 @@ include __DIR__ . '/../includes/header.php';
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="glass-label">Full Name</label>
-                        <input type="text" name="name" required placeholder="Enter your full name"
+                        <input type="text" name="customer_name" required placeholder="Enter your full name"
                             class="glass-input w-full">
                     </div>
                     <div>
@@ -89,7 +89,7 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                     <div>
                         <label class="glass-label">Travel Date</label>
-                        <input type="date" name="date" required min="<?php echo date('Y-m-d'); ?>"
+                        <input type="date" name="travel_date" required min="<?php echo date('Y-m-d'); ?>"
                             class="glass-input w-full">
                     </div>
                 </div>
@@ -196,7 +196,7 @@ include __DIR__ . '/../includes/header.php';
         const customMsg = document.getElementById('customMsg');
         const customFields = document.getElementById('customFields');
         const submitBtn = document.getElementById('submitBtn');
-        const dateInput = document.querySelector('input[name="date"]');
+        const dateInput = document.querySelector('input[name="travel_date"]');
         const phoneInput = document.querySelector('input[name="phone"]');
 
         // 1. Price Calculation
