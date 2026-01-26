@@ -68,24 +68,22 @@ if ($id) {
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8 sm:py-12 px-4 sm:px-6">
+<body class="bg-gray-100 min-h-screen py-10 px-4 md:px-6 font-sans">
 
     <!-- Ticket Container -->
-    <div class="max-w-6xl w-full mx-auto my-auto animate-fade-in-up">
+    <div class="max-w-5xl w-full mx-auto animate-fade-in-up">
 
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">Booking Request Sent <i
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2 tracking-tight">Booking Request Sent <i
                     class="fas fa-paper-plane text-primary ml-2"></i></h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Your trip request has been successfully received. We will
-                contact you shortly to finalize details.</p>
+            <p class="text-base text-gray-600 max-w-xl mx-auto">Your trip request has been successfully received. We will contact you shortly to finalize details.</p>
         </div>
 
         <!-- Ticket Card -->
-        <div
-            class="bg-white rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col md:flex-row relative transform hover:scale-[1.01] transition-transform duration-500 ease-out border border-gray-100 ring-1 ring-gray-900/5">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row relative border border-gray-100 ring-1 ring-gray-900/5">
 
             <!-- Left Section (Main Ticket) -->
-            <div class="flex-[2] p-10 md:p-12 relative bg-white">
+            <div class="flex-[2] p-8 md:p-10 relative bg-white">
                 <!-- Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
                     style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;">
