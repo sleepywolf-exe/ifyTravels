@@ -68,10 +68,10 @@ if ($id) {
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6 md:p-12 pb-24 md:pb-32">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-12 sm:py-24 px-4 sm:px-6">
 
     <!-- Ticket Container -->
-    <div class="max-w-6xl w-full mx-auto animate-fade-in-up">
+    <div class="max-w-6xl w-full mx-auto my-auto animate-fade-in-up">
 
         <div class="text-center mb-10">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">Booking Request Sent <i
