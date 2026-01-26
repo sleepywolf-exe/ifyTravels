@@ -68,7 +68,7 @@ if ($id) {
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6 md:p-12">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6 md:p-12 pb-24 md:pb-32">
 
     <!-- Ticket Container -->
     <div class="max-w-6xl w-full mx-auto animate-fade-in-up">
