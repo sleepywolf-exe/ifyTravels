@@ -22,6 +22,9 @@ if ($id) {
     <link
         href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.png?v=' . time()); ?>"
+        type="image/x-icon">
+    <link rel="apple-touch-icon" href="<?php echo base_url('assets/images/favicon.png?v=' . time()); ?>">
     <script>
         tailwind.config = {
             theme: {
@@ -71,51 +74,45 @@ if ($id) {
 <body class="bg-gray-100 min-h-screen py-10 px-4 md:px-6 font-sans">
 
     <!-- Ticket Container -->
-    <div class="max-w-5xl w-full mx-auto animate-fade-in-up">
+    <div class="max-w-7xl w-full mx-auto animate-fade-in-up">
 
         <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2 tracking-tight">Booking Request Sent <i
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-3 tracking-tight">Booking Request Sent <i
                     class="fas fa-paper-plane text-primary ml-2"></i></h1>
-            <p class="text-base text-gray-600 max-w-xl mx-auto">Your trip request has been successfully received. We will contact you shortly to finalize details.</p>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Your trip request has been successfully received. We will
+                contact you shortly to finalize details.</p>
         </div>
 
         <!-- Ticket Card -->
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row relative border border-gray-100 ring-1 ring-gray-900/5">
+        <div
+            class="bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row relative border border-gray-100 ring-1 ring-gray-900/5">
 
             <!-- Left Section (Main Ticket) -->
-            <div class="flex-[2] p-8 md:p-10 relative bg-white">
+            <div class="flex-[2] p-8 md:p-14 relative bg-white">
                 <!-- Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
                     style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;">
                 </div>
 
                 <!-- Header -->
-                <div class="flex justify-between items-start mb-10 relative">
-                    <div class="flex items-center gap-5">
-                        <div class="bg-primary/5 p-3 rounded-2xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                            </svg>
-                        </div>
-                        <div>
-                            <span
-                                class="block text-2xl font-bold text-gray-900 tracking-wide uppercase font-sans"><?php echo e(get_setting('site_name', 'ifyTravels')); ?></span>
-                            <span class="text-sm text-primary/80 font-mono tracking-[0.2em] font-bold uppercase">Booking
-                                Request</span>
-                        </div>
+                <div class="flex justify-between items-start mb-12 relative">
+                    <div class="flex items-center gap-6">
+                        <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="IfyTravels"
+                            class="h-12 md:h-16 w-auto object-contain">
+                        <span
+                            class="hidden md:inline-block text-sm text-primary/80 font-mono tracking-[0.2em] font-bold uppercase border-l-2 border-gray-200 pl-6 ml-2">Booking
+                            Request</span>
                     </div>
                     <div class="text-right">
                         <span
                             class="block text-xs text-gray-400 uppercase tracking-widest font-semibold mb-1">Class</span>
                         <span
-                            class="font-bold text-gray-900 font-mono text-xl bg-gray-100 px-3 py-1 rounded-lg">STD</span>
+                            class="font-bold text-gray-900 font-mono text-xl bg-gray-100 px-4 py-2 rounded-lg">STD</span>
                     </div>
                 </div>
 
                 <!-- From / To Design -->
-                <div class="flex items-center justify-between mb-12 px-2 relative">
+                <div class="flex items-center justify-between mb-16 px-2 md:px-8 relative">
                     <div class="text-center w-1/3">
                         <span
                             class="block text-5xl md:text-6xl font-bold text-gray-900 mb-2 tracking-tighter">HOM</span>
@@ -214,13 +211,14 @@ if ($id) {
 
             <!-- Right Section (Stub) -->
             <div
-                class="w-full md:w-80 bg-gray-50/50 p-10 flex flex-col justify-between relative border-l border-gray-100">
+                class="w-full md:w-96 bg-gray-50/50 p-10 flex flex-col justify-between relative border-l border-gray-100">
 
-                <div class="text-center border-b border-gray-200/60 pb-8 mb-8">
+                <div
+                    class="text-center border-b border-gray-200/60 pb-8 mb-8 flex justify-center flex-col items-center">
+                    <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="Logo"
+                        class="h-8 w-auto mb-3 opacity-90 grayscale hover:grayscale-0 transition-all duration-300">
                     <span
-                        class="block text-xl font-bold text-gray-900 mb-2 uppercase tracking-wide"><?php echo e(get_setting('site_name', 'ifyTravels')); ?></span>
-                    <span
-                        class="text-[0.65rem] bg-gray-900 text-white px-3 py-1 rounded full font-mono tracking-widest uppercase">Stub</span>
+                        class="text-[0.65rem] bg-gray-900 text-white px-3 py-1 rounded-full font-mono tracking-widest uppercase">Stub</span>
                 </div>
 
                 <div class="space-y-6 text-center flex-1 flex flex-col justify-center">
