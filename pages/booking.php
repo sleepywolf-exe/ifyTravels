@@ -304,7 +304,7 @@ include __DIR__ . '/../includes/header.php';
 
                 if (response.ok && result.status === 'success') {
                     // Success!
-                    window.location.href = '<?php echo base_url('pages/booking-success.php?id='); ?>' + result.booking_id;
+                    window.location.href = '<?php echo base_url('booking-success?id='); ?>' + result.booking_id;
                 } else {
                     throw new Error(result.message || "Booking failed. Please try again.");
                 }

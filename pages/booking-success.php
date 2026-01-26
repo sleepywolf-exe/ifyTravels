@@ -41,24 +41,6 @@ if ($id) {
         }
     </script>
     <style>
-        .ticket-notch {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: #F3F4F6;
-            /* Matches body bg */
-            border-radius: 50%;
-            z-index: 10;
-        }
-
-        .notch-top {
-            top: -15px;
-        }
-
-        .notch-bottom {
-            bottom: -15px;
-        }
-
         .barcode-strip {
             background-image: repeating-linear-gradient(90deg,
                     #000 0px,
@@ -68,6 +50,49 @@ if ($id) {
                     #000 4px,
                     #000 8px);
         }
+
+        @media print {
+            @page {
+                margin: 0;
+                size: auto;
+            }
+
+            body {
+                padding: 0;
+                margin: 0;
+                background: white;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .print-full-width {
+                max-width: 100% !important;
+                width: 100% !important;
+                box-shadow: none !important;
+                border: 2px solid #000 !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                transform: scale(1) !important;
+            }
+
+            /* Adjust Ticket for Print */
+            .ticket-card {
+                border: 2px solid #e5e7eb;
+                break-inside: avoid;
+            }
+
+            .bg-gray-100 {
+                background-color: white !important;
+            }
+        }
     </style>
 </head>
 
@@ -76,7 +101,7 @@ if ($id) {
     <!-- Ticket Container -->
     <div class="max-w-7xl w-full mx-auto animate-fade-in-up">
 
-        <div class="text-center mb-6">
+        <div class="text-center mb-6 no-print">
             <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-2 tracking-tight">Booking Request Sent <i
                     class="fas fa-paper-plane text-primary ml-2"></i></h1>
             <p class="text-base text-gray-600 max-w-2xl mx-auto">Your trip request has been successfully received. We
@@ -85,7 +110,7 @@ if ($id) {
 
         <!-- Ticket Card -->
         <div
-            class="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row relative border border-gray-100 ring-1 ring-gray-900/5">
+            class="ticket-card bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row relative border border-gray-100 ring-1 ring-gray-900/5 print-full-width">
 
             <!-- Left Section (Main Ticket) -->
             <div class="flex-[2] p-8 md:p-10 relative bg-white">
@@ -259,7 +284,7 @@ if ($id) {
         </div>
 
         <!-- Actions -->
-        <div class="text-center mt-8 space-x-4">
+        <div class="text-center mt-8 space-x-4 no-print">
             <button onclick="window.print()"
                 class="bg-gray-900 text-white px-6 py-3 rounded-full font-bold text-base hover:bg-black transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-2">
                 <i class="fas fa-print"></i> Print Receipt
