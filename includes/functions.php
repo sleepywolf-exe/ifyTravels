@@ -386,7 +386,7 @@ function send_lead_confirmation_email($toEmail, $customerName, $customerPhone)
  */
 function send_admin_notification_email($subject, $data, $actionText = 'View in Admin', $actionUrl = '')
 {
-    $adminEmail = 'parasasd@gmail.com'; // Admin Email
+    $adminEmail = get_setting('admin_notification_email', 'parasasd@gmail.com'); // Admin Recipient
     $fromEmail = 'no-reply@ifytravels.com';
 
     // Brand Colors
