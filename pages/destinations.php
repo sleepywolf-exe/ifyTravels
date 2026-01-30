@@ -69,22 +69,19 @@ include __DIR__ . '/../includes/header.php';
 
         <!-- Header Content -->
         <div class="text-center max-w-4xl mx-auto">
-            <span
-                class="inline-block px-4 py-2 bg-primary/10 text-primary font-bold tracking-widest uppercase text-sm rounded-full mb-6 animate-fade-in-up">
+            <span class="inline-block px-4 py-2 bg-primary/10 text-primary font-bold tracking-widest uppercase text-sm rounded-full mb-6">
                 Curated Collection
             </span>
-            <h1 class="text-5xl md:text-7xl font-heading font-bold text-slate-900 mb-6 reveal-text">
-                Explore
+            <h1 class="text-5xl md:text-7xl font-heading font-bold text-slate-900 mb-6">
+                Explore 
                 <span class="text-primary relative inline-block">
                     Destinations
-                    <svg class="absolute -bottom-2 left-0 w-full h-3 text-primary/20" viewBox="0 0 200 12"
-                        preserveAspectRatio="none">
-                        <path d="M0,7 Q50,0 100,7 T200,7" stroke="currentColor" stroke-width="4" fill="none" />
+                    <svg class="absolute -bottom-2 left-0 w-full h-3 text-primary/20" viewBox="0 0 200 12" preserveAspectRatio="none">
+                        <path d="M0,7 Q50,0 100,7 T200,7" stroke="currentColor" stroke-width="4" fill="none"/>
                     </svg>
                 </span>
             </h1>
-            <p class="text-slate-600 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto reveal-text"
-                style="transition-delay: 0.2s">
+            <p class="text-slate-600 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto">
                 Discover the most beautiful and exclusive places around the world, handpicked for discerning travelers.
             </p>
         </div>
