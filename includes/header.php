@@ -64,6 +64,10 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         <?php echo isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'ifyTravels') : get_setting('site_name', 'ifyTravels'); ?>
     </title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?php echo base_url('assets/images/favicon.png'); ?>">
+    <link rel="shortcut icon" type="image/png" href="<?php echo base_url('assets/images/favicon.png'); ?>">
+
     <!-- SEO & Meta -->
     <?php
     $metaTitle = isset($pageTitle) ? $pageTitle . ' - ' . get_setting('site_name', 'ifyTravels') : get_setting('site_name', 'ifyTravels');
