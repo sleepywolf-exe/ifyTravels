@@ -58,7 +58,12 @@ try {
 if ($pdo) {
     // Destinations
     try {
-        $stmt = $pdo->query("SELECT slug, updated_at, created_at FROM destinations ORDER BY created_at DESC");
+        // Fallback: Check if updated_at exists or just use created_at/slug
+        // To be safe, we will select only what we are 99% sure exists or verify first.
+        // For now, let's remove 'updated_at' since that threw the error.
+        
+        $sql = "SELECT slug, created_at FROM destinations ORDER BY created_at DESC";
+        $stmt = $pdo->query($sql);
         $destinations = $stmt->fetchAll();
         
         if (empty($destinations)) {
@@ -66,7 +71,9 @@ if ($pdo) {
         }
 
         foreach ($destinations as $dest) {
-            $lastMod = !empty($dest['updated_at']) ? date('Y-m-d', strtotime($dest['updated_at'])) : date('Y-m-d', strtotime($dest['created_at']));
+            // Use created_at as fallback for lastmod
+            $lastMod = !empty($dest['created_at']) ? date('Y-m-d', strtotime($dest['created_at'])) : date('Y-m-d');
+            
             echo "\n    <url>\n";
             echo "        <loc>" . destination_url($dest['slug']) . "</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
@@ -80,7 +87,8 @@ if ($pdo) {
 
     // Packages
     try {
-        $stmt = $pdo->query("SELECT slug, updated_at, created_at FROM packages ORDER BY created_at DESC");
+        $sql = "SELECT slug, created_at FROM packages ORDER BY created_at DESC";
+        $stmt = $pdo->query($sql);
         $packages = $stmt->fetchAll();
         
         if (empty($packages)) {
@@ -88,7 +96,9 @@ if ($pdo) {
         }
 
         foreach ($packages as $pkg) {
-            $lastMod = !empty($pkg['updated_at']) ? date('Y-m-d', strtotime($pkg['updated_at'])) : date('Y-m-d', strtotime($pkg['created_at']));
+             // Use created_at as fallback for lastmod
+            $lastMod = !empty($pkg['created_at']) ? date('Y-m-d', strtotime($pkg['created_at'])) : date('Y-m-d');
+
             echo "\n    <url>\n";
             echo "        <loc>" . package_url($pkg['slug']) . "</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
