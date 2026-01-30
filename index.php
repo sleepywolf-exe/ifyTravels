@@ -216,47 +216,71 @@ try {
             </div>
         </div>
 
-        <!-- DESTINATIONS -->
-        <section class="py-24 pt-12">
-            <div class="container mx-auto px-6">
-                <!-- Section Header -->
-                <div class="text-center mb-20 section-header opacity-0 transform translate-y-10">
-                    <span class="text-primary font-bold tracking-widest uppercase text-sm">Discover</span>
-                    <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-900 mt-2 mb-6 reveal-text">
-                        Trending <span class="text-primary">Destinations</span></h2>
-                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto"></div>
+        <!-- DESTINATIONS (Redesigned) -->
+        <section class="py-32 relative overflow-hidden bg-white">
+            <!-- Massive Background Text -->
+            <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2
+                    class="text-[12rem] md:text-[24rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
+                    Discover
+                </h2>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <!-- Section Header (Floating) -->
+                <div class="text-center mb-16 section-header opacity-0 transform translate-y-10">
+                    <span
+                        class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">
+                        Explore the World
+                    </span>
+                    <h3 class="text-4xl md:text-6xl font-heading font-extrabold text-slate-900">
+                        Trending <span class="text-primary italic font-serif">Destinations</span>
+                    </h3>
                 </div>
 
+                <!-- Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-2">
                     <?php foreach ($topDestinations as $index => $dest): ?>
                         <div class="destination-card opacity-0 transform translate-y-10"
                             style="transition-delay: <?php echo $index * 100; ?>ms">
                             <a href="<?php echo destination_url($dest['slug']); ?>"
-                                class="block group relative h-[500px] rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                                class="block group relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(15,118,110,0.3)] transition-all duration-500 border-[6px] border-white ring-1 ring-slate-100">
+
+                                <!-- Image -->
                                 <img src="<?php echo base_url($dest['image']); ?>"
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                     loading="lazy" alt="<?php echo htmlspecialchars($dest['name']); ?>">
+
+                                <!-- Gradient Overlay -->
                                 <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-60 group-hover:opacity-40 transition-opacity">
+                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500">
                                 </div>
 
-                                <div
-                                    class="absolute bottom-0 left-0 w-full p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                    <h3 class="text-3xl font-heading font-bold text-white mb-2">
-                                        <?php echo htmlspecialchars($dest['name']); ?>
-                                    </h3>
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-1 text-yellow-400">
-                                            <span>★</span> <span
-                                                class="text-white font-medium"><?php echo $dest['rating']; ?></span>
+                                <!-- Content -->
+                                <div class="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end h-full">
+                                    <div
+                                        class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                        <h3 class="text-4xl font-heading font-black text-white mb-2 leading-tight">
+                                            <?php echo htmlspecialchars($dest['name']); ?>
+                                        </h3>
+
+                                        <div class="flex items-end justify-between w-full">
+                                            <div
+                                                class="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                                                <span class="text-yellow-400 text-lg">★</span>
+                                                <span
+                                                    class="text-white font-bold tracking-wide"><?php echo $dest['rating']; ?></span>
+                                            </div>
+
+                                            <span
+                                                class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-primary shadow-lg transform translate-y-2 group-hover:translate-y-0 group-hover:rotate-45 transition-all duration-500">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                </svg>
+                                            </span>
                                         </div>
-                                        <span
-                                            class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-md transition-transform group-hover:scale-110">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                            </svg>
-                                        </span>
                                     </div>
                                 </div>
                             </a>
@@ -264,10 +288,16 @@ try {
                     <?php endforeach; ?>
                 </div>
 
-                <div class="text-center mt-16">
+                <div class="text-center mt-20 relative z-10">
                     <a href="<?php echo base_url('/destinations'); ?>"
-                        class="inline-block px-10 py-4 border border-slate-300 rounded-full text-slate-600 font-medium hover:bg-slate-900 hover:text-white transition-all duration-300 magnetic-btn">View
-                        All Destinations</a>
+                        class="inline-flex items-center gap-3 px-10 py-5 bg-slate-900 text-white rounded-full font-bold hover:bg-primary transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 magnetic-btn group">
+                        <span>View All Destinations</span>
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </section>
