@@ -174,7 +174,7 @@ try {
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-48 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
+        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
             <a href="#destinations" aria-label="Scroll Down"
                 class="text-white hover:text-primary transition-colors duration-300">
                 <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
