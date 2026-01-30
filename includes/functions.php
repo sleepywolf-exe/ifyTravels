@@ -118,6 +118,16 @@ function base_url($path = '')
 }
 
 /**
+ * Get current URL without query string
+ */
+function current_url()
+{
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";
+    $url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    return strtok($url, '?');
+}
+
+/**
  * Get current year for footer
  */
 function current_year()
