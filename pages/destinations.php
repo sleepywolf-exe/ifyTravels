@@ -68,7 +68,7 @@ include __DIR__ . '/../includes/header.php';
 
             <!-- Sidebar Filters -->
             <aside class="w-full lg:w-1/4">
-                <div class="sticky top-32 p-6 bg-white border border-slate-200 rounded-3xl shadow-lg">
+                <div class="sticky top-32 p-6 bg-white border border-slate-200 rounded-3xl shadow-creative">
                     <h3 class="text-xl font-heading font-bold mb-6 flex items-center gap-2 text-slate-900">
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -145,7 +145,7 @@ include __DIR__ . '/../includes/header.php';
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">
+                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-creative hover:shadow-creative-hover hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">
                             Apply Filters
                         </button>
                         <a href="<?php echo base_url('pages/destinations.php'); ?>"
@@ -197,7 +197,7 @@ include __DIR__ . '/../includes/header.php';
                             <div class="destination-card opacity-0 transform translate-y-8"
                                 style="transition-delay: <?php echo $index * 50; ?>ms">
                                 <a href="<?php echo destination_url($dest['slug']); ?>"
-                                    class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-md hover:shadow-2xl transition-all duration-500 aspect-[4/5]">
+                                    class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-creative hover:shadow-creative-hover transition-all duration-500 aspect-[4/5]">
 
                                     <img src="<?php echo base_url($dest['image']); ?>"
                                         alt="<?php echo htmlspecialchars($dest['name']); ?>" loading="lazy"

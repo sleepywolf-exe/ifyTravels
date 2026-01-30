@@ -178,7 +178,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
 
             <!-- Sidebar Filters -->
             <aside class="w-full lg:w-1/4">
-                <div class="sticky top-32 p-6 bg-white border border-slate-200 rounded-3xl shadow-lg">
+                <div class="sticky top-32 p-6 bg-white border border-slate-200 rounded-3xl shadow-creative">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="font-heading font-bold text-xl text-slate-900">Filters</h3>
                         <a href="<?php echo base_url('pages/packages.php'); ?>"
@@ -283,7 +283,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">Apply
+                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-creative hover:shadow-creative-hover hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">Apply
                             Filters</button>
                     </form>
                 </div>
@@ -320,7 +320,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                             <div class="package-card opacity-0 transform translate-y-8 h-full"
                                 style="transition-delay: <?php echo $index * 50; ?>ms">
                                 <a href="<?php echo package_url($pkg['slug']); ?>"
-                                    class="glass-card-light block rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-500 flex flex-col h-full bg-white border border-slate-100">
+                                    class="glass-card-light block rounded-3xl overflow-hidden group shadow-creative hover:shadow-creative-hover transition-all duration-500 flex flex-col h-full bg-white border border-slate-100">
 
                                     <!-- Image -->
                                     <div class="relative h-64 overflow-hidden shrink-0">
