@@ -597,27 +597,40 @@ try {
         </section>
 
         <!-- NEWSLETTER SECTION -->
-        <section class="py-20 relative overflow-hidden">
-            <div class="absolute inset-0 bg-slate-900"></div>
-            <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 opacity-30"></div>
+        <section class="py-32 relative overflow-hidden bg-slate-900 border-t border-slate-800">
+             <!-- Massive Background Text -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2 class="text-[10rem] md:text-[20rem] font-black text-white opacity-[0.02] leading-none tracking-tighter uppercase font-heading">
+                    Subscribe
+                </h2>
+            </div>
+
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-30 pointer-events-none"></div>
             <!-- Pattern -->
-            <div class="absolute inset-0 opacity-10"
+            <div class="absolute inset-0 opacity-5 pointer-events-none"
                 style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
 
             <div class="container mx-auto px-6 relative z-10 text-center">
-                <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
+                <span class="inline-block py-2 px-6 rounded-full bg-white/5 border border-white/10 text-white text-xs font-bold tracking-[0.2em] mb-8 uppercase backdrop-blur-sm">
+                    Stay Connected
+                </span>
+                <h2 class="text-4xl md:text-6xl font-heading font-black text-white mb-6">
                     <?php echo e(get_setting('newsletter_heading', 'Join the Elite Club')); ?>
                 </h2>
-                <p class="text-slate-300 mb-10 max-w-xl mx-auto text-lg">
+                <p class="text-slate-400 mb-12 max-w-2xl mx-auto text-lg font-light leading-relaxed">
                     <?php echo e(get_setting('newsletter_text', 'Subscribe to receive exclusive offers, travel inspiration, and member-only perks directly to your inbox.')); ?>
                 </p>
 
-                <form id="newsletter-form" class="max-w-lg mx-auto flex flex-col sm:flex-row gap-4">
-                    <input type="email" name="email" placeholder="Your email address"
-                        class="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:bg-white/20 transition-all backdrop-blur-sm"
-                        required>
+                <form id="newsletter-form" class="max-w-lg mx-auto flex flex-col sm:flex-row gap-4 relative">
+                    <div class="relative flex-1">
+                        <input type="email" name="email" placeholder="Your email address"
+                            class="w-full px-8 py-5 rounded-full bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:bg-white/10 focus:border-primary/50 transition-all backdrop-blur-md"
+                            required>
+                    </div>
                     <button type="submit"
-                        class="px-8 py-4 rounded-full bg-white text-primary font-bold hover:bg-slate-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Subscribe</button>
+                        class="px-10 py-5 rounded-full bg-white text-slate-900 font-bold hover:bg-primary hover:text-white transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgba(20,184,166,0.4)] transform hover:-translate-y-1 magnetic-btn">
+                        Subscribe
+                    </button>
                 </form>
             </div>
         </section>
