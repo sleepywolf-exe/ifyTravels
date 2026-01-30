@@ -242,8 +242,7 @@ try {
                 <!-- Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-2">
                     <?php foreach ($topDestinations as $index => $dest): ?>
-                        <div class="destination-card opacity-0 transform translate-y-10"
-                            style="transition-delay: <?php echo $index * 100; ?>ms">
+                        <div class="destination-card opacity-0">
                             <a href="<?php echo destination_url($dest['slug']); ?>"
                                 class="block group relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(15,118,110,0.3)] transition-all duration-500 border-[6px] border-white ring-1 ring-slate-100">
 
@@ -304,9 +303,11 @@ try {
 
         <!-- WHY CHOOSE US (Features) -->
         <section class="py-32 bg-white relative overflow-hidden border-y border-slate-100">
-             <!-- Massive Background Text -->
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
-                <h2 class="text-[12rem] md:text-[20rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
+            <!-- Massive Background Text -->
+            <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2
+                    class="text-[12rem] md:text-[20rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
                     Experience
                 </h2>
             </div>
@@ -314,7 +315,8 @@ try {
             <div class="container mx-auto px-6 relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 section-header opacity-0">
-                    <span class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">
+                    <span
+                        class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">
                         The Difference
                     </span>
                     <h2 class="text-4xl md:text-6xl font-heading font-extrabold text-slate-900 mt-2">
@@ -334,7 +336,8 @@ try {
                             </svg>
                         </div>
                         <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">Curated Luxury</h3>
-                        <p class="text-slate-600 leading-relaxed text-lg">Every destination is hand-picked by our experts to
+                        <p class="text-slate-600 leading-relaxed text-lg">Every destination is hand-picked by our
+                            experts to
                             ensure specific standards of luxury and comfort.</p>
                     </div>
 
@@ -365,7 +368,8 @@ try {
                             </svg>
                         </div>
                         <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">Best Price Guarantee</h3>
-                        <p class="text-slate-600 leading-relaxed text-lg">We partner directly with resorts and airlines to bring
+                        <p class="text-slate-600 leading-relaxed text-lg">We partner directly with resorts and airlines
+                            to bring
                             you exclusive rates you won't find elsewhere.</p>
                     </div>
                 </div>
@@ -397,8 +401,7 @@ try {
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                         <?php foreach ($popularPackages as $index => $pkg): ?>
-                            <div class="package-card opacity-0 transform translate-y-10"
-                                style="transition-delay: <?php echo $index * 150; ?>ms">
+                            <div class="package-card opacity-0">
                                 <a href="<?php echo package_url($pkg['slug']); ?>"
                                     class="block group relative h-[500px] rounded-[2.5rem] overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(244,63,94,0.3)] transition-all duration-500 border-[6px] border-white ring-1 ring-slate-100">
 
@@ -471,9 +474,11 @@ try {
 
         <!-- TESTIMONIALS (Restored) -->
         <section class="py-32 bg-slate-50 border-t border-slate-200 relative overflow-hidden">
-             <!-- Massive Background Text -->
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
-                <h2 class="text-[12rem] md:text-[22rem] font-black text-slate-200 opacity-[0.2] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
+            <!-- Massive Background Text -->
+            <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2
+                    class="text-[12rem] md:text-[22rem] font-black text-slate-200 opacity-[0.2] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
                     Stories
                 </h2>
             </div>
@@ -481,7 +486,8 @@ try {
             <div class="container mx-auto px-6 relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-20 section-header opacity-0">
-                    <span class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">Testimonials</span>
+                    <span
+                        class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">Testimonials</span>
                     <h2 class="text-4xl md:text-6xl font-heading font-extrabold text-slate-900 mt-2">Loved by <span
                             class="text-primary italic font-serif">Travelers</span></h2>
                 </div>
@@ -496,7 +502,8 @@ try {
                                         alt="<?php echo htmlspecialchars($review['name']); ?>"
                                         class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
                                     <div>
-                                        <h4 class="font-bold text-xl text-slate-900"><?php echo htmlspecialchars($review['name']); ?>
+                                        <h4 class="font-bold text-xl text-slate-900">
+                                            <?php echo htmlspecialchars($review['name']); ?>
                                         </h4>
                                         <div class="flex text-yellow-500 text-base mt-1">
                                             <?php for ($i = 0; $i < 5; $i++): ?>
@@ -521,7 +528,8 @@ try {
                                     <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic leading-loose text-lg font-light">"The Maldives trip was absolutely breathtaking. The attention
+                            <p class="text-slate-600 italic leading-loose text-lg font-light">"The Maldives trip was
+                                absolutely breathtaking. The attention
                                 to detail was unmatched."</p>
                         </div>
                         <div
@@ -534,7 +542,8 @@ try {
                                     <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Booking was seamless, and the concierge support was a
+                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Booking was seamless, and the
+                                concierge support was a
                                 lifesaver during our Paris tour."</p>
                         </div>
                         <div
@@ -547,7 +556,8 @@ try {
                                     <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Highly recommend IfyTravels for anyone looking for a premium,
+                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Highly recommend IfyTravels
+                                for anyone looking for a premium,
                                 hassle-free vacation."</p>
                         </div>
                     <?php endif; ?>
@@ -557,22 +567,24 @@ try {
 
         <!-- LUXURY CTA SECTION -->
         <section class="py-40 relative overflow-hidden bg-slate-900">
-             <!-- Massive Background Text -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
-                <h2 class="text-[12rem] md:text-[25rem] font-black text-white opacity-[0.02] leading-none tracking-tighter uppercase font-heading">
+            <!-- Massive Background Text -->
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2
+                    class="text-[12rem] md:text-[25rem] font-black text-white opacity-[0.02] leading-none tracking-tighter uppercase font-heading">
                     Journey
                 </h2>
             </div>
-            
+
             <div class="container mx-auto px-6 relative z-10 text-center">
                 <div class="max-w-5xl mx-auto">
                     <span
                         class="inline-block py-2 px-6 rounded-full bg-white/10 border border-white/10 text-white text-sm font-bold tracking-[0.2em] mb-8 uppercase backdrop-blur-sm">
                         Start Your Journey
                     </span>
-                    <h2
-                        class="text-6xl md:text-8xl font-heading font-black mb-10 text-white leading-tight reveal-text">
-                        Ready to Explore the <br /><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Extraordinary?</span>
+                    <h2 class="text-6xl md:text-8xl font-heading font-black mb-10 text-white leading-tight reveal-text">
+                        Ready to Explore the <br /><span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Extraordinary?</span>
                     </h2>
                     <p class="text-2xl text-slate-300 mb-16 font-light max-w-3xl mx-auto leading-relaxed">
                         Join the elite travelers who have discovered the world's most breathtaking destinations with
@@ -598,20 +610,25 @@ try {
 
         <!-- NEWSLETTER SECTION -->
         <section class="py-32 relative overflow-hidden bg-slate-900 border-t border-slate-800">
-             <!-- Massive Background Text -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
-                <h2 class="text-[10rem] md:text-[20rem] font-black text-white opacity-[0.02] leading-none tracking-tighter uppercase font-heading">
+            <!-- Massive Background Text -->
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2
+                    class="text-[10rem] md:text-[20rem] font-black text-white opacity-[0.02] leading-none tracking-tighter uppercase font-heading">
                     Subscribe
                 </h2>
             </div>
 
-            <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-30 pointer-events-none"></div>
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-30 pointer-events-none">
+            </div>
             <!-- Pattern -->
             <div class="absolute inset-0 opacity-5 pointer-events-none"
                 style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
 
             <div class="container mx-auto px-6 relative z-10 text-center">
-                <span class="inline-block py-2 px-6 rounded-full bg-white/5 border border-white/10 text-white text-xs font-bold tracking-[0.2em] mb-8 uppercase backdrop-blur-sm">
+                <span
+                    class="inline-block py-2 px-6 rounded-full bg-white/5 border border-white/10 text-white text-xs font-bold tracking-[0.2em] mb-8 uppercase backdrop-blur-sm">
                     Stay Connected
                 </span>
                 <h2 class="text-4xl md:text-6xl font-heading font-black text-white mb-6">
@@ -675,95 +692,82 @@ try {
                         btn.disabled = false;
                         alert('Something went wrong. Please try again.');
                     });
-    });
+            });
         </script>
 
         <!-- GSAP Animation Logic -->
+        <!-- GSAP Animation Logic (Premium) -->
         <script>
-            // Register Plugins
-            gsap.registerPlugin(ScrollTrigger);
+            document.addEventListener("DOMContentLoaded", (event) => {
+                gsap.registerPlugin(ScrollTrigger);
 
-            // 1. Hero Text Reveal (Load Animation)
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+                // Helper for Staggered Reveals
+                const animateBatch = (selector, yOffset = 100) => {
+                    ScrollTrigger.batch(selector, {
+                        start: "top 90%",
+                        onEnter: batch => {
+                            gsap.fromTo(batch, 
+                                { opacity: 0, y: yOffset, scale: 0.95 }, 
+                                { 
+                                    opacity: 1, 
+                                    y: 0, 
+                                    scale: 1, 
+                                    stagger: 0.15, 
+                                    duration: 1.2, 
+                                    ease: "power4.out", 
+                                    overwrite: true 
+                                }
+                            );
+                        },
+                        once: true
+                    });
+                };
 
-            tl.to(".hero-title", { y: 0, opacity: 1, duration: 1.5, delay: 0.2 })
-                .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
-                .to(".hero-form", { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
+                // 1. Hero Text Reveal (Load Animation)
+                const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+                tl.to(".hero-title", { y: 0, opacity: 1, duration: 1.5, delay: 0.2 })
+                  .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+                  .to(".hero-form", { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
 
-            // 2. Parallax Background (Optimized - CSS Fixed handles the heavy lifting, this adds slight depth)
-            // Removed heavy GSAP scrub to fix "white space" issue and stuttering. 
-            // CSS 'fixed' position is smoother and lighter.
-
-            // 3. Section Headers Reveal
-            gsap.utils.toArray('.section-header').forEach(header => {
-                gsap.to(header, {
-                    scrollTrigger: {
-                        trigger: header,
-                        start: "top 80%",
-                        toggleActions: "play none none reverse"
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 1
+                // 2. Section Headers (Reveal Up)
+                gsap.utils.toArray('.section-header').forEach(header => {
+                    gsap.fromTo(header, 
+                        { opacity: 0, y: 50 },
+                        {
+                            scrollTrigger: {
+                                trigger: header,
+                                start: "top 85%",
+                                toggleActions: "play none none reverse"
+                            },
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power3.out"
+                        }
+                    );
                 });
+
+                // 3. Premium Card Reveals (Batch)
+                animateBatch('.destination-card', 100);
+                animateBatch('.feature-card', 60);
+                animateBatch('.package-card', 100);
+                animateBatch('.testimonial-card', 60);
+
+                // 4. Newsletter Reveal
+                gsap.fromTo("#newsletter-form", 
+                    { opacity: 0, scale: 0.9 },
+                    {
+                        scrollTrigger: {
+                            trigger: "#newsletter-form",
+                            start: "top 90%"
+                        },
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1,
+                        ease: "elastic.out(1, 0.6)"
+                    }
+                );
             });
-
-            // 4. Staggered Cards (Destinations)
-            gsap.utils.toArray('.destination-card').forEach(card => {
-                gsap.to(card, {
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 85%"
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power2.out"
-                });
-            });
-
-            // 5. Staggered Cards (Packages)
-            gsap.utils.toArray('.package-card').forEach(card => {
-                gsap.to(card, {
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 85%"
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power2.out"
-                });
-            });
-
-            // 6. Why Choose Us (Features)
-            gsap.utils.toArray('.feature-card').forEach(card => {
-                gsap.to(card, {
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 85%"
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: "back.out(1.7)"
-                });
-            });
-
-            // 7. Testimonials
-            gsap.utils.toArray('.testimonial-card').forEach(card => {
-                gsap.to(card, {
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 85%"
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power2.out"
-                });
-    });
-
         </script>
 
         <!-- Flatpickr Script (Deferred) -->
@@ -777,7 +781,7 @@ try {
                     altFormat: "d M, Y",
                     disableMobile: "true"
                 });
-    });
+            });
         </script>
 
     </div><!-- End Content Wrapper -->
