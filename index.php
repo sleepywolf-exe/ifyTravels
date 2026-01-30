@@ -81,12 +81,13 @@ try {
                 <span class="text-white italic pr-2 font-serif">Extraordinary</span>
             </h1>
 
-            <div
-                class="hero-subtitle opacity-0 transform translate-y-10 will-change-transform mb-12 max-w-3xl mx-auto">
-                <div class="inline-block bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
-                    <p class="text-lg md:text-2xl text-white font-light leading-relaxed tracking-wide drop-shadow-md">
-                        <?php echo nl2br(htmlspecialchars(get_setting('hero_subtitle', "Curated luxury travel experiences designed just for you.\n📞 +91 9999779870 | 📧 hello@ifytravel.com"))); ?>
-                    </p>
+            <div class="hero-subtitle opacity-0 transform translate-y-10 will-change-transform mb-12 max-w-3xl mx-auto">
+                <div
+                    class="inline-block bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
+                    <div
+                        class="text-lg md:text-2xl text-white font-light leading-relaxed tracking-wide drop-shadow-md [&>p]:mb-2 [&>p:last-child]:mb-0">
+                        <?php echo get_setting('hero_subtitle', "Curated luxury travel experiences designed just for you.<br>📞 +91 9999779870 | 📧 hello@ifytravel.com"); ?>
+                    </div>
                 </div>
             </div>
 
@@ -699,6 +700,6 @@ try {
             });
         </script>
 
-        </div><!-- End Content Wrapper -->
+    </div><!-- End Content Wrapper -->
 
     <?php include 'includes/footer.php'; ?>
