@@ -426,10 +426,41 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                             </div>
                                         </div>
 
-                                        <!-- Features (First 3) -->
-                                        <div class="space-y-2 mb-6 flex-1">
+                                        <!-- Themes & Activities Tags -->
+                                        <div class="flex flex-wrap gap-2 mb-4">
                                             <?php
-                                            $feats = !empty($pkg['features']) ? array_slice($pkg['features'], 0, 3) : [];
+                                            // Helper to parse JSON or Array
+                                            $parseTags = function ($data) {
+                                                return is_string($data) ? json_decode($data, true) : $data;
+                                            };
+
+                                            $themes = !empty($pkg['themes']) ? $parseTags($pkg['themes']) : [];
+                                            $activities = !empty($pkg['activities']) ? $parseTags($pkg['activities']) : [];
+
+                                            // Merge and take top 3 distinct
+                                            $allTags = array_merge(
+                                                is_array($themes) ? $themes : [],
+                                                is_array($activities) ? $activities : []
+                                            );
+                                            $displayTags = array_slice(array_unique(array_filter($allTags)), 0, 3);
+
+                                            foreach ($displayTags as $tag):
+                                                ?>
+                                                <span
+                                                    class="inline-block text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-indigo-50 text-indigo-600 border border-indigo-100">
+                                                    <?php echo htmlspecialchars($tag); ?>
+                                                </span>
+                                            <?php endforeach; ?>
+                                            <?php if (count($allTags) > 3): ?>
+                                                <span
+                                                    class="inline-block text-[10px] font-bold text-slate-400 px-1 py-1">+<?php echo count($allTags) - 3; ?></span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <!-- Features (First 2) -->
+                                        <div class="space-y-1.5 mb-6 flex-1">
+                                            <?php
+                                            $feats = !empty($pkg['features']) ? array_slice($pkg['features'], 0, 2) : [];
                                             if (!empty($feats)):
                                                 foreach ($feats as $f): ?>
                                                     <div class="flex items-center text-sm text-slate-700">
