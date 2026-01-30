@@ -302,23 +302,42 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             border-color: #e2e8f0 !important;
             color: #0f172a !important;
         }
+
         /* Innovative Loader Animations */
         @keyframes spin-slow {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         @keyframes spin-reverse {
-            to { transform: rotate(-360deg); }
+            to {
+                transform: rotate(-360deg);
+            }
         }
+
         @keyframes pulse-slow {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
         }
+
         .animate-spin-slow {
             animation: spin-slow 10s linear infinite;
         }
+
         .animate-spin-reverse {
             animation: spin-reverse 8s linear infinite;
         }
+
         .animate-pulse-slow {
             animation: pulse-slow 3s ease-in-out infinite;
         }
@@ -336,44 +355,51 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             <div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
 
             <!-- Ring 1: Slow Spinning Arc (Outer) -->
-            <div class="absolute inset-0 border-[6px] border-transparent border-t-primary/20 border-r-primary/20 rounded-full animate-spin-slow"></div>
-            
+            <div
+                class="absolute inset-0 border-[6px] border-transparent border-t-primary/20 border-r-primary/20 rounded-full animate-spin-slow">
+            </div>
+
             <!-- Ring 2: Reverse Spinning Arc (Middle) -->
-            <div class="absolute inset-6 border-[6px] border-transparent border-b-secondary border-l-secondary rounded-full animate-spin-reverse opacity-80"></div>
-            
+            <div
+                class="absolute inset-6 border-[6px] border-transparent border-b-secondary border-l-secondary rounded-full animate-spin-reverse opacity-80">
+            </div>
+
             <!-- Ring 3: Inner Thin Ring -->
             <div class="absolute inset-16 border-[2px] border-slate-200 rounded-full"></div>
 
             <!-- Center Glowing Orb -->
-            <div class="relative w-40 h-40 bg-white rounded-full shadow-[0_20px_50px_rgba(15,118,110,0.15)] flex items-center justify-center z-10 animate-pulse-slow ring-4 ring-white">
+            <div
+                class="relative w-40 h-40 bg-white rounded-full shadow-[0_20px_50px_rgba(15,118,110,0.15)] flex items-center justify-center z-10 animate-pulse-slow ring-4 ring-white">
                 <img src="<?php echo base_url('assets/images/favicon.png'); ?>" alt="Loading"
                     class="w-24 h-24 object-contain drop-shadow-sm">
             </div>
         </div>
-        
+
         <!-- Text -->
         <div class="text-center">
-            <span class="block text-primary font-heading font-black text-4xl tracking-[0.3em] uppercase mb-2">ifyTravels</span>
+            <span
+                class="block text-primary font-heading font-black text-4xl tracking-[0.3em] uppercase mb-2">ifyTravels</span>
             <span class="text-slate-400 text-sm tracking-[0.5em] font-light uppercase">Loading Experience</span>
         </div>
     </div>
 
-    <!-- HIGH-END MODERN HEADER (V4) -->
-    <header id="main-header" class="fixed top-4 left-0 right-0 z-50 flex justify-center transition-all duration-300">
+    <!-- HIGH-END MODERN HEADER (V5 - GRAND SCALE) -->
+    <header id="main-header" class="fixed top-6 left-0 right-0 z-50 flex justify-center transition-all duration-300">
         <div id="header-capsule"
-            class="w-[95%] max-w-7xl bg-white/80 backdrop-blur-2xl border border-white/50 shadow-2xl shadow-slate-200/40 rounded-2xl px-3 py-3 transition-all duration-300 hover:bg-white/90">
+            class="w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/50 shadow-2xl shadow-slate-200/40 rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white/95 ring-1 ring-slate-900/5">
             <div class="flex items-center justify-between">
 
-                <!-- Logo (Image Only) -->
+                <!-- Logo (Massive) -->
                 <a href="<?php echo base_url(); ?>" class="flex items-center gap-2 group px-2"
                     aria-label="ifyTravels Home">
-                    <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels Logo" width="140"
-                        height="45" loading="eager"
-                        class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                    <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels Logo" width="220"
+                        height="65" loading="eager"
+                        class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
                 </a>
 
-                <!-- Desktop Navigation (Centered) -->
-                <nav class="hidden md:flex items-center gap-1 bg-slate-100/50 rounded-full p-1 border border-white/50">
+                <!-- Desktop Navigation (Grand) -->
+                <nav
+                    class="hidden md:flex items-center gap-2 bg-slate-100/50 rounded-full p-1.5 border border-white/50 shadow-inner">
                     <?php
                     $navLinks = [
                         '' => 'Home',
@@ -386,58 +412,58 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                         $isActive = (current_url() == base_url($url));
                         ?>
                         <a href="<?php echo base_url($url); ?>"
-                            class="relative px-5 py-2 rounded-full text-[14px] font-sans font-medium transition-all duration-300 <?php echo $isActive ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'; ?>">
+                            class="relative px-8 py-3 rounded-full text-[16px] font-heading font-bold tracking-wide transition-all duration-300 <?php echo $isActive ? 'bg-white text-slate-900 shadow-md shadow-slate-200' : 'text-slate-600 hover:text-primary hover:bg-white/80'; ?>">
                             <?php echo $label; ?>
                         </a>
                     <?php endforeach; ?>
                 </nav>
 
-                <!-- Auth & Actions (Right) -->
-                <div class="hidden md:flex items-center gap-3 px-2">
+                <!-- Auth & Actions (Large) -->
+                <div class="hidden md:flex items-center gap-5 px-2">
                     <?php if (isLoggedIn()): ?>
                         <div class="relative group">
                             <button
-                                class="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-full hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200">
+                                class="flex items-center gap-3 pl-2 pr-4 py-2 rounded-full hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 ring-1 ring-transparent hover:ring-slate-200">
                                 <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['user_name']); ?>&background=0F766E&color=fff"
-                                    alt="Profile" class="w-8 h-8 rounded-full shadow-sm">
+                                    alt="Profile" class="w-10 h-10 rounded-full shadow-md ring-2 ring-white">
                                 <span
-                                    class="font-sans font-medium text-sm text-slate-700"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="font-heading font-bold text-base text-slate-800"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
                             <!-- Dropdown -->
                             <div
-                                class="absolute right-0 top-full mt-2 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right group-hover:scale-100 scale-95 p-2">
-                                <div class="px-3 py-2 border-b border-slate-50 mb-1">
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">
+                                class="absolute right-0 top-full mt-4 w-64 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:scale-100 scale-95 p-3">
+                                <div class="px-3 py-2 border-b border-slate-50 mb-2">
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest font-heading">
                                         Account</p>
                                 </div>
                                 <?php if (isAdmin()): ?>
                                     <a href="<?php echo base_url('admin/dashboard.php'); ?>"
-                                        class="block px-3 py-2 text-sm font-sans font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors">Admin
+                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">Admin
                                         Dashboard</a>
                                 <?php else: ?>
                                     <a href="<?php echo base_url('user/dashboard.php'); ?>"
-                                        class="block px-3 py-2 text-sm font-sans font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors">My
+                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">My
                                         Dashboard</a>
                                     <a href="<?php echo base_url('user/bookings.php'); ?>"
-                                        class="block px-3 py-2 text-sm font-sans font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors">My
+                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">My
                                         Bookings</a>
                                 <?php endif; ?>
-                                <div class="h-px bg-slate-50 my-1"></div>
+                                <div class="h-px bg-slate-100 my-2"></div>
                                 <a href="<?php echo base_url('auth/logout.php'); ?>"
-                                    class="block px-3 py-2 text-sm font-sans font-medium text-red-500 hover:bg-red-50 rounded-lg transition-colors">Logout</a>
+                                    class="block px-4 py-3 text-base font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors">Logout</a>
                             </div>
                         </div>
                     <?php else: ?>
                         <a href="<?php echo base_url('login'); ?>"
-                            class="px-5 py-2 text-sm font-sans font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+                            class="px-6 py-3 text-[15px] font-heading font-bold text-slate-600 hover:text-primary transition-colors">
                             Login
                         </a>
                         <a href="<?php echo base_url('register'); ?>"
-                            class="px-5 py-2 text-sm font-sans font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-full transition-all shadow-lg shadow-slate-900/20 hover:shadow-slate-900/30 transform hover:-translate-y-0.5">
+                            class="px-8 py-3.5 text-[15px] font-heading font-bold text-white bg-slate-900 hover:bg-primary rounded-full transition-all shadow-xl shadow-slate-900/20 hover:shadow-primary/30 transform hover:-translate-y-1">
                             Sign Up
                         </a>
                     <?php endif; ?>
@@ -445,9 +471,9 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
                 <!-- Mobile Menu Button -->
                 <button id="mobile-menu-btn"
-                    class="md:hidden p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                    class="md:hidden p-3 text-slate-700 hover:text-primary hover:bg-slate-100 rounded-xl transition-colors"
                     aria-label="Toggle mobile menu" aria-controls="mobile-menu" aria-expanded="false">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -566,17 +592,17 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
         if (capsule) {
             window.addEventListener('scroll', () => {
-                const shouldBeScrolled = window.scrollY > 20;
+                const shouldBeScrolled = window.scrollY > 50;
 
                 if (shouldBeScrolled && !isScrolled) {
                     // Shrink
-                    capsule.classList.remove('py-3', 'w-[95%]');
-                    capsule.classList.add('py-2', 'w-[90%]', 'bg-white/95');
+                    capsule.classList.remove('py-5', 'w-[92%]', 'max-w-[1600px]', 'top-6');
+                    capsule.classList.add('py-3', 'w-[98%]', 'max-w-full', 'bg-white/95', 'top-2', 'rounded-xl');
                     isScrolled = true;
                 } else if (!shouldBeScrolled && isScrolled) {
                     // Expand
-                    capsule.classList.add('py-3', 'w-[95%]');
-                    capsule.classList.remove('py-2', 'w-[90%]', 'bg-white/95');
+                    capsule.classList.add('py-5', 'w-[92%]', 'max-w-[1600px]', 'top-6');
+                    capsule.classList.remove('py-3', 'w-[98%]', 'max-w-full', 'bg-white/95', 'top-2', 'rounded-xl');
                     isScrolled = false;
                 }
             }, { passive: true });
