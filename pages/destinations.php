@@ -14,8 +14,8 @@ include __DIR__ . '/../includes/header.php';
   "mainEntity": {
     "@type": "ItemList",
     "itemListElement": [
-      <?php 
-       // Placeholder - list populated below in grid
+      <?php
+      // Placeholder - list populated below in grid
       ?>
     ]
   }
@@ -44,13 +44,15 @@ include __DIR__ . '/../includes/header.php';
 <!-- Page Header (Luxury) -->
 <div class="relative pt-40 pb-20 overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <img src="<?php echo get_setting('destinations_bg', base_url('assets/images/hero/adventure.png')); ?>" class="w-full h-full object-cover brightness-[0.4]" alt="Destinations Background">
+        <img src="<?php echo get_setting('destinations_bg', base_url('assets/images/hero/adventure.png')); ?>"
+            class="w-full h-full object-cover brightness-[0.4]" alt="Destinations Background">
         <div class="absolute inset-0 bg-gradient-to-b from-charcoal/50 to-charcoal"></div>
     </div>
-    
+
     <div class="container mx-auto px-6 relative z-10 text-center">
         <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-4 block">Curated Collection</span>
-        <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6">Explore <span class="text-gold">Destinations</span></h1>
+        <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6">Explore <span
+                class="text-gold">Destinations</span></h1>
         <p class="text-gray-300 max-w-2xl mx-auto text-lg font-light leading-relaxed">
             Discover the most beautiful and exclusive places around the world, handpicked for the discerning traveler.
         </p>
@@ -58,80 +60,95 @@ include __DIR__ . '/../includes/header.php';
 </div>
 
 <!-- Main Content -->
-<div class="bg-charcoal min-h-screen relative z-10">
+<div class="bg-slate-50 min-h-screen relative z-10 transition-colors duration-300">
     <div class="container mx-auto px-6 py-12">
         <div class="flex flex-col lg:flex-row gap-10">
 
             <!-- Sidebar Filters -->
             <aside class="w-full lg:w-1/4">
-                <div class="glass-form sticky top-32 !p-6 !bg-white/5 border border-white/10 rounded-3xl">
-                    <h3 class="text-xl font-heading font-bold mb-6 flex items-center gap-2 text-white">
-                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                <div class="sticky top-32 p-6 bg-white border border-slate-200 rounded-3xl shadow-lg">
+                    <h3 class="text-xl font-heading font-bold mb-6 flex items-center gap-2 text-slate-900">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                            </path>
+                        </svg>
                         Refine Search
                     </h3>
 
                     <form action="<?php echo base_url('pages/destinations.php'); ?>" method="GET">
-                        
+
                         <!-- Search -->
                         <div class="mb-6">
-                            <label class="glass-label text-sm ml-1">Search</label>
+                            <label class="block text-sm font-semibold text-slate-700 ml-1 mb-2">Search</label>
                             <div class="relative">
-                                <input type="text" name="search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
+                                <input type="text" name="search"
+                                    value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
                                     placeholder="Country or Place..."
-                                    class="glass-input w-full !pl-10 !bg-white/5 focus:!border-secondary text-white placeholder-gray-500">
-                                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-slate-800 placeholder-slate-400 transition-all">
+                                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
                         </div>
 
                         <!-- Region -->
                         <div class="mb-6">
-                            <label class="glass-label text-sm ml-1 mb-3">Region</label>
+                            <label class="block text-sm font-semibold text-slate-700 ml-1 mb-3">Region</label>
                             <div class="space-y-3">
-                                <?php 
+                                <?php
                                 $regions = ['' => 'All Regions', 'International' => 'International', 'Domestic' => 'Domestic'];
                                 $currentRegion = $_GET['region'] ?? '';
-                                foreach($regions as $val => $label): 
-                                ?>
-                                <label class="flex items-center group cursor-pointer">
-                                    <div class="relative flex items-center">
-                                        <input type="radio" name="region" value="<?php echo $val; ?>"
-                                            class="peer appearance-none w-5 h-5 border border-white/30 rounded-full checked:border-secondary checked:bg-secondary transition-all"
-                                            <?php echo ($currentRegion === $val) ? 'checked' : ''; ?>>
-                                        <div class="absolute inset-0 m-auto w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
-                                    </div>
-                                    <span class="ml-3 text-gray-400 group-hover:text-white transition-colors text-sm"><?php echo $label; ?></span>
-                                </label>
+                                foreach ($regions as $val => $label):
+                                    ?>
+                                    <label class="flex items-center group cursor-pointer">
+                                        <div class="relative flex items-center">
+                                            <input type="radio" name="region" value="<?php echo $val; ?>"
+                                                class="peer appearance-none w-5 h-5 border border-slate-300 rounded-full checked:border-primary checked:bg-primary transition-all"
+                                                <?php echo ($currentRegion === $val) ? 'checked' : ''; ?>>
+                                            <div
+                                                class="absolute inset-0 m-auto w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity">
+                                            </div>
+                                        </div>
+                                        <span
+                                            class="ml-3 text-slate-600 group-hover:text-primary transition-colors text-sm"><?php echo $label; ?></span>
+                                    </label>
                                 <?php endforeach; ?>
                             </div>
                         </div>
 
                         <!-- Rating -->
                         <div class="mb-8">
-                            <label class="glass-label text-sm ml-1 mb-3">Rating</label>
+                            <label class="block text-sm font-semibold text-slate-700 ml-1 mb-3">Rating</label>
                             <div class="space-y-2">
-                                 <?php 
-                                 $selectedRating = $_GET['rating'] ?? '';
-                                 foreach([4, 3] as $r): ?>
+                                <?php
+                                $selectedRating = $_GET['rating'] ?? '';
+                                foreach ([4, 3] as $r): ?>
                                     <label class="flex items-center group cursor-pointer">
-                                        <input type="radio" name="rating" value="<?php echo $r; ?>" 
-                                            class="peer appearance-none w-4 h-4 border border-white/30 rounded-full checked:border-secondary checked:bg-secondary transition-all"
+                                        <input type="radio" name="rating" value="<?php echo $r; ?>"
+                                            class="peer appearance-none w-4 h-4 border border-slate-300 rounded-full checked:border-primary checked:bg-primary transition-all"
                                             <?php echo ($selectedRating == $r) ? 'checked' : ''; ?>>
-                                        <span class="ml-2 flex items-center text-gray-400 group-hover:text-white transition-colors text-sm">
-                                            <span class="text-gold mr-1"><?php echo str_repeat('★', $r); ?></span> 
-                                            <span class="opacity-50"><?php echo str_repeat('☆', 5-$r); ?></span>
+                                        <span
+                                            class="ml-2 flex items-center text-slate-600 group-hover:text-primary transition-colors text-sm">
+                                            <span class="text-yellow-500 mr-1"><?php echo str_repeat('★', $r); ?></span>
+                                            <span
+                                                class="opacity-30 text-slate-400"><?php echo str_repeat('☆', 5 - $r); ?></span>
                                             <span class="ml-1 text-xs">& Up</span>
                                         </span>
                                     </label>
-                                 <?php endforeach; ?>
+                                <?php endforeach; ?>
                             </div>
                         </div>
 
-                        <button type="submit" class="w-full glass-button hover:bg-secondary/20 shadow-lg">
+                        <button type="submit"
+                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300">
                             Apply Filters
                         </button>
-                        <a href="<?php echo base_url('pages/destinations.php'); ?>" class="block text-center mt-4 text-xs text-gray-500 hover:text-white transition">Reset Filters</a>
+                        <a href="<?php echo base_url('pages/destinations.php'); ?>"
+                            class="block text-center mt-4 text-xs text-slate-500 hover:text-primary transition">Reset
+                            Filters</a>
                     </form>
                 </div>
             </aside>
@@ -165,69 +182,91 @@ include __DIR__ . '/../includes/header.php';
                     $totalItems = count($filteredDestinations);
                     $totalPages = ceil($totalItems / $itemsPerPage);
                     $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-                    if ($currentPage > $totalPages && $totalPages > 0) $currentPage = $totalPages;
+                    if ($currentPage > $totalPages && $totalPages > 0)
+                        $currentPage = $totalPages;
 
                     $offset = ($currentPage - 1) * $itemsPerPage;
                     $paginatedDestinations = array_slice($filteredDestinations, $offset, $itemsPerPage);
 
                     if (count($paginatedDestinations) > 0):
                         foreach ($paginatedDestinations as $index => $dest):
-                    ?>
-                        <!-- Card (GSAP Animated) -->
-                        <div class="destination-card opacity-0 transform translate-y-8" style="transition-delay: <?php echo $index * 50; ?>ms">
-                            <a href="<?php echo destination_url($dest['slug']); ?>" class="block group relative rounded-3xl overflow-hidden glass-card-dark aspect-[4/5] hover:border-secondary/50">
-                                
-                                <img src="<?php echo base_url($dest['image']); ?>"
-                                     alt="<?php echo htmlspecialchars($dest['name']); ?>"
-                                     loading="lazy"
-                                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                     onerror="this.src='https://placehold.co/600x800?text=Image+Not+Found'">
-                                
-                                <!-- Gradient Overlay -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity"></div>
+                            ?>
+                            <!-- Card (GSAP Animated) -->
+                            <div class="destination-card opacity-0 transform translate-y-8"
+                                style="transition-delay: <?php echo $index * 50; ?>ms">
+                                <a href="<?php echo destination_url($dest['slug']); ?>"
+                                    class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-md hover:shadow-2xl transition-all duration-500 aspect-[4/5]">
 
-                                <!-- Badges -->
-                                <div class="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white border border-white/10">
-                                    <?php echo $dest['type']; ?>
-                                </div>
-                                <?php if (!empty($dest['is_new'])): ?>
-                                    <div class="absolute top-4 left-4 bg-secondary text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg">NEW</div>
-                                <?php endif; ?>
+                                    <img src="<?php echo base_url($dest['image']); ?>"
+                                        alt="<?php echo htmlspecialchars($dest['name']); ?>" loading="lazy"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        onerror="this.src='https://placehold.co/600x800?text=Image+Not+Found'">
 
-                                <!-- Content -->
-                                <div class="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                    <h3 class="text-2xl font-heading font-bold text-white mb-1 group-hover:text-secondary transition-colors">
-                                        <?php echo htmlspecialchars($dest['name']); ?>
-                                    </h3>
-                                    
-                                    <div class="flex items-center justify-between mt-2">
-                                        <div class="flex items-center gap-1 text-gold text-sm">
-                                            <span>★</span> <span class="text-gray-200"><?php echo $dest['rating']; ?></span>
-                                        </div>
-                                        <div class="text-xs text-gray-400 flex items-center gap-1">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                                            <?php echo htmlspecialchars($dest['country']); ?>
-                                        </div>
+                                    <!-- Gradient Overlay -->
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity">
                                     </div>
 
-                                    <div class="h-0 group-hover:h-auto overflow-hidden transition-all duration-300">
-                                        <p class="text-gray-400 text-sm mt-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                            <?php echo htmlspecialchars(strip_tags($dest['description'] ?? '')); ?>
-                                        </p>
-                                        <span class="mt-4 inline-block text-secondary text-sm font-bold border-b border-secondary">View Guide &rarr;</span>
+                                    <!-- Badges -->
+                                    <div
+                                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-800 shadow-sm">
+                                        <?php echo $dest['type']; ?>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    <?php endforeach; else: ?>
+                                    <?php if (!empty($dest['is_new'])): ?>
+                                        <div
+                                            class="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded shadow-md">
+                                            NEW</div>
+                                    <?php endif; ?>
+
+                                    <!-- Content -->
+                                    <div
+                                        class="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                        <h3
+                                            class="text-2xl font-heading font-bold text-white mb-1 group-hover:text-amber-400 transition-colors drop-shadow-md">
+                                            <?php echo htmlspecialchars($dest['name']); ?>
+                                        </h3>
+
+                                        <div class="flex items-center justify-between mt-2">
+                                            <div class="flex items-center gap-1 text-yellow-400 text-sm font-medium">
+                                                <span>★</span> <span class="text-white"><?php echo $dest['rating']; ?></span>
+                                            </div>
+                                            <div
+                                                class="text-xs text-white/90 flex items-center gap-1 font-medium bg-black/30 px-2 py-1 rounded-lg backdrop-blur-sm">
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                                    </path>
+                                                </svg>
+                                                <?php echo htmlspecialchars($dest['country']); ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="h-0 group-hover:h-auto overflow-hidden transition-all duration-300">
+                                            <p
+                                                class="text-white/90 text-sm mt-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 drop-shadow-sm">
+                                                <?php echo htmlspecialchars(strip_tags($dest['description'] ?? '')); ?>
+                                            </p>
+                                            <span
+                                                class="mt-4 inline-block text-white text-sm font-bold border-b border-white hover:text-amber-400 hover:border-amber-400 transition-colors">View
+                                                Guide &rarr;</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; else: ?>
                         <!-- Empty State -->
-                        <div class="col-span-3 glass-form text-center py-20">
-                            <svg class="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        <div class="col-span-3 text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
                             </svg>
-                            <h3 class="text-xl font-bold text-white mb-2">No Destinations Found</h3>
-                            <p class="text-gray-400">Try adjusting your filters.</p>
-                            <a href="<?php echo base_url('pages/destinations.php'); ?>" class="inline-block mt-4 text-secondary hover:text-white transition">Clear Filters</a>
+                            <h3 class="text-xl font-bold text-slate-700 mb-2">No Destinations Found</h3>
+                            <p class="text-slate-500">Try adjusting your filters.</p>
+                            <a href="<?php echo base_url('pages/destinations.php'); ?>"
+                                class="inline-block mt-4 text-primary font-bold hover:underline transition">Clear
+                                Filters</a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -238,21 +277,21 @@ include __DIR__ . '/../includes/header.php';
                         <nav class="flex items-center space-x-2">
                             <?php if ($currentPage > 1): ?>
                                 <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage - 1])); ?>"
-                                   class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+                                    class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-primary transition shadow-sm">
                                     &larr;
                                 </a>
                             <?php endif; ?>
 
                             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                                 <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $i])); ?>"
-                                   class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition <?php echo $i === $currentPage ? 'bg-secondary text-white shadow-lg' : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10'; ?>">
+                                    class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition <?php echo $i === $currentPage ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white border border-slate-200 text-slate-600 hover:text-primary hover:bg-slate-50 shadow-sm'; ?>">
                                     <?php echo $i; ?>
                                 </a>
                             <?php endfor; ?>
 
                             <?php if ($currentPage < $totalPages): ?>
                                 <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage + 1])); ?>"
-                                   class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+                                    class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-primary transition shadow-sm">
                                     &rarr;
                                 </a>
                             <?php endif; ?>
@@ -268,7 +307,7 @@ include __DIR__ . '/../includes/header.php';
 <script>
     document.addEventListener("DOMContentLoaded", (event) => {
         gsap.registerPlugin(ScrollTrigger);
-        
+
         // Staggered Fade In for Cards
         gsap.utils.toArray('.destination-card').forEach(card => {
             gsap.to(card, {
