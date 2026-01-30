@@ -9,7 +9,7 @@
     <div class="container mx-auto px-6 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <!-- Brand Section -->
-            <div class="transform hover:scale-105 transition duration-300">
+            <div class="transform hover:scale-105 transition duration-300 reveal-footer-col">
                 <a href="<?php echo base_url('index.php'); ?>"
                     class="text-2xl font-bold text-slate-900 mb-4 block flex items-center">
                     <img src="<?php echo base_url('assets/images/logo-color.png?v=' . time()); ?>"
@@ -44,7 +44,7 @@
             </div>
 
             <!-- Explore Section -->
-            <div class="transform hover:scale-105 transition duration-300">
+            <div class="transform hover:scale-105 transition duration-300 reveal-footer-col">
                 <h3 class="font-bold text-lg mb-4 text-slate-800 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -78,7 +78,7 @@
             </div>
 
             <!-- Legal Section -->
-            <div class="transform hover:scale-105 transition duration-300">
+            <div class="transform hover:scale-105 transition duration-300 reveal-footer-col">
                 <h3 class="font-bold text-lg mb-4 text-slate-800 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -116,7 +116,7 @@
             </div>
 
             <!-- Payment Section -->
-            <div class="transform hover:scale-105 transition duration-300">
+            <div class="transform hover:scale-105 transition duration-300 reveal-footer-col">
                 <h3 class="font-bold text-lg mb-4 text-slate-800 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -215,6 +215,26 @@
                 }
             });
         }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        gsap.registerPlugin(ScrollTrigger);
+        // Animate Footer Columns
+        gsap.utils.toArray('.reveal-footer-col').forEach((col, i) => {
+            gsap.from(col, {
+                scrollTrigger: {
+                    trigger: "footer",
+                    start: "top 90%",
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.1,
+                ease: "power2.out"
+            });
+        });
     });
 </script>
 

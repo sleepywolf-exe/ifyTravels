@@ -131,49 +131,154 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
     <style>
         /* Lenis Smooth Scroll */
-        html.lenis { width: 100%; height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
-        .lenis.lenis-scrolling iframe { pointer-events: none; }
-        
-        .flatpickr-calendar { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: none; }
-        .flatpickr-day.selected { background: #0F766E !important; border-color: #0F766E !important; }
+        html.lenis {
+            width: 100%;
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        .flatpickr-calendar {
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+
+        .flatpickr-day.selected {
+            background: #0F766E !important;
+            border-color: #0F766E !important;
+        }
 
         /* Creative Animations */
-        .reveal-text { opacity: 0; transform: translateY(30px); }
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Preloader */
+        #preloader {
+            transition: opacity 0.5s ease;
+        }
+
+        /* Custom Flatpickr Theme */
+        .flatpickr-calendar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(15, 118, 110, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+            font-family: 'Outfit', sans-serif !important;
+            border-radius: 16px !important;
+            padding: 10px !important;
+        }
+
+        .flatpickr-day {
+            border-radius: 8px !important;
+        }
+
+        .flatpickr-day.selected,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange,
+        .flatpickr-day.selected.inRange,
+        .flatpickr-day.startRange.inRange,
+        .flatpickr-day.endRange.inRange,
+        .flatpickr-day:hover,
+        .flatpickr-day:focus {
+            background: #0F766E !important;
+            border-color: #0F766E !important;
+            color: white !important;
+            box-shadow: 0 4px 6px rgba(15, 118, 110, 0.3);
+        }
+
+        .flatpickr-day.today {
+            border-color: #D97706 !important;
+        }
+
+        .flatpickr-weekday {
+            color: #0f172a !important;
+            font-weight: 600 !important;
+        }
+
+        .flatpickr-months .flatpickr-month {
+            color: #0F766E !important;
+            fill: #0F766E !important;
+        }
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months {
+            font-weight: 700 !important;
+        }
+
+        .flatpickr-day.inRange {
+            box-shadow: -5px 0 0 #e2e8f0, 5px 0 0 #e2e8f0 !important;
+            background: #e2e8f0 !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
     </style>
 </head>
 
-<body class="font-body bg-slate-50 text-slate-900 antialiased selection:bg-secondary selection:text-white overflow-x-hidden">
+<body
+    class="font-body bg-slate-50 text-slate-900 antialiased selection:bg-secondary selection:text-white overflow-x-hidden">
+
+    <!-- PRELOADER -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-slate-50 flex flex-col items-center justify-center">
+        <div class="relative w-24 h-24 mb-4">
+            <div class="absolute inset-0 border-4 border-slate-200 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
+            <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="Loading"
+                class="absolute inset-0 m-auto w-12 h-auto opacity-80">
+        </div>
+        <span class="text-primary font-heading font-bold text-lg tracking-widest animate-pulse">ifyTravels</span>
+    </div>
 
     <!-- FLOATING GLASS PILL NAVIGATION -->
-    <nav id="navbar" class="fixed top-6 left-1/2 transform -translate-x-1/2 w-[90%] max-w-6xl z-50 transition-all duration-300 bg-white/70 backdrop-blur-xl border border-white/40 shadow-lg shadow-gray-200/20 rounded-full px-6 py-3 flex items-center justify-between">
-        
+    <nav id="navbar"
+        class="fixed top-6 left-1/2 transform -translate-x-1/2 w-[90%] max-w-6xl z-50 transition-all duration-300 bg-white/70 backdrop-blur-xl border border-white/40 shadow-lg shadow-gray-200/20 rounded-full px-6 py-3 flex items-center justify-between">
+
         <!-- Logo -->
         <a href="<?php echo base_url(); ?>" class="flex items-center gap-2 group">
-            <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" 
-                 alt="ifyTravels Logo" 
-                 class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+            <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels Logo"
+                class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
         </a>
 
         <!-- Desktop Links -->
         <div class="hidden md:flex items-center gap-8">
-            <a href="<?php echo base_url(); ?>" class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group">
+            <a href="<?php echo base_url(); ?>"
+                class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group py-2">
                 Home
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="<?php echo base_url('pages/destinations.php'); ?>" class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group">
+            <a href="<?php echo base_url('pages/destinations.php'); ?>"
+                class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group py-2">
                 Destinations
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="<?php echo base_url('pages/packages.php'); ?>" class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group">
+            <a href="<?php echo base_url('pages/packages.php'); ?>"
+                class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group py-2">
                 Packages
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="<?php echo base_url('pages/contact.php'); ?>" class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group">
+            <a href="<?php echo base_url('pages/contact.php'); ?>"
+                class="text-gray-600 hover:text-primary text-sm font-medium tracking-wide transition-colors relative group py-2">
                 Contact
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
             </a>
         </div>
 
@@ -182,65 +287,104 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             <?php if (isLoggedIn()): ?>
                 <div class="relative group">
                     <button class="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
-                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['user_name']); ?>&background=random" 
-                             alt="Profile" 
-                             class="w-9 h-9 rounded-full border-2 border-primary/20">
+                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['user_name']); ?>&background=random"
+                            alt="Profile"
+                            class="w-9 h-9 rounded-full border-2 border-primary/20 hover:border-primary transition-colors p-0.5">
                         <span class="font-medium text-sm"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                     </button>
                     <!-- Dropdown -->
-                    <div class="absolute right-0 top-full mt-2 w-48 py-2 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
+                    <div
+                        class="absolute right-0 top-full mt-2 w-48 py-2 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
                         <?php if (isAdmin()): ?>
-                            <a href="<?php echo base_url('admin/dashboard.php'); ?>" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Admin Dashboard</a>
+                            <a href="<?php echo base_url('admin/dashboard.php'); ?>"
+                                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg mx-2">Admin
+                                Dashboard</a>
                         <?php else: ?>
-                            <a href="<?php echo base_url('user/dashboard.php'); ?>" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">My Dashboard</a>
-                            <a href="<?php echo base_url('user/bookings.php'); ?>" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">My Bookings</a>
+                            <a href="<?php echo base_url('user/dashboard.php'); ?>"
+                                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg mx-2">My
+                                Dashboard</a>
+                            <a href="<?php echo base_url('user/bookings.php'); ?>"
+                                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg mx-2">My
+                                Bookings</a>
                         <?php endif; ?>
-                        <div class="h-px bg-gray-100 my-1"></div>
-                        <a href="<?php echo base_url('auth/logout.php'); ?>" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50">Logout</a>
+                        <div class="h-px bg-gray-100 my-1 mx-2"></div>
+                        <a href="<?php echo base_url('auth/logout.php'); ?>"
+                            class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg mx-2">Logout</a>
                     </div>
                 </div>
             <?php else: ?>
-                <a href="<?php echo base_url('login'); ?>" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">Login</a>
-                <a href="<?php echo base_url('register'); ?>" class="bg-secondary hover:bg-yellow-600 text-white px-5 py-2 rounded-full font-medium text-sm transition-all shadow-lg hover:shadow-orange-500/20 magnetic-btn">
+                <a href="<?php echo base_url('login'); ?>"
+                    class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">Login</a>
+                <a href="<?php echo base_url('register'); ?>"
+                    class="bg-gradient-to-r from-secondary to-yellow-500 hover:from-yellow-500 hover:to-secondary text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 magnetic-btn">
                     Sign Up
                 </a>
             <?php endif; ?>
         </div>
 
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-primary transition-colors p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
         </button>
     </nav>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 bg-white/95 backdrop-blur-xl z-[60] transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center space-y-8">
-        <button id="close-menu-btn" class="absolute top-8 right-8 text-gray-500 hover:text-gray-900">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-white/98 backdrop-blur-xl z-[60] transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center space-y-8">
+        <button id="close-menu-btn"
+            class="absolute top-8 right-8 text-slate-400 hover:text-slate-800 transition-colors bg-slate-100 rounded-full p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
-        
-        <a href="<?php echo base_url(); ?>" class="text-2xl font-heading text-gray-800 hover:text-primary">Home</a>
-        <a href="<?php echo base_url('pages/destinations.php'); ?>" class="text-2xl font-heading text-gray-800 hover:text-primary">Destinations</a>
-        <a href="<?php echo base_url('pages/packages.php'); ?>" class="text-2xl font-heading text-gray-800 hover:text-primary">Packages</a>
-        <a href="<?php echo base_url('pages/contact.php'); ?>" class="text-2xl font-heading text-gray-800 hover:text-primary">Contact</a>
+
+        <a href="<?php echo base_url(); ?>"
+            class="text-3xl font-heading font-bold text-slate-800 hover:text-primary transition-colors">Home</a>
+        <a href="<?php echo base_url('pages/destinations.php'); ?>"
+            class="text-3xl font-heading font-bold text-slate-800 hover:text-primary transition-colors">Destinations</a>
+        <a href="<?php echo base_url('pages/packages.php'); ?>"
+            class="text-3xl font-heading font-bold text-slate-800 hover:text-primary transition-colors">Packages</a>
+        <a href="<?php echo base_url('pages/contact.php'); ?>"
+            class="text-3xl font-heading font-bold text-slate-800 hover:text-primary transition-colors">Contact</a>
 
         <?php if (isLoggedIn()): ?>
-            <div class="h-px w-20 bg-gray-200"></div>
-            <a href="<?php echo base_url('user/dashboard.php'); ?>" class="text-xl text-gray-600 hover:text-primary">Dashboard</a>
-            <a href="<?php echo base_url('auth/logout.php'); ?>" class="text-xl text-red-500">Logout</a>
+            <div class="h-px w-20 bg-slate-200"></div>
+            <a href="<?php echo base_url('user/dashboard.php'); ?>"
+                class="text-xl text-slate-600 hover:text-primary font-medium">Dashboard</a>
+            <a href="<?php echo base_url('auth/logout.php'); ?>"
+                class="text-xl text-red-500 font-medium hover:text-red-600">Logout</a>
         <?php else: ?>
-            <div class="flex flex-col gap-4 w-full px-10">
-                <a href="<?php echo base_url('login'); ?>" class="w-full text-center border border-gray-300 py-3 rounded-full text-gray-700 hover:bg-gray-50">Login</a>
-                <a href="<?php echo base_url('register'); ?>" class="w-full text-center bg-secondary py-3 rounded-full text-white shadow-lg">Sign Up</a>
+            <div class="flex flex-col gap-4 w-full px-10 max-w-sm mt-8">
+                <a href="<?php echo base_url('login'); ?>"
+                    class="w-full text-center border-2 border-slate-200 py-3.5 rounded-xl text-slate-700 font-bold hover:border-primary hover:text-primary transition-colors">Login</a>
+                <a href="<?php echo base_url('register'); ?>"
+                    class="w-full text-center bg-secondary py-3.5 rounded-xl text-white font-bold shadow-lg shadow-orange-500/20 hover:bg-yellow-600 transition-colors">Sign
+                    Up</a>
             </div>
         <?php endif; ?>
     </div>
 
     <script>
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                gsap.to(preloader, {
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: 0.2,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        preloader.style.display = 'none';
+                    }
+                });
+            }
+        });
+
         // Init Smooth Scroll (Lenis)
         const lenis = new Lenis({
             duration: 1.2,
@@ -269,8 +413,8 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             document.body.classList.toggle('overflow-hidden');
         }
 
-        if(mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
-        if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+        if (mobileBtn) mobileBtn.addEventListener('click', toggleMenu);
+        if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
 
         // GSAP Animations
         document.addEventListener("DOMContentLoaded", (event) => {
@@ -282,7 +426,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                 gsap.to(element, {
                     scrollTrigger: {
                         trigger: element,
-                        start: "top 85%", 
+                        start: "top 85%",
                         toggleActions: "play none none reverse"
                     },
                     y: 0,

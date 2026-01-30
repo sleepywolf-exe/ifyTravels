@@ -85,18 +85,20 @@ try {
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
                             <!-- Destination -->
                             <div class="md:col-span-4 text-left">
-                                <label class="glass-label text-white text-sm ml-1 font-semibold">Destination</label>
+                                <label
+                                    class="glass-label text-white text-sm ml-1 font-semibold drop-shadow-md">Destination</label>
                                 <div class="relative">
-                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-white/80">
+                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 z-10">
                                         <path fill="currentColor"
                                             d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                                     </svg>
                                     <select name="destination"
-                                        class="glass-select w-full !pl-12 !bg-white/20 !border-white/30 focus:!border-white !text-white placeholder-white/70">
+                                        class="glass-select w-full !pl-12 !bg-white/90 !border-white/50 focus:!border-primary !text-slate-900 placeholder-slate-500 shadow-lg backdrop-blur-md rounded-xl py-3">
                                         <option value="" class="text-slate-900">Where to?</option>
                                         <?php foreach ($destinations as $dest): ?>
                                             <option value="<?php echo $dest['id']; ?>" class="text-slate-900">
-                                                <?php echo htmlspecialchars($dest['name']); ?></option>
+                                                <?php echo htmlspecialchars($dest['name']); ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -104,28 +106,30 @@ try {
 
                             <!-- Date -->
                             <div class="md:col-span-3 text-left">
-                                <label class="glass-label text-white text-sm ml-1 font-semibold">Date</label>
+                                <label
+                                    class="glass-label text-white text-sm ml-1 font-semibold drop-shadow-md">Date</label>
                                 <div class="relative">
-                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-white/80">
+                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 z-10">
                                         <path fill="currentColor"
                                             d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" />
                                     </svg>
                                     <input type="text" id="departure-date" name="date"
-                                        class="glass-input w-full !pl-12 !bg-white/20 !border-white/30 focus:!border-white !text-white !placeholder-white/70"
+                                        class="glass-input w-full !pl-12 !bg-white/90 !border-white/50 focus:!border-primary !text-slate-900 !placeholder-slate-500 shadow-lg backdrop-blur-md rounded-xl py-3"
                                         placeholder="Select Date">
                                 </div>
                             </div>
 
                             <!-- Travelers -->
                             <div class="md:col-span-3 text-left">
-                                <label class="glass-label text-white text-sm ml-1 font-semibold">Travelers</label>
+                                <label
+                                    class="glass-label text-white text-sm ml-1 font-semibold drop-shadow-md">Travelers</label>
                                 <div class="relative">
-                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-white/80">
+                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 z-10">
                                         <path fill="currentColor"
                                             d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                                     </svg>
                                     <input type="number" name="travelers" min="1"
-                                        class="glass-input w-full !pl-12 !bg-white/20 !border-white/30 focus:!border-white !text-white !placeholder-white/70"
+                                        class="glass-input w-full !pl-12 !bg-white/90 !border-white/50 focus:!border-primary !text-slate-900 !placeholder-slate-500 shadow-lg backdrop-blur-md rounded-xl py-3"
                                         placeholder="Guests">
                                 </div>
                             </div>
@@ -182,14 +186,15 @@ try {
                                 <div
                                     class="absolute bottom-0 left-0 w-full p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                     <h3 class="text-3xl font-heading font-bold text-white mb-2">
-                                        <?php echo htmlspecialchars($dest['name']); ?></h3>
+                                        <?php echo htmlspecialchars($dest['name']); ?>
+                                    </h3>
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-1 text-yellow-400">
                                             <span>★</span> <span
                                                 class="text-white font-medium"><?php echo $dest['rating']; ?></span>
                                         </div>
                                         <span
-                                            class="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-white group-hover:text-primary transition-colors">
+                                            class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-md transition-transform group-hover:scale-110">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -226,7 +231,8 @@ try {
                         <div>
                             <span class="text-secondary font-bold tracking-widest uppercase text-sm">Exclusive</span>
                             <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-900 mt-2 reveal-text">Popular
-                                <span class="text-secondary">Packages</span></h2>
+                                <span class="text-secondary">Packages</span>
+                            </h2>
                         </div>
                         <a href="<?php echo base_url('/packages'); ?>"
                             class="hidden md:flex items-center gap-2 text-slate-500 hover:text-primary transition-colors">See
@@ -244,7 +250,7 @@ try {
                                     class="block glass-card-light rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-500 bg-white">
                                     <div class="relative h-72 overflow-hidden">
                                         <div
-                                            class="absolute top-4 left-4 bg-white/90 backdrop-blur text-primary text-xs font-bold px-3 py-1 rounded-full z-10 shadow-sm">
+                                            class="absolute top-4 left-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
                                             FEATURED</div>
                                         <img src="<?php echo base_url($pkg['image']); ?>"
                                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -254,7 +260,8 @@ try {
                                         <div class="flex justify-between items-start mb-4">
                                             <h3
                                                 class="text-2xl font-bold text-slate-800 group-hover:text-primary transition-colors">
-                                                <?php echo htmlspecialchars($pkg['title']); ?></h3>
+                                                <?php echo htmlspecialchars($pkg['title']); ?>
+                                            </h3>
                                         </div>
                                         <div class="flex items-center gap-4 text-slate-500 text-sm mb-6">
                                             <span class="flex items-center gap-1"><svg class="w-4 h-4" fill="none"
@@ -300,7 +307,7 @@ try {
                         class="text-5xl md:text-7xl font-heading font-bold mb-8 text-slate-900 leading-tight reveal-text">
                         Ready to Explore the <br /><span class="text-primary">Extraordinary?</span>
                     </h2>
-                    <p class="text-xl text-slate-600 mb-12 font-light max-w-2xl mx-auto">
+                    <p class="text-xl text-slate-700 mb-12 font-normal max-w-2xl mx-auto drop-shadow-sm">
                         Join the elite travelers who have discovered the world's most breathtaking destinations with
                         ifyTravels.
                     </p>

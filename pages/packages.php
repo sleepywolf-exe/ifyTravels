@@ -153,15 +153,18 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
 <div class="relative pt-40 pb-20 overflow-hidden">
     <div class="absolute inset-0 z-0">
         <img src="<?php echo get_setting('packages_bg', base_url('assets/images/packages/thailand.jpg')); ?>"
-            class="w-full h-full object-cover brightness-[0.4]" alt="Packages Background">
+            class="w-full h-full object-cover brightness-[0.4] parallax-bg" alt="Packages Background">
         <div class="absolute inset-0 bg-gradient-to-b from-charcoal/50 to-charcoal"></div>
     </div>
 
     <div class="container mx-auto px-6 relative z-10 text-center">
-        <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-4 block">Hand-Crafted Journeys</span>
-        <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6">Exclusive <span
+        <span
+            class="text-secondary font-bold tracking-widest uppercase text-sm mb-4 block animate-fade-in-up">Hand-Crafted
+            Journeys</span>
+        <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 reveal-text">Exclusive <span
                 class="text-gold">Packages</span></h1>
-        <p class="text-gray-300 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+        <p class="text-gray-300 max-w-2xl mx-auto text-lg font-light leading-relaxed reveal-text"
+            style="transition-delay: 0.2s">
             Find your perfect getaway with our curated selection of premium travel experiences.
         </p>
     </div>
@@ -280,7 +283,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300">Apply
+                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">Apply
                             Filters</button>
                     </form>
                 </div>
@@ -490,6 +493,19 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
 <script>
     document.addEventListener("DOMContentLoaded", (event) => {
         gsap.registerPlugin(ScrollTrigger);
+
+        // Parallax Hero
+        gsap.to(".parallax-bg", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
         gsap.utils.toArray('.package-card').forEach(card => {
             gsap.to(card, {
                 scrollTrigger: { trigger: card, start: "top 90%" },
