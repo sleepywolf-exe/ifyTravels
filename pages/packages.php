@@ -344,8 +344,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <?php if (!empty($paginatedPackages)): ?>
                         <?php foreach ($paginatedPackages as $index => $pkg): ?>
-                            <div class="package-card opacity-0 transform translate-y-8 h-full"
-                                style="transition-delay: <?php echo $index * 50; ?>ms">
+                            <div class="package-card h-full">
                                 <a href="<?php echo package_url($pkg['slug']); ?>"
                                     class="glass-card-light block rounded-3xl overflow-hidden group shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out flex flex-col h-full bg-white border border-slate-100 will-change-transform">
 

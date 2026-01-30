@@ -223,8 +223,7 @@ include __DIR__ . '/../includes/header.php';
                         foreach ($paginatedDestinations as $index => $dest):
                             ?>
                             <!-- Card (GSAP Animated) -->
-                            <div class="destination-card opacity-0 transform translate-y-8"
-                                style="transition-delay: <?php echo $index * 50; ?>ms">
+                            <div class="destination-card">
                                 <a href="<?php echo destination_url($dest['slug']); ?>"
                                     class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out aspect-[4/5] will-change-transform">
 
