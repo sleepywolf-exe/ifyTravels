@@ -97,38 +97,46 @@
             </div>
 
             <!-- Payment Section -->
-            <div class="col-span-1 md:col-span-2 reveal-footer-col" style="transition-delay: 300ms">
-                <h3 class="font-heading font-bold text-2xl mb-8 text-slate-900 tracking-tight">
-                    Secure Payments
-                </h3>
-                <p class="text-slate-400 text-base mb-6">
-                    Verified & Secured 256-bit SSL encryption.
-                </p>
-                <div class="grid grid-cols-2 gap-3">
-                    <div
-                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
-                            class="h-4 w-auto" alt="Visa">
-                    </div>
-                    <div
-                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-                            class="h-6 w-auto" alt="Mastercard">
-                    </div>
-                    <div
-                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg"
-                            class="h-4 w-auto" alt="UPI">
+            <div class="col-span-1 md:col-span-2 reveal-footer-col flex flex-col justify-between h-full" style="transition-delay: 300ms">
+                <div>
+                    <h3 class="font-heading font-bold text-2xl mb-6 text-slate-900 tracking-tight">
+                        Secure Payments
+                    </h3>
+                    <p class="text-slate-500 text-lg mb-8 leading-relaxed font-light">
+                        Your transaction is protected by 256-bit SSL encryption.
+                    </p>
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="h-14 w-20 bg-white border border-slate-200 rounded-xl flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors group">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
+                                class="h-5 w-auto grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100 transform group-hover:scale-110" alt="Visa">
+                        </div>
+                        <div
+                            class="h-14 w-20 bg-white border border-slate-200 rounded-xl flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors group">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                                class="h-8 w-auto grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100 transform group-hover:scale-110" alt="Mastercard">
+                        </div>
+                        <div
+                            class="h-14 w-20 bg-white border border-slate-200 rounded-xl flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors group">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg"
+                                class="h-5 w-auto grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100 transform group-hover:scale-110" alt="UPI">
+                        </div>
                     </div>
                 </div>
+                
                 <div
-                    class="mt-6 flex items-center text-green-600 font-bold bg-green-50 border border-green-100 rounded-lg p-3 text-sm">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    100% Secure Payments
+                    class="inline-flex items-center text-emerald-700 font-bold bg-emerald-50/50 border border-emerald-100 rounded-xl px-5 py-4 text-sm w-full md:w-auto shadow-sm backdrop-blur-sm">
+                    <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mr-3 shrink-0">
+                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="block text-xs uppercase tracking-wider text-emerald-500 font-bold mb-0.5">Verified</span>
+                        <span class="block text-emerald-900 font-bold">100% Secure Payments</span>
+                    </div>
                 </div>
             </div>
         </div>
