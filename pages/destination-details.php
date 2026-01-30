@@ -130,7 +130,7 @@ $packages = getPackagesByDestination($id);
     </div>
 
     <!-- Integrated Stats Bar -->
-    <div class="bg-gradient-to-r from-primary/5 via-teal-50 to-primary/5 border-y border-primary/10">
+    <div class="bg-white border-y border-slate-200">
         <div class="container mx-auto px-6 py-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Stat 1: Type -->
