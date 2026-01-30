@@ -136,6 +136,77 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             height: auto;
         }
 
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* Flatpickr Luxury Theme (Teal/Glass) */
+        .flatpickr-calendar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            box-shadow: 0 20px 40px -10px rgba(15, 118, 110, 0.15) !important;
+            border-radius: 1.5rem !important;
+            padding: 1rem !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+        }
+
+        .flatpickr-months .flatpickr-month {
+            background: transparent !important;
+            color: #0f172a !important;
+            fill: #0f172a !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months {
+            font-weight: 700 !important;
+            font-size: 1.2rem !important;
+        }
+
+        .flatpickr-weekdays {
+            margin-bottom: 0.5rem !important;
+        }
+
+        span.flatpickr-weekday {
+            color: #64748b !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+        }
+
+        .flatpickr-day {
+            border-radius: 0.75rem !important;
+            color: #334155 !important;
+            font-weight: 500 !important;
+            font-size: 1rem !important;
+            transition: all 0.2s ease !important;
+            border: 1px solid transparent !important;
+        }
+
+        .flatpickr-day.selected,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange,
+        .flatpickr-day:hover {
+            background: #0F766E !important;
+            color: #fff !important;
+            border-color: #0F766E !important;
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3) !important;
+            font-weight: bold !important;
+        }
+
+        .flatpickr-day.today {
+            border-color: #0F766E !important;
+            color: #0F766E !important;
+            background: rgba(15, 118, 110, 0.05) !important;
+        }
+
+        .flatpickr-day.today:hover {
+            color: white !important;
+        }
+
+
         .lenis.lenis-smooth {
             scroll-behavior: auto;
         }
