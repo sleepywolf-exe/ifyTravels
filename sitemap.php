@@ -37,12 +37,34 @@ foreach ($staticPages as $path => $priority) {
 }
 
 // 2. Dynamic Content from Database
+// We implement a local DB connection to avoid the 'die()' in includes/db.php if it fails.
+$pdo = null;
 try {
-    $db = Database::getInstance();
-    
+    if (file_exists(__DIR__ . '/includes/config.php')) {
+        require_once __DIR__ . '/includes/config.php';
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+        $pdo = new PDO($dsn, DB_USER, DB_PASS);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    } else {
+        echo "<!-- Config file not found -->";
+    }
+} catch (Exception $e) {
+    echo "<!-- Database Connection Error: " . $e->getMessage() . " -->";
+    // Optional: Output a reachable error URL for visibility
+    echo "\n    <url><loc>" . base_url('error/db-connection-failed') . "</loc><priority>0.0</priority></url>\n";
+}
+
+if ($pdo) {
     // Destinations
-    $destinations = $db->fetchAll("SELECT slug, updated_at, created_at FROM destinations ORDER BY created_at DESC");
-    if ($destinations) {
+    try {
+        $stmt = $pdo->query("SELECT slug, updated_at, created_at FROM destinations ORDER BY created_at DESC");
+        $destinations = $stmt->fetchAll();
+        
+        if (empty($destinations)) {
+             echo "<!-- No destinations found in database -->";
+        }
+
         foreach ($destinations as $dest) {
             $lastMod = !empty($dest['updated_at']) ? date('Y-m-d', strtotime($dest['updated_at'])) : date('Y-m-d', strtotime($dest['created_at']));
             echo "\n    <url>\n";
@@ -52,11 +74,19 @@ try {
             echo "        <priority>0.8</priority>\n";
             echo "    </url>";
         }
+    } catch (Exception $e) {
+         echo "<!-- Destinations Query Error: " . $e->getMessage() . " -->";
     }
 
     // Packages
-    $packages = $db->fetchAll("SELECT slug, updated_at, created_at FROM packages ORDER BY created_at DESC");
-    if ($packages) {
+    try {
+        $stmt = $pdo->query("SELECT slug, updated_at, created_at FROM packages ORDER BY created_at DESC");
+        $packages = $stmt->fetchAll();
+        
+        if (empty($packages)) {
+             echo "<!-- No packages found in database -->";
+        }
+
         foreach ($packages as $pkg) {
             $lastMod = !empty($pkg['updated_at']) ? date('Y-m-d', strtotime($pkg['updated_at'])) : date('Y-m-d', strtotime($pkg['created_at']));
             echo "\n    <url>\n";
@@ -66,11 +96,9 @@ try {
             echo "        <priority>0.8</priority>\n";
             echo "    </url>";
         }
+    } catch (Exception $e) {
+         echo "<!-- Packages Query Error: " . $e->getMessage() . " -->";
     }
-
-} catch (Exception $e) {
-    // Log error but output valid XML so search engines don't choke completely
-    echo "<!-- Database Error: " . $e->getMessage() . " -->";
 }
 
 echo "\n</urlset>";
