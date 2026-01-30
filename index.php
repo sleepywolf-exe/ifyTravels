@@ -64,27 +64,26 @@ try {
 <!-- PARALLAX BACKGROUND (Fixed) -->
 <div class="fixed inset-0 z-0">
     <img src="<?php echo get_setting('hero_bg', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=2000'); ?>"
-        alt="Maldives Luxury" class="w-full h-full object-cover parallax-bg brightness-[0.60]">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-slate-50"></div>
+        alt="Maldives Luxury" class="w-full h-full object-cover parallax-bg brightness-[0.40]">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-slate-900/50"></div>
 </div>
 
 <!-- MAIN CONTENT WRAPPER -->
 <main class="relative z-10">
 
     <!-- HERO SECTION -->
-    <!-- HERO SECTION -->
     <section class="min-h-screen flex flex-col items-center justify-center pt-32 pb-12 overflow-hidden relative">
         <div class="container mx-auto px-4 text-center z-20">
             <!-- Animated Hero Title -->
             <h1
-                class="hero-title opacity-0 transform translate-y-10 text-5xl sm:text-7xl md:text-9xl font-bold mb-6 font-heading tracking-tight leading-none text-white drop-shadow-xl">
+                class="hero-title opacity-0 transform translate-y-10 text-5xl sm:text-7xl md:text-9xl font-bold mb-6 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
                 Experience the <br />
                 <span class="text-white italic pr-2 font-serif">Extraordinary</span>
             </h1>
 
             <p
-                class="hero-subtitle opacity-0 transform translate-y-10 text-lg md:text-2xl text-white/90 mb-12 font-light max-w-2xl mx-auto tracking-wide drop-shadow-md">
-                <?php echo get_setting('hero_subtitle', 'Curated luxury travel experiences designed just for you.'); ?>
+                class="hero-subtitle opacity-0 transform translate-y-10 text-lg md:text-2xl text-white/90 mb-12 font-light max-w-2xl mx-auto tracking-wide drop-shadow-lg">
+                <?php echo get_setting('hero_subtitle') ?: 'Curated luxury travel experiences designed just for you.'; ?>
             </p>
 
             <!-- Glass Booking Form -->
@@ -94,7 +93,7 @@ try {
                 </div>
                 <!-- Search Bar Container -->
                 <div
-                    class="glass-form p-2 rounded-full relative bg-white/20 border border-white/30 backdrop-blur-xl shadow-2xl">
+                    class="glass-form p-2 rounded-full relative bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl">
                     <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET"
                         class="flex flex-col md:flex-row gap-2">
 
@@ -111,7 +110,7 @@ try {
                                 </svg>
                             </div>
                             <select name="destination"
-                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/30 outline-none appearance-none cursor-pointer transition-all">
+                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none appearance-none cursor-pointer transition-all">
                                 <option value="" class="text-slate-900 bg-white">Where to go?</option>
                                 <?php foreach ($destinations as $dest): ?>
                                     <option value="<?php echo $dest['id']; ?>" class="text-slate-900 bg-white">
@@ -132,7 +131,7 @@ try {
                                 </svg>
                             </div>
                             <input type="text" id="departure-date" name="date"
-                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/30 outline-none transition-all"
+                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none transition-all"
                                 placeholder="When?">
                         </div>
 
@@ -147,7 +146,7 @@ try {
                                 </svg>
                             </div>
                             <input type="number" name="travelers" min="1"
-                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/30 outline-none transition-all"
+                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none transition-all"
                                 placeholder="Guests">
                         </div>
 
@@ -162,9 +161,10 @@ try {
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
-            <a href="#destinations" aria-label="Scroll Down" class="text-white/70 hover:text-white transition">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
+            <a href="#destinations" aria-label="Scroll Down"
+                class="text-white hover:text-primary transition-colors duration-300">
+                <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 14l-7 7m0 0l-7-7m7 7V3">
                     </path>
@@ -179,23 +179,24 @@ try {
             <div
                 class="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
                 <div class="space-y-1">
-                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_trips', '500+'); ?></p>
+                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_trips') ?: '500+'; ?></p>
                     <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Luxury Trips</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_reviews', '98%'); ?></p>
+                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_reviews') ?: '98%'; ?></p>
                     <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">5-Star Reviews</p>
                 </div>
                 <!-- Divider for mobile -->
                 <div class="col-span-2 border-t border-slate-100 md:hidden my-2"></div>
 
                 <div class="space-y-1">
-                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_destinations', '25+'); ?>
+                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_destinations') ?: '25+'; ?>
                     </p>
                     <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Destinations</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_concierge', '24/7'); ?></p>
+                    <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_concierge') ?: '24/7'; ?>
+                    </p>
                     <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Concierge</p>
                 </div>
             </div>
