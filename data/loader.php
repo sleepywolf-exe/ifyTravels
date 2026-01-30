@@ -120,12 +120,8 @@ function getPackageById($id)
  */
 function loadTestimonials($limit = 3)
 {
-    global $db;
     try {
-        // Fetch only approved testimonials, or all if status column doesn't exist (fallback)
-        // Assuming there might be a status column, but if not we'll just fetch all.
-        // Let's first try a safe query. If you have a 'status' column use: WHERE status = 'approved'
-        // For now, let's fetch latest ones.
+        $db = Database::getInstance();
         return $db->fetchAll("SELECT * FROM testimonials ORDER BY created_at DESC LIMIT ?", [$limit]);
     } catch (Exception $e) {
         return [];
