@@ -117,54 +117,65 @@ $packages = getPackagesByDestination($id);
             <div class="lg:col-span-2 space-y-12">
 
                 <!-- About Section -->
-                <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl">
-                    <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
-                        <span class="w-12 h-1 bg-primary rounded-full"></span>
-                        About <?php echo htmlspecialchars($dest['name']); ?>
-                    </h2>
-                    <p class="text-slate-600 leading-relaxed text-lg font-light">
-                        <?php echo $dest['description']; ?>
-                    </p>
+                <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl relative overflow-hidden">
+                    <!-- Massive Background Text -->
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+                        <h2
+                            class="text-[8rem] md:text-[12rem] lg:text-[16rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading whitespace-nowrap">
+                            <?php echo strtoupper(htmlspecialchars($dest['name'])); ?>
+                        </h2>
+                    </div>
 
-                    <!-- Highlights -->
-                    <div class="mt-10 grid grid-cols-2 md:grid-cols-3 gap-6">
-                        <div
-                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
+                    <div class="relative z-10">
+                        <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
+                            <span class="w-12 h-1 bg-primary rounded-full"></span>
+                            About <?php echo htmlspecialchars($dest['name']); ?>
+                        </h2>
+                        <p class="text-slate-600 leading-relaxed text-lg font-light">
+                            <?php echo $dest['description']; ?>
+                        </p>
+
+                        <!-- Highlights -->
+                        <div class="mt-10 grid grid-cols-2 md:grid-cols-3 gap-6">
                             <div
-                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                </svg>
+                                class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
+                                <div
+                                    class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                    </svg>
+                                </div>
+                                <span class="font-bold text-slate-700 block text-sm">Luxury Stays</span>
                             </div>
-                            <span class="font-bold text-slate-700 block text-sm">Luxury Stays</span>
-                        </div>
-                        <div
-                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
                             <div
-                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
+                                class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
+                                <div
+                                    class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                                <span class="font-bold text-slate-700 block text-sm">Sightseeing</span>
                             </div>
-                            <span class="font-bold text-slate-700 block text-sm">Sightseeing</span>
-                        </div>
-                        <div
-                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
                             <div
-                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                                class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
+                                <div
+                                    class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <span class="font-bold text-slate-700 block text-sm">Culture</span>
                             </div>
-                            <span class="font-bold text-slate-700 block text-sm">Culture</span>
                         </div>
                     </div>
                 </div>
