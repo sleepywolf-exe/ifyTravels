@@ -186,27 +186,6 @@
     });
 </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", (event) => {
-        gsap.registerPlugin(ScrollTrigger);
-        // Animate Footer Columns
-        gsap.utils.toArray('.reveal-footer-col').forEach((col, i) => {
-            gsap.from(col, {
-                scrollTrigger: {
-                    trigger: "footer",
-                    start: "top 90%",
-                },
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                delay: i * 0.1,
-                ease: "power2.out"
-            });
-        });
-    });
-</script>
-
-
 </body>
 
 </html>

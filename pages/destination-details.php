@@ -394,26 +394,26 @@ $packages = getPackagesByDestination($id);
                 }
             });
 
-            // Helper for Staggered Reveals
-            const animateBatch = (selector, yOffset = 100) => {
-                ScrollTrigger.batch(selector, {
-                    start: "top 90%",
-                    onEnter: batch => {
-                        gsap.fromTo(batch,
-                            { opacity: 0, y: yOffset, scale: 0.95 },
-                            {
-                                opacity: 1,
-                                y: 0,
-                                scale: 1,
-                                stagger: 0.15,
-                                duration: 1.2,
-                                ease: "power4.out",
-                                overwrite: true
+            // Helper for Smooth Staggered Reveals
+            const animateBatch = (selector, yOffset = 50) => {
+                const elements = gsap.utils.toArray(selector);
+                if (elements.length > 0) {
+                    gsap.fromTo(elements,
+                        { opacity: 0, y: yOffset },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            stagger: 0.1,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: elements[0],
+                                start: "top 85%",
+                                toggleActions: "play none none reverse"
                             }
-                        );
-                    },
-                    once: true
-                });
+                        }
+                    );
+                }
             };
 
             // Smooth Card Batch Animations
