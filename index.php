@@ -76,13 +76,13 @@ try {
         <div class="container mx-auto px-4 text-center z-20">
             <!-- Animated Hero Title -->
             <h1
-                class="hero-title opacity-0 transform translate-y-10 text-5xl sm:text-7xl md:text-9xl font-bold mb-6 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
+                class="hero-title opacity-0 transform translate-y-10 will-change-transform text-5xl sm:text-7xl md:text-9xl font-bold mb-6 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
                 Experience the <br />
                 <span class="text-white italic pr-2 font-serif">Extraordinary</span>
             </h1>
 
             <p
-                class="hero-subtitle opacity-0 transform translate-y-10 text-lg md:text-2xl text-white/90 mb-12 font-light max-w-2xl mx-auto tracking-wide drop-shadow-lg">
+                class="hero-subtitle opacity-0 transform translate-y-10 will-change-transform text-lg md:text-2xl text-white/90 mb-12 font-light max-w-2xl mx-auto tracking-wide drop-shadow-lg">
                 <?php echo get_setting('hero_subtitle') ?: 'Curated luxury travel experiences designed just for you.'; ?>
             </p>
 
@@ -596,17 +596,9 @@ try {
             .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
             .to(".hero-form", { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
 
-        // 2. Parallax Background
-        gsap.to(".parallax-bg", {
-            yPercent: 30,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "body",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
+        // 2. Parallax Background (Optimized - CSS Fixed handles the heavy lifting, this adds slight depth)
+        // Removed heavy GSAP scrub to fix "white space" issue and stuttering. 
+        // CSS 'fixed' position is smoother and lighter.
 
         // 3. Section Headers Reveal
         gsap.utils.toArray('.section-header').forEach(header => {
