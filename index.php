@@ -72,6 +72,7 @@ try {
 <main class="relative z-10">
 
     <!-- HERO SECTION -->
+    <!-- HERO SECTION -->
     <section class="min-h-screen flex flex-col items-center justify-center pt-32 pb-12 overflow-hidden relative">
         <div class="container mx-auto px-4 text-center z-20">
             <!-- Animated Hero Title -->
@@ -89,79 +90,72 @@ try {
             <!-- Glass Booking Form -->
             <div class="hero-form opacity-0 transform translate-y-10 max-w-5xl mx-auto w-full relative group">
                 <div
-                    class="absolute -inset-1 bg-gradient-to-r from-white/40 to-white/20 rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-1000">
+                    class="absolute -inset-1 bg-gradient-to-r from-white/40 to-white/20 rounded-full blur opacity-30 group-hover:opacity-50 transition duration-1000">
                 </div>
+                <!-- Search Bar Container -->
                 <div
-                    class="glass-form p-6 md:p-10 rounded-3xl relative bg-white/20 border border-white/30 backdrop-blur-xl shadow-2xl">
-                    <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET" class="space-y-6">
+                    class="glass-form p-2 rounded-full relative bg-white/20 border border-white/30 backdrop-blur-xl shadow-2xl">
+                    <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET"
+                        class="flex flex-col md:flex-row gap-2">
 
-                        <!-- Tabs -->
-                        <div class="flex justify-center md:justify-start mb-6">
-                            <button type="button"
-                                class="px-8 py-2 rounded-full text-white font-bold bg-white/20 border border-white/30 backdrop-blur-md shadow-sm">Search
-                                Packages</button>
+                        <!-- Destination -->
+                        <div class="relative flex-1 group/input">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-white/80 group-hover/input:text-white transition-colors"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <select name="destination"
+                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/30 outline-none appearance-none cursor-pointer transition-all">
+                                <option value="" class="text-slate-900 bg-white">Where to go?</option>
+                                <?php foreach ($destinations as $dest): ?>
+                                    <option value="<?php echo $dest['id']; ?>" class="text-slate-900 bg-white">
+                                        <?php echo htmlspecialchars($dest['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
-                            <!-- Destination -->
-                            <div class="md:col-span-4 text-left">
-                                <label
-                                    class="glass-label text-white text-sm ml-1 font-semibold drop-shadow-md">Destination</label>
-                                <div class="relative">
-                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 z-10">
-                                        <path fill="currentColor"
-                                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                                    </svg>
-                                    <select name="destination"
-                                        class="glass-select w-full !pl-12 !bg-white/90 !border-white/50 focus:!border-primary !text-slate-900 placeholder-slate-500 shadow-lg backdrop-blur-md rounded-xl py-3">
-                                        <option value="" class="text-slate-900">Where to?</option>
-                                        <?php foreach ($destinations as $dest): ?>
-                                            <option value="<?php echo $dest['id']; ?>" class="text-slate-900">
-                                                <?php echo htmlspecialchars($dest['name']); ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                        <!-- Date -->
+                        <div class="relative flex-1 group/input">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-white/80 group-hover/input:text-white transition-colors"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
                             </div>
-
-                            <!-- Date -->
-                            <div class="md:col-span-3 text-left">
-                                <label
-                                    class="glass-label text-white text-sm ml-1 font-semibold drop-shadow-md">Date</label>
-                                <div class="relative">
-                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 z-10">
-                                        <path fill="currentColor"
-                                            d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" />
-                                    </svg>
-                                    <input type="text" id="departure-date" name="date"
-                                        class="glass-input w-full !pl-12 !bg-white/90 !border-white/50 focus:!border-primary !text-slate-900 !placeholder-slate-500 shadow-lg backdrop-blur-md rounded-xl py-3"
-                                        placeholder="Select Date">
-                                </div>
-                            </div>
-
-                            <!-- Travelers -->
-                            <div class="md:col-span-3 text-left">
-                                <label
-                                    class="glass-label text-white text-sm ml-1 font-semibold drop-shadow-md">Travelers</label>
-                                <div class="relative">
-                                    <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 z-10">
-                                        <path fill="currentColor"
-                                            d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                                    </svg>
-                                    <input type="number" name="travelers" min="1"
-                                        class="glass-input w-full !pl-12 !bg-white/90 !border-white/50 focus:!border-primary !text-slate-900 !placeholder-slate-500 shadow-lg backdrop-blur-md rounded-xl py-3"
-                                        placeholder="Guests">
-                                </div>
-                            </div>
-
-                            <!-- Button -->
-                            <div class="md:col-span-2">
-                                <button type="submit"
-                                    class="w-full bg-white text-primary hover:bg-slate-100 font-bold py-3 rounded-xl shadow-lg transform hover:-translate-y-1 transition duration-300 magnetic-btn">
-                                    Search
-                                </button>
-                            </div>
+                            <input type="text" id="departure-date" name="date"
+                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/30 outline-none transition-all"
+                                placeholder="When?">
                         </div>
+
+                        <!-- Travelers -->
+                        <div class="relative w-full md:w-32 group/input">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-white/80 group-hover/input:text-white transition-colors"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <input type="number" name="travelers" min="1"
+                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/30 outline-none transition-all"
+                                placeholder="Guests">
+                        </div>
+
+                        <!-- Button -->
+                        <button type="submit"
+                            class="bg-white text-primary hover:bg-slate-50 font-bold py-4 px-10 rounded-full shadow-lg transform hover:scale-105 transition duration-300 magnetic-btn whitespace-nowrap">
+                            Search
+                        </button>
                     </form>
                 </div>
             </div>
@@ -529,7 +523,8 @@ try {
 
             <div class="container mx-auto px-6 relative z-10 text-center">
                 <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
-                    <?php echo e(get_setting('newsletter_heading', 'Join the Elite Club')); ?></h2>
+                    <?php echo e(get_setting('newsletter_heading', 'Join the Elite Club')); ?>
+                </h2>
                 <p class="text-slate-300 mb-10 max-w-xl mx-auto text-lg">
                     <?php echo e(get_setting('newsletter_text', 'Subscribe to receive exclusive offers, travel inspiration, and member-only perks directly to your inbox.')); ?>
                 </p>
