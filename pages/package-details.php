@@ -89,53 +89,144 @@ include __DIR__ . '/../includes/header.php';
 }
 </script>
 
-<div id="content-area" class="flex-1 bg-white min-h-screen">
+<div id="content-area" class="flex-1 bg-white min-h-screen relative overflow-hidden">
 
-    <!-- Hero Section -->
-    <div class="relative h-[85vh] overflow-hidden">
+    <!-- Massive Background Text (Visible) -->
+    <div
+        class="absolute top-[85vh] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0 overflow-hidden">
+        <h2
+            class="text-[12rem] md:text-[20rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading whitespace-nowrap transform -translate-y-1/4">
+            JOURNEY
+        </h2>
+    </div>
+
+    <!-- Hero Section - Magazine Style -->
+    <div class="relative h-[90vh] overflow-hidden z-10">
         <div class="absolute inset-0 h-[120%] w-full -top-[10%] parallax-container">
             <img src="<?php echo base_url($pkg['image']); ?>" alt="<?php echo htmlspecialchars($pkg['title']); ?>"
                 class="w-full h-full object-cover brightness-[0.85]">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/40"></div>
         </div>
 
-        <div class="absolute inset-0 flex items-end">
-            <div class="container mx-auto px-6 pb-20">
-                <div class="animate-fade-in-up max-w-5xl">
-                    <div class="flex items-center gap-3 mb-6">
+        <div class="absolute inset-0 flex items-center">
+            <div class="container mx-auto px-6">
+                <div class="max-w-5xl">
+                    <div class="flex items-center gap-4 mb-8 animate-fade-in-up">
                         <span
-                            class="inline-block py-1 px-4 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold tracking-[0.2em] uppercase shadow-sm">
-                            <?php echo $pkg['duration']; ?>
+                            class="inline-block py-2 px-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold tracking-[0.2em] uppercase text-sm shadow-lg">
+                            Hand-Crafted Journey
                         </span>
                         <?php if ($pkg['isPopular']): ?>
                             <span
-                                class="inline-block py-1 px-4 rounded-full bg-primary text-white text-xs font-bold tracking-[0.2em] uppercase shadow-lg">Popular
-                                Choice</span>
+                                class="inline-block py-2 px-6 rounded-full bg-primary/90 backdrop-blur-md text-white font-bold tracking-[0.2em] uppercase text-sm shadow-lg">
+                                Popular
+                            </span>
                         <?php endif; ?>
                     </div>
 
                     <h1
-                        class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 leading-tight drop-shadow-lg reveal-text">
+                        class="text-6xl md:text-8xl font-heading font-black text-white mb-6 leading-tight drop-shadow-2xl animate-fade-in-up">
                         <?php echo htmlspecialchars($pkg['title']); ?>
                     </h1>
 
-                    <div class="flex items-center gap-6 text-white text-lg font-light drop-shadow-md">
+                    <div class="flex items-center gap-6 text-white text-lg font-light drop-shadow-lg animate-fade-in-up"
+                        style="animation-delay: 0.2s">
                         <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
                                 </path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
-                            <span><?php echo htmlspecialchars($locationName); ?></span>
+                            <span class="text-xl"><?php echo htmlspecialchars($locationName); ?></span>
                         </div>
-                        <span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
-                        <div class="flex items-center gap-2">
-                            <span
-                                class="text-white font-medium text-2xl">₹<?php echo number_format($pkg['price']); ?></span>
-                            <span class="text-sm self-end mb-1">/ person</span>
-                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Info Card -->
+        <div class="absolute bottom-12 right-12 hidden lg:block animate-fade-in-up" style="animation-delay: 0.4s">
+            <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl max-w-sm">
+                <div class="flex items-center gap-4 mb-2">
+                    <p class="text-white/60 text-sm uppercase tracking-wider font-semibold">Starting From</p>
+                </div>
+                <div class="flex items-baseline gap-2 mb-4">
+                    <span
+                        class="text-white text-4xl font-bold font-heading">₹<?php echo number_format($pkg['price']); ?></span>
+                    <span class="text-white/80 text-sm">/ person</span>
+                </div>
+                <div class="flex items-center gap-2 text-yellow-400">
+                    <span class="text-xl">★★★★★</span>
+                    <span class="text-white text-sm font-bold ml-2">4.9/5.0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Bar (Glassmorphism) -->
+    <div class="relative z-20 -mt-24 container mx-auto px-6 mb-20">
+        <div
+            class="bg-white shadow-xl rounded-[2.5rem] border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-slate-100">
+            <!-- Duration -->
+            <div class="px-4 text-center md:text-left">
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Duration</p>
+                <div class="flex items-center justify-center md:justify-start gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-slate-800 font-bold text-lg"><?php echo htmlspecialchars($pkg['duration']); ?></p>
+                </div>
+            </div>
+            <!-- Location -->
+            <div class="px-4 text-center md:text-left">
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Location</p>
+                <div class="flex items-center justify-center md:justify-start gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <p class="text-slate-800 font-bold text-lg truncate">
+                        <?php echo htmlspecialchars($dest['country']); ?></p>
+                </div>
+            </div>
+            <!-- Type -->
+            <div class="px-4 text-center md:text-left">
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Trip Type</p>
+                <div class="flex items-center justify-center md:justify-start gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <p class="text-slate-800 font-bold text-lg truncate">Adventure</p>
+                </div>
+            </div>
+            <!-- Rating -->
+            <div class="px-4 text-center md:text-left border-r-0">
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Rating</p>
+                <div class="flex items-center justify-center md:justify-start gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-slate-800 font-bold text-lg">4.9 <span
+                                class="text-slate-400 text-sm font-normal">/ 5</span></p>
                     </div>
                 </div>
             </div>
@@ -143,19 +234,25 @@ include __DIR__ . '/../includes/header.php';
     </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-6 py-16 -mt-10 relative z-10">
+    <div class="container mx-auto px-6 py-16 relative z-10">
         <div class="flex flex-col lg:flex-row gap-12">
 
             <!-- Left Info -->
             <div class="lg:w-2/3 space-y-12">
 
                 <!-- Overview -->
-                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-xl">
-                    <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 border-b border-slate-100 pb-4">
-                        Overview</h2>
-                    <p class="text-slate-600 leading-relaxed text-lg font-light">
+                <!-- Overview - Editorial Style -->
+                <div class="mb-16">
+                    <div class="w-20 h-2 bg-primary mb-8 rounded-full"></div>
+                    <h2 class="text-5xl md:text-7xl font-heading font-black mb-10 text-slate-900 leading-tight">
+                        About This
+                        <span class="block text-primary italic font-serif font-light text-6xl md:text-8xl mt-2">
+                            Adventure
+                        </span>
+                    </h2>
+                    <div class="prose prose-lg text-slate-600 font-light leading-relaxed text-xl">
                         <?php echo $pkg['description']; ?>
-                    </p>
+                    </div>
                 </div>
 
                 <!-- Features Grid -->
