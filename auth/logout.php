@@ -23,6 +23,6 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirect to login or home
-header("Location: ../login?msg=logged_out");
+header("Location: ../pages/login.php?msg=logged_out");
 exit;
 ?>
