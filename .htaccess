@@ -28,8 +28,7 @@ Options -Indexes
     # Redirect index.php to root
     RewriteRule ^index\.php$ / [R=301,L]
 
-    # Sitemap
-    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+    # Sitemap (Static files are served automatically)
 
     # Partner Program
     RewriteRule ^partner-program$ router.php [L]
