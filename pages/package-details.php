@@ -110,7 +110,7 @@ include __DIR__ . '/../includes/header.php';
 
         <div class="absolute inset-0 flex items-center">
             <div class="container mx-auto px-6">
-                <div class="max-w-5xl">
+                <div class="max-w-7xl">
                     <div class="flex items-center gap-4 mb-8 animate-fade-in-up">
                         <span
                             class="inline-block py-2 px-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold tracking-[0.2em] uppercase text-sm shadow-lg">
@@ -147,7 +147,7 @@ include __DIR__ . '/../includes/header.php';
         </div>
 
         <!-- Floating Info Card -->
-        <div class="absolute bottom-12 right-12 hidden lg:block animate-fade-in-up" style="animation-delay: 0.4s">
+        <div class="absolute bottom-32 right-12 hidden lg:block animate-fade-in-up" style="animation-delay: 0.4s">
             <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl max-w-sm">
                 <div class="flex items-center gap-4 mb-2">
                     <p class="text-white/60 text-sm uppercase tracking-wider font-semibold">Starting From</p>
