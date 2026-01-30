@@ -45,9 +45,9 @@ include __DIR__ . '/../includes/header.php';
 <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0 z-0">
-        <img src="<?php echo get_setting('destinations_bg', 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80&w=2000'); ?>"
-            class="w-full h-full object-cover object-center brightness-[0.50]" alt="Destinations Background">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
+        <img src="<?php echo get_setting('destinations_bg', 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=2000'); ?>"
+            class="w-full h-full object-cover object-center brightness-[0.40]" alt="Destinations Background">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70"></div>
     </div>
 
     <!-- Massive Background Text -->

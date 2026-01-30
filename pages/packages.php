@@ -149,31 +149,58 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
 }
 </script>
 
-<!-- Header (Luxury) -->
-<div class="relative pt-40 pb-20 overflow-hidden">
+<!-- Hero Section with Background Image -->
+<section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
     <div class="absolute inset-0 z-0">
-        <img src="<?php echo get_setting('packages_bg', base_url('assets/images/packages/thailand.jpg')); ?>"
-            class="w-full h-full object-cover brightness-[0.4] parallax-bg" alt="Packages Background">
-        <div class="absolute inset-0 bg-gradient-to-b from-charcoal/50 to-charcoal"></div>
+        <img src="<?php echo get_setting('packages_bg', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=2000'); ?>"
+            class="w-full h-full object-cover object-center brightness-[0.40]" alt="Packages Background">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70"></div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10 text-center">
-        <span
-            class="text-secondary font-bold tracking-widest uppercase text-sm mb-4 block animate-fade-in-up">Hand-Crafted
-            Journeys</span>
-        <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 reveal-text">Exclusive <span
-                class="text-gold">Packages</span></h1>
-        <p class="text-gray-300 max-w-2xl mx-auto text-lg font-light leading-relaxed reveal-text"
-            style="transition-delay: 0.2s">
-            Find your perfect getaway with our curated selection of premium travel experiences.
-        </p>
+    <!-- Massive Background Text -->
+    <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+        <h2
+            class="text-[12rem] md:text-[24rem] font-black text-white opacity-[0.08] leading-none tracking-tighter uppercase font-heading">
+            DISCOVER
+        </h2>
     </div>
-</div>
+
+    <!-- Content -->
+    <div class="container mx-auto px-6 relative z-10 text-center pt-32 pb-20">
+        <!-- Header Content -->
+        <div class="max-w-4xl mx-auto">
+            <span
+                class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold tracking-widest uppercase text-sm rounded-full mb-6">
+                Hand-Crafted Journeys
+            </span>
+            <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 drop-shadow-2xl">
+                Exclusive
+                <span class="text-primary relative inline-block">
+                    Packages
+                </span>
+            </h1>
+            <p
+                class="text-white/90 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto drop-shadow-lg mb-6">
+                Find your perfect getaway with our curated selection of premium travel experiences.
+            </p>
+
+            <!-- Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm justify-center">
+                <a href="<?php echo base_url(); ?>" class="text-white/70 hover:text-white transition-colors">Home</a>
+                <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-white font-semibold">Packages</span>
+            </nav>
+        </div>
+    </div>
+</section>
 
 <!-- Main Content -->
-<!-- Main Content -->
-<div class="bg-slate-50 min-h-screen relative z-10 transition-colors duration-300">
-    <div class="container mx-auto px-6 py-12">
+<div class="bg-white min-h-screen relative z-10">
+    <div class="container mx-auto px-6 py-16">
         <div class="flex flex-col lg:flex-row gap-10">
 
             <!-- Sidebar Filters -->
