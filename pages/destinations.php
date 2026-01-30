@@ -339,6 +339,28 @@ include __DIR__ . '/../includes/header.php';
     document.addEventListener("DOMContentLoaded", (event) => {
         gsap.registerPlugin(ScrollTrigger);
 
+        // Helper for Staggered Reveals
+        const animateBatch = (selector, yOffset = 100) => {
+            ScrollTrigger.batch(selector, {
+                start: "top 90%",
+                onEnter: batch => {
+                    gsap.fromTo(batch,
+                        { opacity: 0, y: yOffset, scale: 0.95 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            stagger: 0.15,
+                            duration: 1.2,
+                            ease: "power4.out",
+                            overwrite: true
+                        }
+                    );
+                },
+                once: true
+            });
+        };
+
         // Parallax Hero
         gsap.to(".parallax-bg", {
             yPercent: 30,
@@ -351,19 +373,8 @@ include __DIR__ . '/../includes/header.php';
             }
         });
 
-        // Staggered Fade In for Cards
-        gsap.utils.toArray('.destination-card').forEach(card => {
-            gsap.to(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 90%"
-                },
-                y: 0,
-                opacity: 1,
-                duration: 0.8,
-                ease: "power2.out"
-            });
-        });
+        // Smooth Card Batch Animations
+        animateBatch('.destination-card', 100);
     });
 </script>
 
