@@ -642,12 +642,10 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                                         class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">Admin
                                         Dashboard</a>
                                 <?php else: ?>
-                                    <a href="<?php echo base_url('user/dashboard.php'); ?>"
-                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">My
-                                        Dashboard</a>
-                                    <a href="<?php echo base_url('user/bookings.php'); ?>"
-                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">My
-                                        Bookings</a>
+                                    <a href="<?php echo base_url('pages/packages.php'); ?>"
+                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">
+                                        Browse Packages
+                                    </a>
                                 <?php endif; ?>
                                 <div class="h-px bg-slate-100 my-2"></div>
                                 <a href="<?php echo base_url('auth/logout.php'); ?>"
