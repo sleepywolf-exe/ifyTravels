@@ -33,6 +33,9 @@ if (empty($popularPackages))
     $popularPackages = array_slice($packages, 0, 3);
 $popularPackages = array_slice($popularPackages, 0, 3);
 
+// Load Testimonials
+$testimonials = loadTestimonials(3);
+
 // Count Stats for Trust Bar
 $stats = [
     'trips' => 500, // Base
