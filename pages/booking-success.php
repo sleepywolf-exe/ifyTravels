@@ -16,7 +16,7 @@ if ($id) {
         $stmt2 = $pdo->prepare("SELECT * FROM packages WHERE id = ?");
         $stmt2->execute([$booking['package_id']]);
         $packageDetails = $stmt2->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($packageDetails) {
             $packageDetails['features'] = json_decode($packageDetails['features'] ?? '[]', true);
             $packageDetails['inclusions'] = json_decode($packageDetails['inclusions'] ?? '[]', true);
@@ -56,215 +56,206 @@ include __DIR__ . '/../includes/header.php';
             </p>
         </div>
 
-        <!-- Ticket Card -->
+        <!-- "Ultra-Wide" Innovative Ticket -->
         <div
-            class="max-w-7xl mx-auto bg-white rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200 flex flex-col md:flex-row ticket-card border border-slate-100 relative print:shadow-none print:border-black print:rounded-none">
+            class="w-full max-w-[95%] mx-auto bg-white rounded-[3rem] overflow-hidden shadow-2xl shadow-slate-200 flex flex-col xl:flex-row ticket-card border border-slate-100 relative print:shadow-none print:border-black print:rounded-none">
 
-            <!-- Left: Main Ticket -->
-            <div class="md:w-3/4 p-8 md:p-10 relative bg-white text-gray-900">
-                <!-- Watermark -->
-                <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
-                    style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 24px 24px;">
+            <!-- Main Content (Wide) -->
+            <div class="flex-1 p-8 md:p-12 relative bg-white text-gray-900 grid grid-cols-1 xl:grid-cols-12 gap-12">
+                <!-- Background Pattern (Guilloche Style) -->
+                <div class="absolute inset-0 opacity-[0.02] pointer-events-none"
+                    style="background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%); background-size: 20px 20px;">
                 </div>
 
-                <!-- Header -->
-                <div class="flex justify-between items-start mb-10 relative z-10">
-                    <div class="flex items-center gap-3">
-                        <div
-                            class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold print-color-adjust shadow-lg">
-                            <span class="text-xl">iT</span>
+                <!-- Column 1: Identity (4 Cols) -->
+                <div
+                    class="xl:col-span-4 flex flex-col justify-between border-b xl:border-b-0 xl:border-r border-slate-100 pb-8 xl:pb-0 pr-0 xl:pr-12">
+                    <div>
+                        <!-- Brand Header -->
+                        <div class="flex items-center gap-4 mb-10">
+                            <div
+                                class="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-bold shadow-lg shadow-slate-900/20">
+                                <span class="text-2xl font-black">iT</span>
+                            </div>
+                            <div>
+                                <span
+                                    class="font-heading font-black text-3xl tracking-tight text-slate-900 block leading-none">ifyTravels</span>
+                                <span
+                                    class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1 block">Official
+                                    Boarding Document</span>
+                            </div>
                         </div>
+
+                        <!-- Passenger Info -->
+                        <div class="mb-8">
+                            <span
+                                class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Passenger
+                                Name</span>
+                            <h2 class="font-heading font-black text-3xl md:text-4xl text-slate-900 leading-tight">
+                                <?php echo $booking ? htmlspecialchars($booking['customer_name']) : 'Guest Name'; ?>
+                            </h2>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <span
+                                    class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Status</span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Confirmed
+                                </span>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Travelers</span>
+                                <span class="font-bold text-lg text-slate-900">
+                                    <?php echo $booking ? ($booking['adults'] + $booking['children']) : '1'; ?> <span
+                                        class="text-xs font-normal text-slate-400 uppercase">Pax</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer ID -->
+                    <div class="hidden xl:block pt-8 opacity-40">
+                        <span class="font-mono text-[10px] block mb-1">ISSUED BY IFYTRAVELS LTD.</span>
+                        <span class="font-mono text-[10px] block">REF: <?php echo uniqid(); ?></span>
+                    </div>
+                </div>
+
+                <!-- Column 2: Journey & Itinerary (5 Cols) -->
+                <div
+                    class="xl:col-span-5 flex flex-col justify-center border-b xl:border-b-0 xl:border-r border-slate-100 pb-8 xl:pb-0 px-0 xl:px-12 relative">
+
+                    <!-- Journey Graphic -->
+                    <div class="flex items-center justify-between mb-10 w-full">
+                        <div class="text-center">
+                            <span class="text-4xl md:text-5xl font-black text-slate-200 font-heading">HOM</span>
+                            <span
+                                class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mt-1">Origin</span>
+                        </div>
+
+                        <div class="flex-1 px-8 relative flex items-center justify-center">
+                            <div class="absolute inset-x-0 h-px bg-slate-200 border-t border-dashed border-slate-300">
+                            </div>
+                            <div
+                                class="relative bg-white px-3 py-1 border border-slate-100 rounded-full flex items-center gap-2 shadow-sm">
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="text-xs font-bold text-slate-600">
+                                    <?php echo $booking ? date('d M Y', strtotime($booking['travel_date'])) : date('d M Y'); ?>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <span class="text-4xl md:text-5xl font-black text-slate-900 font-heading">DST</span>
+                            <span
+                                class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mt-1">Dest</span>
+                        </div>
+                    </div>
+
+                    <!-- Package Name & Tags -->
+                    <div class="text-center w-full">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-3">Your
+                            Experience</span>
+                        <h3 class="text-2xl font-bold text-slate-900 leading-tight mb-4 max-w-md mx-auto">
+                            <?php echo $booking ? htmlspecialchars($booking['package_name']) : 'Custom Travel Package'; ?>
+                        </h3>
+
+                        <?php if ($packageDetails && !empty($packageDetails['themes'])): ?>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <?php foreach (array_slice($packageDetails['themes'], 0, 3) as $theme): ?>
+                                    <span
+                                        class="px-2 py-1 bg-slate-50 border border-slate-200 text-[10px] font-bold text-slate-500 uppercase rounded-sm"><?php echo htmlspecialchars($theme); ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Column 3: Highlights Checklist (3 Cols) -->
+                <div class="xl:col-span-3 flex flex-col justify-center pl-0 xl:pl-4">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-6">Trip
+                        Inclusions</span>
+
+                    <?php if ($packageDetails): ?>
+                        <ul class="space-y-4">
+                            <?php
+                            $highlights = !empty($packageDetails['features']) ? array_slice($packageDetails['features'], 0, 4) : ['Luxury Accommodation', 'Private Transfers', 'Guided Tours', '24/7 Support'];
+                            foreach ($highlights as $item):
+                                ?>
+                                <li class="flex items-start gap-3 group">
+                                    <div
+                                        class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                                d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                    <span
+                                        class="text-sm font-medium text-slate-600 leading-tight group-hover:text-slate-900 transition-colors">
+                                        <?php echo htmlspecialchars($item); ?>
+                                    </span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p class="text-sm text-slate-400 italic">Details will be shared by agent.</p>
+                    <?php endif; ?>
+
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
                         <div>
                             <span
-                                class="font-heading font-black text-2xl tracking-tight text-slate-900 block leading-none">ifyTravels</span>
-                            <span class="text-xs text-slate-400 font-bold uppercase tracking-widest">Boarding
-                                Pass</span>
+                                class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">Reference</span>
+                            <span
+                                class="font-mono text-lg font-bold text-primary">#<?php echo $booking ? str_pad($booking['id'], 6, '0', STR_PAD_LEFT) : '000000'; ?></span>
                         </div>
-                    </div>
-                    <div class="text-right">
-                        <span
-                            class="font-bold font-mono text-xs bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg border border-emerald-200 uppercase tracking-wider">CONFIRMED
-                            REQUEST</span>
-                    </div>
-                </div>
-
-                <!-- Route -->
-                <div class="flex items-center justify-between mb-12 px-2 relative z-10">
-                    <div class="text-center">
                         <div
-                            class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-slate-100">
-                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-10 h-10 border border-slate-200 rounded flex items-center justify-center bg-slate-50">
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z">
                                 </path>
                             </svg>
                         </div>
-                        <span class="text-xs text-slate-500 uppercase font-bold tracking-widest">Home</span>
-                    </div>
-
-                    <div class="flex-1 px-6 flex flex-col items-center -mt-6">
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Travel Date</span>
-                        <span
-                            class="text-sm font-black text-slate-900 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100 mb-3">
-                            <?php echo $booking ? date('D, d F Y', strtotime($booking['travel_date'])) : date('D, d F Y'); ?>
-                        </span>
-
-                        <div class="w-full flex items-center gap-3 text-slate-300">
-                            <div class="h-0.5 bg-slate-100 flex-1 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-slate-200 w-1/2 animate-[shimmer_2s_infinite]"></div>
-                            </div>
-                            <svg class="w-6 h-6 text-primary transform rotate-90 md:rotate-0 print:text-black"
-                                fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
-                                </path>
-                            </svg>
-                            <div class="h-0.5 bg-slate-100 flex-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="text-center">
-                        <div
-                            class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2 border border-primary/20">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                        </div>
-                        <span class="text-xs text-slate-500 uppercase font-bold tracking-widest">Dest</span>
                     </div>
                 </div>
 
-                <!-- Detailed Info Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 bg-slate-50 p-8 rounded-2xl border border-slate-100 print:bg-white print:border-gray-200 relative z-10">
-                    
-                    <!-- Basic Detials -->
-                    <div class="md:col-span-4 space-y-6">
-                        <div>
-                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Passenger Name</span>
-                            <span class="font-bold text-lg text-slate-900 block truncate">
-                                <?php echo $booking ? htmlspecialchars($booking['customer_name']) : 'Guest'; ?>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Selected Package</span>
-                            <span class="font-bold text-base text-slate-900 block leading-tight" title="<?php echo $booking ? htmlspecialchars($booking['package_name']) : 'Custom'; ?>">
-                                <?php echo $booking ? htmlspecialchars($booking['package_name']) : 'Custom Package'; ?>
-                            </span>
-                        </div>
-                        <div class="flex gap-8">
-                            <div>
-                                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Travelers</span>
-                                <span class="font-bold text-lg text-slate-900">
-                                    <?php echo $booking ? ($booking['adults'] + $booking['children']) : '1'; ?> <span class="text-sm font-normal text-slate-400">Ppl</span>
-                                </span>
-                            </div>
-                            <div>
-                                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Ref No.</span>
-                                <span class="font-mono text-lg font-bold text-primary print:text-black">
-                                    #<?php echo $booking ? str_pad($booking['id'], 6, '0', STR_PAD_LEFT) : '000000'; ?>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Package Features/Inclusions -->
-                    <?php if ($packageDetails): ?>
-                    <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6 pl-0 md:pl-8 border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0">
-                        <!-- Themes -->
-                        <?php if(!empty($packageDetails['themes'])): ?>
-                        <div class="col-span-1 sm:col-span-2">
-                             <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-2">Experience Type</span>
-                             <div class="flex flex-wrap gap-2">
-                                <?php foreach(array_slice($packageDetails['themes'], 0, 5) as $theme): ?>
-                                    <span class="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-bold text-slate-600 uppercase tracking-wider"><?php echo htmlspecialchars($theme); ?></span>
-                                <?php endforeach; ?>
-                             </div>
-                        </div>
-                        <?php endif; ?>
-
-                        <!-- Features -->
-                        <?php if(!empty($packageDetails['features'])): ?>
-                        <div>
-                             <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-2">Highlights</span>
-                             <ul class="space-y-1.5">
-                                <?php foreach(array_slice($packageDetails['features'], 0, 4) as $feat): ?>
-                                    <li class="col-span-1 md:col-span-2 text-xs font-semibold text-slate-700 flex items-start gap-2">
-                                        <svg class="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                        <span class="leading-tight"><?php echo htmlspecialchars($feat); ?></span>
-                                    </li>
-                                <?php endforeach; ?>
-                             </ul>
-                        </div>
-                        <?php endif; ?>
-
-                        <!-- Inclusions -->
-                        <?php if(!empty($packageDetails['inclusions'])): ?>
-                        <div>
-                             <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-2">Inclusions</span>
-                             <ul class="space-y-1.5">
-                                <?php foreach(array_slice($packageDetails['inclusions'], 0, 4) as $inc): ?>
-                                    <li class="col-span-1 md:col-span-2 text-xs font-semibold text-slate-700 flex items-start gap-2">
-                                        <svg class="w-3.5 h-3.5 text-blue-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        <span class="leading-tight"><?php echo htmlspecialchars($inc); ?></span>
-                                    </li>
-                                <?php endforeach; ?>
-                             </ul>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                    <?php endif; ?>
-                </div>
-
-                <div class="mt-8 flex justify-center md:justify-start">
-                    <p
-                        class="text-[10px] text-slate-400 italic bg-white px-3 py-1 rounded-full border border-slate-100 shadow-sm inline-flex items-center gap-1">
-                        <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        Please save this reference number for future communication.
-                    </p>
-                </div>
             </div>
 
-            <!-- Right: Stub -->
+            <!-- Right Stub (Dark) -->
             <div
-                class="md:w-1/4 bg-slate-900 text-white p-8 flex flex-col justify-between relative border-l-2 border-dashed border-slate-700/50 print:bg-gray-100 print:text-black print:border-gray-300">
-                <!-- Perforation Circles -->
+                class="xl:w-80 bg-slate-900 text-white p-8 xl:p-10 flex flex-col justify-between relative border-l-2 border-dashed border-slate-700/50">
+                <!-- Perforation -->
                 <div class="absolute -top-3 -left-3 w-6 h-6 bg-slate-50 rounded-full print:hidden"></div>
                 <div class="absolute -bottom-3 -left-3 w-6 h-6 bg-slate-50 rounded-full print:hidden"></div>
 
-                <div class="absolute inset-0 bg-noise opacity-10"></div>
-
-                <div class="text-center relative z-10">
-                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-2">Booking
-                        ID</span>
-                    <span class="font-bold font-mono text-3xl text-white print:text-black tracking-widest">
-                        <?php echo $booking ? str_pad($booking['id'], 6, '0', STR_PAD_LEFT) : '000'; ?>
-                    </span>
+                <!-- Stub Header -->
+                <div class="text-center border-b border-white/10 pb-8">
+                    <span class="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] block mb-2">Gate
+                        Pass</span>
+                    <span
+                        class="font-heading font-black text-4xl block text-white"><?php echo rand(1, 9); ?><?php echo chr(rand(65, 90)); ?></span>
                 </div>
 
-                <div class="space-y-6 text-center relative z-10 my-8">
+                <!-- Stub Info -->
+                <div class="space-y-6 my-auto py-8">
                     <div>
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Boarding
+                        <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-1">Boarding
                             Time</span>
-                        <span class="font-bold text-white print:text-black text-xl">10:00 AM</span>
+                        <span class="text-xl font-bold">10:00 AM</span>
                     </div>
                     <div>
-                        <span
-                            class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Gate</span>
-                        <span class="font-bold text-white print:text-black text-xl">TBD</span>
+                        <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-1">Gate
+                            Closes</span>
+                        <span class="text-xl font-bold text-red-400">10:45 AM</span>
                     </div>
                 </div>
 
-                <div class="mt-auto opacity-40 relative z-10">
-                    <!-- Fake Barcode -->
+                <!-- Barcode -->
+                <div class="bg-white p-2 rounded">
                     <div
-                        class="h-12 w-full bg-repeating-linear-gradient-to-r from-white to-transparent via-white bg-[length:4px_100%] print:brightness-0 mix-blend-overlay">
+                        class="h-10 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png')] bg-contain bg-center opacity-80 mix-blend-multiply">
                     </div>
                 </div>
             </div>
