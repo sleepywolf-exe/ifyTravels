@@ -576,6 +576,50 @@ try {
                 </h2>
             </div>
 
+            <!-- Innovative Background Effects (New) -->
+            <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <!-- 1. Animated Flight Paths -->
+                <svg class="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 1440 800" fill="none"
+                    preserveAspectRatio="none">
+                    <path class="flight-path" d="M-100,600 C300,400 600,800 1540,200" stroke="url(#grad1)"
+                        stroke-width="2" stroke-dasharray="10 10" />
+                    <path class="flight-path" d="M-100,200 C400,500 900,100 1540,600" stroke="url(#grad2)"
+                        stroke-width="2" stroke-dasharray="15 15" />
+                    <path class="flight-path" d="M-100,400 C300,100 1100,700 1540,300" stroke="url(#grad1)"
+                        stroke-width="1" stroke-dasharray="8 8" opacity="0.5" />
+
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="transparent" />
+                            <stop offset="50%" stop-color="#0F766E" />
+                            <stop offset="100%" stop-color="transparent" />
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="transparent" /> <stop offset="50%" stop-color="#D97706" />
+                            <stop offset="100%" stop-color="transparent" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <!-- 2. Floating Destination Portals (Glass Shards) -->
+                <!-- Portal 1 -->
+                <div
+                    class="floating-portal absolute top-20 left-[10%] w-32 h-40 bg-white/5 rounded-2xl rotate-[-6deg] border border-white/10 backdrop-blur-md overflow-hidden opacity-30">
+                    <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&q=80&w=200"
+                        class="w-full h-full object-cover opacity-60 mix-blend-overlay">
+                </div>
+                <!-- Portal 2 -->
+                <div
+                    class="floating-portal absolute bottom-32 right-[15%] w-40 h-28 bg-white/5 rounded-2xl rotate-[12deg] border border-white/10 backdrop-blur-md overflow-hidden opacity-30">
+                    <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&q=80&w=200"
+                        class="w-full h-full object-cover opacity-60 mix-blend-overlay">
+                </div>
+                <!-- Portal 3 -->
+                <div
+                    class="floating-portal absolute top-1/3 right-[5%] w-24 h-24 rounded-full bg-gradient-to-tr from-primary/20 to-secondary/20 border border-white/10 backdrop-blur-xl opacity-40 blur-sm">
+                </div>
+            </div>
+
             <div class="container mx-auto px-6 relative z-10 text-center">
                 <div class="max-w-5xl mx-auto">
                     <span
@@ -597,15 +641,14 @@ try {
                         </a>
                         <a href="<?php echo base_url('pages/contact.php'); ?>"
                             class="bg-transparent border-2 border-white/20 text-white font-bold py-6 px-16 rounded-full hover:bg-white hover:text-slate-900 transition-all duration-300 text-xl magnetic-btn hover:shadow-2xl">
-                            Contact Concierge
+                                    Contact Concierge
                         </a>
                     </div>
-                </div>
-            </div>
-            <!-- Glow Effects -->
-            <div
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen">
-            </div>
+                    </div> </div>
+                    <!-- Glow Effects -->
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen">
+                    </div>
         </section>
 
         <!-- NEWSLETTER SECTION -->
