@@ -62,7 +62,7 @@ include __DIR__ . '/../includes/header.php';
         <!-- Header Content -->
         <div class="text-center max-w-4xl mx-auto">
             <span
-                class="inline-block px-4 py-2 bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs rounded-full mb-6 animate-fade-in-up">
+                class="inline-block px-4 py-2 bg-primary/10 text-primary font-bold tracking-widest uppercase text-sm rounded-full mb-6 animate-fade-in-up">
                 Curated Collection
             </span>
             <h1 class="text-5xl md:text-7xl font-heading font-bold text-slate-900 mb-6 reveal-text">
