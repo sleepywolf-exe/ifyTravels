@@ -92,11 +92,11 @@ include __DIR__ . '/../includes/header.php';
 <div id="content-area" class="flex-1 bg-white min-h-screen">
 
     <!-- Hero Section -->
-    <div class="relative h-[85vh]">
-        <div class="absolute inset-0">
+    <div class="relative h-[85vh] overflow-hidden">
+        <div class="absolute inset-0 h-[120%] w-full -top-[10%] parallax-container">
             <img src="<?php echo base_url($pkg['image']); ?>" alt="<?php echo htmlspecialchars($pkg['title']); ?>"
-                class="w-full h-full object-cover brightness-[0.85] parallax-img">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50"></div>
+                class="w-full h-full object-cover brightness-[0.85]">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/40"></div>
         </div>
 
         <div class="absolute inset-0 flex items-end">
@@ -311,7 +311,7 @@ include __DIR__ . '/../includes/header.php';
 <script>
     document.addEventListener("DOMContentLoaded", (event) => {
         gsap.registerPlugin(ScrollTrigger);
-        gsap.to(".parallax-img", {
+        gsap.to(".parallax-container", {
             yPercent: 20, ease: "none",
             scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true }
         });
