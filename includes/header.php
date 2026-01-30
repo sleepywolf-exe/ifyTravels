@@ -251,8 +251,10 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             <div class="flex items-center justify-between">
 
                 <!-- Logo (Image Only) -->
-                <a href="<?php echo base_url(); ?>" class="flex items-center gap-2 group px-2">
-                    <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels"
+                <a href="<?php echo base_url(); ?>" class="flex items-center gap-2 group px-2"
+                    aria-label="ifyTravels Home">
+                    <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels Logo" width="140"
+                        height="45" loading="eager"
                         class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
                 </a>
 
@@ -329,8 +331,9 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
                 <!-- Mobile Menu Button -->
                 <button id="mobile-menu-btn"
-                    class="md:hidden p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="md:hidden p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                    aria-label="Toggle mobile menu" aria-controls="mobile-menu" aria-expanded="false">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -374,7 +377,8 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                             alt="Profile" class="w-10 h-10 rounded-full">
                         <div class="flex-1 min-w-0">
                             <p class="font-semibold text-sm text-slate-900 truncate">
-                                <?php echo htmlspecialchars($_SESSION['user_name']); ?></p>
+                                <?php echo htmlspecialchars($_SESSION['user_name']); ?>
+                            </p>
                             <p class="text-xs text-slate-500">View Profile</p>
                         </div>
                     </div>
@@ -444,16 +448,24 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
         // Header Capsule Animation on Scroll
         const capsule = document.getElementById('header-capsule');
+        let isScrolled = false;
+
         if (capsule) {
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
+                const shouldBeScrolled = window.scrollY > 20;
+                
+                if (shouldBeScrolled && !isScrolled) {
+                    // Shrink
                     capsule.classList.remove('py-3', 'w-[95%]');
                     capsule.classList.add('py-2', 'w-[90%]', 'bg-white/95');
-                } else {
+                    isScrolled = true;
+                } else if (!shouldBeScrolled && isScrolled) {
+                    // Expand
                     capsule.classList.add('py-3', 'w-[95%]');
                     capsule.classList.remove('py-2', 'w-[90%]', 'bg-white/95');
+                    isScrolled = false;
                 }
-            });
+            }, { passive: true });
         }
 
         // Mobile Menu
