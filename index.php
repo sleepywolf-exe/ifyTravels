@@ -525,7 +525,7 @@ try {
                                     </div>
                                 </div>
                                 <p class="text-slate-600 italic leading-loose text-lg font-light">
-                                    "<?php echo htmlspecialchars($review['comment']); ?>"</p>
+                                    "<?php echo htmlspecialchars($review['message']); ?>"</p>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
