@@ -29,7 +29,15 @@ $pageTitle = "Booking Confirmed";
 include __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="min-h-screen bg-slate-50 pt-40 pb-20 relative overflow-hidden print:pt-0 print:pb-0 print:bg-white">
+<style media="print">
+    @page { margin: 0; size: landscape; }
+    body { background: white !important; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .no-print { display: none !important; }
+    .print-full-width { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 20px !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; }
+    .ticket-card { box-shadow: none !important; border: 1px solid #000 !important; }
+</style>
+
+<div class="min-h-screen bg-slate-50 pt-40 pb-20 relative overflow-hidden print:pt-0 print:pb-0 print:bg-white print:h-auto">
 
     <!-- Background Accents -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none no-print">
@@ -41,10 +49,10 @@ include __DIR__ . '/../includes/header.php';
         </div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10">
+    <div class="container mx-auto px-6 relative z-10 print:max-w-none print:px-0 print:mx-0">
         <div class="max-w-3xl mx-auto text-center mb-12 no-print">
             <div
-                class="w-24 h-24 bg-emerald-100/50 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl ring-4 ring-white animate-bounce">
+                class="w-24 h-24 bg-emerald-100/50 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl ring-4 ring-white animate-bounce no-print">
                 <svg class="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                 </svg>
@@ -58,7 +66,7 @@ include __DIR__ . '/../includes/header.php';
 
         <!-- "Ultra-Wide" Innovative Ticket -->
         <div
-            class="w-full max-w-[95%] mx-auto bg-white rounded-[3rem] overflow-hidden shadow-2xl shadow-slate-200 flex flex-col xl:flex-row ticket-card border border-slate-100 relative print:shadow-none print:border-black print:rounded-none">
+            class="w-full max-w-[95%] mx-auto bg-white rounded-[3rem] overflow-hidden shadow-2xl shadow-slate-200 flex flex-col xl:flex-row ticket-card border border-slate-100 relative print:shadow-none print:border-black print:rounded-none print-full-width">
 
             <!-- Main Content (Wide) -->
             <div class="flex-1 p-8 md:p-12 relative bg-white text-gray-900 grid grid-cols-1 xl:grid-cols-12 gap-12">
