@@ -80,7 +80,7 @@ try {
 <main class="relative z-10">
 
     <!-- HERO SECTION -->
-    <section class="h-[100dvh] flex flex-col items-center justify-center overflow-hidden relative">
+    <section class="h-[115vh] flex flex-col items-center justify-center overflow-hidden relative">
         <div class="container mx-auto px-4 text-center z-20 mt-20">
             <!-- Animated Hero Title -->
             <h1
@@ -190,7 +190,7 @@ try {
     <div class="relative z-10 pb-12">
 
         <!-- LIVE STATS BAR (Trust Signals) -->
-        <div class="relative z-30 -mt-10 mb-20">
+        <div class="relative z-30 -mt-24 mb-32">
             <div class="container mx-auto px-4">
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
