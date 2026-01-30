@@ -206,15 +206,26 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap"></noscript>
 
-    <!-- Tailwind CSS (Deferred) -->
-    <script src="https://cdn.tailwindcss.com" defer></script>
+    <!-- Tailwind CSS (Restored to synchronous loading to fix design break) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind = { config: { theme: { extend: { colors: { primary: '#0F766E', secondary: '#D97706', charcoal: '#111827', }, fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Outfit', 'sans-serif'] } } } } };
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F766E',
+                        secondary: '#D97706',
+                        charcoal: '#111827',
+                    },
+                    fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
     </script>
 
-    <!-- Flatpickr CSS (Deferred) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css" media="print" onload="this.media='all'">
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
 
     <style>
         body {
