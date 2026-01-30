@@ -189,6 +189,10 @@ foreach ($settings as $s) {
                         class="tab-link border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-6 border-b-2 font-medium text-sm transition-colors">
                         Branding & Images
                     </button>
+                    <button type="button" onclick="openTab(event, 'HomeContent')"
+                        class="tab-link border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-6 border-b-2 font-medium text-sm transition-colors">
+                        Home Content
+                    </button>
                     <button type="button" onclick="openTab(event, 'SEO')"
                         class="tab-link border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-6 border-b-2 font-medium text-sm transition-colors">
                         Analytics & SEO
@@ -229,7 +233,7 @@ foreach ($settings as $s) {
                     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
                     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
+                        document.addEventListener('DOMContentLoaded', function () {
                             var quill = new Quill('#editor-hero-subtitle', {
                                 theme: 'snow',
                                 modules: {
@@ -243,7 +247,7 @@ foreach ($settings as $s) {
 
                             // Sync content on form submit
                             var form = document.querySelector('form');
-                            form.onsubmit = function() {
+                            form.onsubmit = function () {
                                 var content = document.querySelector('input[name=hero_subtitle]');
                                 content.value = quill.root.innerHTML;
                             };
@@ -442,6 +446,56 @@ foreach ($settings as $s) {
                                     </p>
                                 </div>
                             <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Home Content -->
+                <div id="HomeContent" class="tab-content hidden space-y-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Live Stats Bar</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Luxury Trips</label>
+                                <input type="text" name="stats_trips_count"
+                                    value="<?php echo e($settingsMap['stats_trips_count'] ?? '500+'); ?>"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">5-Star Reviews</label>
+                                <input type="text" name="stats_reviews_count"
+                                    value="<?php echo e($settingsMap['stats_reviews_count'] ?? '98%'); ?>"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Destinations</label>
+                                <input type="text" name="stats_destinations_count"
+                                    value="<?php echo e($settingsMap['stats_destinations_count'] ?? '50+'); ?>"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Concierge Text</label>
+                                <input type="text" name="stats_concierge_text"
+                                    value="<?php echo e($settingsMap['stats_concierge_text'] ?? '24/7'); ?>"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Newsletter Section</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Section Heading</label>
+                                <input type="text" name="newsletter_heading"
+                                    value="<?php echo e($settingsMap['newsletter_heading'] ?? 'Join the Elite Club'); ?>"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Helper Text</label>
+                                <textarea name="newsletter_text" rows="3"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all"><?php echo e($settingsMap['newsletter_text'] ?? 'Subscribe to receive exclusive offers, travel inspiration, and member-only perks directly to your inbox.'); ?></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -184,21 +184,23 @@ try {
             <div
                 class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-slate-100/50 backdrop-blur-xl">
                 <div class="text-center border-r border-slate-100 last:border-0 border-opacity-50">
-                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo number_format($stats['trips']); ?>+</p>
+                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo e($stats['trips']); ?></p>
                     <p class="text-xs md:text-sm text-slate-500 uppercase tracking-wider font-semibold">Luxury Trips</p>
                 </div>
                 <div class="text-center border-r border-slate-100 last:border-0 border-opacity-50 md:border-r">
-                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1">98%</p>
+                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo e($stats['reviews']); ?></p>
                     <p class="text-xs md:text-sm text-slate-500 uppercase tracking-wider font-semibold">5-Star Reviews
                     </p>
                 </div>
                 <div
                     class="text-center border-r border-slate-100 last:border-0 border-opacity-50 pt-4 md:pt-0 border-t md:border-t-0">
-                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo $stats['destinations']; ?>+</p>
+                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo e($stats['destinations']); ?>
+                    </p>
                     <p class="text-xs md:text-sm text-slate-500 uppercase tracking-wider font-semibold">Destinations</p>
                 </div>
                 <div class="text-center pt-4 md:pt-0 border-t md:border-t-0">
-                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1">24/7</p>
+                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo e($stats['concierge']); ?>
+                    </p>
                     <p class="text-xs md:text-sm text-slate-500 uppercase tracking-wider font-semibold">Concierge</p>
                 </div>
             </div>
@@ -526,9 +528,11 @@ try {
                 style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
 
             <div class="container mx-auto px-6 relative z-10 text-center">
-                <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">Join the Elite Club</h2>
-                <p class="text-slate-300 mb-10 max-w-xl mx-auto text-lg">Subscribe to receive exclusive offers, travel
-                    inspiration, and member-only perks directly to your inbox.</p>
+                <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
+                    <?php echo e(get_setting('newsletter_heading', 'Join the Elite Club')); ?></h2>
+                <p class="text-slate-300 mb-10 max-w-xl mx-auto text-lg">
+                    <?php echo e(get_setting('newsletter_text', 'Subscribe to receive exclusive offers, travel inspiration, and member-only perks directly to your inbox.')); ?>
+                </p>
 
                 <form id="newsletter-form" class="max-w-lg mx-auto flex flex-col sm:flex-row gap-4">
                     <input type="email" name="email" placeholder="Your email address"
