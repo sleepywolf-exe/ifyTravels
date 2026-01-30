@@ -174,7 +174,7 @@ try {
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
+        <div class="absolute bottom-60 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
             <a href="#destinations" aria-label="Scroll Down"
                 class="text-white hover:text-primary transition-colors duration-300">
                 <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,7 +190,7 @@ try {
     <div class="relative z-10 pb-12">
 
         <!-- LIVE STATS BAR (Trust Signals) -->
-        <div class="relative z-30 -mt-32 mb-40">
+        <div class="relative z-30 -mt-32 mb-48">
             <div class="container mx-auto px-4">
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
