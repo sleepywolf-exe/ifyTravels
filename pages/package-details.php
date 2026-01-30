@@ -89,14 +89,14 @@ include __DIR__ . '/../includes/header.php';
 }
 </script>
 
-<div id="content-area" class="flex-1 bg-slate-50 min-h-screen transition-colors duration-300">
+<div id="content-area" class="flex-1 bg-white min-h-screen">
 
     <!-- Hero Section -->
     <div class="relative h-[85vh]">
         <div class="absolute inset-0">
             <img src="<?php echo base_url($pkg['image']); ?>" alt="<?php echo htmlspecialchars($pkg['title']); ?>"
                 class="w-full h-full object-cover brightness-[0.85] parallax-img">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-black/40"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50"></div>
         </div>
 
         <div class="absolute inset-0 flex items-end">
@@ -109,7 +109,7 @@ include __DIR__ . '/../includes/header.php';
                         </span>
                         <?php if ($pkg['isPopular']): ?>
                             <span
-                                class="inline-block py-1 px-4 rounded-full bg-secondary text-white text-xs font-bold tracking-[0.2em] uppercase shadow-lg">Popular
+                                class="inline-block py-1 px-4 rounded-full bg-primary text-white text-xs font-bold tracking-[0.2em] uppercase shadow-lg">Popular
                                 Choice</span>
                         <?php endif; ?>
                     </div>
@@ -121,7 +121,7 @@ include __DIR__ . '/../includes/header.php';
 
                     <div class="flex items-center gap-6 text-white text-lg font-light drop-shadow-md">
                         <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
                                 </path>
@@ -222,7 +222,7 @@ include __DIR__ . '/../includes/header.php';
                                         data-slide="<?php echo $index; ?>">
                                         <?php foreach ($chunk as $inc): ?>
                                             <li class="flex items-start text-slate-600">
-                                                <svg class="w-5 h-5 mr-3 text-secondary mt-0.5" fill="none" stroke="currentColor"
+                                                <svg class="w-5 h-5 mr-3 text-primary mt-0.5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M5 13l4 4L19 7"></path>
@@ -246,7 +246,7 @@ include __DIR__ . '/../includes/header.php';
                     <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl relative">
                         <!-- Top Gradient -->
                         <div
-                            class="bg-gradient-to-br from-secondary to-yellow-600 p-8 relative overflow-hidden text-center">
+                            class="bg-gradient-to-br from-primary to-teal-600 p-8 relative overflow-hidden text-center">
                             <div
                                 class="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2">
                             </div>
