@@ -302,6 +302,26 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             border-color: #e2e8f0 !important;
             color: #0f172a !important;
         }
+        /* Innovative Loader Animations */
+        @keyframes spin-slow {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            to { transform: rotate(-360deg); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 10s linear infinite;
+        }
+        .animate-spin-reverse {
+            animation: spin-reverse 8s linear infinite;
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
     </style>
 </head>
 
@@ -310,13 +330,32 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
     <!-- PRELOADER -->
     <div id="preloader" class="fixed inset-0 z-[100] bg-slate-50 flex flex-col items-center justify-center">
-        <div class="relative w-24 h-24 mb-4">
-            <div class="absolute inset-0 border-4 border-slate-200 rounded-full"></div>
-            <div class="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
-            <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="Loading"
-                class="absolute inset-0 m-auto w-12 h-auto opacity-80">
+        <!-- Huge Wrapper -->
+        <div class="relative w-[300px] h-[300px] flex items-center justify-center mb-12">
+            <!-- Decorative Outer Glow -->
+            <div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
+
+            <!-- Ring 1: Slow Spinning Arc (Outer) -->
+            <div class="absolute inset-0 border-[6px] border-transparent border-t-primary/20 border-r-primary/20 rounded-full animate-spin-slow"></div>
+            
+            <!-- Ring 2: Reverse Spinning Arc (Middle) -->
+            <div class="absolute inset-6 border-[6px] border-transparent border-b-secondary border-l-secondary rounded-full animate-spin-reverse opacity-80"></div>
+            
+            <!-- Ring 3: Inner Thin Ring -->
+            <div class="absolute inset-16 border-[2px] border-slate-200 rounded-full"></div>
+
+            <!-- Center Glowing Orb -->
+            <div class="relative w-40 h-40 bg-white rounded-full shadow-[0_20px_50px_rgba(15,118,110,0.15)] flex items-center justify-center z-10 animate-pulse-slow ring-4 ring-white">
+                <img src="<?php echo base_url('assets/images/favicon.png'); ?>" alt="Loading"
+                    class="w-24 h-24 object-contain drop-shadow-sm">
+            </div>
         </div>
-        <span class="text-primary font-heading font-bold text-lg tracking-widest animate-pulse">ifyTravels</span>
+        
+        <!-- Text -->
+        <div class="text-center">
+            <span class="block text-primary font-heading font-black text-4xl tracking-[0.3em] uppercase mb-2">ifyTravels</span>
+            <span class="text-slate-400 text-sm tracking-[0.5em] font-light uppercase">Loading Experience</span>
+        </div>
     </div>
 
     <!-- HIGH-END MODERN HEADER (V4) -->
