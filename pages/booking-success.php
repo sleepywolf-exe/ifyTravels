@@ -32,12 +32,42 @@ include __DIR__ . '/../includes/header.php';
 <style media="print">
     @page { margin: 0; size: landscape; }
     body { background: white !important; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    .no-print { display: none !important; }
-    .print-full-width { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 20px !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; }
-    .ticket-card { box-shadow: none !important; border: 1px solid #000 !important; }
+    
+    /* Hide non-printable elements */
+    nav, footer, .no-print, #navbar, #mobile-menu-btn { display: none !important; }
+    
+    /* Reset containers for full width */
+    .min-h-screen { min-height: 0 !important; padding: 0 !important; display: block !important; height: auto !important; }
+    .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
+    
+    /* Full Width Ticket */
+    .print-full-width { 
+        width: 100% !important; 
+        max-width: none !important; 
+        margin: 0 !important; 
+        padding: 10mm !important; 
+        border: none !important; 
+        box-shadow: none !important; 
+        border-radius: 0 !important;
+        transform: none !important;
+    }
+    
+    /* Ticket specific overrides */
+    .ticket-card { 
+        box-shadow: none !important; 
+        border: 2px solid #000 !important; /* High contrast border for print */
+        width: 100% !important;
+        max-width: none !important;
+    }
+    
+    /* Color corrections for print */
+    .text-white { color: black !important; }
+    .text-gray-400 { color: #555 !important; }
+    .bg-slate-900 { background-color: transparent !important; border: 1px solid #000 !important; }
 </style>
 
-<div class="min-h-screen bg-slate-50 pt-40 pb-20 relative overflow-hidden print:pt-0 print:pb-0 print:bg-white print:h-auto">
+<div
+    class="min-h-screen bg-slate-50 pt-40 pb-20 relative overflow-hidden print:pt-0 print:pb-0 print:bg-white print:h-auto">
 
     <!-- Background Accents -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none no-print">
@@ -291,62 +321,6 @@ include __DIR__ . '/../includes/header.php';
 </div>
 
 
-<style>
-    @media print {
-        @page {
-            margin: 0;
-            size: auto;
-        }
 
-        body {
-            background: white !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
-        nav,
-        footer,
-        .no-print,
-        #navbar,
-        #mobile-menu-btn {
-            display: none !important;
-        }
-
-        .min-h-screen {
-            min-height: 0 !important;
-            padding: 20px !important;
-            display: block !important;
-        }
-
-        .container {
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        .ticket-card {
-            box-shadow: none !important;
-            border: 2px solid #000 !important;
-            border-radius: 12px !important;
-            margin: 0 auto !important;
-            width: 100% !important;
-            max-width: 800px !important;
-        }
-
-        /* Force text colors for thermal printers / b&w */
-        .text-white {
-            color: black !important;
-        }
-
-        .text-gray-400 {
-            color: #555 !important;
-        }
-
-        .bg-charcoal,
-        .bg-gray-900 {
-            background-color: white !important;
-        }
-    }
-</style>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
