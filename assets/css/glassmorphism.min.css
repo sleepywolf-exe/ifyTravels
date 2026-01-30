@@ -17,10 +17,7 @@
     border: 1px solid rgba(255, 255, 255, .2) !important;
     border-radius: 12px !important;
     color: #fff !important;
-    padding-top: .875rem !important;
-    padding-bottom: .875rem !important;
-    padding-right: 1rem !important;
-    padding-left: 1rem;
+    padding: .875rem 1rem;
     transition: all .3s ease
 }
 
@@ -135,4 +132,20 @@
     background: linear-gradient(135deg, #0F766E, #0D9488);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent
+}
+
+.\!pl-12 {
+    padding-left: 3rem !important
+}
+
+.\!pl-10 {
+    padding-left: 2.5rem !important
+}
+
+.pl-12 {
+    padding-left: 3rem !important
+}
+
+.pl-10 {
+    padding-left: 2.5rem !important
 }
