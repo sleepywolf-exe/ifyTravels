@@ -18,20 +18,6 @@ if ($requestUri === '/sitemap.xml') {
     exit;
 }
 
-// Handle Sub-Sitemaps
-if ($requestUri === '/sitemap-main.xml') {
-    include 'sitemap-main.php';
-    exit;
-}
-if ($requestUri === '/sitemap-destinations.xml') {
-    include 'sitemap-destinations.php';
-    exit;
-}
-if ($requestUri === '/sitemap-packages.xml') {
-    include 'sitemap-packages.php';
-    exit;
-}
-
 // Handle static files (let PHP serve them directly)
 if (preg_match('/\.(css|js|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|pdf|mp4)$/i', $requestUri)) {
     return false; // Serve the requested file as-is

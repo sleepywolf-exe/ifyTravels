@@ -14,15 +14,15 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <sitemap>
-        <loc><?php echo base_url('sitemap-main.xml'); ?></loc>
+        <loc><?php echo base_url('sitemap-pages.php'); ?></loc>
         <lastmod><?php echo date('Y-m-d'); ?></lastmod>
     </sitemap>
     <sitemap>
-        <loc><?php echo base_url('sitemap-destinations.xml'); ?></loc>
+        <loc><?php echo base_url('sitemap-destinations.php'); ?></loc>
         <lastmod><?php echo date('Y-m-d'); ?></lastmod>
     </sitemap>
     <sitemap>
-        <loc><?php echo base_url('sitemap-packages.xml'); ?></loc>
+        <loc><?php echo base_url('sitemap-packages.php'); ?></loc>
         <lastmod><?php echo date('Y-m-d'); ?></lastmod>
     </sitemap>
 </sitemapindex>

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /includes/
 Disallow: /partner/
-Sitemap: https://ifytravels.com/sitemap.xml
+Sitemap: https://ifytravels.com/sitemap.php

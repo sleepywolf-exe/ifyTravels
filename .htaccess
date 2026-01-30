@@ -30,9 +30,6 @@ Options -Indexes
 
     # Sitemap
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
-    RewriteRule ^sitemap-main\.xml$ sitemap-main.php [L]
-    RewriteRule ^sitemap-destinations\.xml$ sitemap-destinations.php [L]
-    RewriteRule ^sitemap-packages\.xml$ sitemap-packages.php [L]
 
     # Partner Program
     RewriteRule ^partner-program$ router.php [L]
