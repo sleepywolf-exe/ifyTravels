@@ -303,61 +303,69 @@ try {
         </section>
 
         <!-- WHY CHOOSE US (Features) -->
-        <section class="py-20 bg-white border-y border-slate-100">
-            <div class="container mx-auto px-6">
+        <section class="py-32 bg-white relative overflow-hidden border-y border-slate-100">
+             <!-- Massive Background Text -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2 class="text-[12rem] md:text-[20rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
+                    Experience
+                </h2>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 section-header opacity-0">
-                    <span class="text-secondary font-bold tracking-widest uppercase text-sm">Experience</span>
-                    <h2 class="text-3xl md:text-4xl font-heading font-bold text-slate-900 mt-2">Why Choose <span
-                            class="text-primary">IfyTravels</span></h2>
+                    <span class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">
+                        The Difference
+                    </span>
+                    <h2 class="text-4xl md:text-6xl font-heading font-extrabold text-slate-900 mt-2">
+                        Why Choose <span class="text-primary italic font-serif">IfyTravels</span>
+                    </h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Feature 1 -->
                     <div
-                        class="feature-card p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition-all duration-300 group opacity-0 translate-y-10">
+                        class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group opacity-0 translate-y-10 hover:-translate-y-2">
                         <div
-                            class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3 font-heading">Curated Luxury</h3>
-                        <p class="text-slate-600 leading-relaxed">Every destination is hand-picked by our experts to
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">Curated Luxury</h3>
+                        <p class="text-slate-600 leading-relaxed text-lg">Every destination is hand-picked by our experts to
                             ensure specific standards of luxury and comfort.</p>
                     </div>
 
                     <!-- Feature 2 -->
-                    <div class="feature-card p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition-all duration-300 group opacity-0 translate-y-10"
+                    <div class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group opacity-0 translate-y-10 hover:-translate-y-2"
                         style="transition-delay: 100ms;">
                         <div
-                            class="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6 text-secondary group-hover:bg-secondary group-hover:text-white transition-colors duration-300">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-20 h-20 bg-secondary/10 rounded-2xl flex items-center justify-center mb-8 text-secondary group-hover:bg-secondary group-hover:text-white transition-colors duration-300 shadow-sm">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3 font-heading">24/7 Concierge</h3>
-                        <p class="text-slate-600 leading-relaxed">Our dedicated support team is available
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">24/7 Concierge</h3>
+                        <p class="text-slate-600 leading-relaxed text-lg">Our dedicated support team is available
                             round-the-clock to assist you with any request.</p>
                     </div>
 
                     <!-- Feature 3 -->
-                    <div class="feature-card p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition-all duration-300 group opacity-0 translate-y-10"
+                    <div class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group opacity-0 translate-y-10 hover:-translate-y-2"
                         style="transition-delay: 200ms;">
                         <div
-                            class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mb-8 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                                 </path>
                             </svg>
                         </div>
-                        <div class="flex items-center gap-2 mb-3">
-                            <h3 class="text-xl font-bold text-slate-900 font-heading">Best Price Guarantee</h3>
-                        </div>
-                        <p class="text-slate-600 leading-relaxed">We partner directly with resorts and airlines to bring
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">Best Price Guarantee</h3>
+                        <p class="text-slate-600 leading-relaxed text-lg">We partner directly with resorts and airlines to bring
                             you exclusive rates you won't find elsewhere.</p>
                     </div>
                 </div>
@@ -462,77 +470,84 @@ try {
 
 
         <!-- TESTIMONIALS (Restored) -->
-        <section class="py-24 bg-slate-50 border-t border-slate-200">
-            <div class="container mx-auto px-6">
+        <section class="py-32 bg-slate-50 border-t border-slate-200 relative overflow-hidden">
+             <!-- Massive Background Text -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2 class="text-[12rem] md:text-[22rem] font-black text-slate-200 opacity-[0.2] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
+                    Stories
+                </h2>
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
                 <!-- Section Header -->
-                <div class="text-center mb-16 section-header opacity-0">
-                    <span class="text-primary font-bold tracking-widest uppercase text-sm">Testimonials</span>
-                    <h2 class="text-3xl md:text-4xl font-heading font-bold text-slate-900 mt-2">Loved by <span
-                            class="text-primary">Travelers</span></h2>
+                <div class="text-center mb-20 section-header opacity-0">
+                    <span class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">Testimonials</span>
+                    <h2 class="text-4xl md:text-6xl font-heading font-extrabold text-slate-900 mt-2">Loved by <span
+                            class="text-primary italic font-serif">Travelers</span></h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <?php if (!empty($testimonials)): ?>
                         <?php foreach ($testimonials as $index => $review): ?>
-                            <div class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10"
+                            <div class="testimonial-card p-10 bg-white rounded-[2rem] shadow-xl border border-slate-100 opacity-0 translate-y-10 hover:shadow-2xl transition-all duration-300"
                                 style="transition-delay: <?php echo $index * 150; ?>ms">
-                                <div class="flex items-center gap-4 mb-6">
+                                <div class="flex items-center gap-5 mb-8">
                                     <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($review['name']); ?>&background=random"
                                         alt="<?php echo htmlspecialchars($review['name']); ?>"
-                                        class="w-12 h-12 rounded-full ring-2 ring-primary/20">
+                                        class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
                                     <div>
-                                        <h4 class="font-bold text-slate-900"><?php echo htmlspecialchars($review['name']); ?>
+                                        <h4 class="font-bold text-xl text-slate-900"><?php echo htmlspecialchars($review['name']); ?>
                                         </h4>
-                                        <div class="flex text-yellow-500 text-sm">
+                                        <div class="flex text-yellow-500 text-base mt-1">
                                             <?php for ($i = 0; $i < 5; $i++): ?>
                                                 <span><?php echo ($i < $review['rating']) ? '★' : '☆'; ?></span>
                                             <?php endfor; ?>
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-slate-600 italic leading-relaxed">
+                                <p class="text-slate-600 italic leading-loose text-lg font-light">
                                     "<?php echo htmlspecialchars($review['comment']); ?>"</p>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <!-- Fallback Testimonials if DB empty -->
                         <div
-                            class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
-                            <div class="flex items-center gap-4 mb-6">
+                            class="testimonial-card p-10 bg-white rounded-[2rem] shadow-xl border border-slate-100 opacity-0 translate-y-10 hover:shadow-2xl transition-all duration-300">
+                            <div class="flex items-center gap-5 mb-8">
                                 <img src="https://ui-avatars.com/api/?name=Sarah+J&background=0F766E&color=fff"
-                                    class="w-12 h-12 rounded-full">
+                                    class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
                                 <div>
-                                    <h4 class="font-bold text-slate-900">Sarah Jenkins</h4>
-                                    <div class="flex text-yellow-500 text-sm">★★★★★</div>
+                                    <h4 class="font-bold text-xl text-slate-900">Sarah Jenkins</h4>
+                                    <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic">"The Maldives trip was absolutely breathtaking. The attention
+                            <p class="text-slate-600 italic leading-loose text-lg font-light">"The Maldives trip was absolutely breathtaking. The attention
                                 to detail was unmatched."</p>
                         </div>
                         <div
-                            class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
-                            <div class="flex items-center gap-4 mb-6">
+                            class="testimonial-card p-10 bg-white rounded-[2rem] shadow-xl border border-slate-100 opacity-0 translate-y-10 hover:shadow-2xl transition-all duration-300">
+                            <div class="flex items-center gap-5 mb-8">
                                 <img src="https://ui-avatars.com/api/?name=Michael+R&background=D97706&color=fff"
-                                    class="w-12 h-12 rounded-full">
+                                    class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
                                 <div>
-                                    <h4 class="font-bold text-slate-900">Michael Ross</h4>
-                                    <div class="flex text-yellow-500 text-sm">★★★★★</div>
+                                    <h4 class="font-bold text-xl text-slate-900">Michael Ross</h4>
+                                    <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic">"Booking was seamless, and the concierge support was a
+                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Booking was seamless, and the concierge support was a
                                 lifesaver during our Paris tour."</p>
                         </div>
                         <div
-                            class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
-                            <div class="flex items-center gap-4 mb-6">
+                            class="testimonial-card p-10 bg-white rounded-[2rem] shadow-xl border border-slate-100 opacity-0 translate-y-10 hover:shadow-2xl transition-all duration-300">
+                            <div class="flex items-center gap-5 mb-8">
                                 <img src="https://ui-avatars.com/api/?name=Emma+W&background=0F766E&color=fff"
-                                    class="w-12 h-12 rounded-full">
+                                    class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
                                 <div>
-                                    <h4 class="font-bold text-slate-900">Emma Watson</h4>
-                                    <div class="flex text-yellow-500 text-sm">★★★★★</div>
+                                    <h4 class="font-bold text-xl text-slate-900">Emma Watson</h4>
+                                    <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic">"Highly recommend IfyTravels for anyone looking for a premium,
+                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Highly recommend IfyTravels for anyone looking for a premium,
                                 hassle-free vacation."</p>
                         </div>
                     <?php endif; ?>
@@ -541,28 +556,35 @@ try {
         </section>
 
         <!-- LUXURY CTA SECTION -->
-        <section class="py-32 relative overflow-hidden bg-slate-50">
+        <section class="py-40 relative overflow-hidden bg-slate-900">
+             <!-- Massive Background Text -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+                <h2 class="text-[12rem] md:text-[25rem] font-black text-white opacity-[0.02] leading-none tracking-tighter uppercase font-heading">
+                    Journey
+                </h2>
+            </div>
+            
             <div class="container mx-auto px-6 relative z-10 text-center">
-                <div class="max-w-4xl mx-auto">
+                <div class="max-w-5xl mx-auto">
                     <span
-                        class="inline-block py-2 px-6 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold tracking-[0.2em] mb-8 uppercase">
+                        class="inline-block py-2 px-6 rounded-full bg-white/10 border border-white/10 text-white text-sm font-bold tracking-[0.2em] mb-8 uppercase backdrop-blur-sm">
                         Start Your Journey
                     </span>
                     <h2
-                        class="text-5xl md:text-7xl font-heading font-bold mb-8 text-slate-900 leading-tight reveal-text">
-                        Ready to Explore the <br /><span class="text-primary">Extraordinary?</span>
+                        class="text-6xl md:text-8xl font-heading font-black mb-10 text-white leading-tight reveal-text">
+                        Ready to Explore the <br /><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Extraordinary?</span>
                     </h2>
-                    <p class="text-xl text-slate-700 mb-12 font-normal max-w-2xl mx-auto drop-shadow-sm">
+                    <p class="text-2xl text-slate-300 mb-16 font-light max-w-3xl mx-auto leading-relaxed">
                         Join the elite travelers who have discovered the world's most breathtaking destinations with
                         ifyTravels.
                     </p>
-                    <div class="flex flex-col md:flex-row gap-6 justify-center">
+                    <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
                         <a href="<?php echo base_url('pages/booking.php'); ?>"
-                            class="bg-primary text-white font-bold py-5 px-12 rounded-full shadow-lg shadow-primary/30 hover:shadow-primary/40 transform hover:-translate-y-1 transition-all duration-300 text-lg magnetic-btn">
+                            class="bg-primary text-white font-bold py-6 px-16 rounded-full shadow-[0_20px_50px_rgba(15,118,110,0.5)] hover:shadow-[0_20px_50px_rgba(15,118,110,0.7)] transform hover:-translate-y-1 transition-all duration-300 text-xl magnetic-btn border border-primary ring-4 ring-primary/20">
                             Book Your Trip
                         </a>
                         <a href="<?php echo base_url('pages/contact.php'); ?>"
-                            class="bg-white border border-slate-200 text-slate-700 font-bold py-5 px-12 rounded-full hover:bg-slate-50 hover:text-primary transition-all duration-300 text-lg magnetic-btn">
+                            class="bg-transparent border-2 border-white/20 text-white font-bold py-6 px-16 rounded-full hover:bg-white hover:text-slate-900 transition-all duration-300 text-xl magnetic-btn hover:shadow-2xl">
                             Contact Concierge
                         </a>
                     </div>
@@ -570,7 +592,7 @@ try {
             </div>
             <!-- Glow Effects -->
             <div
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none">
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen">
             </div>
         </section>
 
