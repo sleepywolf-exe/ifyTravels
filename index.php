@@ -478,39 +478,39 @@ try {
 
     <div class="container mx-auto px-6 relative z-10">
         <div
-            class="glass-card max-w-4xl mx-auto rounded-3xl p-10 md:p-16 text-center transform transition duration-500 hover:scale-[1.01] border border-white/20 relative overflow-hidden group">
+            class="max-w-4xl mx-auto rounded-[2.5rem] p-10 md:p-16 text-center transform transition duration-500 hover:scale-[1.01] border border-white/20 relative overflow-hidden group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl shadow-2xl">
 
             <!-- Decorative Glow -->
             <div
-                class="absolute -top-24 -right-24 w-64 h-64 bg-secondary/30 rounded-full blur-3xl group-hover:bg-secondary/40 transition duration-700">
+                class="absolute -top-24 -right-24 w-64 h-64 bg-teal-500/30 rounded-full blur-3xl group-hover:bg-teal-400/40 transition duration-700">
             </div>
             <div
-                class="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/30 rounded-full blur-3xl group-hover:bg-primary/40 transition duration-700">
+                class="absolute -bottom-24 -left-24 w-64 h-64 bg-emerald-500/30 rounded-full blur-3xl group-hover:bg-emerald-400/40 transition duration-700">
             </div>
 
             <div class="relative z-10">
                 <span
-                    class="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold tracking-wider mb-6 uppercase">
+                    class="inline-block py-1.5 px-4 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-100 text-xs font-bold tracking-widest mb-8 uppercase shadow-sm">
                     Start Your Journey
                 </span>
 
-                <h2 class="text-4xl md:text-6xl font-bold mb-6 text-white font-heading">
+                <h2 class="text-4xl md:text-6xl font-bold mb-6 text-white font-heading drop-shadow-md">
                     Ready to Explore the <br /><span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-white to-teal-100">Unknown?</span>
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-teal-200 to-white">Unknown?</span>
                 </h2>
 
-                <p class="text-xl mb-10 text-gray-200 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-xl mb-10 text-teal-50 max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-light">
                     Join thousands of happy travelers who have discovered their dream destinations with us. Your next
                     great adventure is just a click away.
                 </p>
 
-                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <div class="flex flex-col md:flex-row gap-5 justify-center items-center">
                     <a href="<?php echo base_url('pages/booking.php'); ?>"
-                        class="bg-white text-primary font-bold py-4 px-10 rounded-full hover:bg-gray-100 transition shadow-xl hover:shadow-2xl hover:shadow-white/20 transform hover:-translate-y-1 w-full md:w-auto">
+                        class="bg-white text-teal-900 font-bold py-4 px-10 rounded-full hover:bg-teal-50 transition shadow-xl hover:shadow-2xl hover:shadow-white/20 transform hover:-translate-y-1 w-full md:w-auto text-lg">
                         Book Your Trip Now
                     </a>
                     <a href="<?php echo base_url('pages/contact.php'); ?>"
-                        class="bg-transparent hover:bg-white/10 text-white font-bold py-4 px-10 rounded-full transition border-2 border-white/30 hover:border-white w-full md:w-auto flex items-center justify-center gap-2 group-btn">
+                        class="bg-transparent hover:bg-white/10 text-white font-bold py-4 px-10 rounded-full transition border-2 border-white/30 hover:border-white w-full md:w-auto flex items-center justify-center gap-2 group-btn text-lg">
                         <span>Contact Us</span>
                         <svg class="w-5 h-5 group-btn-hover:translate-x-1 transition" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
