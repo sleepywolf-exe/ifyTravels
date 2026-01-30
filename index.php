@@ -72,7 +72,7 @@ try {
 <main class="relative z-10">
 
     <!-- HERO SECTION -->
-    <section class="min-h-screen flex flex-col items-center justify-center pt-32 pb-12 overflow-hidden relative">
+    <section class="h-screen flex flex-col items-center justify-center pt-32 pb-12 overflow-hidden relative">
         <div class="container mx-auto px-4 text-center z-20">
             <!-- Animated Hero Title -->
             <h1
@@ -98,7 +98,7 @@ try {
                 </div>
                 <!-- Search Bar Container -->
                 <div
-                    class="glass-form p-2 rounded-full relative bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl">
+                    class="glass-form p-2 rounded-full relative bg-white/10 border border-white/20 backdrop-blur-xl shadow-creative">
                     <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET"
                         class="flex flex-col md:flex-row gap-2">
 
@@ -157,7 +157,7 @@ try {
 
                         <!-- Button -->
                         <button type="submit"
-                            class="bg-white text-primary hover:bg-slate-50 font-bold py-4 px-10 rounded-full shadow-lg transform hover:scale-105 transition duration-300 magnetic-btn whitespace-nowrap">
+                            class="bg-white text-primary hover:bg-slate-50 font-bold py-4 px-10 rounded-full shadow-creative hover:shadow-creative-hover transform hover:scale-105 transition duration-300 magnetic-btn whitespace-nowrap">
                             Search
                         </button>
                     </form>
@@ -171,7 +171,7 @@ try {
                 class="text-white hover:text-primary transition-colors duration-300">
                 <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3">
+                        d="M19 14l-7 7m0 0l-7 7m7 7V3">
                     </path>
                 </svg>
             </a>
@@ -186,7 +186,7 @@ try {
         <div class="relative z-30 -mt-10 mb-20">
             <div class="container mx-auto px-4">
                 <div
-                    class="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
+                    class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
                     <div class="space-y-1">
                         <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_trips') ?: '500+'; ?>
                         </p>
@@ -217,7 +217,7 @@ try {
         </div>
 
         <!-- DESTINATIONS (Redesigned) -->
-        <section class="py-32 relative overflow-hidden bg-white">
+        <section id="destinations" class="py-32 relative overflow-hidden bg-white">
             <!-- Massive Background Text -->
             <div
                 class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
@@ -244,7 +244,7 @@ try {
                     <?php foreach ($topDestinations as $index => $dest): ?>
                         <div class="destination-card opacity-0">
                             <a href="<?php echo destination_url($dest['slug']); ?>"
-                                class="block group relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(15,118,110,0.3)] transition-all duration-500 border-[6px] border-white ring-1 ring-slate-100">
+                                class="block group relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-creative hover:shadow-creative-hover transition-all duration-500 border-[6px] border-white ring-1 ring-slate-100">
 
                                 <!-- Image -->
                                 <img src="<?php echo base_url($dest['image']); ?>"
@@ -327,7 +327,7 @@ try {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Feature 1 -->
                     <div
-                        class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group opacity-0 translate-y-10 hover:-translate-y-2">
+                        class="feature-card depth-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 group opacity-0 translate-y-10">
                         <div
                             class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -706,16 +706,16 @@ try {
                     ScrollTrigger.batch(selector, {
                         start: "top 90%",
                         onEnter: batch => {
-                            gsap.fromTo(batch, 
-                                { opacity: 0, y: yOffset, scale: 0.95 }, 
-                                { 
-                                    opacity: 1, 
-                                    y: 0, 
-                                    scale: 1, 
-                                    stagger: 0.15, 
-                                    duration: 1.2, 
-                                    ease: "power4.out", 
-                                    overwrite: true 
+                            gsap.fromTo(batch,
+                                { opacity: 0, y: yOffset, scale: 0.95 },
+                                {
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1,
+                                    stagger: 0.15,
+                                    duration: 1.2,
+                                    ease: "power4.out",
+                                    overwrite: true
                                 }
                             );
                         },
@@ -726,12 +726,12 @@ try {
                 // 1. Hero Text Reveal (Load Animation)
                 const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
                 tl.to(".hero-title", { y: 0, opacity: 1, duration: 1.5, delay: 0.2 })
-                  .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
-                  .to(".hero-form", { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
+                    .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+                    .to(".hero-form", { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
 
                 // 2. Section Headers (Reveal Up)
                 gsap.utils.toArray('.section-header').forEach(header => {
-                    gsap.fromTo(header, 
+                    gsap.fromTo(header,
                         { opacity: 0, y: 50 },
                         {
                             scrollTrigger: {
@@ -754,7 +754,7 @@ try {
                 animateBatch('.testimonial-card', 60);
 
                 // 4. Newsletter Reveal
-                gsap.fromTo("#newsletter-form", 
+                gsap.fromTo("#newsletter-form",
                     { opacity: 0, scale: 0.9 },
                     {
                         scrollTrigger: {

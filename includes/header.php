@@ -121,12 +121,28 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                             heading: ['"Plus Jakarta Sans"', 'sans-serif'],
                             body: ['"Plus Jakarta Sans"', 'sans-serif'],
                             sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                        },
+                        boxShadow: {
+                            'creative': '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(15, 118, 110, 0.15)',
+                            'creative-hover': '0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 0 40px rgba(15, 118, 110, 0.25)',
+                            'neon': '0 0 20px rgba(15, 118, 110, 0.4)',
                         }
                     }
                 }
             }
         };
     </script>
+    <style>
+        /* Global Depth Class */
+        .depth-card {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(15, 118, 110, 0.15);
+            transition: all 0.5s ease;
+        }
+        .depth-card:hover {
+            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 0 40px rgba(15, 118, 110, 0.25);
+            transform: translateY(-5px);
+        }
+    </style>
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -383,10 +399,10 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         </div>
     </div>
 
-    <!-- HIGH-END MODERN HEADER (V6 - DEPTH SHADOW) -->
+    <!-- HIGH-END MODERN HEADER (V7 - CREATIVE SHADOW) -->
     <header id="main-header" class="fixed top-6 left-0 right-0 z-50 flex justify-center transition-all duration-300">
         <div id="header-capsule"
-            class="w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.15)] rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white ring-1 ring-slate-900/5 hover:shadow-[0_30px_70px_-10px_rgba(0,0,0,0.2)]">
+            class="w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-creative rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white ring-1 ring-slate-900/5 hover:shadow-creative-hover">
             <div class="flex items-center justify-between">
 
                 <!-- Logo (Massive) -->
