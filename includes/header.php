@@ -218,6 +218,15 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             align-items: center !important;
             justify-content: center !important;
             gap: 8px !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+
+        .flatpickr-current-month * {
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         /* Month Dropdown - COMPACT */
@@ -233,11 +242,19 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             cursor: pointer !important;
             min-width: 110px !important;
             transition: all 0.2s ease !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
             background: rgba(255, 255, 255, 0.35) !important;
             border-color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months option {
+            color: #0f172a !important;
+            background: white !important;
         }
 
         /* Year Input - COMPACT */
@@ -248,6 +265,9 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             border-radius: 8px !important;
             padding: 4px 8px !important;
             width: 65px !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         .flatpickr-current-month input.cur-year {
@@ -258,6 +278,15 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             font-size: 0.9rem !important;
             padding: 0 !important;
             text-align: center !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+
+        .flatpickr-current-month .arrowUp,
+        .flatpickr-current-month .arrowDown {
+            display: none !important;
         }
 
         /* Navigation Arrows - COMPACT */

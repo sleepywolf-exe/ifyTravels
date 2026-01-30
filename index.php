@@ -186,9 +186,11 @@ try {
         </div>
     </section>
 
-    <!-- LIVE STATS BAR (Trust Signals) - BRIDGE EFFECT -->
-    <div class="relative z-30 -mt-24">
-        <div class="absolute inset-x-0 top-0 transform -translate-y-1/2">
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="relative z-10 bg-white">
+
+        <!-- LIVE STATS BAR (Trust Signals) - BRIDGE EFFECT -->
+        <div class="relative -mt-20 mb-20 z-30">
             <div class="container mx-auto px-4">
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
@@ -222,10 +224,6 @@ try {
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- MAIN CONTENT BACKGROUND WRAPPER -->
-    <div class="relative z-10 pb-12 pt-20">
 
         <!-- DESTINATIONS (Redesigned) -->
         <section id="destinations" class="py-32 relative overflow-hidden bg-white">
