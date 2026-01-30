@@ -139,7 +139,10 @@ include __DIR__ . '/../includes/header.php';
             </div>
 
             <div class="rounded-2xl overflow-hidden mb-8 h-96 shadow-md border border-gray-100">
-                <img src="<?php echo base_url($pkg['image']); ?>" class="w-full h-full object-cover">
+                <img src="<?php echo base_url($pkg['image']); ?>" 
+                     alt="<?php echo htmlspecialchars($pkg['title']); ?>"
+                     width="1200" height="600"
+                     class="w-full h-full object-cover">
             </div>
 
             <h2 class="text-2xl font-bold mb-4 text-charcoal">Overview</h2>

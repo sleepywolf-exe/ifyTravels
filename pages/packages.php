@@ -337,8 +337,9 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                             class="package-card group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition flex flex-col h-full hover:-translate-y-1 block">
                             <div class="relative h-56 overflow-hidden">
                                 <img src="<?php echo base_url($pkg['image']); ?>"
-                                    alt="<?php echo htmlspecialchars($pkg['title']); ?>"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+                                     alt="<?php echo htmlspecialchars($pkg['title']); ?>"
+                                     width="400" height="250" loading="lazy"
+                                     class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
                                     onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
                                 <?php if ($pkg['isPopular']): ?>
                                     <div

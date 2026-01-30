@@ -122,8 +122,7 @@ if ($id) {
                 <!-- Header -->
                 <div class="flex justify-between items-start mb-8 relative">
                     <div class="flex items-center gap-6">
-                        <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="IfyTravels"
-                            class="h-10 md:h-14 w-auto object-contain">
+                        <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels" width="200" height="60" loading="lazy" class="h-12 w-auto">
                         <span
                             class="hidden md:inline-block text-xs text-primary/80 font-mono tracking-[0.2em] font-bold uppercase border-l-2 border-gray-200 pl-6 ml-2">Booking
                             Request</span>

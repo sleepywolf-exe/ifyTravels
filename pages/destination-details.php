@@ -79,7 +79,10 @@ $packages = getPackagesByDestination($id);
 <div id="content-area" class="flex-1">
     <!-- Hero Section -->
     <div class="relative h-[70vh]">
-        <img src="<?php echo base_url($dest['image']); ?>" class="w-full h-full object-cover">
+        <img src="<?php echo base_url($dest['image']); ?>" 
+             alt="<?php echo htmlspecialchars($dest['name']); ?>"
+             width="1200" height="600"
+             class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent flex items-end">
             <div class="container mx-auto px-6 pb-16 text-white">
                 <div class="animate-fade-in-up">
@@ -199,8 +202,10 @@ $packages = getPackagesByDestination($id);
                                 <a href="<?php echo package_url($p['slug']); ?>"
                                     class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block">
                                     <div class="relative h-56 overflow-hidden">
-                                        <img src="<?php echo base_url($p['image']); ?>"
-                                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                                        <img src="<?php echo base_url($p['image']); ?>" 
+                                             alt="<?php echo htmlspecialchars($p['title']); ?>"
+                                             width="100" height="100" loading="lazy"
+                                             class="w-24 h-24 object-cover rounded-lg transform group-hover:scale-110 transition duration-700">
                                         <div
                                             class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-primary shadow-sm">
                                             <?php echo $p['duration']; ?>

@@ -238,8 +238,9 @@ try {
                 <a href="<?php echo destination_url($dest['slug']); ?>"
                     class="group relative rounded-3xl overflow-hidden aspect-[3/4] shadow-xl hover:shadow-2xl cursor-pointer transition-all duration-500">
                     <img src="<?php echo base_url($dest['image']); ?>"
-                        class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110"
-                        alt="<?php echo htmlspecialchars($dest['name']); ?>"
+                     class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                     alt="<?php echo htmlspecialchars($dest['name']); ?>"
+                     width="300" height="400" loading="lazy"
                         onerror="this.src='https://placehold.co/600x800?text=Image+Not+Found'">
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity">
@@ -307,6 +308,7 @@ try {
                             </div>
                             <img src="<?php echo base_url($pkg['image']); ?>"
                                 alt="<?php echo htmlspecialchars($pkg['title']); ?>"
+                                width="400" height="250" loading="lazy"
                                 class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                             <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
                         </div>

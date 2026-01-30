@@ -272,15 +272,12 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         class="<?php echo (isset($isHome) && $isHome) ? 'fixed w-full z-50 transition-all duration-300 bg-transparent py-4 text-white' : 'fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-md py-3 text-charcoal'; ?> transition-header">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="<?php echo base_url(''); ?>"
-                class="flex items-center text-2xl font-bold tracking-tight <?php echo (isset($isHome) && $isHome) ? '' : 'text-charcoal'; ?>">
-
-                <img src="<?php echo base_url('assets/images/logo-white.png?v=' . time()); ?>"
-                    alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
-                    class="h-12 object-contain logo-white <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>">
-
-                <img src="<?php echo base_url('assets/images/logo-color.png?v=' . time()); ?>"
-                    alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>"
-                    class="h-12 object-contain logo-color <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>">
+                class="flex items-center text-2xl font-bold tracking-tight <?php echo (isset($isHome) && $isHome) ? '' : 'text-charcoal'; ?> logo-white-link <?php echo (isset($isHome) && $isHome) ? '' : 'hidden'; ?>">
+                <img src="<?php echo base_url('assets/images/logo-white.png?v=' . time()); ?>" alt="ifyTravels Logo White" width="150" height="40">
+            </a>
+            <a href="<?php echo base_url(); ?>"
+                class="flex items-center text-2xl font-bold tracking-tight text-charcoal logo-color-link <?php echo (isset($isHome) && $isHome) ? 'hidden' : ''; ?>">
+                <img src="<?php echo base_url('assets/images/logo-color.png?v=' . time()); ?>" alt="ifyTravels Logo Color" width="150" height="40">
             </a>
 
             <div class="hidden md:flex items-center space-x-8 ml-auto">

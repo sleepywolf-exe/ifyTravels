@@ -44,8 +44,10 @@ include __DIR__ . '/../includes/header.php';
 
             <?php if ($selectedPkg): ?>
                 <div id="package-summary">
-                    <img id="pkg-img" src="<?php echo base_url($selectedPkg['image']); ?>"
-                        class="w-full h-32 object-cover rounded-lg mb-4 shadow-sm">
+                    <img id="pkg-img" src="<?php echo base_url($selectedPkg['image']); ?>" 
+                         alt="Selected Package" 
+                         width="300" height="200" loading="lazy"
+                         class="w-full h-full object-cover rounded-lg mb-4 shadow-sm">
                     <h4 id="pkg-title" class="font-bold text-charcoal mb-1">
                         <?php echo htmlspecialchars($selectedPkg['title']); ?>
                     </h4>

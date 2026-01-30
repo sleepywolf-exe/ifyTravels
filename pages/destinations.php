@@ -229,8 +229,9 @@ include __DIR__ . '/../includes/header.php';
                             <a href="<?php echo destination_url($dest['slug']); ?>" class="absolute inset-0 z-10"></a>
                             <div class="block relative h-56 overflow-hidden">
                                 <img src="<?php echo base_url($dest['image']); ?>"
-                                    alt="<?php echo htmlspecialchars($dest['name']); ?>"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+                                     alt="<?php echo htmlspecialchars($dest['name']); ?>"
+                                     width="300" height="400" loading="lazy"
+                                     class="w-full h-full object-cover transition duration-700 group-hover:scale-110"
                                     onerror="this.src='https://placehold.co/600x400?text=No+Image'">
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
