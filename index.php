@@ -94,7 +94,7 @@ try {
                     class="inline-block bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
                     <div
                         class="text-lg md:text-2xl text-white font-light leading-relaxed tracking-wide drop-shadow-md [&>p]:mb-2 [&>p:last-child]:mb-0">
-                         <?php echo get_setting('hero_subtitle', "Curated luxury travel experiences designed just for you.<br>📞 +91 9999779870 | 📧 hello@ifytravel.com"); ?>
+                        <?php echo get_setting('hero_subtitle', "Curated luxury travel experiences designed just for you.<br>📞 +91 9999779870 | 📧 hello@ifytravel.com"); ?>
                     </div>
                 </div>
             </div>
@@ -125,11 +125,11 @@ try {
                             <select name="destination"
                                 class="w-full pl-12 pr-4 py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none appearance-none cursor-pointer transition-all">
                                 <option value="" class="text-slate-900 bg-white">Where to go?</option>
-                                 <?php foreach ($destinations as $dest): ?>
+                                <?php foreach ($destinations as $dest): ?>
                                     <option value="<?php echo $dest['id']; ?>" class="text-slate-900 bg-white">
-                                         <?php echo htmlspecialchars($dest['name']); ?>
+                                        <?php echo htmlspecialchars($dest['name']); ?>
                                     </option>
-                                 <?php endforeach; ?>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
@@ -174,7 +174,7 @@ try {
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-28 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
+        <div class="absolute bottom-40 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
             <a href="#destinations" aria-label="Scroll Down"
                 class="text-white hover:text-primary transition-colors duration-300">
                 <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,7 +190,7 @@ try {
     <div class="relative z-10 pb-12">
 
         <!-- LIVE STATS BAR (Trust Signals) -->
-        <div class="relative z-30 -mt-20 mb-20">
+        <div class="relative z-30 -mt-28 mb-16">
             <div class="container mx-auto px-4">
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
