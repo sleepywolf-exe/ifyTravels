@@ -54,22 +54,22 @@
             </div>
 
             <!-- Links Sections (Spaced Out) -->
-            <div class="col-span-1 md:col-span-3 reveal-footer-col" style="transition-delay: 100ms">
+            <div class="col-span-1 md:col-span-3 reveal-footer-col pl-0 md:pl-10" style="transition-delay: 100ms">
                 <h3 class="font-heading font-bold text-2xl mb-8 text-slate-900 flex items-center tracking-tight">
                     <span class="w-2 h-8 bg-primary rounded-full mr-4"></span>
                     Explore
                 </h3>
                 <ul class="space-y-6 text-lg text-slate-500">
                     <li><a href="<?php echo base_url('pages/destinations.php'); ?>"
-                            class="hover:text-primary transition-all duration-300 hover:padding-l-2 flex items-center group"><span
+                            class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Top
                             Destinations</a></li>
                     <li><a href="<?php echo base_url('pages/packages.php'); ?>"
-                            class="hover:text-primary transition-all duration-300 hover:padding-l-2 flex items-center group"><span
+                            class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Exclusive
                             Packages</a></li>
                     <li><a href="<?php echo base_url('pages/contact.php'); ?>"
-                            class="hover:text-primary transition-all duration-300 hover:padding-l-2 flex items-center group"><span
+                            class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Contact
                             Us</a></li>
                 </ul>
@@ -82,15 +82,15 @@
                 </h3>
                 <ul class="space-y-6 text-lg text-slate-500">
                     <li><a href="<?php echo base_url('pages/legal/terms.html'); ?>"
-                            class="hover:text-primary transition-all duration-300 hover:padding-l-2 flex items-center group"><span
+                            class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Terms
                             of Use</a></li>
                     <li><a href="<?php echo base_url('pages/legal/privacy.html'); ?>"
-                            class="hover:text-primary transition-all duration-300 hover:padding-l-2 flex items-center group"><span
+                            class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Privacy
                             Policy</a></li>
                     <li><a href="<?php echo base_url('pages/legal/refund.html'); ?>"
-                            class="hover:text-primary transition-all duration-300 hover:padding-l-2 flex items-center group"><span
+                            class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Refund
                             Policy</a></li>
                 </ul>
@@ -104,19 +104,19 @@
                 <p class="text-slate-400 text-base mb-6">
                     Verified & Secured 256-bit SSL encryption.
                 </p>
-                <div class="flex flex-wrap gap-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div
-                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm">
+                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
                             class="h-4 w-auto" alt="Visa">
                     </div>
                     <div
-                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm">
+                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
                             class="h-6 w-auto" alt="Mastercard">
                     </div>
                     <div
-                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm">
+                        class="h-12 bg-white border border-slate-200 rounded-lg px-4 flex items-center justify-center shadow-sm hover:border-primary/30 transition-colors">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg"
                             class="h-4 w-auto" alt="UPI">
                     </div>
