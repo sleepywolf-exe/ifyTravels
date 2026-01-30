@@ -343,15 +343,19 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                 <!-- Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <?php if (!empty($paginatedPackages)): ?>
-                        <?php foreach ($paginatedPackages as $index => $pkg): ?>
-                            <div class="package-card h-full">
+                        <?php foreach ($paginatedPackages as $index => $pkg):
+                            // ANIMATION LOGIC: First 2 are static (visible instantly), rest animate
+                            $animClass = ($index >= 2) ? 'package-card-animate' : '';
+                            ?>
+                            <div class="package-card h-full <?php echo $animClass; ?>">
                                 <a href="<?php echo package_url($pkg['slug']); ?>"
                                     class="glass-card-light block rounded-3xl overflow-hidden group shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out flex flex-col h-full bg-white border border-slate-100 will-change-transform">
 
                                     <!-- Image -->
                                     <div class="relative h-64 overflow-hidden shrink-0">
                                         <img src="<?php echo base_url($pkg['image']); ?>"
-                                            alt="<?php echo htmlspecialchars($pkg['title']); ?>" loading="lazy"
+                                            alt="<?php echo htmlspecialchars($pkg['title']); ?>"
+                                            loading="<?php echo $index < 2 ? 'eager' : 'lazy'; ?>"
                                             class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
                                             onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
 
@@ -398,69 +402,65 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                             <?php echo htmlspecialchars($pkg['title']); ?>
                                         </h3>
 
-                                        <div class="flex items-center text-sm text-slate-500 mb-4">
-                                            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            <?php echo $pkg['duration']; ?>
-                                        </div>
-
-                                        <div class="space-y-3 mb-6 flex-1">
-                                            <!-- Destination -->
-                                            <?php
-                                            // Only lookup if destination_covered is not set
-                                            $displayDestName = $pkg['destination_covered'] ?? '';
-                                            if (empty($displayDestName)) {
-                                                foreach ($destinations as $d) {
-                                                    if ($d['id'] == $pkg['destinationId']) {
-                                                        $displayDestName = $d['name'];
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            ?>
-                                            <div class="bg-slate-50 px-3 py-2 rounded-lg text-xs border border-slate-100">
-                                                <span class="font-bold text-slate-700">Destination:</span>
-                                                <span
-                                                    class="text-slate-600 ml-1"><?php echo htmlspecialchars($displayDestName); ?></span>
+                                        <div class="flex items-center gap-4 text-sm text-slate-500 mb-4">
+                                            <div class="flex items-center gap-1">
+                                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                                <?php echo htmlspecialchars($pkg['duration']); ?>
                                             </div>
-
-                                            <!-- Activities -->
-                                            <?php if (!empty($pkg['activities'])): ?>
-                                                <div class="bg-slate-50 px-3 py-2 rounded-lg text-xs border border-slate-100">
-                                                    <span class="font-bold text-slate-700">Activities:</span>
-                                                    <span
-                                                        class="text-slate-600 ml-1"><?php echo htmlspecialchars(implode(', ', array_slice($pkg['activities'], 0, 3))); ?></span>
-                                                </div>
-                                            <?php endif; ?>
+                                            <div class="flex items-center gap-1">
+                                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                                    </path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                </svg>
+                                                <?php echo htmlspecialchars($pkg['location']); ?>
+                                            </div>
                                         </div>
 
-                                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                                            <span class="text-sm text-primary font-bold group-hover:underline">View
-                                                Itinerary</span>
-                                            <span
-                                                class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                                                &rarr;
-                                            </span>
+                                        <!-- Features (First 3) -->
+                                        <div class="space-y-2 mb-6 flex-1">
+                                            <?php
+                                            $feats = array_slice($pkg['features'], 0, 3);
+                                            foreach ($feats as $f): ?>
+                                                <div class="flex items-center text-sm text-slate-600">
+                                                    <svg class="w-4 h-4 text-secondary mr-2 shrink-0" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                    <span class="truncate"><?php echo htmlspecialchars($f); ?></span>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+
+                                        <div
+                                            class="w-full bg-slate-50 text-slate-700 font-bold py-3 rounded-xl border border-slate-200 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors text-center">
+                                            View Details
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="col-span-full text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                            <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                </path>
-                            </svg>
-                            <p class="text-slate-500 text-lg">No packages found matching your criteria.</p>
+                        <div class="col-span-full py-20 text-center">
+                            <div class="inline-block p-6 rounded-full bg-slate-50 mb-4">
+                                <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-heading font-bold text-slate-900 mb-2">No packages found</h3>
+                            <p class="text-slate-500">Try adjusting your filters or search terms.</p>
                             <a href="<?php echo base_url('pages/packages.php'); ?>"
-                                class="mt-4 inline-block text-primary font-bold hover:underline transition">Clear
-                                Filters</a>
+                                class="inline-block mt-4 text-primary font-bold hover:underline">Clear Filters</a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -520,28 +520,6 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
     document.addEventListener("DOMContentLoaded", (event) => {
         gsap.registerPlugin(ScrollTrigger);
 
-        // Helper for Smooth Staggered Reveals
-        const animateBatch = (selector, yOffset = 50) => {
-            const elements = gsap.utils.toArray(selector);
-            if (elements.length > 0) {
-                gsap.fromTo(elements,
-                    { opacity: 0, y: yOffset },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        stagger: 0.1,
-                        duration: 0.8,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: elements[0],
-                            start: "top 85%",
-                            toggleActions: "play none none reverse"
-                        }
-                    }
-                );
-            }
-        };
-
         // Parallax Hero
         gsap.to(".parallax-bg", {
             yPercent: 30,
@@ -554,8 +532,37 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
             }
         });
 
-        // Smooth Card Batch Animations
-        animateBatch('.package-card', 100);
+        // Robust Batch Animation for Grid
+        const initBatchAnimation = (selector) => {
+            const elements = gsap.utils.toArray(selector);
+            if (elements.length === 0) return;
+
+            // Set initial state
+            gsap.set(elements, { y: 50, opacity: 0 });
+
+            ScrollTrigger.batch(selector, {
+                start: "top 90%",
+                onEnter: batch => gsap.to(batch, {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.1,
+                    duration: 0.6,
+                    ease: "power2.out",
+                    overwrite: true
+                }),
+                onEnterBack: batch => gsap.to(batch, {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.1,
+                    overwrite: true
+                }),
+                // Optional: Hide efficiently when leaving (optional)
+                // onLeave: batch => gsap.set(batch, {opacity: 0, y: -50, overwrite: true}), 
+            });
+        };
+
+        // Smooth Card Batch Animations (Trigger on .package-card-animate only)
+        initBatchAnimation('.package-card-animate');
     });
 </script>
 

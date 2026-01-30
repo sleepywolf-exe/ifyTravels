@@ -341,26 +341,32 @@ include __DIR__ . '/../includes/header.php';
     document.addEventListener("DOMContentLoaded", (event) => {
         gsap.registerPlugin(ScrollTrigger);
 
-        // Helper for Smooth Staggered Reveals
-        const animateBatch = (selector, yOffset = 50) => {
+        // Robust Batch Animation for Grid
+        const initBatchAnimation = (selector) => {
             const elements = gsap.utils.toArray(selector);
-            if (elements.length > 0) {
-                gsap.fromTo(elements,
-                    { opacity: 0, y: yOffset },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        stagger: 0.1,
-                        duration: 0.8,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: elements[0],
-                            start: "top 85%",
-                            toggleActions: "play none none reverse"
-                        }
-                    }
-                );
-            }
+            if (elements.length === 0) return;
+
+            // Set initial state via GSAP to ensure no flash
+            gsap.set(elements, { y: 50, opacity: 0 });
+
+            ScrollTrigger.batch(selector, {
+                start: "top 90%",
+                onEnter: batch => gsap.to(batch, {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.1,
+                    duration: 0.6,
+                    ease: "power2.out",
+                    overwrite: true
+                }),
+                onEnterBack: batch => gsap.to(batch, {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.1,
+                    overwrite: true
+                }),
+                // Optional: onLeave logic could be added here
+            });
         };
 
         // Parallax Hero
@@ -376,7 +382,7 @@ include __DIR__ . '/../includes/header.php';
         });
 
         // Smooth Card Batch Animations
-        animateBatch('.destination-card-animate', 100);
+        initBatchAnimation('.destination-card-animate');
     });
 </script>
 
