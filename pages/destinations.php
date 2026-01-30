@@ -51,37 +51,41 @@ include __DIR__ . '/../includes/header.php';
     </div>
 
     <!-- Massive Background Text -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
-        <h2 class="text-[12rem] md:text-[24rem] font-black text-white opacity-[0.08] leading-none tracking-tighter uppercase font-heading">
+    <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+        <h2
+            class="text-[12rem] md:text-[24rem] font-black text-white opacity-[0.08] leading-none tracking-tighter uppercase font-heading">
             EXPLORE
         </h2>
     </div>
 
     <!-- Content -->
     <div class="container mx-auto px-6 relative z-10 text-center pt-32 pb-20">
-        <!-- Breadcrumb -->
-        <nav class="flex items-center gap-2 text-sm mb-8 justify-center">
-            <a href="<?php echo base_url(); ?>" class="text-white/70 hover:text-white transition-colors">Home</a>
-            <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-            <span class="text-white font-semibold">Destinations</span>
-        </nav>
-
         <!-- Header Content -->
         <div class="max-w-4xl mx-auto">
-            <span class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold tracking-widest uppercase text-sm rounded-full mb-6">
+            <span
+                class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold tracking-widest uppercase text-sm rounded-full mb-6">
                 Curated Collection
             </span>
             <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 drop-shadow-2xl">
-                Explore 
-                <span class="text-secondary relative inline-block">
+                Explore
+                <span class="text-primary relative inline-block">
                     Destinations
                 </span>
             </h1>
-            <p class="text-white/90 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto drop-shadow-lg">
+            <p
+                class="text-white/90 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto drop-shadow-lg mb-6">
                 Discover the most beautiful and exclusive places around the world, handpicked for discerning travelers.
             </p>
+
+            <!-- Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm justify-center">
+                <a href="<?php echo base_url(); ?>" class="text-white/70 hover:text-white transition-colors">Home</a>
+                <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-white font-semibold">Destinations</span>
+            </nav>
         </div>
     </div>
 </section>
