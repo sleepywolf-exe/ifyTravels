@@ -595,7 +595,8 @@ try {
                             <stop offset="100%" stop-color="transparent" />
                         </linearGradient>
                         <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="transparent" /> <stop offset="50%" stop-color="#D97706" />
+                            <stop offset="0%" stop-color="transparent" />
+                            <stop offset="50%" stop-color="#D97706" />
                             <stop offset="100%" stop-color="transparent" />
                         </linearGradient>
                     </defs>
@@ -630,7 +631,8 @@ try {
                         Ready to Explore the <br /><span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Extraordinary?</span>
                     </h2>
-                    <p class="text-2xl text-slate-300 mb-16 font-light max-w-3xl mx-auto leading-relaxed">
+                    <p
+                        class="text-3xl md:text-5xl text-slate-200 mb-16 font-light max-w-4xl mx-auto leading-tight drop-shadow-lg">
                         Join the elite travelers who have discovered the world's most breathtaking destinations with
                         ifyTravels.
                     </p>
@@ -641,14 +643,15 @@ try {
                         </a>
                         <a href="<?php echo base_url('pages/contact.php'); ?>"
                             class="bg-transparent border-2 border-white/20 text-white font-bold py-6 px-16 rounded-full hover:bg-white hover:text-slate-900 transition-all duration-300 text-xl magnetic-btn hover:shadow-2xl">
-                                    Contact Concierge
+                            Contact Concierge
                         </a>
                     </div>
-                    </div> </div>
-                    <!-- Glow Effects -->
-                    <div
-                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen">
-                    </div>
+                </div>
+            </div>
+            <!-- Glow Effects -->
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/20 rounded-full blur-[150px] pointer-events-none mix-blend-screen">
+            </div>
         </section>
 
         <!-- NEWSLETTER SECTION -->
@@ -795,6 +798,39 @@ try {
                 animateBatch('.feature-card', 60);
                 animateBatch('.package-card', 100);
                 animateBatch('.testimonial-card', 60);
+
+                // 5. Flight Path Animation (Innovative)
+                gsap.utils.toArray('.flight-path').forEach((path, i) => {
+                    const length = path.getTotalLength();
+                    path.style.strokeDasharray = length;
+                    path.style.strokeDashoffset = length;
+
+                    gsap.to(path, {
+                        strokeDashoffset: 0,
+                        duration: 3 + i,
+                        ease: "power1.inOut",
+                        repeat: -1,
+                        yoyo: true,
+                        scrollTrigger: {
+                            trigger: ".flight-path",
+                            start: "top bottom",
+                            toggleActions: "play pause resume pause"
+                        }
+                    });
+                });
+
+                // 6. Floating Portals (Levitation)
+                gsap.to(".floating-portal", {
+                    y: -20,
+                    rotation: 5,
+                    duration: 3,
+                    stagger: {
+                        each: 0.5,
+                        yoyo: true,
+                        repeat: -1
+                    },
+                    ease: "sine.inOut"
+                });
 
                 // 4. Newsletter Reveal
                 gsap.fromTo("#newsletter-form",
