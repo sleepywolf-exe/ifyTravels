@@ -533,6 +533,10 @@ try {
                                     "<?php echo htmlspecialchars($review['message']); ?>"</p>
                             </div>
                         <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-span-full text-center py-10 opacity-70">
+                            <p class="text-xl text-slate-400 italic font-light">"No reviews yet. Be the first to share your journey!"</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
