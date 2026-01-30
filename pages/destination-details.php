@@ -77,95 +77,198 @@ $packages = getPackagesByDestination($id);
 </script>
 
 <div id="content-area" class="flex-1 bg-white min-h-screen">
-    <!-- Hero Section (Immersive) -->
-    <div class="relative h-[85vh]">
+    <!-- Hero Section - Magazine Style -->
+    <div class="relative h-[90vh]">
         <div class="absolute inset-0">
             <img src="<?php echo base_url($dest['image']); ?>" alt="<?php echo htmlspecialchars($dest['name']); ?>"
-                class="w-full h-full object-cover brightness-[0.85] parallax-img">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50"></div>
+                class="w-full h-full object-cover parallax-img">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30"></div>
         </div>
 
-        <div class="absolute inset-0 flex items-end">
-            <div class="container mx-auto px-6 pb-20">
-                <div class="animate-fade-in-up max-w-4xl">
-                    <span
-                        class="inline-block py-1 px-4 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold tracking-[0.2em] uppercase mb-6 shadow-sm">
-                        <?php echo $dest['type']; ?>
-                    </span>
+        <!-- Hero Content -->
+        <div class="absolute inset-0 flex items-center">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl">
                     <h1
-                        class="text-6xl md:text-8xl font-heading font-bold text-white mb-6 leading-none drop-shadow-lg reveal-text">
+                        class="text-6xl md:text-8xl lg:text-9xl font-heading font-black text-white mb-6 leading-none drop-shadow-2xl animate-fade-in-up">
                         <?php echo htmlspecialchars($dest['name']); ?>
                     </h1>
+                    <p class="text-white/90 text-xl md:text-2xl font-light max-w-2xl leading-relaxed drop-shadow-lg animate-fade-in-up"
+                        style="animation-delay: 0.2s">
+                        <?php echo htmlspecialchars($dest['country']); ?>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-                    <div class="flex items-center gap-6 text-white text-lg font-light drop-shadow-md">
-                        <div class="flex items-center gap-2">
-                            <span class="text-amber-400">★</span>
-                            <span class="font-medium"><?php echo $dest['rating']; ?></span>
+        <!-- Floating Info Card -->
+        <div class="absolute bottom-8 right-8 bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl animate-fade-in-up border border-white/20"
+            style="animation-delay: 0.4s">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 uppercase tracking-wider">Destination Type</p>
+                    <p class="font-bold text-slate-900"><?php echo $dest['type']; ?></p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
+                <div class="flex items-center gap-1">
+                    <?php for ($i = 0; $i < 5; $i++): ?>
+                        <span
+                            class="<?php echo $i < floor($dest['rating']) ? 'text-amber-400' : 'text-gray-300'; ?>">★</span>
+                    <?php endfor; ?>
+                </div>
+                <span class="text-sm font-semibold text-slate-700"><?php echo $dest['rating']; ?></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Integrated Stats Bar -->
+    <div class="bg-gradient-to-r from-primary/5 via-teal-50 to-primary/5 border-y border-primary/10">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stat 1: Type -->
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition">
+                            <svg class="w-7 h-7 text-primary group-hover:text-white transition" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
+                            </svg>
                         </div>
-                        <span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
-                        <span><?php echo $dest['country']; ?></span>
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Type</p>
+                            <p class="font-bold text-slate-900 text-lg"><?php echo $dest['type']; ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 2: Best Time -->
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center group-hover:bg-amber-500 group-hover:scale-110 transition">
+                            <svg class="w-7 h-7 text-amber-600 group-hover:text-white transition" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Best Time</p>
+                            <p class="font-bold text-slate-900 text-lg">All Year</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 3: Rating -->
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center group-hover:bg-amber-500 group-hover:scale-110 transition">
+                            <span class="text-3xl group-hover:text-white transition">★</span>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Rating</p>
+                            <p class="font-bold text-slate-900 text-lg"><?php echo $dest['rating']; ?> / 5.0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 4: Packages -->
+                <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center group-hover:bg-green-500 group-hover:scale-110 transition">
+                            <svg class="w-7 h-7 text-green-600 group-hover:text-white transition" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Packages</p>
+                            <p class="font-bold text-slate-900 text-lg">
+                                <?php echo count(getPackagesByDestination($dest['id'])); ?> Tours
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="container mx-auto px-6 py-16 -mt-10 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-16">
+        <div class="max-w-7xl mx-auto">
 
-            <!-- Left Column: Content -->
-            <div class="lg:col-span-2 space-y-12">
+            <!-- About Section - Full Width -->
+            <div class="mb-16">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-8 text-slate-900">
+                    About <?php echo htmlspecialchars($dest['name']); ?>
+                </h2>
+                <p class="text-slate-600 leading-relaxed text-xl font-light max-w-4xl">
+                    <?php echo $dest['description']; ?>
+                </p>
 
-                <!-- About Section -->
-                <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl">
-                    <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
-                        <span class="w-12 h-1 bg-primary rounded-full"></span>
-                        About <?php echo htmlspecialchars($dest['name']); ?>
-                    </h2>
-                    <p class="text-slate-600 leading-relaxed text-lg font-light">
-                        <?php echo $dest['description']; ?>
-                    </p>
+                <!-- Highlights - Horizontal Cards -->
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-gradient-to-br from-white to-primary/5 p-8 rounded-2xl border border-primary/20 hover:shadow-xl transition group">
+                        <div
+                            class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-8 w-8 text-primary group-hover:text-white transition" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-xl mb-2">Luxury Stays</h3>
+                        <p class="text-slate-600 text-sm">Premium accommodations and world-class hospitality</p>
+                    </div>
 
-                    <!-- Highlights -->
-                    <div class="mt-10 grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-gradient-to-br from-white to-primary/5 p-8 rounded-2xl border border-primary/20 hover:shadow-xl transition group">
                         <div
-                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
-                            <div
-                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                </svg>
-                            </div>
-                            <span class="font-bold text-slate-700 block text-sm">Luxury Stays</span>
+                            class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-8 w-8 text-primary group-hover:text-white transition" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
                         </div>
+                        <h3 class="font-bold text-slate-900 text-xl mb-2">Sightseeing</h3>
+                        <p class="text-slate-600 text-sm">Explore iconic landmarks and hidden gems</p>
+                    </div>
+
+                    <div
+                        class="bg-gradient-to-br from-white to-primary/5 p-8 rounded-2xl border border-primary/20 hover:shadow-xl transition group">
                         <div
-                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
-                            <div
-                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </div>
-                            <span class="font-bold text-slate-700 block text-sm">Sightseeing</span>
+                            class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-8 w-8 text-primary group-hover:text-white transition" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                         </div>
-                        <div
-                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
-                            <div
-                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <span class="font-bold text-slate-700 block text-sm">Culture</span>
-                        </div>
+                        <h3 class="font-bold text-slate-900 text-xl mb-2">Rich Culture</h3>
+                        <p class="text-slate-600 text-sm">Immerse yourself in local traditions and heritage</p>
                     </div>
                 </div>
             </div>
@@ -272,169 +375,50 @@ $packages = getPackagesByDestination($id);
                     </div>
                 <?php endif; ?>
             </div>
-
         </div>
-
-        <!-- Right Column: Sidebar -->
-        <aside class="w-full">
-            <div class="sticky top-32 space-y-8">
-                <!-- Quick Facts -->
-                <div
-                    class="bg-gradient-to-br from-primary/5 to-teal-50 p-8 border border-primary/20 rounded-3xl shadow-lg">
-                    <h3 class="font-heading font-bold text-2xl mb-8 text-slate-900 flex items-center gap-2">
-                        <span class="text-primary text-2xl">✦</span> Quick Facts
-                    </h3>
-                    <div class="space-y-6">
-                        <div
-                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition">
-                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Type</p>
-                                    <p class="font-bold text-slate-900 text-lg"><?php echo $dest['type']; ?></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition">
-                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Best Time</p>
-                                    <p class="font-bold text-slate-900 text-lg">All Year</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center text-green-600 group-hover:bg-green-500 group-hover:text-white transition">
-                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Currency</p>
-                                    <p class="font-bold text-slate-900 text-lg">Local / USD</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition">
-                                    <span class="text-2xl">★</span>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Rating</p>
-                                    <p class="font-bold text-slate-900 text-lg"><?php echo $dest['rating']; ?> / 5.0</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Trust Indicators -->
-                <div class="bg-white p-8 border border-slate-200 rounded-3xl shadow-lg">
-                    <h3 class="font-heading font-bold text-xl mb-6 text-slate-900">Why Choose Us?</h3>
-                    <div class="space-y-4">
-                        <?php
-                        $trustItems = [
-                            'Secure Payment' => 'text-green-500',
-                            '24/7 Support' => 'text-blue-500',
-                            'Verified Quality' => 'text-secondary',
-                            'Best Price' => 'text-purple-500'
-                        ];
-                        foreach ($trustItems as $item => $color): ?>
-                            <div class="flex items-center text-sm text-slate-600">
-                                <svg class="w-5 h-5 mr-3 <?php echo $color; ?>" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <?php echo $item; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <!-- CTA -->
-                <div
-                    class="bg-gradient-to-br from-primary to-teal-600 rounded-3xl p-8 text-center text-white shadow-xl">
-                    <h4 class="font-bold text-xl mb-2">Need Help?</h4>
-                    <p class="text-white/80 text-sm mb-6">Our experts are ready to craft your dream trip.</p>
-                    <a href="<?php echo base_url('pages/contact.php'); ?>"
-                        class="block w-full bg-white text-primary font-bold py-3 rounded-xl hover:bg-slate-50 transition shadow-md magnetic-btn">Contact
-                        Concierge</a>
-                </div>
-            </div>
-        </aside>
     </div>
-</div>
-</div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", (event) => {
-        gsap.registerPlugin(ScrollTrigger);
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
 
-        // Parallax Hero Image
-        gsap.to(".parallax-img", {
-            yPercent: 20,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "body",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        // Helper for Staggered Reveals
-        const animateBatch = (selector, yOffset = 100) => {
-            ScrollTrigger.batch(selector, {
-                start: "top 90%",
-                onEnter: batch => {
-                    gsap.fromTo(batch,
-                        { opacity: 0, y: yOffset, scale: 0.95 },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                            stagger: 0.15,
-                            duration: 1.2,
-                            ease: "power4.out",
-                            overwrite: true
-                        }
-                    );
-                },
-                once: true
+            // Parallax Hero Image
+            gsap.to(".parallax-img", {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "body",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
             });
-        };
 
-        // Smooth Card Batch Animations
-        animateBatch('.package-card', 80);
-    });
-</script>
+            // Helper for Staggered Reveals
+            const animateBatch = (selector, yOffset = 100) => {
+                ScrollTrigger.batch(selector, {
+                    start: "top 90%",
+                    onEnter: batch => {
+                        gsap.fromTo(batch,
+                            { opacity: 0, y: yOffset, scale: 0.95 },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                stagger: 0.15,
+                                duration: 1.2,
+                                ease: "power4.out",
+                                overwrite: true
+                            }
+                        );
+                    },
+                    once: true
+                });
+            };
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+            // Smooth Card Batch Animations
+            animateBatch('.package-card', 80);
+        });
+    </script>
+
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
