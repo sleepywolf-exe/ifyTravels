@@ -177,7 +177,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             padding: 20px !important;
             font-family: 'Plus Jakarta Sans', sans-serif !important;
             animation: fadeInCalendar 0.3s ease !important;
-            overflow: hidden !important;
+            width: auto !important;
         }
 
         @keyframes fadeInCalendar {
