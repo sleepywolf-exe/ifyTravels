@@ -61,8 +61,16 @@ try {
 }
 ?>
 
+<!-- Fix for White Stripe & Mobile Height -->
+<style>
+    body {
+        background-color: #0f172a !important;
+        /* Match hero dark theme to hide leaks */
+    }
+</style>
+
 <!-- PARALLAX BACKGROUND (Fixed) -->
-<div class="fixed inset-0 z-0">
+<div class="fixed inset-0 z-0 bg-slate-900">
     <img src="<?php echo get_setting('hero_bg', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=2000'); ?>"
         alt="Maldives Luxury" class="w-full h-full object-cover parallax-bg brightness-[0.40]">
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-slate-900/50"></div>
@@ -72,8 +80,8 @@ try {
 <main class="relative z-10">
 
     <!-- HERO SECTION -->
-    <section class="h-screen flex flex-col items-center justify-center pt-32 pb-12 overflow-hidden relative">
-        <div class="container mx-auto px-4 text-center z-20">
+    <section class="h-[100dvh] flex flex-col items-center justify-center overflow-hidden relative">
+        <div class="container mx-auto px-4 text-center z-20 mt-20">
             <!-- Animated Hero Title -->
             <h1
                 class="hero-title opacity-0 transform translate-y-10 will-change-transform text-5xl sm:text-7xl md:text-9xl font-bold mb-6 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
@@ -170,8 +178,7 @@ try {
             <a href="#destinations" aria-label="Scroll Down"
                 class="text-white hover:text-primary transition-colors duration-300">
                 <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 14l-7 7-7-7m7 7V3">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7-7-7m7 7V3">
                     </path>
                 </svg>
             </a>
@@ -188,12 +195,14 @@ try {
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
                     <div class="space-y-1">
-                        <p class="text-5xl md:text-6xl font-bold text-primary"><?php echo get_setting('stat_trips') ?: '500+'; ?>
+                        <p class="text-5xl md:text-6xl font-bold text-primary">
+                            <?php echo get_setting('stat_trips') ?: '500+'; ?>
                         </p>
                         <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Luxury Trips</p>
                     </div>
                     <div class="space-y-1">
-                        <p class="text-5xl md:text-6xl font-bold text-primary"><?php echo get_setting('stat_reviews') ?: '98%'; ?>
+                        <p class="text-5xl md:text-6xl font-bold text-primary">
+                            <?php echo get_setting('stat_reviews') ?: '98%'; ?>
                         </p>
                         <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">5-Star Reviews</p>
                     </div>
