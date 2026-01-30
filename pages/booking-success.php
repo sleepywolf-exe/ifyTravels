@@ -30,77 +30,154 @@ include __DIR__ . '/../includes/header.php';
 ?>
 
 <style media="print">
-    @page { margin: 0; size: landscape; }
-    body { background: white !important; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    
-    /* Hide non-printable elements */
-    nav, footer, .no-print, #navbar, #mobile-menu-btn { display: none !important; }
-    
-    /* Reset containers for full width */
-    .min-h-screen { min-height: 0 !important; padding: 0 !important; display: block !important; height: 100vh !important; }
-    .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
-    
-    /* Full Width Ticket Container */
-    .print-full-width { 
-        width: 100% !important; 
-        max-width: none !important; 
-        margin: 0 !important; 
+    @page {
+        margin: 0;
+        size: landscape;
+    }
+
+    body {
+        background: white !important;
+        margin: 0 !important;
         padding: 0 !important;
-        border: none !important; 
-        box-shadow: none !important; 
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Hide non-printable elements */
+    nav,
+    footer,
+    .no-print,
+    #navbar,
+    #mobile-menu-btn {
+        display: none !important;
+    }
+
+    /* Reset containers for full width */
+    .min-h-screen {
+        min-height: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        height: 100vh !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Full Width Ticket Container */
+    .print-full-width {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
         border-radius: 0 !important;
         transform: none !important;
         display: flex !important;
-        flex-direction: row !important; /* Force side-by-side */
+        flex-direction: row !important;
+        /* Force side-by-side */
     }
-    
+
     /* Ticket Internal Reset */
-    .ticket-card { 
-        box-shadow: none !important; 
-        border: 2px solid #000 !important; 
+    .ticket-card {
+        box-shadow: none !important;
+        border: 2px solid #000 !important;
         width: 100% !important;
         max-width: none !important;
         display: flex !important;
         flex-direction: row !important;
-        height: 100vh !important; /* Occupy full height */
+        height: 100vh !important;
+        /* Occupy full height */
     }
 
-    /* Main Content (Left Side) */
-    .ticket-card > div:first-child {
-        width: 75% !important;
+    /* Main Content (Left Side) - maximize space */
+    .ticket-card>div:first-child {
+        width: 80% !important;
+        /* Increased from 75% */
         flex: none !important;
         border-right: 2px dashed #000 !important;
-        padding: 2rem !important;
-        display: grid !important;
-        grid-template-columns: repeat(12, 1fr) !important; /* Keep grid */
+        padding: 4rem !important;
+        /* More padding for breathing room */
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
     }
 
-    /* Grid layout enforcement for print */
-    .ticket-card > div:first-child > div:nth-child(2) { /* Identity */
-        grid-column: span 4 !important;
-        border-right: 1px solid #eee !important;
+    /* Convert Grid to Flex for better print distribution */
+    .ticket-card>div:first-child>div {
+        display: flex !important;
+        width: 100% !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        margin-bottom: 2rem !important;
     }
-    .ticket-card > div:first-child > div:nth-child(3) { /* Journey */
-        grid-column: span 5 !important;
-        border-right: 1px solid #eee !important;
+
+    /* Identity Section */
+    .ticket-card>div:first-child>div:nth-child(2) {
+        flex-direction: row !important;
+        border-bottom: 1px solid #eee !important;
+        padding-bottom: 2rem !important;
     }
-    .ticket-card > div:first-child > div:nth-child(4) { /* Highlights */
-        grid-column: span 3 !important;
+
+    /* Journey Section - Center Massive */
+    .ticket-card>div:first-child>div:nth-child(3) {
+        flex: 1 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-direction: column !important;
+        margin: 4rem 0 !important;
+    }
+
+    /* Highlights Section */
+    .ticket-card>div:first-child>div:nth-child(4) {
+        border-top: 1px solid #eee !important;
+        padding-top: 2rem !important;
     }
 
     /* Right Stub (Right Side) */
-    .ticket-card > div:last-child {
-        width: 25% !important;
+    .ticket-card>div:last-child {
+        width: 20% !important;
+        /* Reduced from 25% */
         flex: none !important;
-        background-color: #111 !important; /* Force Dark Background */
+        background-color: #111 !important;
         color: white !important;
-        -webkit-print-color-adjust: exact !important;   
+        -webkit-print-color-adjust: exact !important;
+        padding: 3rem !important;
+    }
+
+    /* Scale fonts for print readability */
+    .font-heading {
+        font-size: 1.2em !important;
+    }
+
+    .text-4xl {
+        font-size: 3rem !important;
+    }
+
+    .text-3xl {
+        font-size: 2.5rem !important;
+    }
+
+    .text-xs {
+        font-size: 0.9rem !important;
     }
 
     /* Force text colors */
-    .text-white { color: white !important; } /* Restore white text on dark stub */
-    .text-gray-400 { color: #aaa !important; }
-    .bg-slate-900 { background-color: #111 !important; }
+    .text-white {
+        color: white !important;
+    }
+
+    .text-gray-400 {
+        color: #aaa !important;
+    }
+
+    .bg-slate-900 {
+        background-color: #111 !important;
+    }
 </style>
 
 <div
