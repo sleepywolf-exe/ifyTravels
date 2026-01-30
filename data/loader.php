@@ -122,8 +122,18 @@ function loadTestimonials($limit = 3)
 {
     try {
         $db = Database::getInstance();
-        return $db->fetchAll("SELECT * FROM testimonials ORDER BY created_at DESC LIMIT ?", [$limit]);
+        $result = $db->fetchAll("SELECT * FROM testimonials ORDER BY created_at DESC LIMIT ?", [$limit]);
+
+        // Log for debugging
+        if (empty($result)) {
+            error_log("loadTestimonials: Query returned 0 results");
+        } else {
+            error_log("loadTestimonials: Found " . count($result) . " testimonials");
+        }
+
+        return $result;
     } catch (Exception $e) {
+        error_log("loadTestimonials ERROR: " . $e->getMessage());
         return [];
     }
 }
