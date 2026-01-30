@@ -383,10 +383,10 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         </div>
     </div>
 
-    <!-- HIGH-END MODERN HEADER (V5 - GRAND SCALE) -->
+    <!-- HIGH-END MODERN HEADER (V6 - DEPTH SHADOW) -->
     <header id="main-header" class="fixed top-6 left-0 right-0 z-50 flex justify-center transition-all duration-300">
         <div id="header-capsule"
-            class="w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/50 shadow-2xl shadow-slate-200/40 rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white/95 ring-1 ring-slate-900/5">
+            class="w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.15)] rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white ring-1 ring-slate-900/5 hover:shadow-[0_30px_70px_-10px_rgba(0,0,0,0.2)]">
             <div class="flex items-center justify-between">
 
                 <!-- Logo (Massive) -->

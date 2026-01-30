@@ -53,88 +53,89 @@
                 </div>
             </div>
 
-            <!-- Links Sections (Spaced Out) -->
-            <div class="col-span-1 md:col-span-3 reveal-footer-col pl-0 md:pl-10" style="transition-delay: 100ms">
+            <!-- Links Sections (Narrower, More Focus) -->
+            <div class="col-span-1 md:col-span-2 reveal-footer-col pl-0 md:pl-6" style="transition-delay: 100ms">
                 <h3 class="font-heading font-bold text-2xl mb-8 text-slate-900 flex items-center tracking-tight">
-                    <span class="w-2 h-8 bg-primary rounded-full mr-4"></span>
+                    <span class="w-1.5 h-8 bg-primary/20 rounded-full mr-4 relative"><span
+                            class="absolute top-0 left-0 w-full h-1/2 bg-primary rounded-full"></span></span>
                     Explore
                 </h3>
-                <ul class="space-y-6 text-lg text-slate-500">
+                <ul class="space-y-5 text-lg text-slate-500 font-medium">
                     <li><a href="<?php echo base_url('pages/destinations.php'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
-                                class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Top
+                                class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Top
                             Destinations</a></li>
                     <li><a href="<?php echo base_url('pages/packages.php'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
-                                class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Exclusive
+                                class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Exclusive
                             Packages</a></li>
                     <li><a href="<?php echo base_url('pages/contact.php'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
-                                class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Contact
+                                class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Contact
                             Us</a></li>
                 </ul>
             </div>
 
-            <div class="col-span-1 md:col-span-3 reveal-footer-col" style="transition-delay: 200ms">
+            <div class="col-span-1 md:col-span-2 reveal-footer-col" style="transition-delay: 200ms">
                 <h3 class="font-heading font-bold text-2xl mb-8 text-slate-900 flex items-center tracking-tight">
-                    <span class="w-2 h-8 bg-secondary rounded-full mr-4"></span>
+                    <span class="w-1.5 h-8 bg-secondary/20 rounded-full mr-4 relative"><span
+                            class="absolute bottom-0 left-0 w-full h-1/2 bg-secondary rounded-full"></span></span>
                     Legal
                 </h3>
-                <ul class="space-y-6 text-lg text-slate-500">
+                <ul class="space-y-5 text-lg text-slate-500 font-medium">
                     <li><a href="<?php echo base_url('pages/legal/terms.html'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
-                                class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Terms
+                                class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Terms
                             of Use</a></li>
                     <li><a href="<?php echo base_url('pages/legal/privacy.html'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
-                                class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Privacy
+                                class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Privacy
                             Policy</a></li>
                     <li><a href="<?php echo base_url('pages/legal/refund.html'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
-                                class="w-0 group-hover:w-3 h-0.5 bg-primary transition-all duration-300 mr-0 group-hover:mr-2"></span>Refund
+                                class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Refund
                             Policy</a></li>
                 </ul>
             </div>
 
-            <!-- Payment Section -->
-            <div class="col-span-1 md:col-span-2 reveal-footer-col flex flex-col justify-between h-full"
+            <!-- Payment Section (Massive Space) -->
+            <div class="col-span-1 md:col-span-4 reveal-footer-col flex flex-col justify-between h-full pl-0 md:pl-12 border-l border-slate-100"
                 style="transition-delay: 300ms">
                 <div>
-                    <h3 class="font-heading font-bold text-2xl mb-6 text-slate-900 tracking-tight">
+                    <h3 class="font-heading font-black text-3xl mb-6 text-slate-900 tracking-tight">
                         Secure Payments
                     </h3>
-                    <p class="text-slate-500 text-lg mb-8 leading-relaxed font-light">
-                        Your transaction is protected by 256-bit SSL encryption.
+                    <p class="text-slate-500 text-xl mb-10 leading-relaxed font-light max-w-sm">
+                        Experience peace of mind with our bank-grade encrypted payment gateway.
                     </p>
-                    <div class="flex items-center gap-8 mb-10">
+                    <div class="flex items-center gap-10 mb-10">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
-                            class="h-8 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
+                            class="h-10 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
                             alt="Visa" title="Verified by Visa">
 
                         <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-                            class="h-10 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
+                            class="h-12 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
                             alt="Mastercard" title="Mastercard SecureCode">
 
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg"
-                            class="h-8 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
+                            class="h-10 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
                             alt="UPI" title="UPI Payments">
                     </div>
                 </div>
 
-                <div
-                    class="inline-flex items-center text-emerald-700 font-bold bg-emerald-50/50 border border-emerald-100 rounded-xl px-5 py-4 text-sm w-full md:w-auto shadow-sm backdrop-blur-sm">
+                <div class="inline-flex items-center gap-4 group cursor-pointer w-full">
                     <div
-                        class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mr-3 shrink-0">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-100 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
                     <div>
-                        <span
-                            class="block text-xs uppercase tracking-wider text-emerald-500 font-bold mb-0.5">Verified</span>
-                        <span class="block text-emerald-900 font-bold">100% Secure Payments</span>
+                        <span class="block text-xs uppercase tracking-[0.2em] text-emerald-600 font-bold mb-1">Official
+                            Partner</span>
+                        <span class="block text-slate-900 font-bold text-lg">100% Verified & Secure</span>
                     </div>
                 </div>
             </div>
