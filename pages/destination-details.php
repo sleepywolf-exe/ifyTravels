@@ -76,13 +76,13 @@ $packages = getPackagesByDestination($id);
 }
 </script>
 
-<div id="content-area" class="flex-1 bg-slate-50 min-h-screen transition-colors duration-300">
+<div id="content-area" class="flex-1 bg-white min-h-screen">
     <!-- Hero Section (Immersive) -->
     <div class="relative h-[85vh]">
         <div class="absolute inset-0">
             <img src="<?php echo base_url($dest['image']); ?>" alt="<?php echo htmlspecialchars($dest['name']); ?>"
                 class="w-full h-full object-cover brightness-[0.85] parallax-img">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-black/40"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-white via-black/20 to-black/60"></div>
         </div>
 
         <div class="absolute inset-0 flex items-end">
@@ -99,7 +99,7 @@ $packages = getPackagesByDestination($id);
 
                     <div class="flex items-center gap-6 text-white text-lg font-light drop-shadow-md">
                         <div class="flex items-center gap-2">
-                            <span class="text-secondary">★</span>
+                            <span class="text-amber-400">★</span>
                             <span class="font-medium"><?php echo $dest['rating']; ?></span>
                         </div>
                         <span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
@@ -119,7 +119,7 @@ $packages = getPackagesByDestination($id);
                 <!-- About Section -->
                 <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl">
                     <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
-                        <span class="w-12 h-1 bg-secondary rounded-full"></span>
+                        <span class="w-12 h-1 bg-primary rounded-full"></span>
                         About <?php echo htmlspecialchars($dest['name']); ?>
                     </h2>
                     <p class="text-slate-600 leading-relaxed text-lg font-light">
@@ -131,7 +131,7 @@ $packages = getPackagesByDestination($id);
                         <div
                             class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
                             <div
-                                class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-secondary shadow-sm group-hover:scale-110 transition">
+                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -143,7 +143,7 @@ $packages = getPackagesByDestination($id);
                         <div
                             class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
                             <div
-                                class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-teal-600 shadow-sm group-hover:scale-110 transition">
+                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -157,7 +157,7 @@ $packages = getPackagesByDestination($id);
                         <div
                             class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
                             <div
-                                class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-purple-500 shadow-sm group-hover:scale-110 transition">
+                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -173,7 +173,7 @@ $packages = getPackagesByDestination($id);
                 <?php if (!empty($dest['map_embed'])): ?>
                     <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl overflow-hidden">
                         <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
-                            <span class="w-10 h-1 bg-secondary rounded-full"></span>
+                            <span class="w-10 h-1 bg-primary rounded-full"></span>
                             Location
                         </h2>
                         <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
@@ -280,7 +280,7 @@ $packages = getPackagesByDestination($id);
                     <!-- Quick Facts -->
                     <div class="bg-white p-8 border border-slate-200 rounded-3xl shadow-lg">
                         <h3 class="font-heading font-bold text-xl mb-6 text-slate-900 flex items-center gap-2">
-                            <span class="text-secondary">✦</span> Quick Facts
+                            <span class="text-primary">✦</span> Quick Facts
                         </h3>
                         <ul class="space-y-4 text-sm">
                             <li class="flex justify-between items-center py-3 border-b border-slate-100">
@@ -324,11 +324,11 @@ $packages = getPackagesByDestination($id);
 
                     <!-- CTA -->
                     <div
-                        class="bg-gradient-to-br from-secondary to-yellow-500 rounded-3xl p-8 text-center text-white shadow-xl">
+                        class="bg-gradient-to-br from-primary to-teal-600 rounded-3xl p-8 text-center text-white shadow-xl">
                         <h4 class="font-bold text-xl mb-2">Need Help?</h4>
                         <p class="text-white/80 text-sm mb-6">Our experts are ready to craft your dream trip.</p>
                         <a href="<?php echo base_url('pages/contact.php'); ?>"
-                            class="block w-full bg-white text-secondary font-bold py-3 rounded-xl hover:bg-slate-50 transition shadow-md magnetic-btn">Contact
+                            class="block w-full bg-white text-primary font-bold py-3 rounded-xl hover:bg-slate-50 transition shadow-md magnetic-btn">Contact
                             Concierge</a>
                     </div>
                 </div>
@@ -353,13 +353,30 @@ $packages = getPackagesByDestination($id);
             }
         });
 
-        // Staggered Packages
-        gsap.utils.toArray('.package-card').forEach(card => {
-            gsap.to(card, {
-                scrollTrigger: { trigger: card, start: "top 90%" },
-                y: 0, opacity: 1, duration: 0.8, ease: "power2.out"
+        // Helper for Staggered Reveals
+        const animateBatch = (selector, yOffset = 100) => {
+            ScrollTrigger.batch(selector, {
+                start: "top 90%",
+                onEnter: batch => {
+                    gsap.fromTo(batch,
+                        { opacity: 0, y: yOffset, scale: 0.95 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            stagger: 0.15,
+                            duration: 1.2,
+                            ease: "power4.out",
+                            overwrite: true
+                        }
+                    );
+                },
+                once: true
             });
-        });
+        };
+
+        // Smooth Card Batch Animations
+        animateBatch('.package-card', 80);
     });
 </script>
 
