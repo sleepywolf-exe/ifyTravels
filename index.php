@@ -63,7 +63,7 @@ try {
 
 <!-- PARALLAX BACKGROUND (Fixed) -->
 <div class="fixed inset-0 z-0">
-    <img src="<?php echo get_setting('hero_bg', 'https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?auto=format&fit=crop&q=80&w=2000'); ?>"
+    <img src="<?php echo get_setting('hero_bg', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=2000'); ?>"
         alt="Maldives Luxury" class="w-full h-full object-cover parallax-bg brightness-[0.85]">
     <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-slate-50"></div>
 </div>
