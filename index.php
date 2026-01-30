@@ -187,7 +187,7 @@ try {
     </section>
 
     <!-- MAIN CONTENT BACKGROUND WRAPPER -->
-    <div class="bg-slate-50 relative z-10 pb-12">
+    <div class="relative z-10 pb-12">
 
         <!-- LIVE STATS BAR (Trust Signals) -->
         <div class="relative z-30 -mt-10 mb-20">
