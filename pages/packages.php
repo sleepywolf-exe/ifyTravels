@@ -347,13 +347,13 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                             <div class="package-card opacity-0 transform translate-y-8 h-full"
                                 style="transition-delay: <?php echo $index * 50; ?>ms">
                                 <a href="<?php echo package_url($pkg['slug']); ?>"
-                                    class="glass-card-light block rounded-3xl overflow-hidden group shadow-creative hover:shadow-creative-hover transition-all duration-500 flex flex-col h-full bg-white border border-slate-100">
+                                    class="glass-card-light block rounded-3xl overflow-hidden group shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out flex flex-col h-full bg-white border border-slate-100 will-change-transform">
 
                                     <!-- Image -->
                                     <div class="relative h-64 overflow-hidden shrink-0">
                                         <img src="<?php echo base_url($pkg['image']); ?>"
                                             alt="<?php echo htmlspecialchars($pkg['title']); ?>" loading="lazy"
-                                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
                                             onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
 
                                         <!-- Gradient -->

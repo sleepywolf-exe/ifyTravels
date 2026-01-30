@@ -226,16 +226,16 @@ include __DIR__ . '/../includes/header.php';
                             <div class="destination-card opacity-0 transform translate-y-8"
                                 style="transition-delay: <?php echo $index * 50; ?>ms">
                                 <a href="<?php echo destination_url($dest['slug']); ?>"
-                                    class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-creative hover:shadow-creative-hover transition-all duration-500 aspect-[4/5]">
+                                    class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out aspect-[4/5] will-change-transform">
 
                                     <img src="<?php echo base_url($dest['image']); ?>"
                                         alt="<?php echo htmlspecialchars($dest['name']); ?>" loading="lazy"
-                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
                                         onerror="this.src='https://placehold.co/600x800?text=Image+Not+Found'">
 
                                     <!-- Gradient Overlay -->
                                     <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity">
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300">
                                     </div>
 
                                     <!-- Badges -->
@@ -251,7 +251,7 @@ include __DIR__ . '/../includes/header.php';
 
                                     <!-- Content -->
                                     <div
-                                        class="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                        class="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300 ease-out will-change-transform">
                                         <h3
                                             class="text-2xl font-heading font-bold text-white mb-1 group-hover:text-amber-400 transition-colors drop-shadow-md">
                                             <?php echo htmlspecialchars($dest['name']); ?>
