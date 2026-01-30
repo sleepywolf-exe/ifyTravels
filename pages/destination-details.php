@@ -78,10 +78,10 @@ $packages = getPackagesByDestination($id);
 
 <div id="content-area" class="flex-1 bg-white min-h-screen">
     <!-- Hero Section - Magazine Style -->
-    <div class="relative h-[90vh]">
-        <div class="absolute inset-0">
+    <div class="relative h-[90vh] overflow-hidden">
+        <div class="absolute inset-0 h-[120%] w-full -top-[10%] parallax-container">
             <img src="<?php echo base_url($dest['image']); ?>" alt="<?php echo htmlspecialchars($dest['name']); ?>"
-                class="w-full h-full object-cover parallax-img">
+                class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/40"></div>
         </div>
 
@@ -383,7 +383,7 @@ $packages = getPackagesByDestination($id);
             gsap.registerPlugin(ScrollTrigger);
 
             // Parallax Hero Image
-            gsap.to(".parallax-img", {
+            gsap.to(".parallax-container", {
                 yPercent: 20,
                 ease: "none",
                 scrollTrigger: {
