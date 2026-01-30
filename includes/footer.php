@@ -134,7 +134,7 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width="40" height="25" loading="lazy">
                     </div>
                     <!-- Mastercard -->
-                    <div class="bg-white p-2 rounded shadow-sm opacity-80 hover:opacity-100 transition">
+                    <div class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width="40" height="25" loading="lazy">
                     </div>
                     <!-- UPI -->
