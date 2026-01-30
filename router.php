@@ -41,15 +41,15 @@ if (preg_match('#^/(pages/)?package-details\.php$#', $requestUri) && isset($quer
 }
 
 // Handle clean slug-based destination URLs: /destinations/bali
-if (preg_match('#^/destinations/([a-z0-9\-]+)/?$#', $requestUri, $matches)) {
-    $_GET['slug'] = $matches[1];
+if (preg_match('#^/destinations/([a-z0-9\-]+)/?$#i', $requestUri, $matches)) {
+    $_GET['slug'] = strtolower($matches[1]); // Normalize to lowercase for DB lookup consistency
     include __DIR__ . '/pages/destination-details.php';
     exit;
 }
 
 // Handle clean slug-based package URLs: /packages/baku-explorer
-if (preg_match('#^/packages/([a-z0-9\-]+)/?$#', $requestUri, $matches)) {
-    $_GET['slug'] = $matches[1];
+if (preg_match('#^/packages/([a-z0-9\-]+)/?$#i', $requestUri, $matches)) {
+    $_GET['slug'] = strtolower($matches[1]);
     include __DIR__ . '/pages/package-details.php';
     exit;
 }
@@ -61,6 +61,8 @@ $routes = [
     '/contact' => '/pages/contact.php',
     '/booking' => '/pages/booking.php',
     '/partner-program' => '/pages/partner-program.php',
+    '/login' => '/pages/login.php',
+    '/register' => '/pages/register.php',
 ];
 
 // Remove trailing slash for matching

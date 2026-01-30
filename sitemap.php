@@ -1,140 +1,115 @@
 <?php
 /**
  * Dynamic Sitemap Generator
- * Generates sitemap.xml for SEO
+ * Generates sitemap.xml on the fly with Database content.
  */
 
-require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/functions.php';
 
-// Set Content-Type
+// Set Header
 if (php_sapi_name() !== 'cli') {
     header("Content-Type: application/xml; charset=utf-8");
 }
 
-// Determine Base URL
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$domain = $_SERVER['HTTP_HOST'];
-$baseUrl = $protocol . $domain;
-
-// Initialize Database
-$db = Database::getInstance();
-
 echo '<?xml version="1.0" encoding="UTF-8"?>';
-?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-    <!-- Static Pages -->
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/
-        </loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/destinations
-        </loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/packages
-        </loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/contact
-        </loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/booking
-        </loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
+// 1. Static Pages
+$staticPages = [
+    '' => '1.0',
+    'destinations' => '0.9',
+    'packages' => '0.9',
+    'contact' => '0.5',
+    'booking' => '0.6',
+    'partner-program' => '0.6',
+    'login' => '0.4',
+    'pages/legal/privacy.html' => '0.3',
+    'pages/legal/refund.html' => '0.3',
+    'pages/legal/terms.html' => '0.3'
+];
 
-    <!-- Legal Pages -->
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/pages/legal/privacy.html
-        </loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/pages/legal/refund.html
-        </loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>
-            <?php echo $baseUrl; ?>/pages/legal/terms.html
-        </loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
+foreach ($staticPages as $path => $priority) {
+    echo "\n    <url>\n";
+    echo "        <loc>" . base_url($path) . "</loc>\n";
+    echo "        <changefreq>monthly</changefreq>\n";
+    echo "        <priority>{$priority}</priority>\n";
+    echo "    </url>";
+}
 
-    <!-- Dynamic Destinations -->
-    <?php
+// 2. Dynamic Content from Database
+// We implement a local DB connection to avoid the 'die()' in includes/db.php if it fails.
+$pdo = null;
+try {
+    if (file_exists(__DIR__ . '/includes/config.php')) {
+        require_once __DIR__ . '/includes/config.php';
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+        $pdo = new PDO($dsn, DB_USER, DB_PASS);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    } else {
+        echo "<!-- Config file not found -->";
+    }
+} catch (Exception $e) {
+    echo "<!-- Database Connection Error: " . $e->getMessage() . " -->";
+    // Optional: Output a reachable error URL for visibility
+    echo "\n    <url><loc>" . base_url('error/db-connection-failed') . "</loc><priority>0.0</priority></url>\n";
+}
+
+if ($pdo) {
+    // Destinations
     try {
-        // SELECT * is safer to avoid "Column not found" errors for specific columns like updated_at
-        $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DESC");
+        // Fallback: Check if updated_at exists or just use created_at/slug
+        // To be safe, we will select only what we are 99% sure exists or verify first.
+        // For now, let's remove 'updated_at' since that threw the error.
+        
+        $sql = "SELECT slug, created_at FROM destinations ORDER BY created_at DESC";
+        $stmt = $pdo->query($sql);
+        $destinations = $stmt->fetchAll();
+        
+        if (empty($destinations)) {
+             echo "<!-- No destinations found in database -->";
+        }
+
         foreach ($destinations as $dest) {
-            $slug = htmlspecialchars($dest['slug']);
-            // Use updated_at if available, else created_at, else now
-            if (!empty($dest['updated_at'])) {
-                $lastMod = date('Y-m-d', strtotime($dest['updated_at']));
-            } elseif (!empty($dest['created_at'])) {
-                $lastMod = date('Y-m-d', strtotime($dest['created_at']));
-            } else {
-                $lastMod = date('Y-m-d');
-            }
-
-            echo "    <url>\n";
-            echo "        <loc>{$baseUrl}/destinations/{$slug}</loc>\n";
+            // Use created_at as fallback for lastmod
+            $lastMod = !empty($dest['created_at']) ? date('Y-m-d', strtotime($dest['created_at'])) : date('Y-m-d');
+            
+            echo "\n    <url>\n";
+            echo "        <loc>" . destination_url($dest['slug']) . "</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
             echo "        <changefreq>weekly</changefreq>\n";
-            echo "        <priority>0.7</priority>\n";
-            echo "    </url>\n";
+            echo "        <priority>0.8</priority>\n";
+            echo "    </url>";
         }
     } catch (Exception $e) {
-        echo "<!-- Error loading destinations: " . $e->getMessage() . " -->\n";
+         echo "<!-- Destinations Query Error: " . $e->getMessage() . " -->";
     }
-    ?>
 
-    <!-- Dynamic Packages -->
-    <?php
+    // Packages
     try {
-        $packages = $db->fetchAll("SELECT * FROM packages ORDER BY created_at DESC");
-        foreach ($packages as $pkg) {
-            $slug = htmlspecialchars($pkg['slug']);
-            if (!empty($pkg['updated_at'])) {
-                $lastMod = date('Y-m-d', strtotime($pkg['updated_at']));
-            } elseif (!empty($pkg['created_at'])) {
-                $lastMod = date('Y-m-d', strtotime($pkg['created_at']));
-            } else {
-                $lastMod = date('Y-m-d');
-            }
+        $sql = "SELECT slug, created_at FROM packages ORDER BY created_at DESC";
+        $stmt = $pdo->query($sql);
+        $packages = $stmt->fetchAll();
+        
+        if (empty($packages)) {
+             echo "<!-- No packages found in database -->";
+        }
 
-            echo "    <url>\n";
-            echo "        <loc>{$baseUrl}/packages/{$slug}</loc>\n";
+        foreach ($packages as $pkg) {
+             // Use created_at as fallback for lastmod
+            $lastMod = !empty($pkg['created_at']) ? date('Y-m-d', strtotime($pkg['created_at'])) : date('Y-m-d');
+
+            echo "\n    <url>\n";
+            echo "        <loc>" . package_url($pkg['slug']) . "</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
             echo "        <changefreq>weekly</changefreq>\n";
-            echo "        <priority>0.6</priority>\n";
-            echo "    </url>\n";
+            echo "        <priority>0.8</priority>\n";
+            echo "    </url>";
         }
     } catch (Exception $e) {
-        echo "<!-- Error loading packages: " . $e->getMessage() . " -->\n";
+         echo "<!-- Packages Query Error: " . $e->getMessage() . " -->";
     }
-    ?>
+}
 
-</urlset>
+echo "\n</urlset>";
+?>

@@ -13,8 +13,7 @@
             <div class="transform hover:scale-105 transition duration-300">
                 <a href="<?php echo base_url('index.php'); ?>"
                     class="text-2xl font-bold text-white mb-4 block flex items-center">
-                    <img src="<?php echo base_url('assets/images/logo-white.png?v=' . time()); ?>"
-                        alt="<?php echo e(get_setting('site_name', 'ifyTravels')); ?>" class="h-12 object-contain">
+                    <img src="<?php echo base_url('assets/images/logo-white.png?v=' . time()); ?>" alt="ifyTravels Footer Logo" width="150" height="40" loading="lazy" class="h-12 object-contain">
                 </a>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">
                     <?php echo e(get_setting('footer_description', 'Curating unforgettable journeys...')); ?>
@@ -132,20 +131,15 @@
                     <!-- Visa Card -->
                     <div
                         class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa"
-                            class="h-full w-auto object-contain">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width="40" height="25" loading="lazy">
                     </div>
                     <!-- Mastercard -->
-                    <div
-                        class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-                            alt="Mastercard" class="h-full w-auto object-contain">
+                    <div class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width="40" height="25" loading="lazy">
                     </div>
                     <!-- UPI -->
-                    <div
-                        class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI"
-                            class="h-full w-auto object-contain">
+                    <div class="bg-white rounded px-2 py-1 flex items-center justify-center hover:opacity-90 transition h-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" width="40" height="25" loading="lazy">
                     </div>
                     <!-- Rupay -->
                     <div

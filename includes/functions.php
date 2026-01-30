@@ -159,6 +159,22 @@ function is_admin()
 }
 
 /**
+ * Check if user is logged in (frontend)
+ */
+function isLoggedIn()
+{
+    return isset($_SESSION['user_id']) || isset($_SESSION['admin_logged_in']);
+}
+
+/**
+ * Alias for is_admin to match header usage
+ */
+function isAdmin()
+{
+    return is_admin();
+}
+
+/**
  * Generate CSRF Token
  */
 function csrf_token()
