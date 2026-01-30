@@ -189,8 +189,8 @@ try {
     <!-- MAIN CONTENT WRAPPER -->
     <div class="relative z-10 bg-white">
 
-        <!-- LIVE STATS BAR (Trust Signals) - BRIDGE EFFECT -->
-        <div class="relative -mt-20 mb-20 z-30">
+        <!-- LIVE STATS BAR (Trust Signals) -->
+        <div class="relative mt-0 mb-20 z-30">
             <div class="container mx-auto px-4">
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
