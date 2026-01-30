@@ -15,12 +15,31 @@ class Database
         }
 
         try {
-            // MySQL Connection Only
-            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-            $this->pdo = new PDO($dsn, DB_USER, DB_PASS);
+            if (defined('DB_CONNECTION') && DB_CONNECTION === 'sqlite') {
+                // SQLite Connection
+                $dbPath = __DIR__ . '/../db/database.sqlite';
+                $dbDir = dirname($dbPath);
+                if (!is_dir($dbDir)) {
+                    mkdir($dbDir, 0777, true);
+                }
+                // Check if new DB to init schema later
+                $isNewDb = !file_exists($dbPath);
 
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+                $this->pdo = new PDO("sqlite:" . $dbPath);
+                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+                // Init Schema if needed or if getting started
+                if ($isNewDb || filesize($dbPath) == 0) {
+                    $this->initSchema();
+                }
+            } else {
+                // MySQL Connection
+                $dsn = "mysql:host=" . (defined('DB_HOST') ? DB_HOST : '127.0.0.1') . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+                $this->pdo = new PDO($dsn, DB_USER, DB_PASS);
+                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            }
 
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
