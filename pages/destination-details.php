@@ -107,7 +107,7 @@ $packages = getPackagesByDestination($id);
         </div>
 
         <!-- Floating Info Card -->
-        <div class="absolute bottom-12 right-12 hidden lg:block animate-fade-in-up" style="animation-delay: 0.4s">
+        <div class="absolute bottom-32 right-12 hidden lg:block animate-fade-in-up" style="animation-delay: 0.4s">
             <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl max-w-sm">
                 <div class="flex items-center gap-4 mb-6">
                     <div
@@ -220,11 +220,13 @@ $packages = getPackagesByDestination($id);
 
 
     <!-- Massive Background Text (Visible) -->
-<div class="absolute top-[85vh] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0 overflow-hidden">
-    <h2 class="text-[12rem] md:text-[25rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading whitespace-nowrap transform -translate-y-1/4">
-        <?php echo htmlspecialchars($dest['name']); ?>
-    </h2>
-</div>
+    <div
+        class="absolute top-[85vh] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0 overflow-hidden">
+        <h2
+            class="text-[12rem] md:text-[25rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading whitespace-nowrap transform -translate-y-1/4">
+            <?php echo htmlspecialchars($dest['name']); ?>
+        </h2>
+    </div>
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 py-16 relative z-10">
