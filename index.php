@@ -364,31 +364,27 @@ try {
             </div>
         </section>
 
-        <!-- PACKAGES (Featured) -->
+        <!-- PACKAGES (Featured) - Redesigned -->
         <?php if (!empty($popularPackages)): ?>
-            <section class="py-24 bg-white relative overflow-hidden">
+            <section class="py-32 bg-slate-50 relative overflow-hidden">
+                <!-- Massive Background Text -->
                 <div
-                    class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none">
-                </div>
-                <div
-                    class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none">
+                    class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+                    <h2
+                        class="text-[12rem] md:text-[20rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading transform -translate-y-20">
+                        Exclusive
+                    </h2>
                 </div>
 
                 <div class="container mx-auto px-6 relative z-10">
-                    <div
-                        class="flex flex-col md:flex-row justify-between items-end mb-16 section-header opacity-0 transform translate-y-10">
-                        <div>
-                            <span class="text-secondary font-bold tracking-widest uppercase text-sm">Exclusive</span>
-                            <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-900 mt-2 reveal-text">Popular
-                                <span class="text-secondary">Packages</span>
-                            </h2>
-                        </div>
-                        <a href="<?php echo base_url('/packages'); ?>"
-                            class="hidden md:flex items-center gap-2 text-slate-500 hover:text-primary transition-colors">See
-                            all offers <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg></a>
+                    <div class="text-center mb-16 section-header opacity-0 transform translate-y-10">
+                        <span
+                            class="inline-block py-2 px-5 rounded-full bg-secondary/10 text-secondary font-bold tracking-widest uppercase text-xs mb-4">
+                            Handpicked for You
+                        </span>
+                        <h2 class="text-4xl md:text-6xl font-heading font-extrabold text-slate-900">
+                            Popular <span class="text-secondary italic font-serif">Packages</span>
+                        </h2>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -396,49 +392,68 @@ try {
                             <div class="package-card opacity-0 transform translate-y-10"
                                 style="transition-delay: <?php echo $index * 150; ?>ms">
                                 <a href="<?php echo package_url($pkg['slug']); ?>"
-                                    class="block glass-card-light rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-500 bg-white">
-                                    <div class="relative h-72 overflow-hidden">
-                                        <div
-                                            class="absolute top-4 left-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">
-                                            FEATURED</div>
-                                        <img src="<?php echo base_url($pkg['image']); ?>"
-                                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                            loading="lazy" alt="<?php echo htmlspecialchars($pkg['title']); ?>">
+                                    class="block group relative h-[500px] rounded-[2.5rem] overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(244,63,94,0.3)] transition-all duration-500 border-[6px] border-white ring-1 ring-slate-100">
+
+                                    <!-- Image -->
+                                    <img src="<?php echo base_url($pkg['image']); ?>"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                        loading="lazy" alt="<?php echo htmlspecialchars($pkg['title']); ?>">
+
+                                    <!-- Gradient Overlay -->
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500">
                                     </div>
-                                    <div class="p-8">
-                                        <div class="flex justify-between items-start mb-4">
-                                            <h3
-                                                class="text-2xl font-bold text-slate-800 group-hover:text-primary transition-colors">
+
+                                    <!-- Badge -->
+                                    <div class="absolute top-6 left-6 z-20">
+                                        <span
+                                            class="px-4 py-2 bg-white/20 backdrop-blur-md border border-white/20 text-white text-xs font-bold rounded-full uppercase tracking-wider">
+                                            <?php echo htmlspecialchars($pkg['duration']); ?>
+                                        </span>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end h-full">
+                                        <div
+                                            class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                            <h3 class="text-3xl font-heading font-black text-white mb-2 leading-tight">
                                                 <?php echo htmlspecialchars($pkg['title']); ?>
                                             </h3>
-                                        </div>
-                                        <div class="flex items-center gap-4 text-slate-500 text-sm mb-6">
-                                            <span class="flex items-center gap-1"><svg class="w-4 h-4" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg> <?php echo htmlspecialchars($pkg['duration']); ?></span>
-                                            <span class="flex items-center gap-1"><svg class="w-4 h-4" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                </svg> Global</span>
-                                        </div>
 
-                                        <div class="flex items-end justify-between border-t border-slate-100 pt-6">
-                                            <div>
-                                                <p class="text-xs text-slate-400 uppercase tracking-widest">Starting from</p>
-                                                <p class="text-3xl font-heading font-bold text-primary">
-                                                    ₹<?php echo number_format($pkg['price']); ?></p>
+                                            <div class="flex items-end justify-between w-full mt-4">
+                                                <div>
+                                                    <p class="text-slate-300 text-sm font-medium uppercase tracking-wider mb-1">
+                                                        Starting from</p>
+                                                    <p class="text-white text-2xl font-bold">
+                                                        ₹<?php echo number_format($pkg['price']); ?>
+                                                    </p>
+                                                </div>
+
+                                                <span
+                                                    class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center shadow-lg transform translate-y-2 group-hover:translate-y-0 group-hover:rotate-45 transition-all duration-500">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                    </svg>
+                                                </span>
                                             </div>
-                                            <span
-                                                class="text-slate-900 font-medium group-hover:translate-x-2 transition-transform">Explore
-                                                &rarr;</span>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         <?php endforeach; ?>
+                    </div>
+
+                    <div class="text-center mt-16">
+                        <a href="<?php echo base_url('/packages'); ?>"
+                            class="inline-flex items-center gap-3 px-10 py-5 bg-white text-slate-900 border border-slate-200 rounded-full font-bold hover:bg-secondary hover:text-white hover:border-secondary transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 magnetic-btn group">
+                            <span>View All Offers</span>
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -625,7 +640,7 @@ try {
                         btn.disabled = false;
                         alert('Something went wrong. Please try again.');
                     });
-            });
+    });
         </script>
 
         <!-- GSAP Animation Logic -->
@@ -712,7 +727,7 @@ try {
                     duration: 1,
                     ease: "power2.out"
                 });
-            });
+    });
 
         </script>
 
@@ -727,7 +742,7 @@ try {
                     altFormat: "d M, Y",
                     disableMobile: "true"
                 });
-            });
+    });
         </script>
 
     </div><!-- End Content Wrapper -->
