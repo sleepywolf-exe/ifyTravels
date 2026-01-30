@@ -34,15 +34,16 @@ include __DIR__ . '/../includes/header.php';
     <div class="container mx-auto px-6 relative z-10">
 
         <!-- Page Header (Full Width) -->
-        <div class="max-w-6xl mx-auto mb-10">
-            <span
-                class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-[10px] mb-4">
+        <div class="max-w-6xl mx-auto mb-16 pt-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 font-bold tracking-widest uppercase text-[10px] mb-6 border border-indigo-100">
                 Secure Your Trip
             </span>
-            <h1 class="text-4xl md:text-5xl font-heading font-black text-slate-900 leading-tight">
-                Complete Booking
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-heading font-black text-slate-900 leading-[0.9] tracking-tighter mb-6">
+                Complete <br>
+                <span class="font-serif italic text-primary pr-2">Booking</span>
             </h1>
-            <p class="text-slate-500 font-medium leading-relaxed mt-2 text-lg">
+            <div class="w-24 h-2 bg-primary mb-8 rounded-full"></div>
+            <p class="text-slate-500 font-medium leading-relaxed text-lg max-w-xl">
                 You're just one step away from your dream vacation.
             </p>
         </div>
