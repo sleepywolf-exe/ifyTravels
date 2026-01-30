@@ -33,11 +33,31 @@ if (empty($popularPackages))
     $popularPackages = array_slice($packages, 0, 3);
 $popularPackages = array_slice($popularPackages, 0, 3);
 
-$testimonials = [];
+// Count Stats for Trust Bar
+$stats = [
+    'trips' => 500, // Base
+    'reviews' => 98, // Percentage
+    'destinations' => 50,
+];
+
 try {
     $db = Database::getInstance();
-    $testimonials = $db->fetchAll("SELECT * FROM testimonials ORDER BY created_at DESC LIMIT 3");
+
+    // Trips: count bookings + base
+    $bookingCount = $db->fetch("SELECT COUNT(*) as c FROM bookings");
+    $stats['trips'] = 500 + ($bookingCount['c'] ?? 0);
+
+    // Reviews: count 5-star testimonials
+    $reviewCount = $db->fetch("SELECT COUNT(*) as c FROM testimonials WHERE rating = 5");
+    // Calculate simple percentage or keep static 98% for now if low volume
+
+    // Destinations: count active
+    $destCount = $db->fetch("SELECT COUNT(*) as c FROM destinations");
+    if ($destCount && $destCount['c'] > 0) {
+        $stats['destinations'] = $destCount['c'];
+    }
 } catch (Exception $e) {
+    // Silent fail, use defaults
 }
 ?>
 
@@ -164,7 +184,7 @@ try {
             <div
                 class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-slate-100/50 backdrop-blur-xl">
                 <div class="text-center border-r border-slate-100 last:border-0 border-opacity-50">
-                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1">500+</p>
+                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo number_format($stats['trips']); ?>+</p>
                     <p class="text-xs md:text-sm text-slate-500 uppercase tracking-wider font-semibold">Luxury Trips</p>
                 </div>
                 <div class="text-center border-r border-slate-100 last:border-0 border-opacity-50 md:border-r">
@@ -174,7 +194,7 @@ try {
                 </div>
                 <div
                     class="text-center border-r border-slate-100 last:border-0 border-opacity-50 pt-4 md:pt-0 border-t md:border-t-0">
-                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1">50+</p>
+                    <p class="text-3xl md:text-4xl font-bold text-primary mb-1"><?php echo $stats['destinations']; ?>+</p>
                     <p class="text-xs md:text-sm text-slate-500 uppercase tracking-wider font-semibold">Destinations</p>
                 </div>
                 <div class="text-center pt-4 md:pt-0 border-t md:border-t-0">
@@ -390,60 +410,73 @@ try {
                 <!-- Section Header -->
                 <div class="text-center mb-16 section-header opacity-0">
                     <span class="text-primary font-bold tracking-widest uppercase text-sm">Testimonials</span>
-                    <h2 class="text-3xl md:text-4xl font-heading font-bold text-slate-900 mt-2">Loved by <span class="text-primary">Travelers</span></h2>
+                    <h2 class="text-3xl md:text-4xl font-heading font-bold text-slate-900 mt-2">Loved by <span
+                            class="text-primary">Travelers</span></h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <?php if (!empty($testimonials)): ?>
                         <?php foreach ($testimonials as $index => $review): ?>
-                            <div class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10" style="transition-delay: <?php echo $index * 150; ?>ms">
+                            <div class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10"
+                                style="transition-delay: <?php echo $index * 150; ?>ms">
                                 <div class="flex items-center gap-4 mb-6">
-                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($review['name']); ?>&background=random" 
-                                         alt="<?php echo htmlspecialchars($review['name']); ?>" 
-                                         class="w-12 h-12 rounded-full ring-2 ring-primary/20">
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($review['name']); ?>&background=random"
+                                        alt="<?php echo htmlspecialchars($review['name']); ?>"
+                                        class="w-12 h-12 rounded-full ring-2 ring-primary/20">
                                     <div>
-                                        <h4 class="font-bold text-slate-900"><?php echo htmlspecialchars($review['name']); ?></h4>
+                                        <h4 class="font-bold text-slate-900"><?php echo htmlspecialchars($review['name']); ?>
+                                        </h4>
                                         <div class="flex text-yellow-500 text-sm">
-                                            <?php for($i=0; $i<5; $i++): ?>
+                                            <?php for ($i = 0; $i < 5; $i++): ?>
                                                 <span><?php echo ($i < $review['rating']) ? '★' : '☆'; ?></span>
                                             <?php endfor; ?>
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-slate-600 italic leading-relaxed">"<?php echo htmlspecialchars($review['comment']); ?>"</p>
+                                <p class="text-slate-600 italic leading-relaxed">
+                                    "<?php echo htmlspecialchars($review['comment']); ?>"</p>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <!-- Fallback Testimonials if DB empty -->
-                         <div class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
+                        <div
+                            class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
                             <div class="flex items-center gap-4 mb-6">
-                                <img src="https://ui-avatars.com/api/?name=Sarah+J&background=0F766E&color=fff" class="w-12 h-12 rounded-full">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+J&background=0F766E&color=fff"
+                                    class="w-12 h-12 rounded-full">
                                 <div>
                                     <h4 class="font-bold text-slate-900">Sarah Jenkins</h4>
                                     <div class="flex text-yellow-500 text-sm">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic">"The Maldives trip was absolutely breathtaking. The attention to detail was unmatched."</p>
+                            <p class="text-slate-600 italic">"The Maldives trip was absolutely breathtaking. The attention
+                                to detail was unmatched."</p>
                         </div>
-                        <div class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
+                        <div
+                            class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
                             <div class="flex items-center gap-4 mb-6">
-                                <img src="https://ui-avatars.com/api/?name=Michael+R&background=D97706&color=fff" class="w-12 h-12 rounded-full">
+                                <img src="https://ui-avatars.com/api/?name=Michael+R&background=D97706&color=fff"
+                                    class="w-12 h-12 rounded-full">
                                 <div>
                                     <h4 class="font-bold text-slate-900">Michael Ross</h4>
                                     <div class="flex text-yellow-500 text-sm">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic">"Booking was seamless, and the concierge support was a lifesaver during our Paris tour."</p>
+                            <p class="text-slate-600 italic">"Booking was seamless, and the concierge support was a
+                                lifesaver during our Paris tour."</p>
                         </div>
-                         <div class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
+                        <div
+                            class="testimonial-card p-8 bg-white rounded-3xl shadow-lg border border-slate-100 opacity-0 translate-y-10">
                             <div class="flex items-center gap-4 mb-6">
-                                <img src="https://ui-avatars.com/api/?name=Emma+W&background=0F766E&color=fff" class="w-12 h-12 rounded-full">
+                                <img src="https://ui-avatars.com/api/?name=Emma+W&background=0F766E&color=fff"
+                                    class="w-12 h-12 rounded-full">
                                 <div>
                                     <h4 class="font-bold text-slate-900">Emma Watson</h4>
                                     <div class="flex text-yellow-500 text-sm">★★★★★</div>
                                 </div>
                             </div>
-                            <p class="text-slate-600 italic">"Highly recommend IfyTravels for anyone looking for a premium, hassle-free vacation."</p>
+                            <p class="text-slate-600 italic">"Highly recommend IfyTravels for anyone looking for a premium,
+                                hassle-free vacation."</p>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -486,133 +519,178 @@ try {
 
         <!-- NEWSLETTER SECTION -->
         <section class="py-20 relative overflow-hidden">
-             <div class="absolute inset-0 bg-slate-900"></div>
-             <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 opacity-30"></div>
-             <!-- Pattern -->
-             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
-             
-             <div class="container mx-auto px-6 relative z-10 text-center">
-                 <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">Join the Elite Club</h2>
-                 <p class="text-slate-300 mb-10 max-w-xl mx-auto text-lg">Subscribe to receive exclusive offers, travel inspiration, and member-only perks directly to your inbox.</p>
-                 
-                 <form class="max-w-lg mx-auto flex flex-col sm:flex-row gap-4" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
-                     <input type="email" placeholder="Your email address" class="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:bg-white/20 transition-all backdrop-blur-sm" required>
-                     <button type="submit" class="px-8 py-4 rounded-full bg-white text-primary font-bold hover:bg-slate-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Subscribe</button>
-                 </form>
-             </div>
+            <div class="absolute inset-0 bg-slate-900"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 opacity-30"></div>
+            <!-- Pattern -->
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4">Join the Elite Club</h2>
+                <p class="text-slate-300 mb-10 max-w-xl mx-auto text-lg">Subscribe to receive exclusive offers, travel
+                    inspiration, and member-only perks directly to your inbox.</p>
+
+                <form id="newsletter-form" class="max-w-lg mx-auto flex flex-col sm:flex-row gap-4">
+                    <input type="email" name="email" placeholder="Your email address"
+                        class="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:bg-white/20 transition-all backdrop-blur-sm"
+                        required>
+                    <button type="submit"
+                        class="px-8 py-4 rounded-full bg-white text-primary font-bold hover:bg-slate-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Subscribe</button>
+                </form>
+            </div>
         </section>
 
-    </div>
-</main>
+        <script>
+            // Newsletter Handler
+            document.getElementById('newsletter-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const form = this;
+                const btn = form.querySelector('button');
+                const originalText = btn.innerText;
 
-<!-- GSAP Animation Logic -->
-<script>
-    // Register Plugins
-    gsap.registerPlugin(ScrollTrigger);
+                btn.innerText = 'Joining...';
+                btn.disabled = true;
 
-    // 1. Hero Text Reveal (Load Animation)
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+                const formData = new FormData(form);
 
-    tl.to(".hero-title", { y: 0, opacity: 1, duration: 1.5, delay: 0.2 })
-        .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
-        .to(".hero-form", { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
+                fetch('<?php echo base_url("services/subscribe.php"); ?>', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            btn.innerText = 'Joined! ✓';
+                            btn.classList.add('!bg-green-500', '!text-white');
+                            form.reset();
+                            setTimeout(() => {
+                                btn.innerText = originalText;
+                                btn.disabled = false;
+                                btn.classList.remove('!bg-green-500', '!text-white');
+                            }, 3000);
+                        } else {
+                            alert(data.message);
+                            btn.innerText = originalText;
+                            btn.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        alert('Something went wrong. Please try again.');
+                    });
+            });
+        </script>
 
-    // 2. Parallax Background
-    gsap.to(".parallax-bg", {
-        yPercent: 30,
-        ease: "none",
-        scrollTrigger: {
-            trigger: "body",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-        }
-    });
+        <!-- GSAP Animation Logic -->
+        <script>
+            // Register Plugins
+            gsap.registerPlugin(ScrollTrigger);
 
-    // 3. Section Headers Reveal
-    gsap.utils.toArray('.section-header').forEach(header => {
-        gsap.to(header, {
-            scrollTrigger: {
-                trigger: header,
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-            },
-            y: 0,
-            opacity: 1,
-            duration: 1
-        });
-    });
+            // 1. Hero Text Reveal (Load Animation)
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-    // 4. Staggered Cards (Destinations)
-    gsap.utils.toArray('.destination-card').forEach(card => {
-        gsap.to(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 85%"
-            },
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out"
-        });
-    });
+            tl.to(".hero-title", { y: 0, opacity: 1, duration: 1.5, delay: 0.2 })
+                .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+                .to(".hero-form", { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
 
-    // 5. Staggered Cards (Packages)
-    gsap.utils.toArray('.package-card').forEach(card => {
-        gsap.to(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 85%"
-            },
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out"
-        });
-    });
+            // 2. Parallax Background
+            gsap.to(".parallax-bg", {
+                yPercent: 30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "body",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
 
-    // 6. Why Choose Us (Features)
-    gsap.utils.toArray('.feature-card').forEach(card => {
-        gsap.to(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 85%"
-            },
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "back.out(1.7)"
-        });
-    });
+            // 3. Section Headers Reveal
+            gsap.utils.toArray('.section-header').forEach(header => {
+                gsap.to(header, {
+                    scrollTrigger: {
+                        trigger: header,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1
+                });
+            });
 
-    // 7. Testimonials
-    gsap.utils.toArray('.testimonial-card').forEach(card => {
-        gsap.to(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 85%"
-            },
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out"
-        });
-    });
+            // 4. Staggered Cards (Destinations)
+            gsap.utils.toArray('.destination-card').forEach(card => {
+                gsap.to(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out"
+                });
+            });
 
-</script>
+            // 5. Staggered Cards (Packages)
+            gsap.utils.toArray('.package-card').forEach(card => {
+                gsap.to(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out"
+                });
+            });
 
-<!-- Flatpickr Script (Deferred) -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        flatpickr("#departure-date", {
-            minDate: "today",
-            dateFormat: "d-M-Y",
-            altInput: true,
-            altFormat: "d M, Y",
-            disableMobile: "true"
-        });
-    });
-</script>
+            // 6. Why Choose Us (Features)
+            gsap.utils.toArray('.feature-card').forEach(card => {
+                gsap.to(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: "back.out(1.7)"
+                });
+            });
 
-<?php include 'includes/footer.php'; ?>
+            // 7. Testimonials
+            gsap.utils.toArray('.testimonial-card').forEach(card => {
+                gsap.to(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out"
+                });
+            });
+
+        </script>
+
+        <!-- Flatpickr Script (Deferred) -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                flatpickr("#departure-date", {
+                    minDate: "today",
+                    dateFormat: "d-M-Y",
+                    altInput: true,
+                    altFormat: "d M, Y",
+                    disableMobile: "true"
+                });
+            });
+        </script>
+
+        <?php include 'includes/footer.php'; ?>
