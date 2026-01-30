@@ -221,14 +221,17 @@ include __DIR__ . '/../includes/header.php';
 
                     if (count($paginatedDestinations) > 0):
                         foreach ($paginatedDestinations as $index => $dest):
+                            // ANIMATION LOGIC: First 2 are static, rest animate
+                            $animClass = ($index >= 2) ? 'destination-card-animate' : '';
                             ?>
                             <!-- Card (GSAP Animated) -->
-                            <div class="destination-card">
+                            <div class="destination-card <?php echo $animClass; ?>">
                                 <a href="<?php echo destination_url($dest['slug']); ?>"
                                     class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out aspect-[4/5] will-change-transform">
 
                                     <img src="<?php echo base_url($dest['image']); ?>"
-                                        alt="<?php echo htmlspecialchars($dest['name']); ?>" loading="lazy"
+                                        alt="<?php echo htmlspecialchars($dest['name']); ?>"
+                                        loading="<?php echo $index < 2 ? 'eager' : 'lazy'; ?>"
                                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
                                         onerror="this.src='https://placehold.co/600x800?text=Image+Not+Found'">
 
@@ -373,7 +376,7 @@ include __DIR__ . '/../includes/header.php';
         });
 
         // Smooth Card Batch Animations
-        animateBatch('.destination-card', 100);
+        animateBatch('.destination-card-animate', 100);
     });
 </script>
 
