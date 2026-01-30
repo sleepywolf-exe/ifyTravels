@@ -44,6 +44,16 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
+    <url>
+        <loc><?php echo base_url('partner-program'); ?></loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc><?php echo base_url('login'); ?></loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
 
     <!-- Legal Pages -->
     <url>
