@@ -43,8 +43,16 @@ include __DIR__ . '/../includes/header.php';
 
 <!-- Page Header (Premium Clean Design) -->
 <div class="relative pt-32 pb-24 overflow-hidden bg-white">
+    <!-- Massive Background Text -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+        <h2
+            class="text-[10rem] md:text-[20rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading transform -translate-y-10">
+            EXPLORE
+        </h2>
+    </div>
+
     <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0 opacity-5 z-0">
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
     </div>
