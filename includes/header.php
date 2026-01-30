@@ -165,25 +165,26 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
         /* === PREMIUM BRAND-MATCHED FLATPICKR CALENDAR === */
 
-        /* Calendar Container - Glassmorphism */
+        /* Calendar Container - Glassmorphism - COMPACT */
         .flatpickr-calendar {
-            background: rgba(255, 255, 255, 0.95) !important;
+            background: rgba(255, 255, 255, 0.96) !important;
             backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
             border: 2px solid rgba(15, 118, 110, 0.2) !important;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 30px rgba(15, 118, 110, 0.15) !important;
-            border-radius: 20px !important;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2), 0 0 25px rgba(15, 118, 110, 0.12) !important;
+            border-radius: 16px !important;
             padding: 0 !important;
             font-family: 'Plus Jakarta Sans', sans-serif !important;
-            animation: fadeInCalendar 0.3s ease !important;
+            animation: fadeInCalendar 0.25s ease !important;
             width: auto !important;
+            max-width: 320px !important;
             overflow: visible !important;
         }
 
         @keyframes fadeInCalendar {
             from {
                 opacity: 0;
-                transform: translateY(-10px) scale(0.98);
+                transform: translateY(-8px) scale(0.98);
             }
 
             to {
@@ -192,12 +193,12 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             }
         }
 
-        /* Month Header - TEAL GRADIENT */
+        /* Month Header - TEAL GRADIENT - COMPACT */
         .flatpickr-months {
             background: linear-gradient(135deg, #0F766E 0%, #0d6962 100%) !important;
-            padding: 16px 20px !important;
+            padding: 12px 16px !important;
             margin: 0 !important;
-            border-radius: 18px 18px 0 0 !important;
+            border-radius: 14px 14px 0 0 !important;
             position: relative !important;
         }
 
@@ -207,30 +208,30 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             height: auto !important;
         }
 
-        /* Month/Year Display */
+        /* Month/Year Display - COMPACT */
         .flatpickr-current-month {
-            font-size: 1.15rem !important;
-            font-weight: 800 !important;
+            font-size: 1rem !important;
+            font-weight: 700 !important;
             color: white !important;
-            padding: 0.25rem 0 !important;
+            padding: 0.2rem 0 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 10px !important;
+            gap: 8px !important;
         }
 
-        /* Month Dropdown */
+        /* Month Dropdown - COMPACT */
         .flatpickr-current-month .flatpickr-monthDropdown-months {
             background: rgba(255, 255, 255, 0.25) !important;
             backdrop-filter: blur(10px) !important;
             border: 1px solid rgba(255, 255, 255, 0.4) !important;
-            border-radius: 10px !important;
-            padding: 6px 14px !important;
+            border-radius: 8px !important;
+            padding: 4px 10px !important;
             color: white !important;
             font-weight: 700 !important;
-            font-size: 1.05rem !important;
+            font-size: 0.9rem !important;
             cursor: pointer !important;
-            min-width: 130px !important;
+            min-width: 110px !important;
             transition: all 0.2s ease !important;
         }
 
@@ -239,14 +240,14 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             border-color: rgba(255, 255, 255, 0.6) !important;
         }
 
-        /* Year Input */
+        /* Year Input - COMPACT */
         .flatpickr-current-month .numInputWrapper {
             background: rgba(255, 255, 255, 0.25) !important;
             backdrop-filter: blur(10px) !important;
             border: 1px solid rgba(255, 255, 255, 0.4) !important;
-            border-radius: 10px !important;
-            padding: 6px 10px !important;
-            width: 75px !important;
+            border-radius: 8px !important;
+            padding: 4px 8px !important;
+            width: 65px !important;
         }
 
         .flatpickr-current-month input.cur-year {
@@ -254,18 +255,18 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             font-weight: 700 !important;
             background: transparent !important;
             border: none !important;
-            font-size: 1.05rem !important;
+            font-size: 0.9rem !important;
             padding: 0 !important;
             text-align: center !important;
         }
 
-        /* Navigation Arrows */
+        /* Navigation Arrows - COMPACT */
         .flatpickr-months .flatpickr-prev-month,
         .flatpickr-months .flatpickr-next-month {
             color: white !important;
             fill: white !important;
-            padding: 10px !important;
-            border-radius: 10px !important;
+            padding: 6px !important;
+            border-radius: 6px !important;
             transition: all 0.2s ease !important;
             background: rgba(255, 255, 255, 0.15) !important;
         }
@@ -273,36 +274,36 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         .flatpickr-months .flatpickr-prev-month:hover,
         .flatpickr-months .flatpickr-next-month:hover {
             background: rgba(255, 255, 255, 0.3) !important;
-            transform: scale(1.1) !important;
+            transform: scale(1.05) !important;
         }
 
         .flatpickr-months .flatpickr-prev-month svg,
         .flatpickr-months .flatpickr-next-month svg {
-            width: 18px !important;
-            height: 18px !important;
+            width: 14px !important;
+            height: 14px !important;
         }
 
-        /* Weekday Headers */
+        /* Weekday Headers - COMPACT */
         .flatpickr-weekdays {
             background: transparent !important;
-            margin: 12px 0 8px 0 !important;
-            padding: 0 16px !important;
+            margin: 10px 0 6px 0 !important;
+            padding: 0 12px !important;
             height: auto !important;
         }
 
         span.flatpickr-weekday {
             color: #64748b !important;
             font-weight: 700 !important;
-            font-size: 0.7rem !important;
+            font-size: 0.65rem !important;
             text-transform: uppercase !important;
-            letter-spacing: 0.5px !important;
+            letter-spacing: 0.3px !important;
             background: transparent !important;
         }
 
-        /* Days Grid */
+        /* Days Grid - COMPACT */
         .flatpickr-days {
             width: 100% !important;
-            padding: 0 12px 16px 12px !important;
+            padding: 0 10px 12px 10px !important;
         }
 
         .dayContainer {
@@ -311,18 +312,18 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             min-width: 100% !important;
         }
 
-        /* DAY CELLS - DEFAULT (Current Month Future Dates) - DARK & BOLD */
+        /* DAY CELLS - COMPACT SIZE */
         .flatpickr-day {
             color: #0f172a !important;
-            border-radius: 10px !important;
+            border-radius: 8px !important;
             font-weight: 700 !important;
-            font-size: 0.95rem !important;
+            font-size: 0.85rem !important;
             border: 2px solid transparent !important;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            margin: 3px !important;
-            height: 40px !important;
-            line-height: 40px !important;
-            max-width: 40px !important;
+            margin: 2px !important;
+            height: 34px !important;
+            line-height: 34px !important;
+            max-width: 34px !important;
             background: transparent !important;
         }
 
