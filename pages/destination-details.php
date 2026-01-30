@@ -82,7 +82,7 @@ $packages = getPackagesByDestination($id);
         <div class="absolute inset-0">
             <img src="<?php echo base_url($dest['image']); ?>" alt="<?php echo htmlspecialchars($dest['name']); ?>"
                 class="w-full h-full object-cover brightness-[0.85] parallax-img">
-            <div class="absolute inset-0 bg-gradient-to-t from-white via-black/20 to-black/60"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50"></div>
         </div>
 
         <div class="absolute inset-0 flex items-end">
@@ -117,235 +117,281 @@ $packages = getPackagesByDestination($id);
             <div class="lg:col-span-2 space-y-12">
 
                 <!-- About Section -->
-                <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl relative overflow-hidden">
-                    <!-- Massive Background Text -->
-                    <div
-                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
-                        <h2
-                            class="text-[8rem] md:text-[12rem] lg:text-[16rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading whitespace-nowrap">
-                            <?php echo strtoupper(htmlspecialchars($dest['name'])); ?>
-                        </h2>
-                    </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl">
+                    <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
+                        <span class="w-12 h-1 bg-primary rounded-full"></span>
+                        About <?php echo htmlspecialchars($dest['name']); ?>
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed text-lg font-light">
+                        <?php echo $dest['description']; ?>
+                    </p>
 
-                    <div class="relative z-10">
-                        <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
-                            <span class="w-12 h-1 bg-primary rounded-full"></span>
-                            About <?php echo htmlspecialchars($dest['name']); ?>
-                        </h2>
-                        <p class="text-slate-600 leading-relaxed text-lg font-light">
-                            <?php echo $dest['description']; ?>
-                        </p>
-
-                        <!-- Highlights -->
-                        <div class="mt-10 grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <!-- Highlights -->
+                    <div class="mt-10 grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <div
+                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
                             <div
-                                class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
-                                <div
-                                    class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                    </svg>
-                                </div>
-                                <span class="font-bold text-slate-700 block text-sm">Luxury Stays</span>
-                            </div>
-                            <div
-                                class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
-                                <div
-                                    class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </div>
-                                <span class="font-bold text-slate-700 block text-sm">Sightseeing</span>
-                            </div>
-                            <div
-                                class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
-                                <div
-                                    class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <span class="font-bold text-slate-700 block text-sm">Culture</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interactive Map -->
-                <?php if (!empty($dest['map_embed'])): ?>
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl overflow-hidden">
-                        <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
-                            <span class="w-10 h-1 bg-primary rounded-full"></span>
-                            Location
-                        </h2>
-                        <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
-                            <style>
-                                .map-container iframe {
-                                    width: 100%;
-                                    height: 400px;
-                                    border: 0;
-                                    filter: grayscale(0%);
-                                }
-                            </style>
-                            <div class="map-container relative z-0">
-                                <?php echo $dest['map_embed']; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <!-- Available Packages -->
-                <div>
-                    <div class="flex items-center justify-between mb-8">
-                        <h3 class="text-3xl font-heading font-bold text-slate-900">Available Packages</h3>
-                        <span
-                            class="px-4 py-1.5 rounded-full bg-white border border-slate-200 text-xs text-slate-600 uppercase tracking-widest shadow-sm">
-                            <?php echo count($packages); ?> Offers
-                        </span>
-                    </div>
-
-                    <?php if (count($packages) > 0): ?>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <?php foreach ($packages as $index => $p): ?>
-                                <a href="<?php echo package_url($p['slug']); ?>"
-                                    class="package-card block bg-white border border-slate-100 rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-500 opacity-0 transform translate-y-8"
-                                    style="transition-delay: <?php echo $index * 100; ?>ms">
-                                    <div class="relative h-60 overflow-hidden">
-                                        <img src="<?php echo base_url($p['image']); ?>"
-                                            alt="<?php echo htmlspecialchars($p['title']); ?>" loading="lazy"
-                                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60">
-                                        </div>
-                                        <div
-                                            class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-800 shadow-md">
-                                            <?php echo $p['duration']; ?>
-                                        </div>
-                                    </div>
-                                    <div class="p-6">
-                                        <h4
-                                            class="font-heading font-bold text-xl text-slate-900 mb-2 group-hover:text-primary transition leading-tight">
-                                            <?php echo htmlspecialchars($p['title']); ?>
-                                        </h4>
-
-                                        <div class="flex flex-wrap gap-2 mb-6">
-                                            <?php if (!empty($p['activities'])): ?>
-                                                <?php foreach (array_slice($p['activities'], 0, 2) as $act): ?>
-                                                    <span
-                                                        class="text-[10px] text-slate-500 border border-slate-200 px-2 py-1 rounded-md bg-slate-50"><?php echo htmlspecialchars($act); ?></span>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </div>
-
-                                        <div class="flex items-end justify-between border-t border-slate-100 pt-4">
-                                            <div>
-                                                <span
-                                                    class="text-xs text-slate-400 font-medium block uppercase tracking-wider">Starting
-                                                    From</span>
-                                                <span
-                                                    class="text-2xl font-bold text-primary">₹<?php echo number_format($p['price']); ?></span>
-                                            </div>
-                                            <div
-                                                class="w-10 h-10 rounded-full bg-slate-100 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                                                &rarr;
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php else: ?>
-                        <!-- Empty State -->
-                        <div class="bg-white text-center p-12 border border-dashed border-slate-200 rounded-3xl shadow-sm">
-                            <div
-                                class="w-20 h-20 bg-slate-50 rounded-full mx-auto flex items-center justify-center mb-6 text-slate-400">
-                                <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-2">Coming Soon</h3>
-                            <p class="text-slate-500 max-w-md mx-auto mb-8">We are currently curating exclusive experiences
-                                for this destination.</p>
-                            <a href="<?php echo base_url('pages/contact.php'); ?>"
-                                class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-primary/30">Request
-                                Custom Quote</a>
+                            <span class="font-bold text-slate-700 block text-sm">Luxury Stays</span>
                         </div>
-                    <?php endif; ?>
+                        <div
+                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
+                            <div
+                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <span class="font-bold text-slate-700 block text-sm">Sightseeing</span>
+                        </div>
+                        <div
+                            class="text-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-lg transition group">
+                            <div
+                                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary shadow-sm group-hover:scale-110 transition group-hover:bg-primary group-hover:text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <span class="font-bold text-slate-700 block text-sm">Culture</span>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
-            <!-- Right Column: Sidebar -->
-            <aside class="w-full">
-                <div class="sticky top-32 space-y-8">
-                    <!-- Quick Facts -->
-                    <div class="bg-white p-8 border border-slate-200 rounded-3xl shadow-lg">
-                        <h3 class="font-heading font-bold text-xl mb-6 text-slate-900 flex items-center gap-2">
-                            <span class="text-primary">✦</span> Quick Facts
-                        </h3>
-                        <ul class="space-y-4 text-sm">
-                            <li class="flex justify-between items-center py-3 border-b border-slate-100">
-                                <span class="text-slate-500">Type</span>
-                                <span class="font-bold text-slate-900"><?php echo $dest['type']; ?></span>
-                            </li>
-                            <li class="flex justify-between items-center py-3 border-b border-slate-100">
-                                <span class="text-slate-500">Best Time</span>
-                                <span class="font-bold text-slate-900">All Year</span>
-                            </li>
-                            <li class="flex justify-between items-center py-3 border-b border-slate-100">
-                                <span class="text-slate-500">Currency</span>
-                                <span class="font-bold text-slate-900">Local / USD</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Trust Indicators -->
-                    <div class="bg-white p-8 border border-slate-200 rounded-3xl shadow-lg">
-                        <h3 class="font-heading font-bold text-xl mb-6 text-slate-900">Why Choose Us?</h3>
-                        <div class="space-y-4">
-                            <?php
-                            $trustItems = [
-                                'Secure Payment' => 'text-green-500',
-                                '24/7 Support' => 'text-blue-500',
-                                'Verified Quality' => 'text-secondary',
-                                'Best Price' => 'text-purple-500'
-                            ];
-                            foreach ($trustItems as $item => $color): ?>
-                                <div class="flex items-center text-sm text-slate-600">
-                                    <svg class="w-5 h-5 mr-3 <?php echo $color; ?>" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    <?php echo $item; ?>
-                                </div>
-                            <?php endforeach; ?>
+            <!-- Interactive Map -->
+            <?php if (!empty($dest['map_embed'])): ?>
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl overflow-hidden">
+                    <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
+                        <span class="w-10 h-1 bg-primary rounded-full"></span>
+                        Location
+                    </h2>
+                    <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
+                        <style>
+                            .map-container iframe {
+                                width: 100%;
+                                height: 400px;
+                                border: 0;
+                                filter: grayscale(0%);
+                            }
+                        </style>
+                        <div class="map-container relative z-0">
+                            <?php echo $dest['map_embed']; ?>
                         </div>
                     </div>
+                </div>
+            <?php endif; ?>
 
-                    <!-- CTA -->
-                    <div
-                        class="bg-gradient-to-br from-primary to-teal-600 rounded-3xl p-8 text-center text-white shadow-xl">
-                        <h4 class="font-bold text-xl mb-2">Need Help?</h4>
-                        <p class="text-white/80 text-sm mb-6">Our experts are ready to craft your dream trip.</p>
+            <!-- Available Packages -->
+            <div>
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-3xl font-heading font-bold text-slate-900">Available Packages</h3>
+                    <span
+                        class="px-4 py-1.5 rounded-full bg-white border border-slate-200 text-xs text-slate-600 uppercase tracking-widest shadow-sm">
+                        <?php echo count($packages); ?> Offers
+                    </span>
+                </div>
+
+                <?php if (count($packages) > 0): ?>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <?php foreach ($packages as $index => $p): ?>
+                            <a href="<?php echo package_url($p['slug']); ?>"
+                                class="package-card block bg-white border border-slate-100 rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-500 opacity-0 transform translate-y-8"
+                                style="transition-delay: <?php echo $index * 100; ?>ms">
+                                <div class="relative h-60 overflow-hidden">
+                                    <img src="<?php echo base_url($p['image']); ?>"
+                                        alt="<?php echo htmlspecialchars($p['title']); ?>" loading="lazy"
+                                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60">
+                                    </div>
+                                    <div
+                                        class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-800 shadow-md">
+                                        <?php echo $p['duration']; ?>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <h4
+                                        class="font-heading font-bold text-xl text-slate-900 mb-2 group-hover:text-primary transition leading-tight">
+                                        <?php echo htmlspecialchars($p['title']); ?>
+                                    </h4>
+
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <?php if (!empty($p['activities'])): ?>
+                                            <?php foreach (array_slice($p['activities'], 0, 2) as $act): ?>
+                                                <span
+                                                    class="text-[10px] text-slate-500 border border-slate-200 px-2 py-1 rounded-md bg-slate-50"><?php echo htmlspecialchars($act); ?></span>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="flex items-end justify-between border-t border-slate-100 pt-4">
+                                        <div>
+                                            <span
+                                                class="text-xs text-slate-400 font-medium block uppercase tracking-wider">Starting
+                                                From</span>
+                                            <span
+                                                class="text-2xl font-bold text-primary">₹<?php echo number_format($p['price']); ?></span>
+                                        </div>
+                                        <div
+                                            class="w-10 h-10 rounded-full bg-slate-100 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                                            &rarr;
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <!-- Empty State -->
+                    <div class="bg-white text-center p-12 border border-dashed border-slate-200 rounded-3xl shadow-sm">
+                        <div
+                            class="w-20 h-20 bg-slate-50 rounded-full mx-auto flex items-center justify-center mb-6 text-slate-400">
+                            <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Coming Soon</h3>
+                        <p class="text-slate-500 max-w-md mx-auto mb-8">We are currently curating exclusive experiences
+                            for this destination.</p>
                         <a href="<?php echo base_url('pages/contact.php'); ?>"
-                            class="block w-full bg-white text-primary font-bold py-3 rounded-xl hover:bg-slate-50 transition shadow-md magnetic-btn">Contact
-                            Concierge</a>
+                            class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-primary/30">Request
+                            Custom Quote</a>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Sidebar -->
+        <aside class="w-full">
+            <div class="sticky top-32 space-y-8">
+                <!-- Quick Facts -->
+                <div
+                    class="bg-gradient-to-br from-primary/5 to-teal-50 p-8 border border-primary/20 rounded-3xl shadow-lg">
+                    <h3 class="font-heading font-bold text-2xl mb-8 text-slate-900 flex items-center gap-2">
+                        <span class="text-primary text-2xl">✦</span> Quick Facts
+                    </h3>
+                    <div class="space-y-6">
+                        <div
+                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Type</p>
+                                    <p class="font-bold text-slate-900 text-lg"><?php echo $dest['type']; ?></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Best Time</p>
+                                    <p class="font-bold text-slate-900 text-lg">All Year</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center text-green-600 group-hover:bg-green-500 group-hover:text-white transition">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Currency</p>
+                                    <p class="font-bold text-slate-900 text-lg">Local / USD</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-white p-6 rounded-2xl shadow-sm border border-primary/10 hover:border-primary/30 transition group">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition">
+                                    <span class="text-2xl">★</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Rating</p>
+                                    <p class="font-bold text-slate-900 text-lg"><?php echo $dest['rating']; ?> / 5.0</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </aside>
-        </div>
+
+                <!-- Trust Indicators -->
+                <div class="bg-white p-8 border border-slate-200 rounded-3xl shadow-lg">
+                    <h3 class="font-heading font-bold text-xl mb-6 text-slate-900">Why Choose Us?</h3>
+                    <div class="space-y-4">
+                        <?php
+                        $trustItems = [
+                            'Secure Payment' => 'text-green-500',
+                            '24/7 Support' => 'text-blue-500',
+                            'Verified Quality' => 'text-secondary',
+                            'Best Price' => 'text-purple-500'
+                        ];
+                        foreach ($trustItems as $item => $color): ?>
+                            <div class="flex items-center text-sm text-slate-600">
+                                <svg class="w-5 h-5 mr-3 <?php echo $color; ?>" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <?php echo $item; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div
+                    class="bg-gradient-to-br from-primary to-teal-600 rounded-3xl p-8 text-center text-white shadow-xl">
+                    <h4 class="font-bold text-xl mb-2">Need Help?</h4>
+                    <p class="text-white/80 text-sm mb-6">Our experts are ready to craft your dream trip.</p>
+                    <a href="<?php echo base_url('pages/contact.php'); ?>"
+                        class="block w-full bg-white text-primary font-bold py-3 rounded-xl hover:bg-slate-50 transition shadow-md magnetic-btn">Contact
+                        Concierge</a>
+                </div>
+            </div>
+        </aside>
     </div>
+</div>
 </div>
 
 <script>
