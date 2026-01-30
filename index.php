@@ -533,50 +533,6 @@ try {
                                     "<?php echo htmlspecialchars($review['message']); ?>"</p>
                             </div>
                         <?php endforeach; ?>
-                    <?php else: ?>
-                        <!-- Fallback Testimonials if DB empty -->
-                        <div
-                            class="testimonial-card p-10 bg-white rounded-[2rem] shadow-xl border border-slate-100 opacity-0 translate-y-10 hover:shadow-2xl transition-all duration-300">
-                            <div class="flex items-center gap-5 mb-8">
-                                <img src="https://ui-avatars.com/api/?name=Sarah+J&background=0F766E&color=fff"
-                                    class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
-                                <div>
-                                    <h4 class="font-bold text-xl text-slate-900">Sarah Jenkins</h4>
-                                    <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
-                                </div>
-                            </div>
-                            <p class="text-slate-600 italic leading-loose text-lg font-light">"The Maldives trip was
-                                absolutely breathtaking. The attention
-                                to detail was unmatched."</p>
-                        </div>
-                        <div
-                            class="testimonial-card p-10 bg-white rounded-[2rem] shadow-xl border border-slate-100 opacity-0 translate-y-10 hover:shadow-2xl transition-all duration-300">
-                            <div class="flex items-center gap-5 mb-8">
-                                <img src="https://ui-avatars.com/api/?name=Michael+R&background=D97706&color=fff"
-                                    class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
-                                <div>
-                                    <h4 class="font-bold text-xl text-slate-900">Michael Ross</h4>
-                                    <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
-                                </div>
-                            </div>
-                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Booking was seamless, and the
-                                concierge support was a
-                                lifesaver during our Paris tour."</p>
-                        </div>
-                        <div
-                            class="testimonial-card p-10 bg-white rounded-[2rem] shadow-xl border border-slate-100 opacity-0 translate-y-10 hover:shadow-2xl transition-all duration-300">
-                            <div class="flex items-center gap-5 mb-8">
-                                <img src="https://ui-avatars.com/api/?name=Emma+W&background=0F766E&color=fff"
-                                    class="w-16 h-16 rounded-full ring-4 ring-slate-50 shadow-md">
-                                <div>
-                                    <h4 class="font-bold text-xl text-slate-900">Emma Watson</h4>
-                                    <div class="flex text-yellow-500 text-base mt-1">★★★★★</div>
-                                </div>
-                            </div>
-                            <p class="text-slate-600 italic leading-loose text-lg font-light">"Highly recommend IfyTravels
-                                for anyone looking for a premium,
-                                hassle-free vacation."</p>
-                        </div>
                     <?php endif; ?>
                 </div>
             </div>
