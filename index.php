@@ -188,12 +188,12 @@ try {
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
                     <div class="space-y-1">
-                        <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_trips') ?: '500+'; ?>
+                        <p class="text-5xl md:text-6xl font-bold text-primary"><?php echo get_setting('stat_trips') ?: '500+'; ?>
                         </p>
                         <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Luxury Trips</p>
                     </div>
                     <div class="space-y-1">
-                        <p class="text-4xl font-bold text-primary"><?php echo get_setting('stat_reviews') ?: '98%'; ?>
+                        <p class="text-5xl md:text-6xl font-bold text-primary"><?php echo get_setting('stat_reviews') ?: '98%'; ?>
                         </p>
                         <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">5-Star Reviews</p>
                     </div>
@@ -201,13 +201,13 @@ try {
                     <div class="col-span-2 border-t border-slate-100 md:hidden my-2"></div>
 
                     <div class="space-y-1">
-                        <p class="text-4xl font-bold text-primary">
+                        <p class="text-5xl md:text-6xl font-bold text-primary">
                             <?php echo get_setting('stat_destinations') ?: '25+'; ?>
                         </p>
                         <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Destinations</p>
                     </div>
                     <div class="space-y-1">
-                        <p class="text-4xl font-bold text-primary">
+                        <p class="text-5xl md:text-6xl font-bold text-primary">
                             <?php echo get_setting('stat_concierge') ?: '24/7'; ?>
                         </p>
                         <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Concierge</p>
