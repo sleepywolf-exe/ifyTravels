@@ -349,10 +349,10 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                             ?>
                             <div class="package-card h-full <?php echo $animClass; ?>">
                                 <a href="<?php echo package_url($pkg['slug']); ?>"
-                                    class="glass-card-light block rounded-3xl overflow-hidden group shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out flex flex-col h-full bg-white border border-slate-100 will-change-transform">
+                                    class="block rounded-3xl overflow-hidden group shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out flex flex-col h-full bg-white border border-slate-100 will-change-transform relative z-0">
 
                                     <!-- Image -->
-                                    <div class="relative h-64 overflow-hidden shrink-0">
+                                    <div class="relative h-64 overflow-hidden shrink-0 z-0">
                                         <img src="<?php echo base_url($pkg['image']); ?>"
                                             alt="<?php echo htmlspecialchars($pkg['title']); ?>"
                                             loading="<?php echo $index < 2 ? 'eager' : 'lazy'; ?>"
@@ -361,19 +361,19 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
 
                                         <!-- Gradient -->
                                         <div
-                                            class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60">
+                                            class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60">
                                         </div>
 
-                                        <!-- Badges -->
+                                        <!-- Badges: High Z-Index -->
                                         <?php if ($pkg['isPopular']): ?>
                                             <div
-                                                class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+                                                class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1 z-20">
                                                 🔥 POPULAR
                                             </div>
                                         <?php endif; ?>
                                         <?php if (!empty($pkg['is_new'])): ?>
                                             <div
-                                                class="absolute top-4 <?php echo $pkg['isPopular'] ? 'left-28' : 'left-4'; ?> bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                                                class="absolute top-4 <?php echo $pkg['isPopular'] ? 'left-28' : 'left-4'; ?> bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse z-20">
                                                 NEW
                                             </div>
                                         <?php endif; ?>
@@ -384,10 +384,12 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                         $displayPrice = $pkg['price'] * $travelersCount;
                                         ?>
                                         <div
-                                            class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-slate-800 shadow-lg">
-                                            <span class="text-xs text-slate-500 block text-right">Starting from</span>
+                                            class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg text-slate-800 shadow-lg z-20 border border-slate-100">
                                             <span
-                                                class="text-lg font-bold text-primary">₹<?php echo number_format($displayPrice); ?></span>
+                                                class="text-[10px] text-slate-500 block text-right font-bold uppercase tracking-wide">Starts
+                                                from</span>
+                                            <span
+                                                class="text-lg font-black text-primary font-heading">₹<?php echo number_format($displayPrice); ?></span>
                                             <?php if ($travelersCount > 1): ?>
                                                 <span class="text-[10px] text-slate-400 block text-right">for
                                                     <?php echo $travelersCount; ?> ppl</span>
@@ -396,14 +398,14 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                     </div>
 
                                     <!-- Content -->
-                                    <div class="p-6 flex flex-col flex-1">
+                                    <div class="p-6 flex flex-col flex-1 relative z-10 bg-white">
                                         <h3
-                                            class="text-xl font-heading font-bold text-slate-800 group-hover:text-primary transition mb-2">
+                                            class="text-xl font-heading font-black text-slate-900 group-hover:text-primary transition-colors mb-2 leading-tight">
                                             <?php echo htmlspecialchars($pkg['title']); ?>
                                         </h3>
 
-                                        <div class="flex items-center gap-4 text-sm text-slate-500 mb-4">
-                                            <div class="flex items-center gap-1">
+                                        <div class="flex items-center gap-4 text-sm font-medium text-slate-600 mb-4">
+                                            <div class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md">
                                                 <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -411,7 +413,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                                 </svg>
                                                 <?php echo htmlspecialchars($pkg['duration']); ?>
                                             </div>
-                                            <div class="flex items-center gap-1">
+                                            <div class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md">
                                                 <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -427,21 +429,25 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                                         <!-- Features (First 3) -->
                                         <div class="space-y-2 mb-6 flex-1">
                                             <?php
-                                            $feats = array_slice($pkg['features'], 0, 3);
-                                            foreach ($feats as $f): ?>
-                                                <div class="flex items-center text-sm text-slate-600">
-                                                    <svg class="w-4 h-4 text-secondary mr-2 shrink-0" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M5 13l4 4L19 7"></path>
-                                                    </svg>
-                                                    <span class="truncate"><?php echo htmlspecialchars($f); ?></span>
-                                                </div>
-                                            <?php endforeach; ?>
+                                            $feats = !empty($pkg['features']) ? array_slice($pkg['features'], 0, 3) : [];
+                                            if (!empty($feats)):
+                                                foreach ($feats as $f): ?>
+                                                    <div class="flex items-center text-sm text-slate-700">
+                                                        <svg class="w-4 h-4 text-emerald-500 mr-2 shrink-0" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                d="M5 13l4 4L19 7"></path>
+                                                        </svg>
+                                                        <span class="truncate font-medium"><?php echo htmlspecialchars($f); ?></span>
+                                                    </div>
+                                                <?php endforeach;
+                                            else: ?>
+                                                <p class="text-sm text-slate-400 italic">View details for more info.</p>
+                                            <?php endif; ?>
                                         </div>
 
                                         <div
-                                            class="w-full bg-slate-50 text-slate-700 font-bold py-3 rounded-xl border border-slate-200 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors text-center">
+                                            class="w-full bg-slate-50 text-slate-800 font-bold py-3 rounded-xl border border-slate-200 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors text-center shadow-sm">
                                             View Details
                                         </div>
                                     </div>
