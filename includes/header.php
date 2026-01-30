@@ -113,7 +113,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
     // Force HTTPS for Canonical/Meta URLs
     $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? "https" : "https";
-    $metaUrl = $protocol . "://" . $_SERVER['HTTP_HOST'] . strtok($_SERVER["REQUEST_URI"], '?'); // Strip query params for canonical (optional but recommended for clean URLs)
+    $metaUrl = $protocol . "://" . $_SERVER['HTTP_HOST'] . strtok(strtolower($_SERVER["REQUEST_URI"]), '?'); // Lowercase & Strip query params for canonical
     
     $metaImage = isset($pageImage) ? base_url($pageImage) : (get_setting('og_image') ? base_url(get_setting('og_image')) : base_url('assets/images/logo-color.png'));
     ?>

@@ -4,19 +4,14 @@
  * Generates sitemap.xml for SEO
  */
 
-require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/functions.php';
 
 // Set Content-Type
 if (php_sapi_name() !== 'cli') {
     header("Content-Type: application/xml; charset=utf-8");
 }
 
-// Determine Base URL
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$domain = $_SERVER['HTTP_HOST'];
-$baseUrl = $protocol . $domain;
-
-// Initialize Database
+// Initialize Database using new singleton pattern
 $db = Database::getInstance();
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -25,60 +20,44 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
     <!-- Static Pages -->
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/
-        </loc>
+        <loc><?php echo base_url(); ?></loc>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/destinations
-        </loc>
+        <loc><?php echo base_url('destinations'); ?></loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/packages
-        </loc>
+        <loc><?php echo base_url('packages'); ?></loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/contact
-        </loc>
+        <loc><?php echo base_url('contact'); ?></loc>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/booking
-        </loc>
+        <loc><?php echo base_url('booking'); ?></loc>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
 
     <!-- Legal Pages -->
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/pages/legal/privacy.html
-        </loc>
+        <loc><?php echo base_url('pages/legal/privacy.html'); ?></loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/pages/legal/refund.html
-        </loc>
+        <loc><?php echo base_url('pages/legal/refund.html'); ?></loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>
-            <?php echo $baseUrl; ?>/pages/legal/terms.html
-        </loc>
+        <loc><?php echo base_url('pages/legal/terms.html'); ?></loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
@@ -86,11 +65,12 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     <!-- Dynamic Destinations -->
     <?php
     try {
-        // SELECT * is safer to avoid "Column not found" errors for specific columns like updated_at
         $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DESC");
         foreach ($destinations as $dest) {
-            $slug = htmlspecialchars($dest['slug']);
-            // Use updated_at if available, else created_at, else now
+            // Use shared helper for accurate URL
+            $url = destination_url($dest['slug']);
+            
+            // Calculate last modified
             if (!empty($dest['updated_at'])) {
                 $lastMod = date('Y-m-d', strtotime($dest['updated_at']));
             } elseif (!empty($dest['created_at'])) {
@@ -100,7 +80,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
             }
 
             echo "    <url>\n";
-            echo "        <loc>{$baseUrl}/destinations/{$slug}</loc>\n";
+            echo "        <loc>{$url}</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
             echo "        <changefreq>weekly</changefreq>\n";
             echo "        <priority>0.7</priority>\n";
@@ -116,7 +96,9 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     try {
         $packages = $db->fetchAll("SELECT * FROM packages ORDER BY created_at DESC");
         foreach ($packages as $pkg) {
-            $slug = htmlspecialchars($pkg['slug']);
+            // Use shared helper for accurate URL
+            $url = package_url($pkg['slug']);
+
             if (!empty($pkg['updated_at'])) {
                 $lastMod = date('Y-m-d', strtotime($pkg['updated_at']));
             } elseif (!empty($pkg['created_at'])) {
@@ -126,7 +108,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
             }
 
             echo "    <url>\n";
-            echo "        <loc>{$baseUrl}/packages/{$slug}</loc>\n";
+            echo "        <loc>{$url}</loc>\n";
             echo "        <lastmod>{$lastMod}</lastmod>\n";
             echo "        <changefreq>weekly</changefreq>\n";
             echo "        <priority>0.6</priority>\n";
