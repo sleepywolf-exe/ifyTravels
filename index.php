@@ -171,7 +171,7 @@ try {
                 class="text-white hover:text-primary transition-colors duration-300">
                 <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 14l-7 7m0 0l-7 7m7 7V3">
+                        d="M19 14l-7 7-7-7m7 7V3">
                     </path>
                 </svg>
             </a>
