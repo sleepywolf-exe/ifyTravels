@@ -54,8 +54,8 @@ include __DIR__ . '/../includes/header.php';
     <div
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
         <h2
-            class="text-[12rem] md:text-[24rem] font-black text-white opacity-[0.03] leading-none tracking-tighter uppercase font-heading">
-            EXPLORE
+            class="text-[12rem] md:text-[24rem] font-black text-white opacity-[0.08] leading-none tracking-tighter uppercase font-heading">
+            DISCOVER
         </h2>
     </div>
 
