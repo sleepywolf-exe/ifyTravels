@@ -517,6 +517,11 @@ try {
                                         <h4 class="font-bold text-xl text-slate-900">
                                             <?php echo htmlspecialchars($review['name']); ?>
                                         </h4>
+                                        <?php if (!empty($review['location'])): ?>
+                                            <p class="text-xs text-slate-400 font-medium uppercase tracking-wide">
+                                                <?php echo htmlspecialchars($review['location']); ?>
+                                            </p>
+                                        <?php endif; ?>
                                         <div class="flex text-yellow-500 text-base mt-1">
                                             <?php for ($i = 0; $i < 5; $i++): ?>
                                                 <span><?php echo ($i < $review['rating']) ? '★' : '☆'; ?></span>
