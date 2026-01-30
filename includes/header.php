@@ -202,30 +202,19 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                 src="https://www.facebook.com/tr?id=<?php echo $pixelId; ?>&ev=PageView&noscript=1" /></noscript>
     <?php endif; ?>
 
-    <!-- Tailwind CSS (CDN for simplicity as per original, or local build) -->
-    <!-- We valid link to output.css if built, or CDN as fallback/dev -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0F766E',
-                        secondary: '#D97706',
-                        charcoal: '#111827',
-                    },
-                    fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Outfit', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap"
-        rel="stylesheet">
+    <!-- Preload Critical Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap"></noscript>
 
-    <!-- Flatpickr CSS for modern date picker -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    <!-- Tailwind CSS (Deferred) -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script>
+        tailwind = { config: { theme: { extend: { colors: { primary: '#0F766E', secondary: '#D97706', charcoal: '#111827', }, fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Outfit', 'sans-serif'] } } } } };
+    </script>
+
+    <!-- Flatpickr CSS (Deferred) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css" media="print" onload="this.media='all'">
 
     <style>
         body {

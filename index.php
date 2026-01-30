@@ -20,7 +20,7 @@ include 'includes/header.php';
 </script>
 
 <!-- Link Glassmorphism CSS -->
-<link rel="stylesheet" href="assets/css/glassmorphism.css">
+<link rel="stylesheet" href="assets/css/glassmorphism.min.css">
 
 <?php
 // Get Top 4 Destinations (Prioritize Featured)
