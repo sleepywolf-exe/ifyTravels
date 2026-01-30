@@ -9,6 +9,20 @@ if ($id) {
     $stmt = $pdo->prepare("SELECT * FROM bookings WHERE id = ?");
     $stmt->execute([$id]);
     $booking = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Fetch full package details if available
+    $packageDetails = null;
+    if ($booking && !empty($booking['package_id'])) {
+        $stmt2 = $pdo->prepare("SELECT * FROM packages WHERE id = ?");
+        $stmt2->execute([$booking['package_id']]);
+        $packageDetails = $stmt2->fetch(PDO::FETCH_ASSOC);
+        
+        if ($packageDetails) {
+            $packageDetails['features'] = json_decode($packageDetails['features'] ?? '[]', true);
+            $packageDetails['inclusions'] = json_decode($packageDetails['inclusions'] ?? '[]', true);
+            $packageDetails['themes'] = json_decode($packageDetails['themes'] ?? '[]', true);
+        }
+    }
 }
 
 $pageTitle = "Booking Confirmed";
@@ -44,7 +58,7 @@ include __DIR__ . '/../includes/header.php';
 
         <!-- Ticket Card -->
         <div
-            class="max-w-4xl mx-auto bg-white rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200 flex flex-col md:flex-row ticket-card border border-slate-100 relative print:shadow-none print:border-black print:rounded-none">
+            class="max-w-7xl mx-auto bg-white rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200 flex flex-col md:flex-row ticket-card border border-slate-100 relative print:shadow-none print:border-black print:rounded-none">
 
             <!-- Left: Main Ticket -->
             <div class="md:w-3/4 p-8 md:p-10 relative bg-white text-gray-900">
@@ -124,41 +138,85 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                 </div>
 
-                <!-- Details Grid -->
-                <div
-                    class="grid grid-cols-2 gap-y-8 gap-x-4 bg-slate-50 p-8 rounded-2xl border border-slate-100 print:bg-white print:border-gray-200 relative z-10">
-                    <div class="col-span-2 md:col-span-1">
-                        <span
-                            class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Passenger
-                            Name</span>
-                        <span class="font-bold text-lg text-slate-900 block truncate pr-4">
-                            <?php echo $booking ? htmlspecialchars($booking['customer_name']) : 'Guest'; ?>
-                        </span>
+                <!-- Detailed Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 bg-slate-50 p-8 rounded-2xl border border-slate-100 print:bg-white print:border-gray-200 relative z-10">
+                    
+                    <!-- Basic Detials -->
+                    <div class="md:col-span-4 space-y-6">
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Passenger Name</span>
+                            <span class="font-bold text-lg text-slate-900 block truncate">
+                                <?php echo $booking ? htmlspecialchars($booking['customer_name']) : 'Guest'; ?>
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Selected Package</span>
+                            <span class="font-bold text-base text-slate-900 block leading-tight" title="<?php echo $booking ? htmlspecialchars($booking['package_name']) : 'Custom'; ?>">
+                                <?php echo $booking ? htmlspecialchars($booking['package_name']) : 'Custom Package'; ?>
+                            </span>
+                        </div>
+                        <div class="flex gap-8">
+                            <div>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Travelers</span>
+                                <span class="font-bold text-lg text-slate-900">
+                                    <?php echo $booking ? ($booking['adults'] + $booking['children']) : '1'; ?> <span class="text-sm font-normal text-slate-400">Ppl</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Ref No.</span>
+                                <span class="font-mono text-lg font-bold text-primary print:text-black">
+                                    #<?php echo $booking ? str_pad($booking['id'], 6, '0', STR_PAD_LEFT) : '000000'; ?>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-span-2 md:col-span-1">
-                        <span
-                            class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Selected
-                            Package</span>
-                        <span class="font-bold text-base text-slate-900 block leading-tight line-clamp-2"
-                            title="<?php echo $booking ? htmlspecialchars($booking['package_name']) : 'Custom'; ?>">
-                            <?php echo $booking ? htmlspecialchars($booking['package_name']) : 'Custom Package'; ?>
-                        </span>
+
+                    <!-- Package Features/Inclusions -->
+                    <?php if ($packageDetails): ?>
+                    <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6 pl-0 md:pl-8 border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0">
+                        <!-- Themes -->
+                        <?php if(!empty($packageDetails['themes'])): ?>
+                        <div class="col-span-1 sm:col-span-2">
+                             <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-2">Experience Type</span>
+                             <div class="flex flex-wrap gap-2">
+                                <?php foreach(array_slice($packageDetails['themes'], 0, 5) as $theme): ?>
+                                    <span class="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-bold text-slate-600 uppercase tracking-wider"><?php echo htmlspecialchars($theme); ?></span>
+                                <?php endforeach; ?>
+                             </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Features -->
+                        <?php if(!empty($packageDetails['features'])): ?>
+                        <div>
+                             <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-2">Highlights</span>
+                             <ul class="space-y-1.5">
+                                <?php foreach(array_slice($packageDetails['features'], 0, 4) as $feat): ?>
+                                    <li class="col-span-1 md:col-span-2 text-xs font-semibold text-slate-700 flex items-start gap-2">
+                                        <svg class="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        <span class="leading-tight"><?php echo htmlspecialchars($feat); ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                             </ul>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Inclusions -->
+                        <?php if(!empty($packageDetails['inclusions'])): ?>
+                        <div>
+                             <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-2">Inclusions</span>
+                             <ul class="space-y-1.5">
+                                <?php foreach(array_slice($packageDetails['inclusions'], 0, 4) as $inc): ?>
+                                    <li class="col-span-1 md:col-span-2 text-xs font-semibold text-slate-700 flex items-start gap-2">
+                                        <svg class="w-3.5 h-3.5 text-blue-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span class="leading-tight"><?php echo htmlspecialchars($inc); ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                             </ul>
+                        </div>
+                        <?php endif; ?>
                     </div>
-                    <div>
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Ref
-                            Number</span>
-                        <span class="font-mono text-lg font-bold text-primary print:text-black tracking-wide">
-                            #<?php echo $booking ? str_pad($booking['id'], 6, '0', STR_PAD_LEFT) : '000000'; ?>
-                        </span>
-                    </div>
-                    <div>
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1.5">Total
-                            Travelers</span>
-                        <span class="font-bold text-lg text-slate-900">
-                            <?php echo $booking ? ($booking['adults'] + $booking['children']) : '1'; ?> <span
-                                class="text-sm font-normal text-slate-400">Person(s)</span>
-                        </span>
-                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="mt-8 flex justify-center md:justify-start">
