@@ -41,52 +41,50 @@ include __DIR__ . '/../includes/header.php';
 }
 </script>
 
-<!-- Page Header (Premium Clean Design) -->
-<div class="relative pt-32 pb-24 overflow-hidden bg-white">
+<!-- Hero Section with Background Image -->
+<section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="<?php echo get_setting('destinations_bg', 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80&w=2000'); ?>"
+            class="w-full h-full object-cover object-center brightness-[0.50]" alt="Destinations Background">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
+    </div>
+
     <!-- Massive Background Text -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
-        <h2
-            class="text-[10rem] md:text-[20rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading transform -translate-y-10">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
+        <h2 class="text-[12rem] md:text-[24rem] font-black text-white opacity-[0.08] leading-none tracking-tighter uppercase font-heading">
             EXPLORE
         </h2>
     </div>
 
-    <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-5 z-0">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary rounded-full blur-3xl"></div>
-    </div>
-
-    <div class="container mx-auto px-6 relative z-10">
+    <!-- Content -->
+    <div class="container mx-auto px-6 relative z-10 text-center pt-32 pb-20">
         <!-- Breadcrumb -->
-        <nav class="flex items-center gap-2 text-sm mb-8 justify-center animate-fade-in">
-            <a href="<?php echo base_url(); ?>" class="text-slate-500 hover:text-primary transition-colors">Home</a>
-            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <nav class="flex items-center gap-2 text-sm mb-8 justify-center">
+            <a href="<?php echo base_url(); ?>" class="text-white/70 hover:text-white transition-colors">Home</a>
+            <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
-            <span class="text-primary font-semibold">Destinations</span>
+            <span class="text-white font-semibold">Destinations</span>
         </nav>
 
         <!-- Header Content -->
-        <div class="text-center max-w-4xl mx-auto">
-            <span class="inline-block px-4 py-2 bg-primary/10 text-primary font-bold tracking-widest uppercase text-sm rounded-full mb-6">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold tracking-widest uppercase text-sm rounded-full mb-6">
                 Curated Collection
             </span>
-            <h1 class="text-5xl md:text-7xl font-heading font-bold text-slate-900 mb-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 drop-shadow-2xl">
                 Explore 
-                <span class="text-primary relative inline-block">
+                <span class="text-secondary relative inline-block">
                     Destinations
-                    <svg class="absolute -bottom-2 left-0 w-full h-3 text-primary/20" viewBox="0 0 200 12" preserveAspectRatio="none">
-                        <path d="M0,7 Q50,0 100,7 T200,7" stroke="currentColor" stroke-width="4" fill="none"/>
-                    </svg>
                 </span>
             </h1>
-            <p class="text-slate-600 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto">
+            <p class="text-white/90 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto drop-shadow-lg">
                 Discover the most beautiful and exclusive places around the world, handpicked for discerning travelers.
             </p>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Main Content -->
 <div class="bg-white min-h-screen relative z-10">
