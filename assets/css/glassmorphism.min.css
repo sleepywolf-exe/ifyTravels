@@ -1,3 +1,4 @@
+/* Base Glass Form */
 .glass-form {
     background: rgba(255, 255, 255, .05);
     backdrop-filter: blur(20px);
@@ -8,6 +9,7 @@
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, .37)
 }
 
+/* Inputs */
 .glass-input,
 .glass-select,
 .glass-textarea {
@@ -28,9 +30,10 @@
 .glass-select:focus,
 .glass-textarea:focus {
     background: rgba(255, 255, 255, .15) !important;
-    border-color: rgba(255, 255, 255, .4) !important;
+    border-color: rgba(217, 119, 6, .6) !important;
+    /* Amber-600 */
     outline: 0;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, .1)
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, .2)
 }
 
 .glass-input::placeholder,
@@ -38,15 +41,10 @@
     color: rgba(255, 255, 255, .6)
 }
 
-.glass-label {
-    color: rgba(255, 255, 255, .9);
-    font-weight: 500;
-    margin-bottom: .5rem;
-    display: block
-}
-
+/* Buttons */
 .glass-button {
-    background: linear-gradient(135deg, rgba(20, 184, 166, .8), rgba(13, 148, 136, .8));
+    background: linear-gradient(135deg, #0F766E, #0D9488);
+    /* Primary Teal */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, .2);
@@ -59,11 +57,12 @@
 }
 
 .glass-button:hover {
-    background: linear-gradient(135deg, rgba(13, 148, 136, .9), rgba(15, 118, 110, .9));
+    background: linear-gradient(135deg, #115E59, #0F766E);
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(20, 184, 166, .4)
+    box-shadow: 0 10px 25px rgba(15, 118, 110, .4)
 }
 
+/* Badges */
 .glass-badge {
     background: rgba(255, 255, 255, .15);
     border: 1px solid rgba(255, 255, 255, .2);
@@ -81,66 +80,52 @@
     background: rgba(255, 255, 255, .25)
 }
 
-.video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(0, 0, 0, .5), rgba(79, 70, 229, .3));
-    z-index: 1
-}
-
-.hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2
-}
-
-.no-spinner::-webkit-inner-spin-button,
-.no-spinner::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0
-}
-
-.no-spinner {
-    -moz-appearance: textfield
-}
-
-.glass-card {
-    background: rgba(255, 255, 255, .7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, .5);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, .1);
-    transition: all .4s ease
-}
-
-.glass-card:hover {
-    background: rgba(255, 255, 255, .9);
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 40px 0 rgba(31, 38, 135, .2)
-}
-
-.text-gradient {
-    background: linear-gradient(135deg, #0F766E, #0D9488);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent
-}
-
+/* Helper Utility for input icons */
 [class*="!pl-12"] {
     padding-left: 3rem !important
 }
 
 [class*="!pl-10"] {
     padding-left: 2.5rem !important
+}
+
+/* LUXURY REDESIGN TOKENS */
+
+/* Floating Glass Pill Nav */
+.glass-pill {
+    background: rgba(17, 24, 39, 0.7) !important;
+    /* Dark Charcoal */
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Luxury Gold Text Gradient */
+.text-gold {
+    background: linear-gradient(135deg, #FDE68A 0%, #D97706 50%, #92400E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Deep Teal Overlay */
+.overlay-teal {
+    background: linear-gradient(to bottom, rgba(15, 118, 110, 0.4), rgba(17, 24, 39, 0.9));
+}
+
+/* Glass Card Dark */
+.glass-card-dark {
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+.glass-card-dark:hover {
+    transform: translateY(-10px);
+    border-color: rgba(217, 119, 6, 0.5);
+    /* Amber glow */
 }

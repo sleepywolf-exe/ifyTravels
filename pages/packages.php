@@ -2,10 +2,7 @@
 $pageTitle = "Packages";
 include __DIR__ . '/../includes/header.php';
 
-// --- 1. Filter Logic ---
-
-// Get all packages first (from loader.php included in header -> functions -> loader)
-// Note: functions.php usually includes loader.php. If not, we ensure it.
+// --- 1. Filter Logic (Preserved) ---
 if (!isset($packages)) {
     include_once __DIR__ . '/../data/loader.php';
 }
@@ -16,13 +13,11 @@ $allThemes = [];
 foreach ($packages as $p) {
     if (!empty($p['activities'])) {
         $acts = is_string($p['activities']) ? json_decode($p['activities'], true) : $p['activities'];
-        if (is_array($acts))
-            $allActivities = array_merge($allActivities, $acts);
+        if (is_array($acts)) $allActivities = array_merge($allActivities, $acts);
     }
     if (!empty($p['themes'])) {
         $thms = is_string($p['themes']) ? json_decode($p['themes'], true) : $p['themes'];
-        if (is_array($thms))
-            $allThemes = array_merge($allThemes, $thms);
+        if (is_array($thms)) $allThemes = array_merge($allThemes, $thms);
     }
 }
 $allActivities = array_unique($allActivities);
@@ -34,76 +29,49 @@ sort($allThemes);
 $search = $_GET['search'] ?? '';
 $minPrice = $_GET['min_price'] ?? '';
 $maxPrice = $_GET['max_price'] ?? '';
-$selectedDurations = $_GET['duration_filter'] ?? []; // Array
-$selectedActivities = $_GET['activities'] ?? []; // Array
-$selectedThemes = $_GET['themes'] ?? []; // Array
+$selectedDurations = $_GET['duration_filter'] ?? [];
+$selectedActivities = $_GET['activities'] ?? [];
+$selectedThemes = $_GET['themes'] ?? [];
+$selectedRegion = $_GET['region_filter'] ?? '';
+$destinationFilter = $_GET['destination'] ?? '';
 
 // 1.3 Apply Filters
-$selectedRegion = $_GET['region_filter'] ?? '';
-$destinationFilter = $_GET['destination'] ?? ''; // New Filter
-
 $filteredPackages = array_filter($packages, function ($pkg) use ($search, $minPrice, $maxPrice, $selectedDurations, $selectedActivities, $selectedThemes, $selectedRegion, $destinationFilter) {
-
-    // Destination Filter (From Home Page)
-    if (!empty($destinationFilter)) {
-        if ($pkg['destinationId'] != $destinationFilter) {
-            return false;
-        }
-    }
-
-    // Region (Match Destination Type)
+    if (!empty($destinationFilter) && $pkg['destinationId'] != $destinationFilter) return false;
+    
     if (!empty($selectedRegion)) {
-        // Find destination for this package
         $dest = getDestinationById($pkg['destinationId']);
-        if (!$dest || $dest['type'] !== $selectedRegion) {
-            return false;
-        }
+        if (!$dest || $dest['type'] !== $selectedRegion) return false;
     }
 
-    // Search
     if (!empty($search)) {
         $term = strtolower(trim($search));
-        $inTitle = strpos(strtolower($pkg['title']), $term) !== false;
-        if (!$inTitle)
-            return false;
+        if (strpos(strtolower($pkg['title']), $term) === false) return false;
     }
 
-    // Price
-    if ($minPrice !== '' && $pkg['price'] < $minPrice)
-        return false;
-    if ($maxPrice !== '' && $pkg['price'] > $maxPrice)
-        return false;
+    if ($minPrice !== '' && $pkg['price'] < $minPrice) return false;
+    if ($maxPrice !== '' && $pkg['price'] > $maxPrice) return false;
 
-    // Duration (Logic: Parse "5 Days" -> 5)
     if (!empty($selectedDurations)) {
-        $dVal = intval($pkg['duration']); // "5 Days" -> 5
+        $dVal = intval($pkg['duration']);
         $match = false;
         foreach ($selectedDurations as $range) {
-            if ($range === 'short' && $dVal < 3)
-                $match = true;
-            if ($range === 'medium' && $dVal >= 3 && $dVal <= 5)
-                $match = true;
-            if ($range === 'long' && $dVal > 5 && $dVal <= 7)
-                $match = true;
-            if ($range === 'extended' && $dVal > 7)
-                $match = true;
+            if ($range === 'short' && $dVal < 3) $match = true;
+            if ($range === 'medium' && $dVal >= 3 && $dVal <= 5) $match = true;
+            if ($range === 'long' && $dVal > 5 && $dVal <= 7) $match = true;
+            if ($range === 'extended' && $dVal > 7) $match = true;
         }
-        if (!$match)
-            return false;
+        if (!$match) return false;
     }
 
-    // Activities (OR logic: has at least one selected activity)
     if (!empty($selectedActivities)) {
         $pkgActs = is_string($pkg['activities']) ? json_decode($pkg['activities'], true) : $pkg['activities'];
-        if (empty($pkgActs) || !array_intersect($selectedActivities, $pkgActs))
-            return false;
+        if (empty($pkgActs) || !array_intersect($selectedActivities, $pkgActs)) return false;
     }
 
-    // Themes (OR logic)
     if (!empty($selectedThemes)) {
         $pkgThemes = is_string($pkg['themes']) ? json_decode($pkg['themes'], true) : $pkg['themes'];
-        if (empty($pkgThemes) || !array_intersect($selectedThemes, $pkgThemes))
-            return false;
+        if (empty($pkgThemes) || !array_intersect($selectedThemes, $pkgThemes)) return false;
     }
 
     return true;
@@ -114,8 +82,7 @@ $itemsPerPage = 6;
 $totalItems = count($filteredPackages);
 $totalPages = ceil($totalItems / $itemsPerPage);
 $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-if ($currentPage > $totalPages && $totalPages > 0)
-    $currentPage = $totalPages;
+if ($currentPage > $totalPages && $totalPages > 0) $currentPage = $totalPages;
 
 $offset = ($currentPage - 1) * $itemsPerPage;
 $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
@@ -167,337 +134,292 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
 }
 </script>
 
-<!-- Header -->
-<div class="relative pt-32 pb-12 bg-cover bg-center min-h-[300px] flex items-center justify-center"
-    style="background-image: url('<?php echo get_setting('packages_bg', base_url('assets/images/packages/thailand.jpg')); ?>');">
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="container mx-auto px-6 text-center relative z-10">
-        <h1 class="text-4xl font-bold text-white mb-4">Exclusive Packages</h1>
-        <p class="text-gray-100 max-w-2xl mx-auto">Find your perfect getaway with our curated selection.</p>
+<!-- Header (Luxury) -->
+<div class="relative pt-40 pb-20 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="<?php echo get_setting('packages_bg', base_url('assets/images/packages/thailand.jpg')); ?>" class="w-full h-full object-cover brightness-[0.4]" alt="Packages Background">
+        <div class="absolute inset-0 bg-gradient-to-b from-charcoal/50 to-charcoal"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10 text-center">
+        <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-4 block">Hand-Crafted Journeys</span>
+        <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6">Exclusive <span class="text-gold">Packages</span></h1>
+        <p class="text-gray-300 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+            Find your perfect getaway with our curated selection of premium travel experiences.
+        </p>
     </div>
 </div>
 
-<div class="container mx-auto px-6 py-12 flex-1">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Main Content -->
+<div class="bg-charcoal min-h-screen relative z-10">
+    <div class="container mx-auto px-6 py-12">
+        <div class="flex flex-col lg:flex-row gap-10">
 
-        <!-- Sidebar Filters -->
-        <aside class="lg:col-span-1">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-lg text-charcoal">Filters</h3>
-                    <a href="<?php echo base_url('packages'); ?>"
-                        class="text-xs text-primary font-bold hover:underline">Reset All</a>
+            <!-- Sidebar Filters -->
+            <aside class="w-full lg:w-1/4">
+                <div class="glass-form sticky top-32 !p-6 !bg-white/5 border border-white/10 rounded-3xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-heading font-bold text-xl text-white">Filters</h3>
+                        <a href="<?php echo base_url('pages/packages.php'); ?>" class="text-xs text-secondary font-bold hover:text-white transition">Reset</a>
+                    </div>
+
+                    <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET" id="filterForm">
+                        <?php if (!empty($search)): ?><input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>"><?php endif; ?>
+
+                        <!-- Region -->
+                        <div class="mb-6">
+                            <h4 class="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wide">Region</h4>
+                            <div class="space-y-2">
+                                <?php foreach(['' => 'All Regions', 'International' => 'International', 'Domestic' => 'Domestic'] as $val => $label): ?>
+                                <label class="flex items-center group cursor-pointer">
+                                    <div class="relative flex items-center">
+                                        <input type="radio" name="region_filter" value="<?php echo $val; ?>" 
+                                            class="peer appearance-none w-4 h-4 border border-white/30 rounded-full checked:border-secondary checked:bg-secondary transition-all"
+                                            <?php echo ($selectedRegion == $val) ? 'checked' : ''; ?>>
+                                        <div class="absolute inset-0 m-auto w-1.5 h-1.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                                    </div>
+                                    <span class="ml-3 text-sm text-gray-400 group-hover:text-white transition-colors"><?php echo $label; ?></span>
+                                </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-6">
+                            <h4 class="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wide">Price Range (₹)</h4>
+                            <div class="flex items-center gap-2">
+                                <input type="number" name="min_price" value="<?php echo htmlspecialchars($minPrice); ?>" placeholder="Min" class="glass-input !h-10 !px-3 text-sm w-1/2">
+                                <span class="text-gray-500">-</span>
+                                <input type="number" name="max_price" value="<?php echo htmlspecialchars($maxPrice); ?>" placeholder="Max" class="glass-input !h-10 !px-3 text-sm w-1/2">
+                            </div>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="mb-6">
+                            <h4 class="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wide">Duration</h4>
+                            <div class="space-y-2">
+                                <?php 
+                                $durations = [
+                                    'short' => 'Short Break (< 3 Days)',
+                                    'medium' => '3 - 5 Days',
+                                    'long' => '5 - 7 Days',
+                                    'extended' => 'Extended Trip (> 7 Days)'
+                                ];
+                                foreach($durations as $key => $label): ?>
+                                <label class="flex items-center group cursor-pointer">
+                                    <input type="checkbox" name="duration_filter[]" value="<?php echo $key; ?>" 
+                                        class="peer appearance-none w-4 h-4 border border-white/30 rounded checked:bg-secondary checked:border-secondary transition-all"
+                                        <?php echo in_array($key, $selectedDurations) ? 'checked' : ''; ?>>
+                                    <span class="ml-3 text-sm text-gray-400 group-hover:text-white transition-colors"><?php echo $label; ?></span>
+                                </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <!-- Themes -->
+                        <div class="mb-6">
+                            <h4 class="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wide">Themes</h4>
+                            <div class="max-h-40 overflow-y-auto space-y-2 custom-scrollbar pr-2">
+                                <?php foreach ($allThemes as $theme): ?>
+                                    <label class="flex items-center group cursor-pointer">
+                                        <input type="checkbox" name="themes[]" value="<?php echo htmlspecialchars($theme); ?>"
+                                            class="peer appearance-none w-4 h-4 border border-white/30 rounded checked:bg-secondary checked:border-secondary transition-all"
+                                            <?php echo in_array($theme, $selectedThemes) ? 'checked' : ''; ?>>
+                                        <span class="ml-3 text-sm text-gray-400 group-hover:text-white transition-colors"><?php echo htmlspecialchars($theme); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <!-- Activities -->
+                        <div class="mb-8">
+                            <h4 class="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wide">Activities</h4>
+                            <div class="max-h-40 overflow-y-auto space-y-2 custom-scrollbar pr-2">
+                                <?php foreach ($allActivities as $act): ?>
+                                    <label class="flex items-center group cursor-pointer">
+                                        <input type="checkbox" name="activities[]" value="<?php echo htmlspecialchars($act); ?>"
+                                            class="peer appearance-none w-4 h-4 border border-white/30 rounded checked:bg-secondary checked:border-secondary transition-all"
+                                            <?php echo in_array($act, $selectedActivities) ? 'checked' : ''; ?>>
+                                        <span class="ml-3 text-sm text-gray-400 group-hover:text-white transition-colors"><?php echo htmlspecialchars($act); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full glass-button hover:bg-secondary/20 shadow-lg">Apply Filters</button>
+                    </form>
+                </div>
+            </aside>
+
+            <!-- Results Grid -->
+            <main class="w-full lg:w-3/4">
+                <!-- Search Bar -->
+                <div class="mb-8 relative">
+                    <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET">
+                        <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>"
+                            placeholder="Search packages..."
+                            class="glass-input w-full !pl-12 !py-4 !bg-white/5 focus:!border-secondary text-white placeholder-gray-500 shadow-lg">
+                        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <!-- Hidden inputs to preserve filters -->
+                        <?php if ($minPrice): ?><input type="hidden" name="min_price" value="<?php echo $minPrice; ?>"><?php endif; ?>
+                        <?php if ($maxPrice): ?><input type="hidden" name="max_price" value="<?php echo $maxPrice; ?>"><?php endif; ?>
+                    </form>
                 </div>
 
-                <form action="<?php echo base_url('packages'); ?>" method="GET" id="filterForm">
-                    <!-- Search Hidden -->
-                    <?php if (!empty($search)): ?><input type="hidden" name="search"
-                            value="<?php echo htmlspecialchars($search); ?>"><?php endif; ?>
+                <p class="text-gray-400 mb-6 text-sm">Showing <strong><?php echo count($paginatedPackages); ?></strong> of <strong><?php echo $totalItems; ?></strong> packages</p>
 
-                    <!-- Region Filter (International / Domestic) -->
-                    <div class="mb-6">
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Region</h4>
-                        <div class="space-y-2">
-                            <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="radio" name="region_filter" value="" 
-                                    <?php echo (empty($_GET['region_filter'])) ? 'checked' : ''; ?>
-                                    class="text-primary focus:ring-primary">
-                                <span>All Regions</span>
-                            </label>
-                            <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="radio" name="region_filter" value="International"
-                                    <?php echo (isset($_GET['region_filter']) && $_GET['region_filter'] === 'International') ? 'checked' : ''; ?>
-                                    class="text-primary focus:ring-primary">
-                                <span>International</span>
-                            </label>
-                            <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="radio" name="region_filter" value="Domestic"
-                                    <?php echo (isset($_GET['region_filter']) && $_GET['region_filter'] === 'Domestic') ? 'checked' : ''; ?>
-                                    class="text-primary focus:ring-primary">
-                                <span>Domestic</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Price -->
-                    <div class="mb-6">
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Price Range (₹)</h4>
-                        <div class="flex items-center gap-2">
-                            <input type="number" name="min_price" value="<?php echo htmlspecialchars($minPrice); ?>"
-                                placeholder="Min" class="w-full px-3 py-2 border rounded-lg text-sm">
-                            <span class="text-gray-400">-</span>
-                            <input type="number" name="max_price" value="<?php echo htmlspecialchars($maxPrice); ?>"
-                                placeholder="Max" class="w-full px-3 py-2 border rounded-lg text-sm">
-                        </div>
-                    </div>
-
-                    <!-- Duration -->
-                    <div class="mb-6">
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Duration</h4>
-                        <div class="space-y-2">
-                            <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="checkbox" name="duration_filter[]" value="short" <?php echo in_array('short', $selectedDurations) ? 'checked' : ''; ?>
-                                    class="rounded text-primary focus:ring-primary">
-                                <span>Short Break (< 3 Days)</span>
-                            </label>
-                            <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="checkbox" name="duration_filter[]" value="medium" <?php echo in_array('medium', $selectedDurations) ? 'checked' : ''; ?>
-                                    class="rounded text-primary focus:ring-primary">
-                                <span>3 - 5 Days</span>
-                            </label>
-                            <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="checkbox" name="duration_filter[]" value="long" <?php echo in_array('long', $selectedDurations) ? 'checked' : ''; ?>
-                                    class="rounded text-primary focus:ring-primary">
-                                <span>5 - 7 Days</span>
-                            </label>
-                            <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                <input type="checkbox" name="duration_filter[]" value="extended" <?php echo in_array('extended', $selectedDurations) ? 'checked' : ''; ?>
-                                    class="rounded text-primary focus:ring-primary">
-                                <span>Extended Trip (> 7 Days)</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Themes -->
-                    <div class="mb-6">
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Themes</h4>
-                        <div class="max-h-40 overflow-y-auto space-y-2 custom-scrollbar pr-2">
-                            <?php if (empty($allThemes)): ?>
-                                <p class="text-xs text-gray-400 italic">No themes found.</p>
-                            <?php else: ?>
-                                <?php foreach ($allThemes as $theme): ?>
-                                    <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                        <input type="checkbox" name="themes[]" value="<?php echo htmlspecialchars($theme); ?>"
-                                            <?php echo in_array($theme, $selectedThemes) ? 'checked' : ''; ?>
-                                            class="rounded text-primary">
-                                        <span><?php echo htmlspecialchars($theme); ?></span>
-                                    </label>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                    <!-- Activities -->
-                    <div class="mb-6">
-                        <h4 class="text-sm font-bold text-gray-700 mb-2">Activities</h4>
-                        <div class="max-h-40 overflow-y-auto space-y-2 custom-scrollbar pr-2">
-                            <?php if (empty($allActivities)): ?>
-                                <p class="text-xs text-gray-400 italic">No activities found.</p>
-                            <?php else: ?>
-                                <?php foreach ($allActivities as $act): ?>
-                                    <label class="flex items-center space-x-2 text-sm text-gray-600">
-                                        <input type="checkbox" name="activities[]" value="<?php echo htmlspecialchars($act); ?>"
-                                            <?php echo in_array($act, $selectedActivities) ? 'checked' : ''; ?>
-                                            class="rounded text-primary">
-                                        <span><?php echo htmlspecialchars($act); ?></span>
-                                    </label>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition">Apply
-                        Filters</button>
-                </form>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="lg:col-span-3">
-            <!-- Search Bar -->
-            <div class="mb-8">
-                <form action="<?php echo base_url('packages'); ?>" method="GET" class="relative">
-                    <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>"
-                        placeholder="Search packages by name..."
-                        class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-primary outline-none">
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    <!-- Preserve other filters -->
-                    <?php if ($minPrice): ?><input type="hidden" name="min_price"
-                            value="<?php echo $minPrice; ?>"><?php endif; ?>
-                    <?php if ($maxPrice): ?><input type="hidden" name="max_price"
-                            value="<?php echo $maxPrice; ?>"><?php endif; ?>
-                </form>
-            </div>
-
-            <!-- Stats -->
-            <p class="text-gray-500 mb-6 text-sm">Showing <strong><?php echo count($paginatedPackages); ?></strong> of
-                <strong><?php echo $totalItems; ?></strong> packages
-            </p>
-
-            <!-- Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                <?php if (!empty($paginatedPackages)): ?>
-                    <?php foreach ($paginatedPackages as $pkg): ?>
-                        <a href="<?php echo package_url($pkg['slug']); ?>"
-                            class="package-card group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition flex flex-col h-full hover:-translate-y-1 block">
-                            <div class="relative h-56 overflow-hidden">
-                                <img src="<?php echo base_url($pkg['image']); ?>"
-                                     alt="<?php echo htmlspecialchars($pkg['title']); ?>"
-                                     width="400" height="250" loading="lazy"
-                                     class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
-                                    onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
-                                <?php if ($pkg['isPopular']): ?>
-                                    <div
-                                        class="absolute top-4 left-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
-                                        🔥 POPULAR
-                                    </div>
-                                    <div
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 opacity-0 group-hover:opacity-100 transition duration-300">
-                                    <span
-                                        class="bg-white text-gray-900 font-bold py-2 px-6 rounded-full shadow-lg hover:bg-primary hover:text-white transition transform hover:-translate-y-1">
-                                        View Details
-                                    </span>
-                                </div>
-                                <?php endif; ?>
-                                <?php if (!empty($pkg['is_new'])): ?>
-                                    <div class="absolute top-4 <?php echo $pkg['isPopular'] ? 'left-28' : 'left-4'; ?> bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1 animate-pulse">
-                                        NEW
-                                    </div>
-                                <?php endif; ?>
-                                <?php
-                                    // Price Calculation based on Travelers
-                                    // If 'travelers' is set in URL (from home search), multiply price
-                                    $travelersCount = isset($_GET['travelers']) ? max(1, intval($_GET['travelers'])) : 1;
-                                    $displayPrice = $pkg['price'] * $travelersCount;
-                                ?>
-                                <div
-                                    class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg text-base font-bold text-charcoal shadow-sm">
-                                    ₹ <?php echo number_format($displayPrice); ?>
-                                    <?php if ($travelersCount > 1): ?>
-                                        <span class="text-[10px] text-gray-500 font-normal block text-right leading-none">for <?php echo $travelersCount; ?> ppl</span>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                            <div class="p-5 flex-1 flex flex-col">
-                                <h3 class="text-lg font-bold text-charcoal group-hover:text-primary transition mb-2">
-                                    <?php echo htmlspecialchars($pkg['title']); ?>
-                                </h3>
-                                <div class="flex items-center text-xs text-gray-500 mb-4">
-                                    <svg class="w-4 h-4 mr-1 text-primary" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <?php echo $pkg['duration']; ?>
-                                </div>
-                                <div class="space-y-2 mb-6 flex-1">
-                                    <?php 
-                                    // Lookup Destination Name
-                                    $destName = 'Unknown';
-                                    foreach ($destinations as $d) { 
-                                        if ($d['id'] == $pkg['destinationId']) { 
-                                            $destName = $d['name']; 
-                                            break; 
-                                        } 
-                                    }
+                <!-- Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <?php if (!empty($paginatedPackages)): ?>
+                        <?php foreach ($paginatedPackages as $index => $pkg): ?>
+                            <div class="package-card opacity-0 transform translate-y-8 h-full" style="transition-delay: <?php echo $index * 50; ?>ms">
+                                <a href="<?php echo package_url($pkg['slug']); ?>" class="glass-card-dark block rounded-3xl overflow-hidden group hover:border-secondary/50 transition-all duration-500 flex flex-col h-full">
                                     
-                                    // Use Manual 'Destination Covered' if available, else fallback to Country/Destination Name
-                                    $displayDestName = !empty($pkg['destination_covered']) ? $pkg['destination_covered'] : $destName;
-                                    ?>
-                                    
-                                    <!-- Destination Covered -->
-                                    <div class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
-                                        <span class="font-bold text-gray-700">Destination Covered :</span> 
-                                        <span class="text-gray-600"><?php echo htmlspecialchars($displayDestName); ?></span>
+                                    <!-- Image -->
+                                    <div class="relative h-64 overflow-hidden shrink-0">
+                                        <img src="<?php echo base_url($pkg['image']); ?>"
+                                             alt="<?php echo htmlspecialchars($pkg['title']); ?>"
+                                             loading="lazy"
+                                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                             onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'">
+                                        
+                                        <!-- Gradient -->
+                                        <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent opacity-60"></div>
+                                        
+                                        <!-- Badges -->
+                                        <?php if ($pkg['isPopular']): ?>
+                                            <div class="absolute top-4 left-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+                                                🔥 POPULAR
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (!empty($pkg['is_new'])): ?>
+                                            <div class="absolute top-4 <?php echo $pkg['isPopular'] ? 'left-28' : 'left-4'; ?> bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                                                NEW
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <!-- Price Badge -->
+                                        <?php
+                                            $travelersCount = isset($_GET['travelers']) ? max(1, intval($_GET['travelers'])) : 1;
+                                            $displayPrice = $pkg['price'] * $travelersCount;
+                                        ?>
+                                        <div class="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-lg text-white shadow-lg">
+                                            <span class="text-xs text-gray-300 block text-right">Starting from</span>
+                                            <span class="text-lg font-bold">₹<?php echo number_format($displayPrice); ?></span>
+                                            <?php if ($travelersCount > 1): ?>
+                                                <span class="text-[10px] text-gray-400 block text-right">for <?php echo $travelersCount; ?> ppl</span>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
 
-                                    <!-- Tour Activities -->
-                                    <?php if (!empty($pkg['activities'])): ?>
-                                    <div class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
-                                        <span class="font-bold text-gray-700">Tour Activities :</span> 
-                                        <span class="text-gray-600"><?php echo htmlspecialchars(implode(', ', array_slice($pkg['activities'], 0, 4))); ?></span>
-                                    </div>
-                                    <?php endif; ?>
+                                    <!-- Content -->
+                                    <div class="p-6 flex flex-col flex-1">
+                                        <h3 class="text-xl font-heading font-bold text-white group-hover:text-secondary transition mb-2">
+                                            <?php echo htmlspecialchars($pkg['title']); ?>
+                                        </h3>
+                                        
+                                        <div class="flex items-center text-sm text-gray-400 mb-4">
+                                            <svg class="w-4 h-4 mr-2 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <?php echo $pkg['duration']; ?>
+                                        </div>
 
-                                    <!-- Tour Themes -->
-                                    <?php if (!empty($pkg['themes'])): ?>
-                                    <div class="bg-gray-50 px-3 py-2 rounded-lg text-xs leading-relaxed border border-gray-100">
-                                        <span class="font-bold text-gray-700">Tour Themes :</span> 
-                                        <span class="text-gray-600"><?php echo htmlspecialchars(implode(', ', array_slice($pkg['themes'], 0, 3))); ?></span>
+                                        <div class="space-y-3 mb-6 flex-1">
+                                            <!-- Destination -->
+                                            <?php 
+                                            // Only lookup if destination_covered is not set
+                                            $displayDestName = $pkg['destination_covered'] ?? '';
+                                            if (empty($displayDestName)) {
+                                                foreach ($destinations as $d) { 
+                                                    if ($d['id'] == $pkg['destinationId']) { 
+                                                        $displayDestName = $d['name']; break; 
+                                                    } 
+                                                }
+                                            }
+                                            ?>
+                                            <div class="bg-white/5 px-3 py-2 rounded-lg text-xs border border-white/5">
+                                                <span class="font-bold text-gray-300">Destination:</span> 
+                                                <span class="text-gray-400 ml-1"><?php echo htmlspecialchars($displayDestName); ?></span>
+                                            </div>
+
+                                            <!-- Activities -->
+                                            <?php if (!empty($pkg['activities'])): ?>
+                                            <div class="bg-white/5 px-3 py-2 rounded-lg text-xs border border-white/5">
+                                                <span class="font-bold text-gray-300">Activities:</span> 
+                                                <span class="text-gray-400 ml-1"><?php echo htmlspecialchars(implode(', ', array_slice($pkg['activities'], 0, 3))); ?></span>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                                            <span class="text-sm text-secondary font-bold group-hover:underline">View Itinerary</span>
+                                            <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-secondary group-hover:text-white transition-colors">
+                                                &rarr;
+                                            </span>
+                                        </div>
                                     </div>
-                                    <?php endif; ?>
-                                </div>
+                                </a>
                             </div>
-                        </a>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="col-span-full text-center py-20">
-                        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                            </path>
-                        </svg>
-                        <p class="text-gray-500 text-lg">No packages found matching your criteria.</p>
-                        <a href="packages.php" class="mt-2 text-primary font-bold hover:underline">Clear Filters</a>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-span-full glass-form text-center py-20">
+                            <svg class="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <p class="text-gray-400 text-lg">No packages found matching your criteria.</p>
+                            <a href="<?php echo base_url('pages/packages.php'); ?>" class="mt-4 inline-block text-secondary font-bold hover:text-white transition">Clear Filters</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Pagination -->
+                <?php if ($totalPages > 1): ?>
+                    <div class="mt-16 flex justify-center">
+                        <nav class="flex items-center space-x-2">
+                            <?php if ($currentPage > 1): ?>
+                                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage - 1])); ?>"
+                                   class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+                                    &larr;
+                                </a>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $i])); ?>"
+                                   class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition <?php echo $i === $currentPage ? 'bg-secondary text-white shadow-lg' : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10'; ?>">
+                                    <?php echo $i; ?>
+                                </a>
+                            <?php endfor; ?>
+
+                            <?php if ($currentPage < $totalPages): ?>
+                                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage + 1])); ?>"
+                                   class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition">
+                                    &rarr;
+                                </a>
+                            <?php endif; ?>
+                        </nav>
                     </div>
                 <?php endif; ?>
-            </div>
-
-            <!-- Pagination -->
-            <?php if ($totalPages > 1): ?>
-                <div class="mt-12 flex justify-center">
-                    <nav class="flex items-center space-x-2">
-                        <!-- Prev -->
-                        <?php if ($currentPage > 1): ?>
-                            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage - 1])); ?>"
-                                class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-600">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                                    </path>
-                                </svg>
-                            </a>
-                        <?php endif; ?>
-
-                        <!-- Numbers -->
-                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $i])); ?>"
-                                class="w-10 h-10 flex items-center justify-center rounded-lg font-bold transition <?php echo $i === $currentPage ? 'bg-primary text-white shadow-md' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'; ?>">
-                                <?php echo $i; ?>
-                            </a>
-                        <?php endfor; ?>
-
-                        <!-- Next -->
-                        <?php if ($currentPage < $totalPages): ?>
-                            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage + 1])); ?>"
-                                class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-600">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                    </path>
-                                </svg>
-                            </a>
-                        <?php endif; ?>
-                    </nav>
-                </div>
-            <?php endif; ?>
-
-        </main>
+            </main>
+        </div>
     </div>
 </div>
 
 <style>
-    /* Custom Scrollbar for filter lists */
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #ccc;
-        border-radius: 2px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #bbb;
-    }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.package-card').forEach(card => {
+            gsap.to(card, {
+                scrollTrigger: { trigger: card, start: "top 90%" },
+                y: 0, opacity: 1, duration: 0.8, ease: "power2.out"
+            });
+        });
+    });
+</script>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

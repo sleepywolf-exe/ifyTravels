@@ -62,6 +62,7 @@ $routes = [
     '/booking' => '/pages/booking.php',
     '/partner-program' => '/pages/partner-program.php',
     '/login' => '/pages/login.php',
+    '/register' => '/pages/register.php',
 ];
 
 // Remove trailing slash for matching
