@@ -18,7 +18,10 @@
     border-radius: 12px !important;
     color: #fff !important;
     padding: .875rem 1rem;
-    transition: all .3s ease
+    transition: all .3s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none
 }
 
 .glass-input:focus,
@@ -134,18 +137,10 @@
     -webkit-text-fill-color: transparent
 }
 
-.\!pl-12 {
+[class*="!pl-12"] {
     padding-left: 3rem !important
 }
 
-.\!pl-10 {
-    padding-left: 2.5rem !important
-}
-
-.pl-12 {
-    padding-left: 3rem !important
-}
-
-.pl-10 {
+[class*="!pl-10"] {
     padding-left: 2.5rem !important
 }
