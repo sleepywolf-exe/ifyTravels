@@ -82,7 +82,7 @@ $packages = getPackagesByDestination($id);
         <div class="absolute inset-0">
             <img src="<?php echo base_url($dest['image']); ?>" alt="<?php echo htmlspecialchars($dest['name']); ?>"
                 class="w-full h-full object-cover parallax-img">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/40"></div>
         </div>
 
         <!-- Hero Content -->
