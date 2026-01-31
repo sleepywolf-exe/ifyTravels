@@ -9,7 +9,7 @@ try {
         [
             'title' => 'Top 10 Hidden Gems in Kashmir You Must Visit in 2026',
             'slug' => 'hidden-gems-in-kashmir-2026',
-            'image_url' => 'https://images.unsplash.com/photo-1566837945700-30057527ade0?auto=format&fit=crop&q=80&w=1200',
+            'image_url' => 'https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&q=80&w=1200',
             'excerpt' => 'Discover the untouched beauty of Kashmir beyond Dal Lake and Gulmarg. Explore Gurez Valley, Warwan, and more in our ultimate travel guide.',
             'content' => '<p>Kashmir, often called "Paradise on Earth," is famous for its iconic destinations like Srinagar, Gulmarg, and Pahalgam. However, the true magic of this Himalayan region lies in its hidden valleys and untouched landscapes. If you are planning a trip in 2026, here are the top hidden gems you simply cannot miss.</p>
 
