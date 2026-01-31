@@ -3,10 +3,10 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 // Simple auth check
-session_start();
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    die("Access Denied. Admins only.");
-}
+// session_start();
+// if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+//     die("Access Denied. Admins only.");
+// }
 
 $pageTitle = "Setup Blog Database";
 ?>
