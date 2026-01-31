@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image_url = trim($_POST['image_url'] ?? '');
         $excerpt = trim($_POST['excerpt'] ?? '');
         $content = trim($_POST['content'] ?? '');
+        $author = trim($_POST['author'] ?? ''); // Added author input capture
         $id = $_POST['id'] ?? '';
 
         // Generate Slug
@@ -50,10 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!empty($title) && !empty($content) && empty($error)) {
+            // Default author if empty
+            if (empty($author))
+                $author = 'Admin';
+
             if (!empty($id)) {
                 // Update
-                $stmt = $pdo->prepare("UPDATE posts SET title = ?, slug = ?, image_url = ?, excerpt = ?, content = ? WHERE id = ?");
-                if ($stmt->execute([$title, $slug, $image_url, $excerpt, $content, $id])) {
+                $stmt = $pdo->prepare("UPDATE posts SET title = ?, slug = ?, image_url = ?, excerpt = ?, content = ?, author = ? WHERE id = ?");
+                if ($stmt->execute([$title, $slug, $image_url, $excerpt, $content, $author, $id])) {
                     $message = "Post updated successfully.";
                 } else {
                     $error = "Failed to update post.";
@@ -67,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $slug .= '-' . time(); // Append timestamp to make unique
                 }
 
-                $stmt = $pdo->prepare("INSERT INTO posts (title, slug, image_url, excerpt, content) VALUES (?, ?, ?, ?, ?)");
-                if ($stmt->execute([$title, $slug, $image_url, $excerpt, $content])) {
+                $stmt = $pdo->prepare("INSERT INTO posts (title, slug, image_url, excerpt, content, author) VALUES (?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$title, $slug, $image_url, $excerpt, $content, $author])) {
                     $message = "Post published successfully.";
                 } else {
                     $error = "Failed to publish post.";
@@ -179,6 +184,16 @@ if (isset($_GET['edit'])) {
                                     required
                                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm font-bold text-gray-800 placeholder-gray-300"
                                     placeholder="Enter an engaging title...">
+                            </div>
+
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Author
+                                    Name</label>
+                                <input type="text" name="author"
+                                    value="<?php echo e($editPost['author'] ?? 'Admin'); ?>"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm font-bold text-gray-800 placeholder-gray-300"
+                                    placeholder="Who wrote this?">
                             </div>
 
                             <div>
