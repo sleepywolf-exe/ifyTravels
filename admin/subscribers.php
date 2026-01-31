@@ -84,13 +84,13 @@ $subscribers = $db->fetchAll($query, $params);
 
 <body class="bg-slate-50 text-slate-900">
 
-    <div class="flex min-h-screen">
+    <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <?php include __DIR__ . '/sidebar_inc.php'; ?>
 
         <!-- Main Content -->
-        <main class="flex-1 ml-64 p-8 transition-all duration-300">
-            <div class="max-w-5xl">
+        <main class="flex-1 overflow-y-auto p-8 transition-all duration-300">
+            <div class="w-full max-w-7xl mx-auto">
                 <!-- Header & Actions -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                     <div>
