@@ -111,13 +111,27 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        body: ['"Plus Jakarta Sans"', 'sans-serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+        tailwind = {
+            config: {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#0F766E', // Deep Teal
+                            secondary: '#D97706', // Amber Gold
+                            charcoal: '#111827', // Dark Background (Legacy)
+                            dark: '#0f172a',
+                            light: '#f8fafc', // Soft White
+                            'dark-text': '#0f172a', // Dark Slate
                         },
-        boxShadow: {
-            'creative': '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(15, 118, 110, 0.15)',
-                'creative-hover': '0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 0 40px rgba(15, 118, 110, 0.25)',
-                    'neon': '0 0 20px rgba(15, 118, 110, 0.4)',
+                        fontFamily: {
+                            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                            body: ['"Plus Jakarta Sans"', 'sans-serif'],
+                            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                        },
+                        boxShadow: {
+                            'creative': '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(15, 118, 110, 0.15)',
+                            'creative-hover': '0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 0 40px rgba(15, 118, 110, 0.25)',
+                            'neon': '0 0 20px rgba(15, 118, 110, 0.4)',
                         }
                     }
                 }
