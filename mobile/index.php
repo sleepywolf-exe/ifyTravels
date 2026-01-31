@@ -29,9 +29,9 @@ try {
     <div class="swiper stories-swiper !overflow-visible">
         <div class="swiper-wrapper">
             <!-- Add Trip Story -->
-            <div class="swiper-slide !w-16 flex flex-col items-center gap-1 group">
+            <a href="<?php echo base_url('mobile/search.php'); ?>" class="swiper-slide !w-16 flex flex-col items-center gap-1 group">
                 <div
-                    class="w-16 h-16 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center relative p-0.5">
+                    class="w-16 h-16 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center relative p-0.5 transition-transform active:scale-95">
                     <div class="w-full h-full bg-white rounded-full flex items-center justify-center">
                         <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -41,7 +41,7 @@ try {
                         class="absolute bottom-0 right-0 w-4 h-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center border border-white">+</span>
                 </div>
                 <span class="text-[10px] font-medium text-slate-500">Plan Trip</span>
-            </div>
+            </a>
 
             <?php foreach ($stories as $story): ?>
                 <div class="swiper-slide !w-16 flex flex-col items-center gap-1 cursor-pointer">
@@ -71,12 +71,13 @@ try {
             <?php
             $tags = ['All', 'Beaches', 'Mountains', 'Honeymoon', 'City', 'Camping', 'Luxury'];
             foreach ($tags as $i => $tag):
+                $active = $i === 0;
+                $url = $active ? base_url('mobile/explore.php') : base_url('mobile/explore.php?category=' . urlencode($tag));
                 ?>
                 <div class="swiper-slide !w-auto">
-                    <button
-                        class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all <?php echo $i === 0 ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white text-slate-600 border border-slate-200'; ?>">
+                    <a href="<?php echo $url; ?>" class="block px-5 py-2.5 rounded-full text-sm font-semibold transition-all <?php echo $active ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white text-slate-600 border border-slate-200 active:scale-95'; ?>">
                         <?php echo $tag; ?>
-                    </button>
+                    </a>
                 </div>
             <?php endforeach; ?>
         </div>

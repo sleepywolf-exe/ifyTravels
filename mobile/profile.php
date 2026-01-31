@@ -41,7 +41,7 @@ include __DIR__ . '/../includes/mobile_header.php';
 <div class="px-4 -mt-10 relative z-20 space-y-4">
     <!-- Menu -->
     <div class="bg-white rounded-3xl shadow-lg p-2">
-        <a href="<?php echo base_url('user/dashboard.php'); ?>"
+        <a href="<?php echo base_url('mobile/bookings.php'); ?>"
             class="flex items-center gap-4 p-4 hover:bg-slate-50 rounded-2xl transition-colors">
             <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

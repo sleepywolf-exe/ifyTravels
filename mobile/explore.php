@@ -7,7 +7,28 @@ include __DIR__ . '/../includes/mobile_header.php';
 
 try {
     $db = Database::getInstance();
-    $packages = $db->fetchAll("SELECT * FROM packages ORDER BY id DESC");
+
+    // Build Query
+    $query = "SELECT * FROM packages WHERE 1=1";
+    $params = [];
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = '%' . $_GET['search'] . '%';
+        $query .= " AND (title LIKE ? OR description LIKE ?)";
+        $params[] = $search;
+        $params[] = $search;
+    }
+
+    if (isset($_GET['category']) && !empty($_GET['category']) && $_GET['category'] !== 'All') {
+        $category = '%' . $_GET['category'] . '%';
+        $query .= " AND (description LIKE ? OR title LIKE ?)"; // Quick hack since no categories table yet
+        $params[] = $category;
+        $params[] = $category;
+    }
+
+    $query .= " ORDER BY id DESC";
+
+    $packages = $db->fetchAll($query, $params);
     $destinations = $db->fetchAll("SELECT * FROM destinations");
 } catch (Exception $e) {
     $packages = [];
