@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-slate-50"></div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10 pt-32 pb-24">
+    <div class="container mx-auto px-6 relative z-10 pt-52 pb-24">
 
         <!-- Header -->
         <div class="text-center mb-20 animate-fade-in-up">
