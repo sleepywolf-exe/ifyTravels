@@ -12,6 +12,17 @@
         <?php echo $pageTitle ?? get_setting('site_name', 'ifyTravels'); ?>
     </title>
 
+    <!-- FORCE DESKTOP VIEW for Large Screens -->
+    <script>
+        (function () {
+            // If screen is desktop-sized (> 1024px) but we are serving Mobile view,
+            // STRICTLY redirect to Main Desktop Site.
+            if (window.innerWidth > 1024) {
+                window.location.href = "<?php echo base_url(''); ?>";
+            }
+        })();
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>

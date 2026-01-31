@@ -2,15 +2,6 @@
 // Ensure functions and data are loaded
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/../data/loader.php';
-
-// Mobile Switch: If on mobile device, serve the App Header instead
-if (isMobileDevice() && !isset($_GET['desktop_mode'])) {
-    // Only switch if we are NOT already in the mobile specific directory to avoid recursion or double headers
-    // But header.php is usually included by pages/ or root files.
-    // mobile_header.php adds its own doctype and html tags.
-    include __DIR__ . '/mobile_header.php';
-    return;
-}
 ?>
 <!DOCTYPE html>
 <?php
@@ -614,7 +605,8 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </a>
-                <button id="mobile-menu-btn" onclick="openMobileMenu()" class="p-2 text-slate-700 hover:text-primary transition-colors">
+                <button id="mobile-menu-btn" onclick="openMobileMenu()"
+                    class="p-2 text-slate-700 hover:text-primary transition-colors">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
@@ -744,7 +736,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <!-- Critical Mobile Menu Script (No Dependencies) -->
     <script>
         // Use Global Functions for Inline OnClick
-        window.openMobileMenu = function() {
+        window.openMobileMenu = function () {
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileOverlay = document.getElementById('mobile-overlay');
             if (mobileMenu) mobileMenu.classList.remove('translate-x-full');
@@ -755,7 +747,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             document.body.classList.add('overflow-hidden');
         }
 
-        window.closeMobileMenu = function() {
+        window.closeMobileMenu = function () {
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileOverlay = document.getElementById('mobile-overlay');
             if (mobileMenu) mobileMenu.classList.add('translate-x-full');
