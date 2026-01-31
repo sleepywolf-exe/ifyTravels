@@ -91,34 +91,45 @@ try {
         <a href="<?php echo base_url('mobile/explore.php'); ?>" class="text-primary text-sm font-semibold">See All</a>
     </div>
 
-    <div class="swiper cards-swiper pl-4 !overflow-visible pb-10">
+    <div class="swiper cards-swiper !overflow-visible pb-10">
         <div class="swiper-wrapper">
             <?php foreach ($popularPackages as $pkg): ?>
-                <div class="swiper-slide !w-[280px]">
+                <div class="swiper-slide !w-[85vw] md:!w-[320px]">
                     <a href="<?php echo package_url($pkg['slug']); ?>"
-                        class="block relative h-[350px] rounded-[2rem] overflow-hidden shadow-xl bg-slate-900 group">
+                        class="block relative h-[400px] rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200 bg-white group ring-1 ring-slate-100">
                         <img src="<?php echo base_url($pkg['image_url']); ?>"
-                            class="w-full h-full object-cover opacity-80 group-active:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+                            class="w-full h-full object-cover transition-transform duration-700 group-active:scale-105">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90">
+                        </div>
 
                         <div
-                            class="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase border border-white/20">
+                            class="absolute top-4 right-4 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-bold text-white uppercase border border-white/20 shadow-sm">
                             <?php echo $pkg['duration']; ?>
                         </div>
 
-                        <div class="absolute bottom-4 left-4 right-4">
-                            <h3 class="text-xl font-bold text-white mb-1 leading-tight">
-                                <?php echo $pkg['title']; ?>
-                            </h3>
-                            <p class="text-slate-300 text-xs mb-3 line-clamp-1">
-                                <?php echo strip_tags($pkg['description']); ?>
-                            </p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold text-white">₹
-                                    <?php echo number_format($pkg['price']); ?>
-                                </span>
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 transition-transform duration-300 group-active:translate-y-0">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 leading-tight">
+                                <?php echo $pkg['title']; ?></h3>
+                            <p class="text-slate-300 text-sm mb-4 line-clamp-2 leading-relaxed opacity-90">
+                                <?php echo strip_tags($pkg['description']); ?></p>
+
+                            <div class="flex justify-between items-center pt-4 border-t border-white/10">
+                                <div>
+                                    <span
+                                        class="text-xs text-slate-400 uppercase tracking-wider font-bold block mb-0.5">Starting
+                                        from</span>
+                                    <span
+                                        class="text-xl font-black text-white">₹<?php echo number_format($pkg['price']); ?></span>
+                                </div>
                                 <span
-                                    class="w-8 h-8 rounded-full bg-white text-slate-900 flex items-center justify-center">→</span>
+                                    class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/40">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </span>
                             </div>
                         </div>
                     </a>
@@ -129,7 +140,7 @@ try {
 </section>
 
 <!-- DESTINATIONS (Grid) -->
-<section class="px-4 mt-2 mb-10">
+<section class="px-4 mt-2 mb-24">
     <div class="flex justify-between items-end mb-4">
         <h2 class="text-xl font-heading font-bold text-slate-900">Top Destinations</h2>
     </div>
@@ -137,12 +148,12 @@ try {
     <div class="grid grid-cols-2 gap-4">
         <?php foreach ($destinations as $dest): ?>
             <a href="<?php echo destination_url($dest['slug']); ?>"
-                class="relative aspect-square rounded-[1.5rem] overflow-hidden shadow-md active:scale-95 transition-transform">
-                <img src="<?php echo base_url($dest['image_url']); ?>" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
-                    <span class="text-white font-bold text-sm">
-                        <?php echo $dest['name']; ?>
-                    </span>
+                class="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-md active:scale-95 transition-transform group">
+                <img src="<?php echo base_url($dest['image_url']); ?>"
+                    class="w-full h-full object-cover transition-transform duration-700 group-active:scale-110">
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-5">
+                    <span class="text-white font-bold text-lg leading-tight"><?php echo $dest['name']; ?></span>
                 </div>
             </a>
         <?php endforeach; ?>
@@ -153,19 +164,36 @@ try {
     var storiesSwiper = new Swiper('.stories-swiper', {
         slidesPerView: 'auto',
         spaceBetween: 12,
+        slidesOffsetBefore: 16,
+        slidesOffsetAfter: 16,
         freeMode: true,
     });
 
     var tagsSwiper = new Swiper('.tags-swiper', {
         slidesPerView: 'auto',
         spaceBetween: 10,
+        slidesOffsetBefore: 16,
+        slidesOffsetAfter: 16,
         freeMode: true,
     });
 
     var cardsSwiper = new Swiper('.cards-swiper', {
         slidesPerView: 'auto',
-        spaceBetween: 20,
-        freeMode: true,
+        spaceBetween: 16,
+        centeredSlides: true,
+        loop: true,
+        // slidesOffsetBefore: 16,
+        // slidesOffsetAfter: 16,
+        grabCursor: true,
+        // Effect
+        effect: 'coverflow',
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: false,
+        },
     });
 </script>
 
