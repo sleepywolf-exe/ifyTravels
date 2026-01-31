@@ -28,7 +28,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Generate Slug
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
-        if (!empty($title) && !empty($content)) {
+        // File Upload Handling
+        if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../assets/uploads/blog/';
+            if (!is_dir($uploadDir))
+                mkdir($uploadDir, 0777, true);
+
+            $fileExt = strtolower(pathinfo($_FILES['image_file']['name'], PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+
+            if (in_array($fileExt, $allowed)) {
+                $fileName = time() . '_' . uniqid() . '.' . $fileExt;
+                if (move_uploaded_file($_FILES['image_file']['tmp_name'], $uploadDir . $fileName)) {
+                    $image_url = 'assets/uploads/blog/' . $fileName;
+                } else {
+                    $error = "Failed to move uploaded file.";
+                }
+            } else {
+                $error = "Invalid file type. Only JPG, PNG, WEBP, GIF allowed.";
+            }
+        }
+
+        if (!empty($title) && !empty($content) && empty($error)) {
             if (!empty($id)) {
                 // Update
                 $stmt = $pdo->prepare("UPDATE posts SET title = ?, slug = ?, image_url = ?, excerpt = ?, content = ? WHERE id = ?");
@@ -53,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = "Failed to publish post.";
                 }
             }
-        } else {
+        } else if (empty($error)) {
             $error = "Title and Content are required.";
         }
     }
@@ -146,7 +167,7 @@ if (isset($_GET['edit'])) {
                             <?php echo $editPost ? 'Edit Post' : 'Write New Story'; ?>
                         </h3>
 
-                        <form method="POST" action="blogs.php" class="space-y-4">
+                        <form method="POST" action="blogs.php" enctype="multipart/form-data" class="space-y-4">
                             <?php if ($editPost): ?>
                                 <input type="hidden" name="id" value="<?php echo $editPost['id']; ?>">
                             <?php endif; ?>
@@ -163,16 +184,33 @@ if (isset($_GET['edit'])) {
                             <div>
                                 <label
                                     class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Cover
-                                    Image URL</label>
+                                    Image</label>
+
+                                <!-- File Upload -->
+                                <div class="mb-3">
+                                    <div
+                                        class="relative border-2 border-dashed border-gray-200 bg-gray-50 rounded-xl p-4 text-center hover:bg-blue-50 hover:border-blue-200 transition cursor-pointer group">
+                                        <input type="file" name="image_file" id="image_file"
+                                            accept=".jpg,.jpeg,.png,.webp"
+                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                        <div class="text-gray-400 group-hover:text-blue-500">
+                                            <i class="fas fa-cloud-upload-alt text-2xl mb-2"></i>
+                                            <p class="text-xs font-bold">Click to Upload Image</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- URL Input (Fallback) -->
                                 <div class="relative">
                                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400"><i
-                                            class="fas fa-image"></i></span>
+                                            class="fas fa-link"></i></span>
                                     <input type="text" name="image_url"
                                         value="<?php echo e($editPost['image_url'] ?? ''); ?>"
                                         class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-gray-600 placeholder-gray-300"
-                                        placeholder="https://...">
+                                        placeholder="Or paste an image URL...">
                                 </div>
                             </div>
+
 
                             <div>
                                 <label
