@@ -38,7 +38,7 @@ include __DIR__ . '/../includes/mobile_header.php';
     </div>
 </div>
 
-<div class="px-4 -mt-10 relative z-20 space-y-4">
+<div class="px-4 -mt-10 relative z-20 space-y-4 pb-32">
     <!-- Menu -->
     <div class="bg-white rounded-3xl shadow-lg p-2">
         <a href="<?php echo base_url('mobile/bookings.php'); ?>"

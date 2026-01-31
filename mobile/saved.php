@@ -6,7 +6,7 @@ $pageTitle = "Saved Trips";
 include __DIR__ . '/../includes/mobile_header.php';
 ?>
 
-<div class="px-4 mt-8 flex flex-col items-center justify-center min-h-[60vh] text-center">
+<div class="px-6 py-6 pb-24 space-y-6">
     <div class="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mb-6">
         <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -15,7 +15,7 @@ include __DIR__ . '/../includes/mobile_header.php';
         </svg>
     </div>
 
-    <h1 class="text-2xl font-bold text-slate-900 mb-2">No Saved Trips Yet</h1>
+    <h1 class="text-2xl font-heading font-bold">Saved Trips</h1>
     <p class="text-slate-500 mb-8 max-w-xs mx-auto">Start exploring and save your favorite packages to access them here.
     </p>
 

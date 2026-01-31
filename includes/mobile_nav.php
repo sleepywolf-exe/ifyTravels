@@ -59,7 +59,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </a>
 
     <!-- Profile -->
-    <a href="<?php echo base_url('mobile/profile.php'); ?>"
+    <a href="<?php echo isLoggedIn() ? base_url('mobile/profile.php') : base_url('mobile/login.php'); ?>"
         class="flex flex-col items-center justify-center w-full h-full space-y-1 group <?php echo ($current_page == 'profile.php' || $current_page == 'login.php' || $current_page == 'bookings.php') ? 'text-primary' : 'text-slate-400 hover:text-slate-600'; ?>">
         <div class="relative p-1">
             <?php if (isLoggedIn()): ?>
@@ -68,7 +68,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         class="w-full h-full object-cover">
                 </div>
             <?php else: ?>
-                <svg class="w-6 h-6 transition-transform duration-300 group-active:scale-90 <?php echo ($current_page == 'profile.php') ? 'fill-current' : 'fill-none stroke-current stroke-2'; ?>"
+                <svg class="w-6 h-6 transition-transform duration-300 group-active:scale-90 <?php echo ($current_page == 'login.php') ? 'fill-current' : 'fill-none stroke-current stroke-2'; ?>"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

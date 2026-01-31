@@ -11,11 +11,11 @@ try {
     $destinations = $db->fetchAll("SELECT * FROM destinations LIMIT 8");
     $popularPackages = $db->fetchAll("SELECT * FROM packages WHERE is_popular = 1 LIMIT 5");
     $stories = [
-        ['name' => 'Maldives', 'img' => 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=200&h=200&fit=crop'],
+        ['name' => 'Maldives', 'img' => 'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=200&h=200&fit=crop'],
         ['name' => 'Bali', 'img' => 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=200&h=200&fit=crop'],
-        ['name' => 'Dubai', 'img' => 'https://images.unsplash.com/photo-1512453979798-5ea90b798d19?w=200&h=200&fit=crop'],
+        ['name' => 'Dubai', 'img' => 'https://images.unsplash.com/photo-1518684079-3c830dcefadd?w=200&h=200&fit=crop'],
         ['name' => 'Paris', 'img' => 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200&h=200&fit=crop'],
-        ['name' => 'Swiss', 'img' => 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=200&h=200&fit=crop'],
+        ['name' => 'Swiss', 'img' => 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=200&h=200&fit=crop'],
     ];
 } catch (Exception $e) {
     // Fallback
@@ -29,7 +29,8 @@ try {
     <div class="swiper stories-swiper !overflow-visible">
         <div class="swiper-wrapper">
             <!-- Add Trip Story -->
-            <a href="<?php echo base_url('mobile/search.php'); ?>" class="swiper-slide !w-16 flex flex-col items-center gap-1 group">
+            <a href="<?php echo base_url('mobile/search.php'); ?>"
+                class="swiper-slide !w-16 flex flex-col items-center gap-1 group">
                 <div
                     class="w-16 h-16 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center relative p-0.5 transition-transform active:scale-95">
                     <div class="w-full h-full bg-white rounded-full flex items-center justify-center">
@@ -75,7 +76,8 @@ try {
                 $url = $active ? base_url('mobile/explore.php') : base_url('mobile/explore.php?category=' . urlencode($tag));
                 ?>
                 <div class="swiper-slide !w-auto">
-                    <a href="<?php echo $url; ?>" class="block px-5 py-2.5 rounded-full text-sm font-semibold transition-all <?php echo $active ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white text-slate-600 border border-slate-200 active:scale-95'; ?>">
+                    <a href="<?php echo $url; ?>"
+                        class="block px-5 py-2.5 rounded-full text-sm font-semibold transition-all <?php echo $active ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white text-slate-600 border border-slate-200 active:scale-95'; ?>">
                         <?php echo $tag; ?>
                     </a>
                 </div>
@@ -112,9 +114,11 @@ try {
                         <div
                             class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 transition-transform duration-300 group-active:translate-y-0">
                             <h3 class="text-2xl font-heading font-bold text-white mb-2 leading-tight">
-                                <?php echo $pkg['title']; ?></h3>
+                                <?php echo $pkg['title']; ?>
+                            </h3>
                             <p class="text-slate-300 text-sm mb-4 line-clamp-2 leading-relaxed opacity-90">
-                                <?php echo strip_tags($pkg['description']); ?></p>
+                                <?php echo strip_tags($pkg['description']); ?>
+                            </p>
 
                             <div class="flex justify-between items-center pt-4 border-t border-white/10">
                                 <div>

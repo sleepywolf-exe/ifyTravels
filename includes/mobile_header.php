@@ -80,9 +80,31 @@
             -webkit-user-select: none;
         }
     </style>
+    <!-- Global Mobile CSS -->
+    <style>
+        /* Safe Area Support */
+        body {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Remove Tap Highlight */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900 pb-24">
+<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-primary/20 selection:text-primary pb-24">
 
     <!-- APP HEADER (Sticky) -->
     <header
