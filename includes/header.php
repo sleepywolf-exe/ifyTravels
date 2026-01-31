@@ -102,30 +102,22 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind = {
-            config: {
-                theme: {
-                    extend: {
-                        colors: {
-                            primary: '#0F766E', // Deep Teal
-                            secondary: '#D97706', // Amber Gold
-                            charcoal: '#111827', // Dark Background (Legacy)
-                            dark: '#0f172a',
-                            light: '#f8fafc', // Soft White
-                            'dark-text': '#0f172a', // Dark Slate
+        body: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
                         },
-                        fontFamily: {
-                            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
-                            body: ['"Plus Jakarta Sans"', 'sans-serif'],
-                            sans: ['"Plus Jakarta Sans"', 'sans-serif']
-                        },
-                        boxShadow: {
-                            'creative': '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(15, 118, 110, 0.15)',
-                            'creative-hover': '0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 0 40px rgba(15, 118, 110, 0.25)',
-                            'neon': '0 0 20px rgba(15, 118, 110, 0.4)',
+        boxShadow: {
+            'creative': '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(15, 118, 110, 0.15)',
+                'creative-hover': '0 35px 60px -15px rgba(0, 0, 0, 0.3), 0 0 40px rgba(15, 118, 110, 0.25)',
+                    'neon': '0 0 20px rgba(15, 118, 110, 0.4)',
                         }
                     }
                 }

@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1
                 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-white mb-8 drop-shadow-2xl tracking-tight">
                 Get in <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-white">Touch</span>
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Touch</span>
             </h1>
             <p class="text-white/80 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed drop-shadow-lg">
                 Whether you're planning a grand tour or a quick getaway, our concierge team is here to orchestrate every
