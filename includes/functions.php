@@ -98,7 +98,7 @@ function base_url($path = '')
         $scriptDir = str_replace('\\', '/', $scriptDir);
 
         // Remove known subdirs to find true root
-        $remove = ['/admin', '/pages', '/services', '/includes', '/seo', '/api', '/partner'];
+        $remove = ['/admin', '/pages', '/services', '/includes', '/seo', '/api', '/partner', '/mobile'];
         foreach ($remove as $dir) {
             if (substr($scriptDir, -strlen($dir)) === $dir) {
                 $scriptDir = substr($scriptDir, 0, -strlen($dir));

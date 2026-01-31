@@ -47,6 +47,8 @@
             /* Slate-50 */
             -webkit-tap-highlight-color: transparent;
             padding-bottom: env(safe-area-inset-bottom);
+            overflow-x: hidden;
+            /* Prevent horizontal scroll from Swipers */
         }
 
         .pb-safe {

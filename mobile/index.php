@@ -25,8 +25,8 @@ try {
 ?>
 
 <!-- STORIES (Instagram Style) -->
-<section class="mt-4 pl-4">
-    <div class="swiper stories-swiper overflow-visible">
+<section class="mt-4 pl-4 overflow-hidden">
+    <div class="swiper stories-swiper !overflow-visible">
         <div class="swiper-wrapper">
             <!-- Add Trip Story -->
             <div class="swiper-slide !w-16 flex flex-col items-center gap-1 group">
@@ -60,13 +60,13 @@ try {
 </section>
 
 <!-- CATEGORIES (Pills) -->
-<section class="mt-8 pl-4">
+<section class="mt-8 pl-4 overflow-hidden">
     <!-- Section Header -->
     <div class="flex justify-between items-end pr-4 mb-4">
         <h2 class="text-xl font-heading font-bold text-slate-900">Categories</h2>
     </div>
 
-    <div class="swiper tags-swiper overflow-visible">
+    <div class="swiper tags-swiper !overflow-visible">
         <div class="swiper-wrapper">
             <?php
             $tags = ['All', 'Beaches', 'Mountains', 'Honeymoon', 'City', 'Camping', 'Luxury'];
@@ -84,14 +84,14 @@ try {
 </section>
 
 <!-- POPULAR PACKAGES (Card Swiper) -->
-<section class="mt-10 px-0">
+<section class="mt-10 px-0 overflow-hidden">
     <div class="flex justify-between items-end px-4 mb-4">
         <h2 class="text-xl font-heading font-bold text-slate-900">Popular <span class="text-primary">Packages</span>
         </h2>
         <a href="<?php echo base_url('mobile/explore.php'); ?>" class="text-primary text-sm font-semibold">See All</a>
     </div>
 
-    <div class="swiper cards-swiper pl-4 overflow-visible pb-10">
+    <div class="swiper cards-swiper pl-4 !overflow-visible pb-10">
         <div class="swiper-wrapper">
             <?php foreach ($popularPackages as $pkg): ?>
                 <div class="swiper-slide !w-[280px]">
