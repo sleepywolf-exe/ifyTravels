@@ -69,6 +69,10 @@
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Exclusive
                             Packages</a></li>
+                    <li><a href="<?php echo base_url('pages/blogs.php'); ?>"
+                            class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
+                                class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Travel
+                            Blogs</a></li>
                     <li><a href="<?php echo base_url('pages/contact.php'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Contact
