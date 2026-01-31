@@ -224,64 +224,84 @@ include __DIR__ . '/../includes/header.php';
                             // ANIMATION LOGIC: First 2 are static, rest animate
                             $animClass = ($index >= 2) ? 'destination-card-animate' : '';
                             ?>
-                            <!-- Card (GSAP Animated) -->
+                            <!-- Card (Premium UX) -->
                             <div class="destination-card <?php echo $animClass; ?>">
                                 <a href="<?php echo destination_url($dest['slug']); ?>"
-                                    class="block group relative rounded-3xl overflow-hidden glass-card-light bg-white shadow-creative hover:shadow-creative-hover transition-all duration-300 ease-out aspect-[4/5] will-change-transform">
+                                    class="block group relative rounded-3xl overflow-hidden bg-slate-900 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 ease-out aspect-[4/5]">
 
+                                    <!-- Image (Scale Effect) -->
                                     <img src="<?php echo base_url($dest['image']); ?>"
                                         alt="<?php echo htmlspecialchars($dest['name']); ?>"
                                         loading="<?php echo $index < 2 ? 'eager' : 'lazy'; ?>"
-                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 opacity-90 group-hover:opacity-100"
                                         onerror="this.src='https://placehold.co/600x800?text=Image+Not+Found'">
 
-                                    <!-- Gradient Overlay -->
+                                    <!-- Gradient Overlay (Darker on Hover) -->
                                     <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300">
+                                        class="absolute inset-0 bg-gradient-to-input from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-95 transition-all duration-500">
                                     </div>
 
-                                    <!-- Badges -->
+                                    <!-- Badge -->
                                     <div
-                                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-800 shadow-sm">
+                                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-800 shadow-sm z-20">
                                         <?php echo $dest['type']; ?>
                                     </div>
-                                    <?php if (!empty($dest['is_new'])): ?>
-                                        <div
-                                            class="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded shadow-md">
-                                            NEW</div>
-                                    <?php endif; ?>
 
-                                    <!-- Content -->
-                                    <div
-                                        class="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300 ease-out will-change-transform">
-                                        <h3
-                                            class="text-2xl font-heading font-bold text-white mb-1 group-hover:text-amber-400 transition-colors drop-shadow-md">
-                                            <?php echo htmlspecialchars($dest['name']); ?>
-                                        </h3>
+                                    <!-- Content Container -->
+                                    <div class="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end h-full z-20">
 
-                                        <div class="flex items-center justify-between mt-2">
-                                            <div class="flex items-center gap-1 text-yellow-400 text-sm font-medium">
-                                                <span>★</span> <span class="text-white"><?php echo $dest['rating']; ?></span>
+                                        <!-- Initial View (Title & Rating) -->
+                                        <div class="transform transition-transform duration-500 group-hover:-translate-y-2">
+                                            <h3 class="text-3xl font-heading font-bold text-secondary mb-1 drop-shadow-md">
+                                                <?php echo htmlspecialchars($dest['name']); ?>
+                                            </h3>
+
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <div class="flex text-yellow-500 text-sm">
+                                                    <?php
+                                                    $rating = floatval($dest['rating']);
+                                                    for ($i = 0; $i < 5; $i++)
+                                                        echo ($i < floor($rating)) ? '★' : '☆';
+                                                    ?>
+                                                </div>
+                                                <span class="text-white font-bold"><?php echo $dest['rating']; ?></span>
                                             </div>
-                                            <div
-                                                class="text-xs text-white/90 flex items-center gap-1 font-medium bg-black/30 px-2 py-1 rounded-lg backdrop-blur-sm">
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                                            <div class="flex items-center gap-1 text-slate-300 text-sm font-medium">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
                                                     </path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                 </svg>
                                                 <?php echo htmlspecialchars($dest['country']); ?>
                                             </div>
                                         </div>
 
-                                        <div class="h-0 group-hover:h-auto overflow-hidden transition-all duration-300">
-                                            <p
-                                                class="text-white/90 text-sm mt-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 drop-shadow-sm">
-                                                <?php echo htmlspecialchars(strip_tags($dest['description'] ?? '')); ?>
-                                            </p>
-                                            <span
-                                                class="mt-4 inline-block text-white text-sm font-bold border-b border-white hover:text-amber-400 hover:border-amber-400 transition-colors">View
-                                                Guide &rarr;</span>
+                                        <!-- Hidden Description (Reveals on Hover) -->
+                                        <div
+                                            class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-out">
+                                            <!-- CSS Grid Trick for height transition -->
+                                            <div class="overflow-hidden">
+                                                <div
+                                                    class="pt-4 border-t border-white/20 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">
+                                                    <p class="text-slate-200 text-sm leading-relaxed line-clamp-2 mb-4">
+                                                        <?php echo htmlspecialchars(strip_tags($dest['description'] ?? 'Experience the beauty of ' . $dest['name'])); ?>
+                                                    </p>
+                                                    <span
+                                                        class="inline-flex items-center text-white font-bold border-b border-white pb-0.5 hover:text-secondary hover:border-secondary transition-colors text-sm">
+                                                        View Guide <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
