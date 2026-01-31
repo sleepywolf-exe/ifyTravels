@@ -24,12 +24,11 @@ include __DIR__ . '/../includes/mobile_header.php';
     <div class="mt-8">
         <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Recent</h2>
         <div class="flex flex-wrap gap-2">
-            <a href="#"
+            <a href="<?php echo base_url('mobile/explore.php?search=Maldives'); ?>"
                 class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-200">Maldives</a>
-            <a href="#"
-                class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-200">Dubai
-                Couple</a>
-            <a href="#"
+            <a href="<?php echo base_url('mobile/explore.php?search=Dubai'); ?>"
+                class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-200">Dubai</a>
+            <a href="<?php echo base_url('mobile/explore.php?search=Visa%20Free'); ?>"
                 class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-200">Visa
                 Free</a>
         </div>
@@ -39,7 +38,8 @@ include __DIR__ . '/../includes/mobile_header.php';
     <div class="mt-10">
         <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Trending Now</h2>
         <div class="space-y-4">
-            <a href="#" class="flex items-center gap-4 py-2 border-b border-slate-100 pb-2">
+            <a href="<?php echo base_url('mobile/explore.php?category=International'); ?>"
+                class="flex items-center gap-4 py-2 border-b border-slate-100 pb-2">
                 <div class="w-12 h-12 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -51,7 +51,8 @@ include __DIR__ . '/../includes/mobile_header.php';
                     <p class="text-xs text-slate-500">Popular destinations abroad</p>
                 </div>
             </a>
-            <a href="#" class="flex items-center gap-4 py-2 border-b border-slate-100 pb-2">
+            <a href="<?php echo base_url('mobile/explore.php?category=Deals'); ?>"
+                class="flex items-center gap-4 py-2 border-b border-slate-100 pb-2">
                 <div class="w-12 h-12 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
