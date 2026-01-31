@@ -109,6 +109,34 @@ if ($pdo) {
     } catch (Exception $e) {
          echo "<!-- Packages Query Error: " . $e->getMessage() . " -->";
     }
+    } catch (Exception $e) {
+         echo "<!-- Packages Query Error: " . $e->getMessage() . " -->";
+    }
+
+    // Blogs
+    try {
+        $sql = "SELECT slug, created_at FROM posts ORDER BY created_at DESC";
+        $stmt = $pdo->query($sql);
+        $posts = $stmt->fetchAll();
+        
+        if (empty($posts)) {
+             echo "<!-- No blog posts found in database -->";
+        }
+
+        foreach ($posts as $post) {
+             // Use created_at as fallback for lastmod
+            $lastMod = !empty($post['created_at']) ? date('Y-m-d', strtotime($post['created_at'])) : date('Y-m-d');
+
+            echo "\n    <url>\n";
+            echo "        <loc>" . base_url('blogs/' . $post['slug']) . "</loc>\n";
+            echo "        <lastmod>{$lastMod}</lastmod>\n";
+            echo "        <changefreq>weekly</changefreq>\n";
+            echo "        <priority>0.7</priority>\n";
+            echo "    </url>";
+        }
+    } catch (Exception $e) {
+         echo "<!-- Blogs Query Error: " . $e->getMessage() . " -->";
+    }
 }
 
 echo "\n</urlset>";
