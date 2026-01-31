@@ -600,10 +600,10 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                     <?php
                     $navLinks = [
                         '' => 'Home',
+                        'about' => 'About',
                         'destinations' => 'Destinations',
                         'packages' => 'Packages',
                         'blogs' => 'Blogs',
-                        'about' => 'About',
                         'contact' => 'Contact'
                     ];
 
