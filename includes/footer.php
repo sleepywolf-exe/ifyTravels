@@ -172,8 +172,10 @@
 </div>
 
 <?php
-// Include Mobile Bottom Nav
-include __DIR__ . '/mobile_nav.php';
+// Include Mobile Bottom Nav (unless hidden)
+if (!isset($hideMobileNav) || !$hideMobileNav) {
+    include __DIR__ . '/mobile_nav.php';
+}
 ?>
 
 <!-- Flatpickr JavaScript Library -->

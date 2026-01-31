@@ -101,7 +101,7 @@ include __DIR__ . '/../includes/header.php';
     </div>
 
     <!-- Hero Section - Magazine Style -->
-    <div class="relative h-[90vh] overflow-hidden z-10">
+    <div class="relative h-[50vh] md:h-[90vh] overflow-hidden z-10">
         <div class="absolute inset-0 h-[120%] w-full -top-[10%] parallax-container">
             <img src="<?php echo base_url($pkg['image']); ?>" alt="<?php echo htmlspecialchars($pkg['title']); ?>"
                 class="w-full h-full object-cover brightness-[0.85]">
@@ -196,7 +196,8 @@ include __DIR__ . '/../includes/header.php';
                         </svg>
                     </div>
                     <p class="text-slate-800 font-bold text-lg truncate">
-                        <?php echo htmlspecialchars($dest['country']); ?></p>
+                        <?php echo htmlspecialchars($dest['country']); ?>
+                    </p>
                 </div>
             </div>
             <!-- Type -->
@@ -444,4 +445,25 @@ include __DIR__ . '/../includes/header.php';
     }
 </script>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<!-- Mobile Fixed Booking Bar (App Like) -->
+<div
+    class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-[9999] px-6 py-4 pb-safe shadow-[0_-5px_30px_rgba(0,0,0,0.1)]">
+    <div class="flex items-center justify-between gap-4">
+        <div>
+            <span class="block text-xs text-slate-500 font-bold uppercase tracking-wider">Total Price</span>
+            <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-black text-slate-900">₹<?php echo number_format($pkg['price']); ?></span>
+                <span class="text-xs text-slate-400 font-medium">/ person</span>
+            </div>
+        </div>
+        <a href="<?php echo base_url('pages/booking.php?packageId=' . $pkg['id']); ?>"
+            class="bg-primary text-white px-8 py-3 rounded-xl font-bold text-lg shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+            Book Now
+        </a>
+    </div>
+</div>
+
+<?php
+$hideMobileNav = true;
+include __DIR__ . '/../includes/footer.php';
+?>
