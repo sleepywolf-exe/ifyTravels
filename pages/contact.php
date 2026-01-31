@@ -64,8 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </span>
             <h1
                 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-white mb-8 drop-shadow-2xl tracking-tight">
-                Get in <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Touch</span>
+                Get in <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Touch</span>
             </h1>
             <p class="text-white/80 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed drop-shadow-lg">
                 Whether you're planning a grand tour or a quick getaway, our concierge team is here to orchestrate every
@@ -121,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <!-- Card: Phone -->
                 <div
-                    class="bg-primary text-white border border-primary/50 rounded-[2rem] p-8 shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition duration-500 group relative overflow-hidden">
+                    class="bg-blue-600 text-white border border-blue-500 rounded-[2rem] p-8 shadow-xl shadow-blue-200 hover:shadow-2xl hover:shadow-blue-300 transition duration-500 group relative overflow-hidden">
                     <a href="tel:<?php echo get_setting('contact_phone', '+91 987 654 3210'); ?>"
                         class="absolute inset-0 z-10"></a>
                     <div class="absolute -bottom-10 -right-10 text-white/10 text-9xl">
