@@ -101,8 +101,22 @@ Options -Indexes
     # Route /booking to pages/booking.php
     RewriteRule ^booking/?$ pages/booking.php [L,QSA]
 
-    # Route /booking-success.php to pages/booking-success.php
-    RewriteRule ^booking-success(\.php)?$ pages/booking-success.php [L,QSA]
+    # Route /booking-success to pages/booking-success.php
+    RewriteRule ^booking-success/?$ pages/booking-success.php [L,QSA]
+
+    # Route /blogs to pages/blogs.php
+    RewriteRule ^blogs/?$ pages/blogs.php [L,QSA]
+
+    # Route /blog-details to pages/blog-details.php (Clean URL for single blog)
+    # This handles /blogs/my-slug -> pages/blog-details.php?slug=my-slug
+    RewriteRule ^blogs/([a-z0-9\-]+)/?$ pages/blog-details.php?slug=$1 [L,QSA]
+
+    # GENERIC FALLBACK for pages folder
+    # If the request matches a file in /pages/ directory, serve it
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}/pages/$1.php -f
+    RewriteRule ^([^/]+)/?$ pages/$1.php [L,QSA]
 </IfModule>
 
 # Custom 404 error page

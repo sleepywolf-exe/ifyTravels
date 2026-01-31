@@ -600,9 +600,11 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                     <?php
                     $navLinks = [
                         '' => 'Home',
-                        'pages/destinations.php' => 'Destinations',
-                        'pages/packages.php' => 'Packages',
-                        'pages/contact.php' => 'Contact'
+                        'destinations' => 'Destinations',
+                        'packages' => 'Packages',
+                        'blogs' => 'Blogs',
+                        'about' => 'About',
+                        'contact' => 'Contact'
                     ];
 
                     foreach ($navLinks as $url => $label):
@@ -617,7 +619,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
                 <!-- Auth & Actions (Large) -->
                 <div class="hidden md:flex items-center gap-5 px-2">
-                    <a href="<?php echo base_url('pages/packages.php'); ?>"
+                    <a href="<?php echo base_url('packages'); ?>"
                         class="hidden md:flex items-center gap-2 bg-gradient-to-r from-primary to-teal-700 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all duration-300 group">
                         <span>Book Now</span>
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -629,15 +631,21 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                     </a>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn"
-                    class="md:hidden p-3 text-slate-700 hover:text-primary hover:bg-slate-100 rounded-xl transition-colors"
-                    aria-label="Toggle mobile menu" aria-controls="mobile-menu" aria-expanded="false">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+                <!-- Navigation -->
+                <nav class="hidden lg:flex items-center gap-1">
+                    <a href="<?php echo base_url(''); ?>"
+                        class="px-5 py-2.5 rounded-full text-slate-600 font-medium hover:text-primary hover:bg-slate-50 transition-all text-[15px]">Home</a>
+                    <a href="<?php echo base_url('destinations'); ?>"
+                        class="px-5 py-2.5 rounded-full text-slate-600 font-medium hover:text-primary hover:bg-slate-50 transition-all text-[15px]">Destinations</a>
+                    <a href="<?php echo base_url('packages'); ?>"
+                        class="px-5 py-2.5 rounded-full text-slate-600 font-medium hover:text-primary hover:bg-slate-50 transition-all text-[15px]">Packages</a>
+                    <a href="<?php echo base_url('blogs'); ?>"
+                        class="px-5 py-2.5 rounded-full text-slate-600 font-medium hover:text-primary hover:bg-slate-50 transition-all text-[15px]">Blogs</a>
+                    <a href="<?php echo base_url('about'); ?>"
+                        class="px-5 py-2.5 rounded-full text-slate-600 font-medium hover:text-primary hover:bg-slate-50 transition-all text-[15px]">About</a>
+                    <a href="<?php echo base_url('contact'); ?>"
+                        class="px-5 py-2.5 rounded-full text-slate-600 font-medium hover:text-primary hover:bg-slate-50 transition-all text-[15px]">Contact</a>
+                </nav>
             </div>
         </div>
     </header>
