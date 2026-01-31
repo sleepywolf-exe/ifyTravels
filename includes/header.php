@@ -617,58 +617,16 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
                 <!-- Auth & Actions (Large) -->
                 <div class="hidden md:flex items-center gap-5 px-2">
-                    <?php if (isLoggedIn()): ?>
-                        <div class="relative group">
-                            <button
-                                class="flex items-center gap-3 pl-2 pr-4 py-2 rounded-full hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 ring-1 ring-transparent hover:ring-slate-200">
-                                <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['user_name']); ?>&background=0F766E&color=fff"
-                                    alt="Profile" class="w-10 h-10 rounded-full shadow-md ring-2 ring-white">
-                                <span
-                                    class="font-heading font-bold text-base text-slate-800"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-                            <!-- Dropdown -->
-                            <div
-                                class="absolute right-0 top-full mt-4 w-64 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:scale-100 scale-95 p-3">
-                                <div class="px-3 py-2 border-b border-slate-50 mb-2">
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest font-heading">
-                                        Account</p>
-                                </div>
-                                <?php if (isAdmin()): ?>
-                                    <a href="<?php echo base_url('admin/dashboard.php'); ?>"
-                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">Admin
-                                        Dashboard</a>
-                                <?php else: ?>
-                                    <a href="<?php echo base_url('pages/packages.php'); ?>"
-                                        class="block px-4 py-3 text-base font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors">
-                                        Browse Packages
-                                    </a>
-                                <?php endif; ?>
-                                <div class="h-px bg-slate-100 my-2"></div>
-                                <a href="<?php echo base_url('auth/logout.php'); ?>"
-                                    class="block px-4 py-3 text-base font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors">Logout</a>
-                            </div>
-                        </div>
-                    <?php else: ?>
-                        <a href="<?php echo base_url('pages/packages.php'); ?>"
-                            class="group relative px-8 py-3.5 rounded-full bg-slate-900 text-white font-heading font-bold text-[15px] tracking-wide overflow-hidden hover:shadow-lg hover:shadow-primary/25 transition-all duration-300">
-                            <div
-                                class="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            </div>
-                            <span class="relative z-10 flex items-center gap-2">
-                                Book Now
-                                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3">
-                                    </path>
-                                </svg>
-                            </span>
-                        </a>
-                    <?php endif; ?>
+                    <a href="<?php echo base_url('pages/packages.php'); ?>"
+                        class="hidden md:flex items-center gap-2 bg-gradient-to-r from-primary to-teal-700 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all duration-300 group">
+                        <span>Book Now</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -754,118 +712,118 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
     <!-- Scripts -->
     <script>
-            // Preloader Logic
-            window.addEventListener('load', () => {
-                const preloader = document.getElementById('preloader');
-                if (preloader) {
-                    gsap.to(preloader, {
-                        opacity: 0,
-                        duration: 0.8,
-                        delay: 0.2,
-                        ease: "power2.inOut",
-                        onComplete: () => {
-                            preloader.style.display = 'none';
-                        }
-                    });
-                }
-            });
-
-            // Init Smooth Scroll (Lenis)
-            const lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                direction: 'vertical',
-                gestureDirection: 'vertical',
-                smooth: true,
-                mouseMultiplier: 1,
-                smoothTouch: false,
-                touchMultiplier: 2,
-            });
-
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-
-            // Header Capsule Animation on Scroll
-            const capsule = document.getElementById('header-capsule');
-            let isScrolled = false;
-
-            if (capsule) {
-                window.addEventListener('scroll', () => {
-                    const shouldBeScrolled = window.scrollY > 50;
-
-                    if (shouldBeScrolled && !isScrolled) {
-                        // Shrink
-                        capsule.classList.remove('py-5', 'w-[92%]', 'max-w-[1600px]', 'top-6');
-                        capsule.classList.add('py-3', 'w-[98%]', 'max-w-full', 'bg-white/95', 'top-2', 'rounded-xl');
-                        isScrolled = true;
-                    } else if (!shouldBeScrolled && isScrolled) {
-                        // Expand
-                        capsule.classList.add('py-5', 'w-[92%]', 'max-w-[1600px]', 'top-6');
-                        capsule.classList.remove('py-3', 'w-[98%]', 'max-w-full', 'bg-white/95', 'top-2', 'rounded-xl');
-                        isScrolled = false;
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                gsap.to(preloader, {
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: 0.2,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        preloader.style.display = 'none';
                     }
-                }, { passive: true });
-            }
-
-            // Mobile Menu
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            const closeBtn = document.getElementById('close-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileOverlay = document.getElementById('mobile-overlay');
-
-            function openMobileMenu() {
-                mobileMenu.classList.remove('translate-x-full');
-                mobileOverlay.classList.remove('invisible', 'opacity-0');
-                mobileOverlay.classList.add('visible', 'opacity-100');
-                document.body.classList.add('overflow-hidden');
-            }
-
-            function closeMobileMenu() {
-                mobileMenu.classList.add('translate-x-full');
-                mobileOverlay.classList.remove('visible', 'opacity-100');
-                mobileOverlay.classList.add('invisible', 'opacity-0');
-                document.body.classList.remove('overflow-hidden');
-            }
-
-            if (mobileBtn) mobileBtn.addEventListener('click', openMobileMenu);
-            if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
-            if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
-
-            // GSAP Animations
-            document.addEventListener("DOMContentLoaded", (event) => {
-                gsap.registerPlugin(ScrollTrigger);
-
-                // Text Reveals
-                const revealElements = document.querySelectorAll(".reveal-text");
-                revealElements.forEach((element) => {
-                    gsap.to(element, {
-                        scrollTrigger: {
-                            trigger: element,
-                            start: "top 85%",
-                            toggleActions: "play none none reverse"
-                        },
-                        y: 0,
-                        opacity: 1,
-                        duration: 1,
-                        ease: "power3.out"
-                    });
                 });
+            }
+        });
 
-                // Magnetic Buttons
-                const magneticBtns = document.querySelectorAll(".magnetic-btn");
-                magneticBtns.forEach((btn) => {
-                    btn.addEventListener("mousemove", (e) => {
-                        const rect = btn.getBoundingClientRect();
-                        const x = e.clientX - rect.left - rect.width / 2;
-           const y = e.clientY - rect.top - rect.height / 2;
-                        gsap.to(btn, { duration: 0.3, x: x * 0.3, y: y * 0.3, ease: "power2.out" });
-                    });
-                    btn.addEventListener("mouseleave", () => {
-                        gsap.to(btn, { duration: 0.3, x: 0, y: 0, ease: "elastic.out(1, 0.3)" });
-                    });
+        // Init Smooth Scroll (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Header Capsule Animation on Scroll
+        const capsule = document.getElementById('header-capsule');
+        let isScrolled = false;
+
+        if (capsule) {
+            window.addEventListener('scroll', () => {
+                const shouldBeScrolled = window.scrollY > 50;
+
+                if (shouldBeScrolled && !isScrolled) {
+                    // Shrink
+                    capsule.classList.remove('py-5', 'w-[92%]', 'max-w-[1600px]', 'top-6');
+                    capsule.classList.add('py-3', 'w-[98%]', 'max-w-full', 'bg-white/95', 'top-2', 'rounded-xl');
+                    isScrolled = true;
+                } else if (!shouldBeScrolled && isScrolled) {
+                    // Expand
+                    capsule.classList.add('py-5', 'w-[92%]', 'max-w-[1600px]', 'top-6');
+                    capsule.classList.remove('py-3', 'w-[98%]', 'max-w-full', 'bg-white/95', 'top-2', 'rounded-xl');
+                    isScrolled = false;
+                }
+            }, { passive: true });
+        }
+
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+
+        function openMobileMenu() {
+            mobileMenu.classList.remove('translate-x-full');
+            mobileOverlay.classList.remove('invisible', 'opacity-0');
+            mobileOverlay.classList.add('visible', 'opacity-100');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('translate-x-full');
+            mobileOverlay.classList.remove('visible', 'opacity-100');
+            mobileOverlay.classList.add('invisible', 'opacity-0');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        if (mobileBtn) mobileBtn.addEventListener('click', openMobileMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
+        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+
+        // GSAP Animations
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Text Reveals
+            const revealElements = document.querySelectorAll(".reveal-text");
+            revealElements.forEach((element) => {
+                gsap.to(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out"
                 });
             });
+
+            // Magnetic Buttons
+            const magneticBtns = document.querySelectorAll(".magnetic-btn");
+            magneticBtns.forEach((btn) => {
+                btn.addEventListener("mousemove", (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(btn, { duration: 0.3, x: x * 0.3, y: y * 0.3, ease: "power2.out" });
+                });
+                btn.addEventListener("mouseleave", () => {
+                    gsap.to(btn, { duration: 0.3, x: 0, y: 0, ease: "elastic.out(1, 0.3)" });
+                });
+            });
+        });
     </script>

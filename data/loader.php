@@ -122,40 +122,11 @@ function loadTestimonials($limit = 3)
 {
     try {
         $db = Database::getInstance();
-        $pdo = $db->getConnection();
-
-        // Direct Query with visible error handling
-        $sql = "SELECT * FROM testimonials ORDER BY created_at DESC LIMIT " . (int) $limit;
-        $stmt = $pdo->query($sql);
-
-        if (!$stmt) {
-            throw new Exception("Query failed: " . print_r($pdo->errorInfo(), true));
-        }
-
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        if (empty($result)) {
-            return [
-                [
-                    'name' => 'DEBUG: NO DATA',
-                    'location' => 'Database Connected',
-                    'rating' => 1,
-                    'message' => 'Table exists but is empty OR query returned 0 rows.'
-                ]
-            ];
-        }
-
-        return $result;
-
+        // Use direct LIMIT instead of parameter binding (some MySQL versions have issues with parameterized LIMIT)
+        $limit = (int) $limit;
+        return $db->fetchAll("SELECT * FROM testimonials ORDER BY created_at DESC LIMIT $limit", []);
     } catch (Exception $e) {
-        return [
-            [
-                'name' => 'DEBUG: ERROR',
-                'location' => 'System Failure',
-                'rating' => 1,
-                'message' => $e->getMessage()
-            ]
-        ];
+        return [];
     }
 }
 
