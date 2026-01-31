@@ -255,7 +255,7 @@ include __DIR__ . '/../includes/header.php';
 
                                         <!-- Initial View (Title & Rating) -->
                                         <div class="transform transition-transform duration-500 group-hover:-translate-y-2">
-                                            <h3 class="text-3xl font-heading font-bold text-secondary mb-1 drop-shadow-md">
+                                            <h3 class="text-3xl font-heading font-bold text-white mb-1 drop-shadow-md">
                                                 <?php echo htmlspecialchars($dest['name']); ?>
                                             </h3>
 
