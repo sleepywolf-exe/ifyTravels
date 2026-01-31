@@ -585,13 +585,35 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     </div>
 
     <!-- HIGH-END MODERN HEADER (V7 - CREATIVE SHADOW) -->
-    <!-- HIGH-END MODERN HEADER (V7 - CREATIVE SHADOW) -->
     <header id="main-header"
-        class="fixed top-6 left-0 right-0 z-50 flex justify-center transition-all duration-300 print:hidden">
-        <div id="header-capsule"
-            class="w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-creative rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white ring-1 ring-slate-900/5 hover:shadow-creative-hover">
-            <div class="flex items-center justify-between">
+        class="fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-300 print:hidden md:top-6">
+        
+        <!-- MOBILE APP HEADER -->
+        <div class="md:hidden w-full bg-slate-50 border-b border-slate-200/60 px-6 py-4 flex justify-between items-center shadow-sm backdrop-blur-md bg-opacity-90">
+             <!-- Brand -->
+             <a href="<?php echo base_url(); ?>" class="flex items-center gap-2">
+                <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels" class="h-8 w-auto">
+             </a>
 
+             <!-- Actions -->
+             <div class="flex items-center gap-4">
+                 <a href="<?php echo base_url('packages'); ?>" class="p-2 text-slate-500 hover:text-primary transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                 </a>
+                 <button id="mobile-menu-btn" class="p-2 text-slate-700 hover:text-primary transition-colors">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                 </button>
+             </div>
+        </div>
+
+        <!-- DESKTOP HEADER CAPSULE -->
+        <div id="header-capsule"
+            class="hidden md:flex w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-creative rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white ring-1 ring-slate-900/5 hover:shadow-creative-hover items-center justify-between">
+            
                 <!-- Logo (Massive) -->
                 <a href="<?php echo base_url(); ?>" class="flex items-center gap-2 group px-2"
                     aria-label="ifyTravels Home">
@@ -602,7 +624,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
                 <!-- Desktop Navigation (Grand) -->
                 <nav
-                    class="hidden md:flex items-center gap-2 bg-slate-100/50 rounded-full p-1.5 border border-white/50 shadow-inner">
+                    class="flex items-center gap-2 bg-slate-100/50 rounded-full p-1.5 border border-white/50 shadow-inner">
                     <?php
                     $navLinks = [
                         '' => 'Home',
@@ -624,9 +646,9 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                 </nav>
 
                 <!-- Auth & Actions (Large) -->
-                <div class="hidden md:flex items-center gap-5 px-2">
+                <div class="flex items-center gap-5 px-2">
                     <a href="<?php echo base_url('packages'); ?>"
-                        class="hidden md:flex items-center gap-2 bg-gradient-to-r from-primary to-teal-700 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all duration-300 group">
+                        class="flex items-center gap-2 bg-gradient-to-r from-primary to-teal-700 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all duration-300 group">
                         <span>Book Now</span>
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none"
@@ -636,17 +658,6 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                         </svg>
                     </a>
                 </div>
-
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn"
-                    class="md:hidden p-3 text-slate-700 hover:text-primary hover:bg-slate-100 rounded-xl transition-colors"
-                    aria-label="Toggle mobile menu" aria-controls="mobile-menu" aria-expanded="false">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
         </div>
     </header>
 
