@@ -614,7 +614,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </a>
-                <button id="mobile-menu-btn" class="p-2 text-slate-700 hover:text-primary transition-colors">
+                <button id="mobile-menu-btn" onclick="openMobileMenu()" class="p-2 text-slate-700 hover:text-primary transition-colors">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
@@ -679,7 +679,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         <!-- Header -->
         <div class="flex items-center justify-between px-6 py-5 border-b border-slate-200">
             <span class="font-heading font-bold text-xl text-slate-900">Menu</span>
-            <button id="close-menu-btn"
+            <button id="close-menu-btn" onclick="closeMobileMenu()"
                 class="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
@@ -737,15 +737,42 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     </div>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-overlay"
+    <div id="mobile-overlay" onclick="closeMobileMenu()"
         class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 z-[55] md:hidden"></div>
 
     <!-- Scripts -->
+    <!-- Critical Mobile Menu Script (No Dependencies) -->
+    <script>
+        // Use Global Functions for Inline OnClick
+        window.openMobileMenu = function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            if (mobileMenu) mobileMenu.classList.remove('translate-x-full');
+            if (mobileOverlay) {
+                mobileOverlay.classList.remove('invisible', 'opacity-0');
+                mobileOverlay.classList.add('visible', 'opacity-100');
+            }
+            document.body.classList.add('overflow-hidden');
+        }
+
+        window.closeMobileMenu = function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            if (mobileMenu) mobileMenu.classList.add('translate-x-full');
+            if (mobileOverlay) {
+                mobileOverlay.classList.remove('visible', 'opacity-100');
+                mobileOverlay.classList.add('invisible', 'opacity-0');
+            }
+            document.body.classList.remove('overflow-hidden');
+        }
+    </script>
+
+    <!-- Enhancements Script (GSAP, Lenis) - Safe Loading -->
     <script>
         // Preloader Logic
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            if (preloader) {
+            if (preloader && typeof gsap !== 'undefined') {
                 gsap.to(preloader, {
                     opacity: 0,
                     duration: 0.8,
@@ -755,26 +782,36 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                         preloader.style.display = 'none';
                     }
                 });
+            } else if (preloader) {
+                // Fallback if GSAP fails
+                preloader.style.opacity = 0;
+                setTimeout(() => { preloader.style.display = 'none'; }, 500);
             }
         });
 
-        // Init Smooth Scroll (Lenis)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        });
+        // Init Smooth Scroll (Lenis) with Safety Check
+        if (typeof Lenis !== 'undefined') {
+            try {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
 
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            } catch (e) {
+                console.warn("Lenis init failed", e);
+            }
         }
-        requestAnimationFrame(raf);
 
         // Header Capsule Animation on Scroll
         const capsule = document.getElementById('header-capsule');
@@ -798,62 +835,44 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             }, { passive: true });
         }
 
-        // Mobile Menu
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const closeBtn = document.getElementById('close-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileOverlay = document.getElementById('mobile-overlay');
-
-        function openMobileMenu() {
-            mobileMenu.classList.remove('translate-x-full');
-            mobileOverlay.classList.remove('invisible', 'opacity-0');
-            mobileOverlay.classList.add('visible', 'opacity-100');
-            document.body.classList.add('overflow-hidden');
-        }
-
-        function closeMobileMenu() {
-            mobileMenu.classList.add('translate-x-full');
-            mobileOverlay.classList.remove('visible', 'opacity-100');
-            mobileOverlay.classList.add('invisible', 'opacity-0');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        if (mobileBtn) mobileBtn.addEventListener('click', openMobileMenu);
-        if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
-        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
-
-        // GSAP Animations
+        // GSAP Animations (Safe)
         document.addEventListener("DOMContentLoaded", (event) => {
-            gsap.registerPlugin(ScrollTrigger);
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                try {
+                    gsap.registerPlugin(ScrollTrigger);
 
-            // Text Reveals
-            const revealElements = document.querySelectorAll(".reveal-text");
-            revealElements.forEach((element) => {
-                gsap.to(element, {
-                    scrollTrigger: {
-                        trigger: element,
-                        start: "top 85%",
-                        toggleActions: "play none none reverse"
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power3.out"
-                });
-            });
+                    // Text Reveals
+                    const revealElements = document.querySelectorAll(".reveal-text");
+                    revealElements.forEach((element) => {
+                        gsap.to(element, {
+                            scrollTrigger: {
+                                trigger: element,
+                                start: "top 85%",
+                                toggleActions: "play none none reverse"
+                            },
+                            y: 0,
+                            opacity: 1,
+                            duration: 1,
+                            ease: "power3.out"
+                        });
+                    });
 
-            // Magnetic Buttons
-            const magneticBtns = document.querySelectorAll(".magnetic-btn");
-            magneticBtns.forEach((btn) => {
-                btn.addEventListener("mousemove", (e) => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(btn, { duration: 0.3, x: x * 0.3, y: y * 0.3, ease: "power2.out" });
-                });
-                btn.addEventListener("mouseleave", () => {
-                    gsap.to(btn, { duration: 0.3, x: 0, y: 0, ease: "elastic.out(1, 0.3)" });
-                });
-            });
+                    // Magnetic Buttons
+                    const magneticBtns = document.querySelectorAll(".magnetic-btn");
+                    magneticBtns.forEach((btn) => {
+                        btn.addEventListener("mousemove", (e) => {
+                            const rect = btn.getBoundingClientRect();
+                            const x = e.clientX - rect.left - rect.width / 2;
+                            const y = e.clientY - rect.top - rect.height / 2;
+                            gsap.to(btn, { duration: 0.3, x: x * 0.3, y: y * 0.3, ease: "power2.out" });
+                        });
+                        btn.addEventListener("mouseleave", () => {
+                            gsap.to(btn, { duration: 0.3, x: 0, y: 0, ease: "elastic.out(1, 0.3)" });
+                        });
+                    });
+                } catch (e) {
+                    console.warn("GSAP init failed", e);
+                }
+            }
         });
     </script>
