@@ -19,7 +19,7 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-16 mb-24">
             <!-- Brand Section (Big) -->
             <div class="col-span-1 md:col-span-4 transform transition duration-300 reveal-footer-col">
-                <a href="<?php echo base_url('index.php'); ?>" class="block mb-8">
+                <a href="<?php echo base_url(''); ?>" class="block mb-8">
                     <img src="<?php echo base_url('assets/images/logo-color.png?v=' . time()); ?>"
                         alt="ifyTravels Footer Logo" width="200" height="60" loading="lazy" class="h-20 object-contain">
                 </a>
@@ -61,19 +61,19 @@
                     Explore
                 </h3>
                 <ul class="space-y-5 text-lg text-slate-500 font-medium">
-                    <li><a href="<?php echo base_url('pages/destinations.php'); ?>"
+                    <li><a href="<?php echo base_url('destinations'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Top
                             Destinations</a></li>
-                    <li><a href="<?php echo base_url('pages/packages.php'); ?>"
+                    <li><a href="<?php echo base_url('packages'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Exclusive
                             Packages</a></li>
-                    <li><a href="<?php echo base_url('pages/blogs.php'); ?>"
+                    <li><a href="<?php echo base_url('blogs'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Travel
                             Blogs</a></li>
-                    <li><a href="<?php echo base_url('pages/contact.php'); ?>"
+                    <li><a href="<?php echo base_url('contact'); ?>"
                             class="hover:text-primary transition-all duration-300 hover:pl-2 flex items-center group"><span
                                 class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-primary transition-colors mr-3"></span>Contact
                             Us</a></li>
