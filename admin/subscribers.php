@@ -175,19 +175,20 @@ $subscribers = $db->fetchAll($query, $params);
 
                     <!-- Table -->
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                        <table class="w-full text-left border-collapse table-fixed">
                             <thead>
                                 <tr class="bg-white border-b border-slate-100">
                                     <th
-                                        class="p-5 pl-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-24">
+                                        class="p-5 pl-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-[10%]">
                                         ID</th>
-                                    <th class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest">
+                                    <th
+                                        class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-[55%]">
                                         Subscriber</th>
                                     <th
-                                        class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-64">
+                                        class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-[20%]">
                                         Joined</th>
                                     <th
-                                        class="p-5 pr-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest text-right w-32">
+                                        class="p-5 pr-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest text-right w-[15%]">
                                         Actions</th>
                                 </tr>
                             </thead>
