@@ -90,7 +90,7 @@ $subscribers = $db->fetchAll($query, $params);
 
         <!-- Main Content -->
         <main class="flex-1 ml-64 p-8 transition-all duration-300">
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-5xl mx-auto">
                 <!-- Header & Actions -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                     <div>
@@ -175,20 +175,19 @@ $subscribers = $db->fetchAll($query, $params);
 
                     <!-- Table -->
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse table-fixed">
+                        <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-white border-b border-slate-100">
                                     <th
-                                        class="p-5 pl-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-[10%]">
+                                        class="p-5 pl-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-20">
                                         ID</th>
-                                    <th
-                                        class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-[55%]">
+                                    <th class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest">
                                         Subscriber</th>
                                     <th
-                                        class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-[20%]">
+                                        class="p-5 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest w-48">
                                         Joined</th>
                                     <th
-                                        class="p-5 pr-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest text-right w-[15%]">
+                                        class="p-5 pr-8 font-extrabold text-slate-400 text-[11px] uppercase tracking-widest text-right w-24">
                                         Actions</th>
                                 </tr>
                             </thead>
