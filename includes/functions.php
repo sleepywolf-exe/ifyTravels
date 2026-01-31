@@ -639,6 +639,40 @@ function send_password_reset_email($toEmail, $token)
     return @mail($toEmail, $subject, $message, $headers);
 }
 /**
+ * Check if the user is on a mobile device
+ */
+function isMobileDevice()
+{
+    if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+        return false;
+    }
+
+    $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+    // Check for common mobile devices
+    $mobileKeywords = [
+        'mobile',
+        'android',
+        'silk/',
+        'kindle',
+        'blackberry',
+        'opera mini',
+        'opera mobi',
+        'iphone',
+        'ipod',
+        'ipad'
+    ];
+
+    foreach ($mobileKeywords as $keyword) {
+        if (strpos($userAgent, $keyword) !== false) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
  * Polyfill for getallheaders() if not exists (e.g. Nginx/FPM)
  */
 if (!function_exists('getallheaders')) {
