@@ -122,19 +122,40 @@ function loadTestimonials($limit = 3)
 {
     try {
         $db = Database::getInstance();
-        $result = $db->fetchAll("SELECT * FROM testimonials ORDER BY created_at DESC LIMIT ?", [$limit]);
+        $pdo = $db->getConnection();
 
-        // Log for debugging
+        // Direct Query with visible error handling
+        $sql = "SELECT * FROM testimonials ORDER BY created_at DESC LIMIT " . (int) $limit;
+        $stmt = $pdo->query($sql);
+
+        if (!$stmt) {
+            throw new Exception("Query failed: " . print_r($pdo->errorInfo(), true));
+        }
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         if (empty($result)) {
-            error_log("loadTestimonials: Query returned 0 results");
-        } else {
-            error_log("loadTestimonials: Found " . count($result) . " testimonials");
+            return [
+                [
+                    'name' => 'DEBUG: NO DATA',
+                    'location' => 'Database Connected',
+                    'rating' => 1,
+                    'message' => 'Table exists but is empty OR query returned 0 rows.'
+                ]
+            ];
         }
 
         return $result;
+
     } catch (Exception $e) {
-        error_log("loadTestimonials ERROR: " . $e->getMessage());
-        return [];
+        return [
+            [
+                'name' => 'DEBUG: ERROR',
+                'location' => 'System Failure',
+                'rating' => 1,
+                'message' => $e->getMessage()
+            ]
+        ];
     }
 }
 
