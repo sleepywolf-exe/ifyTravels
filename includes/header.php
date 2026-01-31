@@ -570,9 +570,13 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             </div>
         </div>
 
+        <div class="text-center">
             <span
                 class="block bg-gradient-to-r from-primary via-teal-500 to-secondary bg-clip-text text-transparent font-heading font-bold text-5xl tracking-[0.4em] uppercase mb-4 drop-shadow-sm">ifyTravels</span>
-            <span class="text-slate-400 text-xs tracking-[0.6em] font-medium uppercase opacity-70">Curating Your Journey</span>
+            <span class="text-slate-400 text-xs tracking-[0.6em] font-medium uppercase opacity-70">Curating Your
+                Journey</span>
+        </div>
+    </div>
 
     <!-- HIGH-END MODERN HEADER (V7 - CREATIVE SHADOW) -->
     <!-- HIGH-END MODERN HEADER (V7 - CREATIVE SHADOW) -->
