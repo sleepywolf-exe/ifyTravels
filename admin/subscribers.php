@@ -90,7 +90,7 @@ $subscribers = $db->fetchAll($query, $params);
 
         <!-- Main Content -->
         <main class="flex-1 ml-64 p-8 transition-all duration-300">
-            <div class="max-w-5xl mx-auto">
+            <div class="max-w-5xl">
                 <!-- Header & Actions -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                     <div>
