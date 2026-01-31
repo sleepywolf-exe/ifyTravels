@@ -71,8 +71,7 @@ try {
                     <article
                         class="group bg-white rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-slate-100 flex flex-col h-full hover:-translate-y-2">
                         <!-- Image -->
-                        <a href="<?php echo base_url('pages/blog-details.php?slug=' . $post['slug']); ?>"
-                            class="block relative h-64 overflow-hidden">
+                        <a href="<?php echo base_url('blogs/' . $post['slug']); ?>" class="block relative h-64 overflow-hidden">
                             <?php if ($post['image_url']): ?>
                                 <img src="<?php echo base_url($post['image_url']); ?>"
                                     alt="<?php echo htmlspecialchars($post['title']); ?>"
@@ -102,7 +101,7 @@ try {
 
                             <h2
                                 class="text-2xl font-heading font-bold text-slate-900 mb-3 leading-tight group-hover:text-primary transition-colors">
-                                <a href="<?php echo base_url('pages/blog-details.php?slug=' . $post['slug']); ?>">
+                                <a href="<?php echo base_url('blogs/' . $post['slug']); ?>">
                                     <?php echo htmlspecialchars($post['title']); ?>
                                 </a>
                             </h2>
@@ -111,7 +110,7 @@ try {
                                 <?php echo htmlspecialchars($post['excerpt'] ?? substr(strip_tags($post['content']), 0, 120)); ?>...
                             </p>
 
-                            <a href="<?php echo base_url('pages/blog-details.php?slug=' . $post['slug']); ?>"
+                            <a href="<?php echo base_url('blogs/' . $post['slug']); ?>"
                                 class="inline-flex items-center font-bold text-sm text-primary hover:text-secondary transition-colors uppercase tracking-wider">
                                 Read Article <i
                                     class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
