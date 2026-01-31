@@ -2,6 +2,15 @@
 // Ensure functions and data are loaded
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/../data/loader.php';
+
+// Mobile Switch: If on mobile device, serve the App Header instead
+if (isMobileDevice() && !isset($_GET['desktop_mode'])) {
+    // Only switch if we are NOT already in the mobile specific directory to avoid recursion or double headers
+    // But header.php is usually included by pages/ or root files.
+    // mobile_header.php adds its own doctype and html tags.
+    include __DIR__ . '/mobile_header.php';
+    return;
+}
 ?>
 <!DOCTYPE html>
 <?php
@@ -587,77 +596,79 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <!-- HIGH-END MODERN HEADER (V7 - CREATIVE SHADOW) -->
     <header id="main-header"
         class="fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-300 print:hidden md:top-6">
-        
-        <!-- MOBILE APP HEADER -->
-        <div class="md:hidden w-full bg-slate-50 border-b border-slate-200/60 px-6 py-4 flex justify-between items-center shadow-sm backdrop-blur-md bg-opacity-90">
-             <!-- Brand -->
-             <a href="<?php echo base_url(); ?>" class="flex items-center gap-2">
-                <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels" class="h-8 w-auto">
-             </a>
 
-             <!-- Actions -->
-             <div class="flex items-center gap-4">
-                 <a href="<?php echo base_url('packages'); ?>" class="p-2 text-slate-500 hover:text-primary transition-colors">
+        <!-- MOBILE APP HEADER -->
+        <div
+            class="md:hidden w-full bg-slate-50 border-b border-slate-200/60 px-6 py-4 flex justify-between items-center shadow-sm backdrop-blur-md bg-opacity-90">
+            <!-- Brand -->
+            <a href="<?php echo base_url(); ?>" class="flex items-center gap-2">
+                <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels" class="h-8 w-auto">
+            </a>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <a href="<?php echo base_url('packages'); ?>"
+                    class="p-2 text-slate-500 hover:text-primary transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                 </a>
-                 <button id="mobile-menu-btn" class="p-2 text-slate-700 hover:text-primary transition-colors">
+                </a>
+                <button id="mobile-menu-btn" class="p-2 text-slate-700 hover:text-primary transition-colors">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                 </button>
-             </div>
+                </button>
+            </div>
         </div>
 
         <!-- DESKTOP HEADER CAPSULE -->
         <div id="header-capsule"
             class="hidden md:flex w-[92%] max-w-[1600px] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-creative rounded-3xl px-8 py-5 transition-all duration-500 hover:bg-white ring-1 ring-slate-900/5 hover:shadow-creative-hover items-center justify-between">
-            
-                <!-- Logo (Massive) -->
-                <a href="<?php echo base_url(); ?>" class="flex items-center gap-2 group px-2"
-                    aria-label="ifyTravels Home">
-                    <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels Logo" width="220"
-                        height="65" loading="eager"
-                        class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
-                </a>
 
-                <!-- Desktop Navigation (Grand) -->
-                <nav
-                    class="flex items-center gap-2 bg-slate-100/50 rounded-full p-1.5 border border-white/50 shadow-inner">
-                    <?php
-                    $navLinks = [
-                        '' => 'Home',
-                        'about' => 'About',
-                        'destinations' => 'Destinations',
-                        'packages' => 'Packages',
-                        'blogs' => 'Blogs',
-                        'contact' => 'Contact'
-                    ];
+            <!-- Logo (Massive) -->
+            <a href="<?php echo base_url(); ?>" class="flex items-center gap-2 group px-2" aria-label="ifyTravels Home">
+                <img src="<?php echo base_url('assets/images/logo-color.png'); ?>" alt="ifyTravels Logo" width="220"
+                    height="65" loading="eager"
+                    class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+            </a>
 
-                    foreach ($navLinks as $url => $label):
-                        $isActive = (current_url() == base_url($url));
-                        ?>
-                        <a href="<?php echo base_url($url); ?>"
-                            class="relative px-8 py-3 rounded-full text-[16px] font-heading font-bold tracking-wide transition-all duration-300 <?php echo $isActive ? 'bg-white text-slate-900 shadow-md shadow-slate-200' : 'text-slate-600 hover:text-primary hover:bg-white/80'; ?>">
-                            <?php echo $label; ?>
-                        </a>
-                    <?php endforeach; ?>
-                </nav>
+            <!-- Desktop Navigation (Grand) -->
+            <nav class="flex items-center gap-2 bg-slate-100/50 rounded-full p-1.5 border border-white/50 shadow-inner">
+                <?php
+                $navLinks = [
+                    '' => 'Home',
+                    'about' => 'About',
+                    'destinations' => 'Destinations',
+                    'packages' => 'Packages',
+                    'blogs' => 'Blogs',
+                    'contact' => 'Contact'
+                ];
 
-                <!-- Auth & Actions (Large) -->
-                <div class="flex items-center gap-5 px-2">
-                    <a href="<?php echo base_url('packages'); ?>"
-                        class="flex items-center gap-2 bg-gradient-to-r from-primary to-teal-700 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all duration-300 group">
-                        <span>Book Now</span>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
+                foreach ($navLinks as $url => $label):
+                    $isActive = (current_url() == base_url($url));
+                    ?>
+                    <a href="<?php echo base_url($url); ?>"
+                        class="relative px-8 py-3 rounded-full text-[16px] font-heading font-bold tracking-wide transition-all duration-300 <?php echo $isActive ? 'bg-white text-slate-900 shadow-md shadow-slate-200' : 'text-slate-600 hover:text-primary hover:bg-white/80'; ?>">
+                        <?php echo $label; ?>
                     </a>
-                </div>
+                <?php endforeach; ?>
+            </nav>
+
+            <!-- Auth & Actions (Large) -->
+            <div class="flex items-center gap-5 px-2">
+                <a href="<?php echo base_url('packages'); ?>"
+                    class="flex items-center gap-2 bg-gradient-to-r from-primary to-teal-700 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all duration-300 group">
+                    <span>Book Now</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
+            </div>
         </div>
     </header>
 

@@ -1,5 +1,11 @@
 <?php
 // Footer Component
+
+// Mobile Switch: If on mobile device, serve the App Footer instead
+if (isMobileDevice() && !isset($_GET['desktop_mode'])) {
+    include __DIR__ . '/mobile_footer.php';
+    return;
+}
 ?>
 <footer
     class="bg-slate-50 text-slate-800 pt-48 pb-24 mt-auto relative overflow-hidden border-t border-slate-200 hidden md:block">
