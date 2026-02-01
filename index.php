@@ -122,8 +122,9 @@ try {
 <main class="relative z-10">
 
     <!-- HERO SECTION -->
-    <section class="h-[100dvh] flex flex-col items-center justify-center overflow-hidden relative">
-        <div class="container mx-auto px-4 text-center z-20 mt-20">
+    <section
+        class="min-h-[100dvh] md:h-[100dvh] flex flex-col items-center justify-center overflow-hidden relative py-20 md:py-0">
+        <div class="container mx-auto px-4 text-center z-20 relative">
             <!-- Animated Hero Title -->
             <h1
                 class="hero-title opacity-0 transform translate-y-10 will-change-transform text-5xl sm:text-7xl md:text-9xl font-bold mb-6 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
@@ -215,11 +216,11 @@ try {
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce z-50">
+        <!-- Scroll Indicator - Hidden on very small screens to avoid overlap -->
+        <div class="absolute bottom-6 md:bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce z-20 hidden sm:block">
             <a href="#destinations" aria-label="Scroll Down"
                 class="text-white hover:text-primary transition-colors duration-300">
-                <svg class="w-10 h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-8 h-8 md:w-10 md:h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7-7-7m7 7V3">
                     </path>
                 </svg>

@@ -17,11 +17,11 @@ include __DIR__ . '/../includes/header.php';
             Our Story
         </span>
         <h1
-            class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 drop-shadow-2xl animate-fade-in-up delay-100">
+            class="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-white mb-6 drop-shadow-2xl animate-fade-in-up delay-100">
             Curating <span class="text-primary">Dreams</span>
         </h1>
         <p
-            class="text-white/90 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto drop-shadow-lg animate-fade-in-up delay-200">
+            class="text-white/90 text-base md:text-xl font-light leading-relaxed max-w-2xl mx-auto drop-shadow-lg animate-fade-in-up delay-200">
             We don't just plan trips; we craft unforgettable experiences that stay with you forever.
         </p>
     </div>
@@ -34,7 +34,7 @@ include __DIR__ . '/../includes/header.php';
 
             <!-- Content -->
             <div class="relative z-10">
-                <h2 class="text-4xl lg:text-5xl font-heading font-bold text-slate-900 mb-8 leading-tight">
+                <h2 class="text-3xl lg:text-5xl font-heading font-bold text-slate-900 mb-6 lg:mb-8 leading-tight">
                     Redefining <span class="text-primary italic">Luxury</span> Travel
                 </h2>
                 <p class="text-lg text-slate-600 mb-6 leading-relaxed">
@@ -145,7 +145,7 @@ include __DIR__ . '/../includes/header.php';
     </div>
 
     <div class="container mx-auto px-6 relative z-10 text-center">
-        <h2 class="text-4xl md:text-6xl font-heading font-bold text-white mb-8 max-w-4xl mx-auto leading-tight">
+        <h2 class="text-3xl md:text-6xl font-heading font-bold text-white mb-6 md:mb-8 max-w-4xl mx-auto leading-tight">
             Ready to Start Your Journey?
         </h2>
         <p class="text-xl text-white/70 mb-10 max-w-2xl mx-auto">

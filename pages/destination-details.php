@@ -95,7 +95,7 @@ $packages = getPackagesByDestination($id);
                         Destination Guide
                     </span>
                     <h1
-                        class="text-7xl md:text-9xl font-heading font-black text-white mb-6 leading-none drop-shadow-2xl animate-fade-in-up">
+                        class="text-4xl md:text-9xl font-heading font-black text-white mb-6 leading-none drop-shadow-2xl animate-fade-in-up">
                         <?php echo htmlspecialchars($dest['name']); ?>
                     </h1>
                     <p class="text-white/90 text-2xl md:text-3xl font-light max-w-2xl leading-relaxed drop-shadow-lg animate-fade-in-up italic font-serif"
@@ -140,7 +140,7 @@ $packages = getPackagesByDestination($id);
     </div>
 
     <!-- Integrated Stats Bar (Glassmorphism overlap) -->
-    <div class="relative z-20 -mt-24 container mx-auto px-6 mb-20">
+    <div class="relative z-20 -mt-12 md:-mt-24 container mx-auto px-6 mb-12 md:mb-20">
         <div
             class="bg-white shadow-xl rounded-[2.5rem] border border-slate-100 p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- Stat 1: Type -->
@@ -223,7 +223,7 @@ $packages = getPackagesByDestination($id);
     <div
         class="absolute top-[85vh] left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0 overflow-hidden">
         <h2
-            class="text-[12rem] md:text-[25rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading whitespace-nowrap transform -translate-y-1/4">
+            class="text-[6rem] md:text-[25rem] font-black text-slate-900 opacity-[0.03] leading-none tracking-tighter uppercase font-heading whitespace-nowrap transform -translate-y-1/4">
             <?php echo htmlspecialchars($dest['name']); ?>
         </h2>
     </div>

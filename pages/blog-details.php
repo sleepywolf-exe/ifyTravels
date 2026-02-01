@@ -47,7 +47,7 @@ if (!$post):
 <?php else: ?>
 
     <!-- Hero Section -->
-    <div class="relative h-[60vh] min-h-[500px]">
+    <div class="relative min-h-[50vh] md:h-[60vh] min-h-[400px]">
         <?php if ($post['image_url']): ?>
             <img src="<?php echo base_url($post['image_url']); ?>" alt="<?php echo htmlspecialchars($post['title']); ?>"
                 class="absolute inset-0 w-full h-full object-cover">
@@ -56,7 +56,7 @@ if (!$post):
             <div class="absolute inset-0 bg-slate-900"></div>
         <?php endif; ?>
 
-        <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 lg:p-20">
+        <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 lg:p-20 pt-24">
             <div class="container mx-auto">
                 <a href="<?php echo base_url('pages/blogs.php'); ?>"
                     class="inline-flex items-center text-white/80 hover:text-white mb-6 transition text-sm font-bold uppercase tracking-wider backdrop-blur-md bg-white/10 px-4 py-2 rounded-full border border-white/20">
@@ -64,7 +64,7 @@ if (!$post):
                 </a>
 
                 <h1
-                    class="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-white mb-6 leading-tight drop-shadow-lg max-w-5xl">
+                    class="text-3xl md:text-5xl lg:text-7xl font-heading font-bold text-white mb-6 leading-tight drop-shadow-lg max-w-5xl">
                     <?php echo htmlspecialchars($post['title']); ?>
                 </h1>
 

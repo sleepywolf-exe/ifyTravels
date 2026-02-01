@@ -48,25 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="relative min-h-screen bg-slate-50">
 
     <!-- Hero Background (Parallax) -->
-    <div class="absolute inset-0 h-[70vh] z-0 overflow-hidden">
+    <div class="absolute inset-0 min-h-[50vh] md:h-[70vh] z-0 overflow-hidden">
         <img src="<?php echo get_setting('contact_bg', base_url('assets/images/destinations/dubai.jpg')); ?>"
             class="w-full h-full object-cover brightness-[0.4] scale-105 animate-slow-pan" alt="Contact Background">
         <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-slate-50"></div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10 pt-52 pb-24">
+    <div class="container mx-auto px-6 relative z-10 pt-32 md:pt-52 pb-12 md:pb-24">
 
         <!-- Header -->
-        <div class="text-center mb-20 animate-fade-in-up">
+        <div class="text-center mb-12 md:mb-20 animate-fade-in-up">
             <span
                 class="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white/90 text-[11px] font-bold tracking-[0.2em] uppercase mb-6">
                 24/7 Concierge
             </span>
             <h1
-                class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-white mb-8 drop-shadow-2xl tracking-tight">
+                class="text-4xl md:text-7xl lg:text-8xl font-heading font-bold text-white mb-6 md:mb-8 drop-shadow-2xl tracking-tight">
                 Get in <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Touch</span>
             </h1>
-            <p class="text-white/80 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed drop-shadow-lg">
+            <p class="text-white/80 max-w-2xl mx-auto text-base md:text-xl font-light leading-relaxed drop-shadow-lg">
                 Whether you're planning a grand tour or a quick getaway, our concierge team is here to orchestrate every
                 detail.
             </p>
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Contact Form -->
             <div class="lg:w-2/3 w-full animate-fade-in-up delay-200">
                 <div
-                    class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 p-8 md:p-12 relative overflow-hidden border border-slate-100">
+                    class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 p-6 md:p-12 relative overflow-hidden border border-slate-100">
 
                     <!-- Form Background Art -->
                     <div

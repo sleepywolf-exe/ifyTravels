@@ -54,7 +54,7 @@ include __DIR__ . '/../includes/header.php';
     <div
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
         <h2
-            class="text-[12rem] md:text-[24rem] font-black text-white opacity-[0.08] leading-none tracking-tighter uppercase font-heading">
+            class="text-[6rem] md:text-[24rem] font-black text-white opacity-[0.08] leading-none tracking-tighter uppercase font-heading">
             DISCOVER
         </h2>
     </div>
@@ -67,7 +67,7 @@ include __DIR__ . '/../includes/header.php';
                 class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold tracking-widest uppercase text-sm rounded-full mb-6">
                 Curated Collection
             </span>
-            <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl md:text-7xl font-heading font-bold text-white mb-6 drop-shadow-2xl">
                 Explore
                 <span class="text-primary relative inline-block">
                     Destinations

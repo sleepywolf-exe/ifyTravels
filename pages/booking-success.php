@@ -201,7 +201,7 @@ include __DIR__ . '/../includes/header.php';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                 </svg>
             </div>
-            <h1 class="text-4xl md:text-6xl font-heading font-black text-slate-900 mb-4 tracking-tight">You're All Set!
+            <h1 class="text-3xl md:text-6xl font-heading font-black text-slate-900 mb-4 tracking-tight">You're All Set!
             </h1>
             <p class="text-slate-500 text-lg font-medium max-w-lg mx-auto leading-relaxed">
                 Your booking request has been securely received. Our concierge team is already reviewing your details.
@@ -213,7 +213,7 @@ include __DIR__ . '/../includes/header.php';
             class="w-full max-w-[95%] mx-auto bg-white rounded-[3rem] overflow-hidden shadow-2xl shadow-slate-200 flex flex-col xl:flex-row ticket-card border border-slate-100 relative print:shadow-none print:border-black print:rounded-none print-full-width">
 
             <!-- Main Content (Wide) -->
-            <div class="flex-1 p-8 md:p-12 relative bg-white text-gray-900 grid grid-cols-1 xl:grid-cols-12 gap-12">
+            <div class="flex-1 p-6 md:p-12 relative bg-white text-gray-900 grid grid-cols-1 xl:grid-cols-12 gap-12">
                 <!-- Background Pattern (Guilloche Style) -->
                 <div class="absolute inset-0 opacity-[0.02] pointer-events-none"
                     style="background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%); background-size: 20px 20px;">

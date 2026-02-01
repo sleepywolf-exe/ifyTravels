@@ -82,7 +82,7 @@ include __DIR__ . '/../includes/header.php';
 
         <div class="container mx-auto px-6 relative z-10 text-center animate-fade-in-up pt-10">
             <span class="text-secondary font-bold tracking-widest uppercase text-xs mb-4 block">Exclusive Network</span>
-            <h1 class="text-5xl md:text-7xl font-heading font-bold text-slate-900 mb-6 drop-shadow-sm">Partner Program
+            <h1 class="text-4xl md:text-7xl font-heading font-bold text-slate-900 mb-6 drop-shadow-sm">Partner Program
             </h1>
             <p class="text-slate-600 max-w-2xl mx-auto text-lg font-light leading-relaxed">
                 Join an elite community of travel curators. Share exceptional journeys and earn premium rewards.
@@ -140,7 +140,8 @@ include __DIR__ . '/../includes/header.php';
             </div>
 
             <!-- Application Form -->
-            <div class="bg-white border border-slate-100 rounded-3xl shadow-2xl p-10 animate-fade-in-up delay-200">
+            <div
+                class="bg-white border border-slate-100 rounded-3xl shadow-2xl p-6 md:p-10 animate-fade-in-up delay-200">
                 <?php if (!empty($successMsg)): ?>
                     <div class="text-center py-10">
                         <div
