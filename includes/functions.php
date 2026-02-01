@@ -14,17 +14,16 @@ try {
     $db = Database::getInstance();
     $pdo = $db->getConnection();
 } catch (Exception $e) {
-    // If this is an API request, return JSON error
+    // API should return error
     if (defined('IS_API') && IS_API) {
         http_response_code(500);
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Database connection failed. Please try again later.'
-        ]);
+        echo json_encode(['status' => 'error', 'message' => 'Service Unavailable']);
         exit;
     }
-    // Otherwise, let the global exception handler (defined below) or the DB class itself handle it (503 page)
-    throw $e;
+    // Frontend: Proceed with $db = null (Graceful Degradation)
+    $db = null;
+    $pdo = null;
+    error_log("DB Connect Failed: " . $e->getMessage());
 }
 
 // Cache for settings to avoid repeated queries
@@ -70,9 +69,15 @@ function get_setting($key, $default = '')
     // Load settings once and cache
     if ($globalSettings === null) {
         $globalSettings = [];
-        $results = $db->fetchAll("SELECT setting_key, setting_value FROM site_settings");
-        foreach ($results as $row) {
-            $globalSettings[$row['setting_key']] = $row['setting_value'];
+        if ($db) {
+            try {
+                $results = $db->fetchAll("SELECT setting_key, setting_value FROM site_settings");
+                foreach ($results as $row) {
+                    $globalSettings[$row['setting_key']] = $row['setting_value'];
+                }
+            } catch (Exception $e) {
+                // Ignore table missing errors
+            }
         }
     }
 
@@ -232,6 +237,8 @@ function generateSlug($string)
 function getDestinationBySlug($slug)
 {
     global $db;
+    if (!$db)
+        return null;
     $dest = $db->fetch("SELECT * FROM destinations WHERE slug = ?", [$slug]);
     if ($dest) {
         $dest['image'] = $dest['image_url'];
@@ -245,6 +252,8 @@ function getDestinationBySlug($slug)
 function getPackageBySlug($slug)
 {
     global $db;
+    if (!$db)
+        return null;
     $pkg = $db->fetch("SELECT * FROM packages WHERE slug = ?", [$slug]);
     if ($pkg) {
         $pkg['features'] = !empty($pkg['features']) ? json_decode($pkg['features'], true) : [];

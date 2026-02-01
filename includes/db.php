@@ -56,13 +56,9 @@ class Database
                 throw new Exception("Database Connection Failed");
             }
 
-            // Graceful Failure for Web Pages
-            if (file_exists(__DIR__ . '/../pages/503.php')) {
-                include __DIR__ . '/../pages/503.php';
-                exit;
-            } else {
-                die("Briefly unavailable for scheduled maintenance. Check back in a minute.");
-            }
+            // Throw exception so it can be caught by the caller (functions.php or index.php)
+            // This allows the app to fallback to mock data if DB is down.
+            throw new Exception("Database Connection Failed: " . $e->getMessage());
         }
     }
 
