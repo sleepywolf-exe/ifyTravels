@@ -97,6 +97,12 @@ class FacebookCAPI
     {
         $url = "https://graph.facebook.com/{$this->apiVersion}/{$this->pixelId}/events?access_token={$this->accessToken}";
 
+        // Log Payload
+        if (!is_dir(__DIR__ . '/../../logs')) {
+            mkdir(__DIR__ . '/../../logs', 0777, true);
+        }
+        file_put_contents(__DIR__ . '/../../logs/fb_capi_payload.log', date('Y-m-d H:i:s') . " - " . json_encode($payload) . PHP_EOL, FILE_APPEND);
+
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
@@ -107,8 +113,14 @@ class FacebookCAPI
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        // Debug logging (optional)
-        // file_put_contents(__DIR__ . '/../../logs/fb_capi.log', date('Y-m-d H:i:s') . " - Code: $httpCode - Resp: $response" . PHP_EOL, FILE_APPEND);
+        // Debug logging
+        $logFile = __DIR__ . '/../../logs/fb_capi.log';
+        $logEntry = date('Y-m-d H:i:s') . " - Code: $httpCode - Event: " . ($payload['data'][0]['event_name'] ?? 'Unknown') . " - Response: " . $response . PHP_EOL;
+        file_put_contents($logFile, $logEntry, FILE_APPEND);
+
+        if ($httpCode !== 200) {
+            error_log("FB CAPI Error [$httpCode]: " . $response);
+        }
 
         return $httpCode === 200 ? json_decode($response, true) : false;
     }
