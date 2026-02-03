@@ -4,7 +4,7 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/../data/loader.php';
 require_once __DIR__ . '/classes/FacebookCAPI.php';
 
-// Initialize CAPI
+// Initialize Facebook CAPI
 $fbCapi = new FacebookCAPI();
 // Prepare User Data for CAPI (from Session if available)
 $userData = [];
