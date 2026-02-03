@@ -142,6 +142,34 @@ try {
         // Log it
         error_log("Booking Submitted: ID $booking_id");
 
+        // Facebook CAPI: Purchase Event
+        try {
+            require_once __DIR__ . '/../includes/classes/FacebookCAPI.php';
+            $fbCapi = new FacebookCAPI();
+
+            // Prepare Custom Data
+            $customData = [
+                'value' => $total_price,
+                'currency' => 'INR',
+                'order_id' => $booking_id,
+                'content_ids' => [$package_id],
+                'content_name' => $package_name,
+                'content_type' => 'product',
+                'num_items' => 1
+            ];
+
+            // Prepare User Data (Hashed)
+            $userData = [
+                'email' => $email,
+                'phone' => $phone,
+                'fn' => explode(' ', trim($customer_name))[0] // First name approximation
+            ];
+
+            $fbCapi->sendEvent('Purchase', $customData, $userData);
+        } catch (Exception $e) {
+            error_log("FB CAPI Error: " . $e->getMessage());
+        }
+
         echo json_encode(['status' => 'success', 'message' => 'Your request has been submitted successfully! We will contact you shortly.', 'booking_id' => $booking_id]);
     } else {
         throw new Exception("Database insert failed.");

@@ -38,6 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         send_admin_notification_email("New Inquiry: $name", $adminData, "View Inquiries", base_url("admin/inquiries.php"));
 
+        // Facebook CAPI: Contact
+        if (isset($fbCapi)) {
+            $fbCapi->sendEvent('Contact', [], ['email' => $email, 'fn' => explode(' ', $name)[0]]);
+        }
+
         $msgSent = true;
     } catch (Exception $e) {
         $errorMsg = "An error occurred. Please try again later.";

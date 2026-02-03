@@ -1,7 +1,19 @@
-<?php
 // Ensure functions and data are loaded
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/../data/loader.php';
+require_once __DIR__ . '/classes/FacebookCAPI.php';
+
+// Initialize CAPI
+$fbCapi = new FacebookCAPI();
+// Prepare User Data for CAPI (from Session if available)
+$userData = [];
+if (isLoggedIn()) {
+$userData['email'] = $_SESSION['user_email'] ?? '';
+// Add phone if available in session
+}
+
+// Track PageView Globally
+$fbCapi->sendEvent('PageView', [], $userData);
 ?>
 <!DOCTYPE html>
 <?php

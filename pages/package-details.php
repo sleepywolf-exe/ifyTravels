@@ -33,6 +33,19 @@ $dest = getDestinationById($pkg['destinationId']);
 $locationName = $dest ? $dest['name'] . ' (' . $dest['type'] . ')' : 'International';
 
 $pageTitle = $pkg['title'];
+
+// Facebook CAPI: ViewContent
+if (isset($fbCapi)) {
+    $fbCapi->sendEvent('ViewContent', [
+        'content_type' => 'product',
+        'content_ids' => [$pkg['id']],
+        'content_name' => $pkg['title'],
+        'content_category' => 'Package',
+        'value' => $pkg['price'],
+        'currency' => 'INR'
+    ], $userData);
+}
+
 include __DIR__ . '/../includes/header.php';
 ?>
 
@@ -181,7 +194,8 @@ include __DIR__ . '/../includes/header.php';
                         </svg>
                     </div>
                     <p class="text-slate-800 font-bold text-sm md:text-lg">
-                        <?php echo htmlspecialchars($pkg['duration']); ?></p>
+                        <?php echo htmlspecialchars($pkg['duration']); ?>
+                    </p>
                 </div>
             </div>
             <!-- Location -->

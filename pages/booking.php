@@ -18,6 +18,18 @@ if (!$pkgId || !$selectedPkg) {
 
 $presetTravelers = $_GET['travelers'] ?? 1;
 
+// Facebook CAPI: InitiateCheckout
+if (isset($fbCapi)) {
+    $fbCapi->sendEvent('InitiateCheckout', [
+        'content_category' => 'Package',
+        'content_ids' => [$selectedPkg['id']],
+        'content_name' => $selectedPkg['title'],
+        'num_items' => 1,
+        'value' => $selectedPkg['price'],
+        'currency' => 'INR'
+    ], $userData);
+}
+
 include __DIR__ . '/../includes/header.php';
 ?>
 

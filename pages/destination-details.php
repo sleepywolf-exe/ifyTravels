@@ -33,6 +33,17 @@ if (!$dest) {
 $id = $dest['id'];
 
 $pageTitle = $dest['name'];
+
+// Facebook CAPI: ViewContent
+if (isset($fbCapi)) {
+    $fbCapi->sendEvent('ViewContent', [
+        'content_type' => 'product',
+        'content_ids' => [$dest['id']],
+        'content_name' => $dest['name'],
+        'content_category' => 'Destination',
+    ], $userData);
+}
+
 include __DIR__ . '/../includes/header.php';
 $packages = getPackagesByDestination($id);
 ?>
