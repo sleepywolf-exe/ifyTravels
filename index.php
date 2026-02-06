@@ -209,7 +209,7 @@ try {
 
                         <!-- Button -->
                         <button type="submit"
-                            class="bg-white text-primary hover:bg-slate-50 font-bold py-3 md:py-4 px-10 rounded-full shadow-creative hover:shadow-creative-hover transform hover:scale-105 transition duration-300 magnetic-btn whitespace-nowrap text-sm md:text-base">
+                            class="bg-white text-primary hover:bg-slate-50 font-bold py-3 md:py-4 px-10 rounded-full shadow-creative hover:shadow-creative-hover transform hover:scale-105 transition duration-300 magnetic-btn whitespace-nowrap text-sm md:text-base relative z-10">
                             Search
                         </button>
                     </form>
