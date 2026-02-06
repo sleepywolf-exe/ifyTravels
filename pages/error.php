@@ -107,30 +107,31 @@ $pageTitle = "Error $errorCode";
 
 <body class="bg-white text-slate-900">
 
-    <section class="min-h-screen flex items-center justify-center py-20">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
+    <section class="h-screen w-full flex items-center justify-center overflow-hidden relative">
+        <div class="container mx-auto px-4 h-full flex flex-col items-center justify-center">
+            <div class="flex flex-col items-center justify-center text-center max-w-5xl mx-auto w-full">
 
-                <!-- 1. Error Code (Big Solid Header) -->
+                <!-- 1. Error Code (Big Solid Header - Scaled to fit) -->
                 <h1
-                    class="font-heading font-black text-slate-900 leading-none opacity-100 text-[180px] md:text-[280px] mb-[-40px] md:mb-[-60px] z-0 px-4">
+                    class="font-heading font-black text-slate-900 leading-none opacity-100 text-[18vw] md:text-[280px] mb-[-5vh] md:mb-[-60px] z-0 px-4 select-none">
                     <?php echo $errorCode; ?>
                 </h1>
 
                 <!-- 2. GIF Image (Centered Below Text) -->
-                <div class="w-full max-w-sm md:max-w-lg mb-8 relative z-10">
+                <div class="w-full max-w-[80%] md:max-w-lg mb-4 md:mb-8 relative z-10 shrink-0">
                     <img src="<?php echo base_url('assets/images/404.gif'); ?>" alt="404 Animation"
-                        class="w-full h-auto object-contain mx-auto">
+                        class="w-full h-auto max-h-[30vh] object-contain mx-auto">
                 </div>
 
                 <!-- 3. Content -->
-                <div class="relative z-20 mt-[-20px]">
+                <div class="relative z-20 mt-[-2vh] md:mt-[-20px]">
                     <h3
-                        class="font-heading font-black text-slate-900 tracking-tight leading-none mb-4 text-4xl md:text-6xl">
+                        class="font-heading font-black text-slate-900 tracking-tight leading-none mb-2 md:mb-4 text-3xl md:text-6xl">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light mb-8">
+                    <p
+                        class="text-slate-500 text-base md:text-xl max-w-xl mx-auto leading-relaxed font-light mb-6 md:mb-8">
                         <?php echo $errorMessage; ?>
                     </p>
 
