@@ -110,23 +110,22 @@ $pageTitle = "Error $errorCode";
     <section class="min-h-screen flex items-center justify-center py-20">
         <div class="container mx-auto px-4">
             <div class="flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
-
-                <!-- 1. Error Code -->
-                <h1
-                    class="font-heading font-black text-slate-900 leading-none opacity-90 text-[100px] md:text-[140px] mb-4">
+                
+                <!-- 1. Error Code (Matched Size to Title) -->
+                <h1 class="font-heading font-black text-slate-900 leading-none opacity-20 text-6xl md:text-8xl mb-[-20px] z-0">
                     <?php echo $errorCode; ?>
                 </h1>
 
-                <!-- 2. GIF Image (Static, No Background positioning) -->
-                <div class="w-full max-w-md md:max-w-lg mb-8">
-                    <img src="<?php echo base_url('assets/images/404.gif'); ?>" alt="404 Animation"
-                        class="w-full h-auto object-contain mx-auto drop-shadow-sm">
+                <!-- 2. GIF Image -->
+                <div class="w-full max-w-md md:max-w-lg relative z-10">
+                    <img src="<?php echo base_url('assets/images/404.gif'); ?>" 
+                         alt="404 Animation" 
+                         class="w-full h-auto object-contain mx-auto">
                 </div>
 
                 <!-- 3. Content -->
-                <div class="relative z-10">
-                    <h3
-                        class="font-heading font-black text-slate-900 tracking-tight leading-none mb-4 text-4xl md:text-6xl">
+                <div class="relative z-20 mt-[-20px]">
+                    <h3 class="font-heading font-black text-slate-900 tracking-tight leading-none mb-4 text-4xl md:text-6xl">
                         <?php echo $errorTitle; ?>
                     </h3>
 
@@ -136,8 +135,7 @@ $pageTitle = "Error $errorCode";
 
                     <a href="<?php echo base_url(); ?>" class="link_404 group">
                         Go to Home
-                        <i
-                            class="fa-solid fa-arrow-right ml-3 text-sm group-hover:translate-x-1 transition-transform"></i>
+                        <i class="fa-solid fa-arrow-right ml-3 text-sm group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
 
