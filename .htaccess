@@ -58,6 +58,12 @@ Options -Indexes
     # Redirect index.php to root
     RewriteRule ^index\.php$ / [R=301,L]
 
+    # BLOCK DIRECT ACCESS TO /pages/ directory
+    # Returns 404 if user explicitly requests /pages/*
+    RewriteCond %{THE_REQUEST} \s/pages/ [NC]
+    RewriteRule ^ - [R=404,L]
+
+
     # Sitemap (Dynamic)
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
 
