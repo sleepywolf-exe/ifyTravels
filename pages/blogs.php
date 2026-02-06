@@ -25,15 +25,11 @@ try {
     $stmt->execute();
     $posts = $stmt->fetchAll();
 
-    $posts = $stmt->fetchAll();
+
 
 } catch (Exception $e) {
     $posts = [];
-    // DEBUG: Show error
-    echo "<div class='bg-red-500 text-white p-4 absolute top-0 left-0 w-full z-50'>";
-    echo "<b>DEBUG ERROR:</b> " . $e->getMessage();
-    echo "</div>";
-    error_log($e->getMessage());
+    $error = "Could not load blogs.";
 }
 ?>
 
