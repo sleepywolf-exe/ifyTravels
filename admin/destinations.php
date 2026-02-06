@@ -123,12 +123,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $is_new, $map_embed, $id]
                 );
                 $message = "Destination updated successfully!";
+
+                // Auto-Index
+                require_once __DIR__ . '/../includes/classes/GoogleIndexer.php';
+                $indexer = new GoogleIndexer();
+                $fullUrl = 'https://ifytravels.com/destinations/' . $slug;
+                $indexResult = $indexer->indexUrl($fullUrl, 'URL_UPDATED');
+                if ($indexResult['status'] === 'success') {
+                    $message .= " (Google notified)";
+                }
+
             } else {
                 $db->execute(
                     "INSERT INTO destinations (name, slug, country, description, type, image_url, rating, is_featured, map_embed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $map_embed]
                 );
                 $message = "Destination created successfully!";
+
+                // Auto-Index
+                require_once __DIR__ . '/../includes/classes/GoogleIndexer.php';
+                $indexer = new GoogleIndexer();
+                $fullUrl = 'https://ifytravels.com/destinations/' . $slug;
+                $indexResult = $indexer->indexUrl($fullUrl, 'URL_UPDATED');
+                if ($indexResult['status'] === 'success') {
+                    $message .= " (Google notified)";
+                }
             }
         } catch (Exception $e) {
             $error = "Database Error: " . $e->getMessage();

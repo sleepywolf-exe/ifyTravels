@@ -60,6 +60,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $pdo->prepare("UPDATE posts SET title = ?, slug = ?, image_url = ?, excerpt = ?, content = ?, author = ? WHERE id = ?");
                 if ($stmt->execute([$title, $slug, $image_url, $excerpt, $content, $author, $id])) {
                     $message = "Post updated successfully.";
+
+                    // Auto-Index
+                    require_once __DIR__ . '/../includes/classes/GoogleIndexer.php';
+                    $indexer = new GoogleIndexer();
+                    $fullUrl = 'https://ifytravels.com/blogs/' . $slug; // Hardcoded domain for safety or use base_url() if absolute
+                    $indexResult = $indexer->indexUrl($fullUrl, 'URL_UPDATED');
+                    if ($indexResult['status'] === 'success') {
+                        $message .= " (Google notified)";
+                    }
                 } else {
                     $error = "Failed to update post.";
                 }
@@ -75,6 +84,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $pdo->prepare("INSERT INTO posts (title, slug, image_url, excerpt, content, author) VALUES (?, ?, ?, ?, ?, ?)");
                 if ($stmt->execute([$title, $slug, $image_url, $excerpt, $content, $author])) {
                     $message = "Post published successfully.";
+
+                    // Auto-Index
+                    require_once __DIR__ . '/../includes/classes/GoogleIndexer.php';
+                    $indexer = new GoogleIndexer();
+                    $fullUrl = 'https://ifytravels.com/blogs/' . $slug;
+                    $indexResult = $indexer->indexUrl($fullUrl, 'URL_UPDATED');
+                    if ($indexResult['status'] === 'success') {
+                        $message .= " (Google notified)";
+                    }
                 } else {
                     $error = "Failed to publish post.";
                 }
