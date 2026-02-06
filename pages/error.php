@@ -141,7 +141,7 @@ $pageTitle = "Error $errorCode";
         }
 
         .contant_box_404 {
-            margin-top: -60px;
+            margin-top: 0px;
             position: relative;
             z-index: 20;
         }
