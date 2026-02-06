@@ -43,6 +43,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Special Handling for Service Account Logic
+    if (isset($_FILES['service_account_json']) && $_FILES['service_account_json']['error'] === UPLOAD_ERR_OK) {
+        $tmpName = $_FILES['service_account_json']['tmp_name'];
+        $ext = strtolower(pathinfo($_FILES['service_account_json']['name'], PATHINFO_EXTENSION));
+
+        if ($ext === 'json') {
+            $targetDir = __DIR__ . '/../includes/config/';
+            if (!is_dir($targetDir))
+                mkdir($targetDir, 0755, true);
+
+            if (move_uploaded_file($tmpName, $targetDir . 'service_account.json')) {
+                $message .= "Service Account Key updated successfully! ";
+            } else {
+                $message .= "Failed to save Service Account Key. ";
+            }
+        } else {
+            $message .= "Invalid file type. Only .json allowed for Service Account Key. ";
+        }
+    }
+
     foreach ($fileFields as $field) {
         if (isset($_FILES[$field])) {
             if ($_FILES[$field]['error'] === UPLOAD_ERR_OK) {
@@ -539,6 +559,48 @@ foreach ($settings as $s) {
                                     value="<?php echo e($settingsMap['meta_pixel_id'] ?? ''); ?>"
                                     placeholder="1234567890"
                                     class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all font-mono text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-8">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Google Indexing API Key (JSON)</label>
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-blue-900 font-bold mb-1">Service Account Key</h4>
+                                    <p class="text-xs text-blue-700 mb-3">Required for Instant Indexing. Upload the
+                                        <code>service_account.json</code> file from Google Cloud Console.
+                                    </p>
+                                    <?php
+                                    $keyPath = __DIR__ . '/../includes/config/service_account.json';
+                                    if (file_exists($keyPath)): ?>
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            <svg class="mr-1.5 h-2 w-2 text-green-400" fill="currentColor"
+                                                viewBox="0 0 8 8">
+                                                <circle cx="4" cy="4" r="3" />
+                                            </svg>
+                                            Key Installed
+                                        </span>
+                                    <?php else: ?>
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            <svg class="mr-1.5 h-2 w-2 text-red-400" fill="currentColor" viewBox="0 0 8 8">
+                                                <circle cx="4" cy="4" r="3" />
+                                            </svg>
+                                            Key Missing
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <label
+                                        class="cursor-pointer bg-white text-blue-600 font-bold py-2 px-4 rounded-lg shadow-sm border border-blue-200 hover:bg-blue-50 transition text-sm">
+                                        Upload JSON
+                                        <input type="file" name="service_account_json" accept=".json" class="hidden"
+                                            onchange="if(confirm('Upload new Service Account Key?')) this.form.submit();">
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
