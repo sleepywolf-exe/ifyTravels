@@ -127,16 +127,17 @@ try {
         <div class="container mx-auto px-4 text-center z-20 relative">
             <!-- Animated Hero Title -->
             <h1
-                class="hero-title opacity-0 transform translate-y-10 will-change-transform text-5xl sm:text-7xl md:text-9xl font-bold mb-6 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
+                class="hero-title opacity-0 transform translate-y-10 will-change-transform text-4xl sm:text-6xl md:text-8xl font-bold mb-4 md:mb-6 font-heading tracking-tight leading-tight text-white drop-shadow-2xl pt-20 md:pt-0">
                 Experience the <br />
                 <span class="text-white italic pr-2 font-serif">Extraordinary</span>
             </h1>
 
-            <div class="hero-subtitle opacity-0 transform translate-y-10 will-change-transform mb-12 max-w-3xl mx-auto">
+            <div
+                class="hero-subtitle opacity-0 transform translate-y-10 will-change-transform mb-8 md:mb-12 max-w-3xl mx-auto">
                 <div
-                    class="inline-block bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
+                    class="inline-block bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-4 md:p-6 shadow-2xl">
                     <div
-                        class="text-lg md:text-2xl text-white font-light leading-relaxed tracking-wide drop-shadow-md [&>p]:mb-2 [&>p:last-child]:mb-0">
+                        class="text-base md:text-2xl text-white font-light leading-relaxed tracking-wide drop-shadow-md [&>p]:mb-2 [&>p:last-child]:mb-0">
                         <?php echo get_setting('hero_subtitle', "Curated luxury travel experiences designed just for you.<br>📞 +91 9999779870 | 📧 hello@ifytravel.com"); ?>
                     </div>
                 </div>
@@ -166,7 +167,7 @@ try {
                                 </svg>
                             </div>
                             <select name="destination"
-                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none appearance-none cursor-pointer transition-all">
+                                class="w-full pl-12 pr-4 py-3 md:py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none appearance-none cursor-pointer transition-all text-sm md:text-base">
                                 <option value="" class="text-slate-900 bg-white">Where to go?</option>
                                 <?php foreach ($destinations as $dest): ?>
                                     <option value="<?php echo $dest['id']; ?>" class="text-slate-900 bg-white">
@@ -187,7 +188,7 @@ try {
                                 </svg>
                             </div>
                             <input type="text" id="departure-date" name="date"
-                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none transition-all"
+                                class="w-full pl-12 pr-4 py-3 md:py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none transition-all text-sm md:text-base"
                                 placeholder="When?">
                         </div>
 
@@ -202,13 +203,13 @@ try {
                                 </svg>
                             </div>
                             <input type="number" name="travelers" min="1"
-                                class="w-full pl-12 pr-4 py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none transition-all"
+                                class="w-full pl-12 pr-4 py-3 md:py-4 rounded-full bg-white/5 hover:bg-white/20 text-white placeholder-white/70 border border-transparent focus:border-white/40 focus:bg-white/10 outline-none transition-all text-sm md:text-base"
                                 placeholder="Guests">
                         </div>
 
                         <!-- Button -->
                         <button type="submit"
-                            class="bg-white text-primary hover:bg-slate-50 font-bold py-4 px-10 rounded-full shadow-creative hover:shadow-creative-hover transform hover:scale-105 transition duration-300 magnetic-btn whitespace-nowrap">
+                            class="bg-white text-primary hover:bg-slate-50 font-bold py-3 md:py-4 px-10 rounded-full shadow-creative hover:shadow-creative-hover transform hover:scale-105 transition duration-300 magnetic-btn whitespace-nowrap text-sm md:text-base">
                             Search
                         </button>
                     </form>
