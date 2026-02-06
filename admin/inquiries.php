@@ -254,12 +254,25 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                                     class="px-4 py-2 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition font-medium">Previous</a>
                             <?php endif; ?>
 
-                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                                <a href="?page=<?php echo $i; ?>&status=<?php echo $statusFilter; ?>&source=<?php echo $sourceFilter; ?>"
-                                    class="px-4 py-2 rounded-xl text-sm font-medium border <?php echo $i == $page ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200' : 'border-gray-200 text-gray-600 hover:bg-gray-50'; ?>">
-                                    <?php echo $i; ?>
-                                </a>
-                            <?php endfor; ?>
+                            <?php
+                            $range = 2; // Number of pages around current page
+                            $showDots = true;
+
+                            for ($i = 1; $i <= $totalPages; $i++) {
+                                if ($i == 1 || $i == $totalPages || ($i >= $page - $range && $i <= $page + $range)) {
+                                    ?>
+                                    <a href="?page=<?php echo $i; ?>&status=<?php echo $statusFilter; ?>&source=<?php echo $sourceFilter; ?>"
+                                        class="min-w-[40px] px-3 py-2 rounded-xl text-sm font-medium border text-center <?php echo $i == $page ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200' : 'border-gray-200 text-gray-600 hover:bg-gray-50'; ?>">
+                                        <?php echo $i; ?>
+                                    </a>
+                                    <?php
+                                    $showDots = true; // Reset for next gap
+                                } elseif ($showDots) {
+                                    echo '<span class="px-2 text-gray-400">...</span>';
+                                    $showDots = false; // Prevent multiple dots
+                                }
+                            }
+                            ?>
 
                             <?php if ($page < $totalPages): ?>
                                 <a href="?page=<?php echo $page + 1; ?>&status=<?php echo $statusFilter; ?>&source=<?php echo $sourceFilter; ?>"
