@@ -17,15 +17,11 @@ if ($slug) {
 
 if (!$pkg) {
     // 404 Handling
-    $pageTitle = "Package Not Found";
-    include __DIR__ . '/../includes/header.php';
-    echo '
-    <div id="error-state" class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 pt-32 bg-charcoal">
-        <h1 class="text-6xl font-bold text-gray-700 mb-4">404</h1>
-        <h2 class="text-2xl font-bold text-white mb-2">Package Not Found</h2>
-        <a href="' . base_url('pages/packages.php') . '" class="glass-button mt-4">Browse Packages</a>
-    </div>';
-    include __DIR__ . '/../includes/footer.php';
+    http_response_code(404);
+    $errorCode = 404;
+    $errorTitle = "Package Not Found";
+    $errorMessage = "We couldn't find the package you're looking for. It might have been removed or renamed.";
+    include __DIR__ . '/error.php';
     exit;
 }
 
