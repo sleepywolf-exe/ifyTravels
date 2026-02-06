@@ -107,7 +107,7 @@ include __DIR__ . '/../includes/header.php';
                         Refine Search
                     </h3>
 
-                    <form action="<?php echo base_url('pages/destinations.php'); ?>" method="GET">
+                    <form action="<?php echo base_url('destinations'); ?>" method="GET">
 
                         <!-- Search -->
                         <div class="mb-6">

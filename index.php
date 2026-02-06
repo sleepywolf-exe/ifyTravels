@@ -151,7 +151,7 @@ try {
                 <!-- Search Bar Container -->
                 <div
                     class="glass-form p-2 rounded-3xl md:rounded-full relative bg-white/10 border border-white/20 backdrop-blur-xl shadow-creative">
-                    <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET"
+                    <form action="<?php echo base_url('packages'); ?>" method="GET"
                         class="flex flex-col md:flex-row gap-2">
 
                         <!-- Destination -->

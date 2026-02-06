@@ -320,7 +320,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
             <main class="w-full lg:w-3/4">
                 <!-- Search Bar -->
                 <div class="mb-8 relative">
-                    <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET">
+                    <form action="<?php echo base_url('packages'); ?>" method="GET">
                         <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>"
                             placeholder="Search packages..."
                             class="w-full pl-12 py-4 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-slate-800 placeholder-slate-400 shadow-sm transition-all">
