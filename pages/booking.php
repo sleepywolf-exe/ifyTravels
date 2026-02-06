@@ -146,6 +146,8 @@ include __DIR__ . '/../includes/header.php';
                     </div>
 
                     <form id="booking-form" method="POST" class="space-y-8">
+                        <?php if (class_exists('SpamProtection'))
+                            echo SpamProtection::generateFields(); ?>
                         <input type="hidden" name="package_id" value="<?php echo htmlspecialchars($pkgId); ?>">
                         <input type="hidden" name="package_name"
                             value="<?php echo htmlspecialchars($selectedPkg['title']); ?>">

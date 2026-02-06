@@ -40,6 +40,15 @@ if (!verify_csrf_token($csrf_token)) {
     exit;
 }
 
+// Anti-Spam Check
+if (class_exists('SpamProtection') && SpamProtection::isSpam($input)) {
+    // Delay response to slow down bots (Time Trap)
+    sleep(2);
+    http_response_code(400);
+    echo json_encode(['status' => 'error', 'message' => 'System detected potential spam behavior. Please refresh and try again.']);
+    exit;
+}
+
 // Validation
 $required = ['package_id', 'customer_name', 'email', 'phone', 'travel_date'];
 foreach ($required as $field) {

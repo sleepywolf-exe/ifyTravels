@@ -23,29 +23,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject = $_POST['subject'] ?? '';
     $message = $_POST['message'] ?? '';
 
-    try {
-        $stmt = $pdo->prepare("INSERT INTO inquiries (name, email, subject, message, status, created_at) VALUES (?, ?, ?, ?, 'New', ?)");
-        $stmt->execute([$name, $email, $subject, $message, date('Y-m-d H:i:s')]);
+    // Anti-Spam Check
+    if (class_exists('SpamProtection') && SpamProtection::isSpam($_POST)) {
+        $errorMsg = "System detected potential spam behavior. Please wait a few seconds and try again.";
+        // Silent block (don't send email)
+    } elseif (empty($name) || empty($email) || empty($message)) {
+        $errorMsg = "Please fill in all required fields.";
+    } else {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO inquiries (name, email, subject, message, status, created_at) VALUES (?, ?, ?, ?, 'New', ?)");
+            $stmt->execute([$name, $email, $subject, $message, date('Y-m-d H:i:s')]);
 
-        send_lead_confirmation_email($email, $name, get_setting('contact_phone', ''));
+            send_lead_confirmation_email($email, $name, get_setting('contact_phone', ''));
 
-        $adminData = [
-            'Type' => 'General Inquiry',
-            'Subject' => $subject,
-            'Name' => $name,
-            'Email' => $email,
-            'Message' => $message
-        ];
-        send_admin_notification_email("New Inquiry: $name", $adminData, "View Inquiries", base_url("admin/inquiries.php"));
+            $adminData = [
+                'Type' => 'General Inquiry',
+                'Subject' => $subject,
+                'Name' => $name,
+                'Email' => $email,
+                'Message' => $message
+            ];
+            send_admin_notification_email("New Inquiry: $name", $adminData, "View Inquiries", base_url("admin/inquiries.php"));
 
-        // Facebook CAPI: Contact
-        if (isset($fbCapi)) {
-            $fbCapi->sendEvent('Contact', [], ['email' => $email, 'fn' => explode(' ', $name)[0]]);
+            // Facebook CAPI: Contact
+            if (isset($fbCapi)) {
+                $fbCapi->sendEvent('Contact', [], ['email' => $email, 'fn' => explode(' ', $name)[0]]);
+            }
+
+            $msgSent = true;
+        } catch (Exception $e) {
+            $errorMsg = "An error occurred. Please try again later.";
         }
-
-        $msgSent = true;
-    } catch (Exception $e) {
-        $errorMsg = "An error occurred. Please try again later.";
     }
 }
 ?>
@@ -194,6 +202,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php endif; ?>
 
                             <form id="contact-form" method="POST" class="space-y-8">
+                                <?php if (class_exists('SpamProtection'))
+                                    echo SpamProtection::generateFields(); ?>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div class="group">
                                         <label

@@ -13,62 +13,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         die("Security check failed. Please refresh the page and try again.");
     }
-    $name = sanitize_input($_POST['name']);
-    $email = sanitize_input($_POST['email']);
-    $phone = sanitize_input($_POST['phone']);
-    $customCode = sanitize_input($_POST['custom_code']);
-    $password = $_POST['password'] ?? '';
 
-    if (empty($name) || empty($email) || empty($password)) {
-        $errorMsg = "Name, Email, and Password are required.";
-    } elseif (strlen($password) < 8) {
-        $errorMsg = "Password must be at least 8 characters.";
+    // Anti-Spam Check
+    if (class_exists('SpamProtection') && SpamProtection::isSpam($_POST)) {
+        $errorMsg = "System detected potential spam behavior. Please wait a few seconds and try again.";
+        // Stop processing
     } else {
-        $db = Database::getInstance();
-        $code = '';
-        if (!empty($customCode)) {
-            $cleanCode = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $customCode));
-            $exists = $db->fetch("SELECT id FROM affiliates WHERE code = ?", [$cleanCode]);
-            if ($exists) {
-                $errorMsg = "The code '$cleanCode' is already taken. Please try another.";
-            } else {
-                $code = $cleanCode;
-            }
+        $name = sanitize_input($_POST['name']);
+        $email = sanitize_input($_POST['email']);
+        $phone = sanitize_input($_POST['phone']);
+        $customCode = sanitize_input($_POST['custom_code']);
+        $password = $_POST['password'] ?? '';
+
+        if (empty($name) || empty($email) || empty($password)) {
+            $errorMsg = "Name, Email, and Password are required.";
+        } elseif (strlen($password) < 8) {
+            $errorMsg = "Password must be at least 8 characters.";
         } else {
-            $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $db = Database::getInstance();
             $code = '';
-            for ($i = 0; $i < 8; $i++)
-                $code .= $chars[rand(0, strlen($chars) - 1)];
-            if ($db->fetch("SELECT id FROM affiliates WHERE code = ?", [$code])) {
+            // ... (rest of logic) ...
+            if (!empty($customCode)) {
+                $cleanCode = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $customCode));
+                $exists = $db->fetch("SELECT id FROM affiliates WHERE code = ?", [$cleanCode]);
+                if ($exists) {
+                    $errorMsg = "The code '$cleanCode' is already taken. Please try another.";
+                } else {
+                    $code = $cleanCode;
+                }
+            } else {
+                $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $code = '';
                 for ($i = 0; $i < 8; $i++)
                     $code .= $chars[rand(0, strlen($chars) - 1)];
+                if ($db->fetch("SELECT id FROM affiliates WHERE code = ?", [$code])) {
+                    $code = '';
+                    for ($i = 0; $i < 8; $i++)
+                        $code .= $chars[rand(0, strlen($chars) - 1)];
+                }
             }
-        }
 
-        if (empty($errorMsg)) {
-            try {
-                $hash = password_hash($password, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO affiliates (name, email, code, status, password_hash) VALUES (?, ?, ?, 'active', ?)";
-                if ($db->execute($sql, [$name, $email, $code, $hash])) {
-                    $generatedLink = base_url("?ref=$code");
-                    $successMsg = "Welcome to the family, $name!";
-                    send_partner_welcome_email($email, $name);
-                } else {
-                    $errorMsg = "Database Error: Unable to register. Please contact support.";
-                }
-            } catch (Exception $e) {
-                if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                    $errorMsg = "This email or code is already registered.";
-                } else {
-                    $errorMsg = "Something went wrong. Please try again.";
+            if (empty($errorMsg)) {
+                try {
+                    $hash = password_hash($password, PASSWORD_DEFAULT);
+                    $sql = "INSERT INTO affiliates (name, email, code, status, password_hash) VALUES (?, ?, ?, 'active', ?)";
+                    if ($db->execute($sql, [$name, $email, $code, $hash])) {
+                        $generatedLink = base_url("?ref=$code");
+                        $successMsg = "Welcome to the family, $name!";
+                        send_partner_welcome_email($email, $name);
+                    } else {
+                        $errorMsg = "Database Error: Unable to register. Please contact support.";
+                    }
+                } catch (Exception $e) {
+                    if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                        $errorMsg = "This email or code is already registered.";
+                    } else {
+                        $errorMsg = "Something went wrong. Please try again.";
+                    }
                 }
             }
-        }
     }
 }
+?>
 
-include __DIR__ . '/../includes/header.php';
+<div class="relative min-h-screen bg-slate-50 text-slate-900">
 ?>
 
 <div class="relative min-h-screen bg-slate-50 text-slate-900">
@@ -184,6 +192,7 @@ include __DIR__ . '/../includes/header.php';
 
                     <form method="POST" action="" class="space-y-5">
                         <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+                        <?php if (class_exists('SpamProtection')) echo SpamProtection::generateFields(); ?>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
