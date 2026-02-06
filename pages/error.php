@@ -43,80 +43,95 @@ require_once __DIR__ . '/../includes/header.php';
         404 page
     =======================*/
     .page_404 {
-        padding: 40px 0;
+        padding: 80px 0;
         background: #fff;
         font-family: 'Plus Jakarta Sans', serif;
     }
 
     .four_zero_four_bg {
         background-image: url('<?php echo base_url("assets/images/404.gif"); ?>');
-        height: 400px;
+        height: 600px;
+        /* Increased height */
+        width: 100%;
         background-position: center;
         background-repeat: no-repeat;
-        /* Ensure image doesn't look cut off */
-        background-size: contain; 
+        background-size: contain;
+        /* Make sure it scales */
         position: relative;
         z-index: 10;
+        display: flex;
+        align-items: flex-start;
+        /* Align text to top */
+        justify-content: center;
     }
 
     .four_zero_four_bg h1 {
-        font-size: 80px;
-        margin-bottom: 20px;
+        font-size: 180px;
+        /* Massive text */
+        margin-bottom: 0;
+        margin-top: -50px;
+        /* overlap slightly */
+        line-height: 1;
     }
 
     .link_404 {
         color: #fff !important;
-        padding: 12px 30px;
+        padding: 16px 40px;
         background: #0F766E;
-        margin: 20px 0;
+        margin: 40px 0 20px;
         display: inline-block;
         border-radius: 99px;
         text-transform: uppercase;
-        font-weight: 700;
-        letter-spacing: 1px;
+        font-weight: 800;
+        font-size: 16px;
+        letter-spacing: 2px;
         transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
     }
-    
+
     .link_404:hover {
         background: #0d6962;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(15, 118, 110, 0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(15, 118, 110, 0.4);
     }
 
     .contant_box_404 {
-        margin-top: -30px;
+        margin-top: -80px;
+        /* Pull content up over the bottom of the GIF */
         position: relative;
         z-index: 20;
     }
 </style>
 
-<section class="page_404 min-h-[85vh] flex items-center justify-center bg-slate-50/50">
+<section class="page_404 min-h-screen flex items-center justify-center bg-white">
     <div class="container mx-auto px-4">
         <div class="flex flex-col items-center justify-center text-center">
-            
-            <div class="w-full max-w-3xl">
-                <div class="four_zero_four_bg w-full flex items-start justify-center pt-8">
-                    <h1 class="text-center font-heading font-bold text-slate-900 text-6xl md:text-9xl drop-shadow-sm">
+
+            <div class="w-full max-w-5xl">
+                <div class="four_zero_four_bg w-full">
+                    <h1
+                        class="text-center font-heading font-black text-slate-900 drop-shadow-md tracking-tighter mix-blend-multiply opacity-90">
                         <?php echo $errorCode; ?>
                     </h1>
                 </div>
 
                 <div class="contant_box_404">
-                    <h3 class="font-heading text-3xl md:text-4xl font-bold mb-4 text-slate-800">
+                    <h3 class="font-heading text-5xl md:text-6xl font-black mb-6 text-slate-900 tracking-tight">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 mb-8 text-lg max-w-md mx-auto leading-relaxed">
+                    <p class="text-slate-500 mb-10 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed font-light">
                         <?php echo $errorMessage; ?>
                     </p>
 
-                    <a href="<?php echo base_url(); ?>" class="link_404">
+                    <a href="<?php echo base_url(); ?>" class="link_404 group">
                         Go to Home
-                        <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                        <i
+                            class="fa-solid fa-arrow-right ml-3 text-lg group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </section>
