@@ -1,5 +1,6 @@
-<?php
 $pageTitle = "Contact Concierge - ifyTravels";
+$pageKeywords = "Contact ifyTravels, Travel Support, Customer Care, iflytravel contact, Travel Concierge, 24/7 Travel
+Support";
 include __DIR__ . '/../includes/header.php';
 ?>
 

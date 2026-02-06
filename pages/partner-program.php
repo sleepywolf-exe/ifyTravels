@@ -2,6 +2,8 @@
 // pages/partner-program.php
 $pageTitle = "Partner Program";
 $pageDescription = "Join the ifyTravels Partner Program and earn commissions by sharing our exclusive travel packages.";
+$pageKeywords = "Travel Affiliate Program, Earn Passive Income, Travel Partner, ifyTravels Affiliate, iflytravel partner, Travel Commission";
+
 
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/classes/SpamProtection.php';

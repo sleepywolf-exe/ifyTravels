@@ -77,7 +77,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
@@ -113,8 +113,18 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
     <link rel="canonical" href="<?php echo $metaUrl; ?>">
     <meta name="description" content="<?php echo htmlspecialchars($metaDesc); ?>">
-    <meta name="keywords"
-        content="<?php echo htmlspecialchars(get_setting('meta_keywords', 'travel, tours, luxury, holidays')); ?>">
+    <?php
+    $baseKeywords = get_setting('meta_keywords', 'travel, tours, luxury, holidays, Best Tour & Travel Company, International Tour Packages, Domestic Tour Packages, Honeymoon Packages, MICE Tours, Group Tours, Vacation Deals, Luxury Holidays');
+    // Brand Corrections (Targeting typos/variations)
+    $brandKeywords = 'ifytravels, iflytravel, iflytravels';
+    
+    // Merge global, brand, and page-specific keywords
+    $finalKeywords = $baseKeywords . ', ' . $brandKeywords;
+    if (isset($pageKeywords) && !empty($pageKeywords)) {
+        $finalKeywords = $pageKeywords . ', ' . $finalKeywords;
+    }
+    ?>
+    <meta name="keywords" content="<?php echo htmlspecialchars($finalKeywords); ?>">
     <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
 
     <!-- OG Meta -->
