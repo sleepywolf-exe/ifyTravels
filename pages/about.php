@@ -1,3 +1,4 @@
+<?php
 $pageTitle = "About Us - Our Journey";
 $pageKeywords = "About ifyTravels, Travel Agency India, Luxury Travel Agent, Best Travel Company, iflytravels story, Our
 Mission";
