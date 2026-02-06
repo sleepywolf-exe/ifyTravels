@@ -107,28 +107,26 @@ $pageTitle = "Error $errorCode";
 
 <body class="bg-white text-slate-900">
 
-    <section class="min-h-screen w-full flex items-center justify-center p-4 bg-slate-50">
+    <section class="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 relative overflow-hidden">
 
-        <!-- Main Card -->
-        <div
-            class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-3xl p-8 md:p-12 text-center relative overflow-hidden border border-slate-100">
+        <!-- 1. Background Error Code (High Visibility, Solid Color, Behind Card) -->
+        <h1
+            class="absolute top-[8%] md:top-[10%] left-1/2 -translate-x-1/2 font-heading font-black text-slate-200 leading-none text-[180px] md:text-[350px] z-0 select-none whitespace-nowrap">
+            <?php echo $errorCode; ?>
+        </h1>
 
-            <div class="flex flex-col items-center justify-center">
+        <!-- 2. Foreground Card (Pushed Down to reveal 404) -->
+        <div class="relative z-10 w-full max-w-2xl px-4 mt-32 md:mt-52">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 text-center border border-slate-100">
 
-                <!-- 1. Error Code (Inside Card, Big & Clear) -->
-                <h1
-                    class="font-heading font-black text-slate-900 leading-none text-[100px] md:text-[180px] mb-4 tracking-tighter">
-                    <?php echo $errorCode; ?>
-                </h1>
-
-                <!-- 2. GIF Image (Inside Card, Large) -->
-                <div class="w-full max-w-[280px] md:max-w-md mb-8">
+                <!-- GIF Image -->
+                <div class="w-full max-w-[250px] md:max-w-xs mx-auto mb-6">
                     <img src="<?php echo base_url('assets/images/404.gif'); ?>" alt="404 Animation"
                         class="w-full h-auto object-contain mx-auto">
                 </div>
 
-                <!-- 3. Content -->
-                <div class="space-y-4 max-w-xl mx-auto">
+                <!-- Content -->
+                <div class="space-y-4">
                     <h3
                         class="font-heading font-black text-slate-800 tracking-tight leading-tight text-3xl md:text-5xl">
                         <?php echo $errorTitle; ?>
