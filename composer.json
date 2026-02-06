@@ -1,0 +1,14 @@
+{
+    "name": "ifytravels/backend",
+    "description": "Backend for ifyTravels",
+    "type": "project",
+    "require": {
+        "google/apiclient": "^2.15"
+    },
+    "authors": [
+        {
+            "name": "ifyTravels",
+            "email": "hello@ifytravel.com"
+        }
+    ]
+}

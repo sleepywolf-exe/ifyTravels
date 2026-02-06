@@ -10,3 +10,11 @@ data/*.db
 # User Specific
 .gemini/
 .agent/
+
+# Composer
+/vendor/
+/composer.lock
+
+# Credentials
+service_account.json
+includes/config/service_account.json
