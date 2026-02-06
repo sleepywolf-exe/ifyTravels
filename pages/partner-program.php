@@ -4,6 +4,7 @@ $pageTitle = "Partner Program";
 $pageDescription = "Join the ifyTravels Partner Program and earn commissions by sharing our exclusive travel packages.";
 
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/classes/SpamProtection.php';
 
 $successMsg = '';
 $errorMsg = '';
@@ -72,18 +73,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
+        }
     }
 }
 ?>
 
 <div class="relative min-h-screen bg-slate-50 text-slate-900">
-?>
 
-<div class="relative min-h-screen bg-slate-50 text-slate-900">
 
     <!-- Hero Section -->
     <div class="relative h-[60vh] flex items-center justify-center overflow-hidden">
-        <img src="<?php echo base_url('assets/images/destinations/maldives.jpg'); ?>"
+        <img src="<?php echo base_url('assets/images/destinations/dubai.jpg'); ?>"
             class="absolute inset-0 w-full h-full object-cover opacity-20 animate-scale-slow parallax-bg"
             alt="Partner Program">
         <div class="absolute inset-0 bg-gradient-to-b from-white/60 via-white/40 to-slate-50"></div>
@@ -192,7 +192,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <form method="POST" action="" class="space-y-5">
                         <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
-                        <?php if (class_exists('SpamProtection')) echo SpamProtection::generateFields(); ?>
+                        <?php if (class_exists('SpamProtection'))
+                            echo SpamProtection::generateFields(); ?>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>

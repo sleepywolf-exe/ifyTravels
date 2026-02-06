@@ -113,8 +113,8 @@ try {
 
 <!-- PARALLAX BACKGROUND (Fixed) -->
 <div class="fixed inset-0 z-0 bg-slate-900">
-    <img src="<?php echo get_setting('hero_bg', 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=2000'); ?>"
-        alt="Maldives Luxury" class="w-full h-full object-cover object-[center_30%] parallax-bg brightness-[0.60]">
+    <img src="<?php echo get_setting('hero_bg', base_url('assets/images/destinations/bali.png')); ?>" alt="Bali Luxury"
+        class="w-full h-full object-cover object-[center_30%] parallax-bg brightness-[0.60]">
     <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-slate-900/60"></div>
 </div>
 
@@ -217,10 +217,12 @@ try {
         </div>
 
         <!-- Scroll Indicator - Hidden on very small screens to avoid overlap -->
-        <div class="absolute bottom-6 md:bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce z-20 hidden sm:block">
+        <div
+            class="absolute bottom-6 md:bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce z-20 hidden sm:block">
             <a href="#destinations" aria-label="Scroll Down"
                 class="text-white hover:text-primary transition-colors duration-300">
-                <svg class="w-8 h-8 md:w-10 md:h-10 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-8 h-8 md:w-10 md:h-10 drop-shadow-lg" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7-7-7m7 7V3">
                     </path>
                 </svg>
