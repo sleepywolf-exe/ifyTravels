@@ -268,22 +268,24 @@ $blogs = [
 
     <?php foreach ($blogs as $blog): ?>
         <div class="card">
-            <h3>
-                <?php echo htmlspecialchars($blog['title']); ?>
-            </h3>
+            <h3><?php echo htmlspecialchars($blog['title']); ?></h3>
             <?php
             // Check if slug exists
             $check = $db->fetch("SELECT id FROM posts WHERE slug = ?", [$blog['slug']]);
             if (!$check) {
-                $sql = "INSERT INTO posts (title, slug, author, category, image, content, expiry_date, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'published', NOW())";
+                // Map 'image' to 'image_url' and generate excerpt
+                $imageUrl = $blog['image'];
+                $excerpt = substr(strip_tags($blog['content']), 0, 150) . '...';
+
+                // Schema: title, slug, image_url, excerpt, content, author, created_at
+                $sql = "INSERT INTO posts (title, slug, image_url, excerpt, content, author, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())";
                 $result = $db->execute($sql, [
                     $blog['title'],
                     $blog['slug'],
-                    $blog['author'],
-                    $blog['category'],
-                    $blog['image'],
-                    $blog['expiry_date'],
-                    $blog['content']
+                    $imageUrl,
+                    $excerpt,
+                    $blog['content'],
+                    $blog['author']
                 ]);
 
                 if ($result) {
