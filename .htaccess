@@ -61,6 +61,7 @@ Options -Indexes
     # BLOCK DIRECT ACCESS TO /pages/ directory
     # Returns 404 if user explicitly requests /pages/*
     RewriteCond %{THE_REQUEST} \s/pages/ [NC]
+    RewriteCond %{REQUEST_URI} !^/pages/error\.php$ [NC]
     RewriteRule ^ - [R=404,L]
 
 
