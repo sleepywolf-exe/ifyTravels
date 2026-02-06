@@ -66,7 +66,17 @@ $recentBookings = $db->fetchAll("SELECT * FROM bookings ORDER BY created_at DESC
             <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600">
                 Dashboard Overview</h1>
             <div class="flex items-center space-x-4">
-                <span class="text-sm font-medium text-gray-500">Welcome back,</span>
+                <a href="https://search.google.com/search-console" target="_blank"
+                    class="hidden md:flex items-center space-x-2 bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-gray-50 hover:border-gray-300 hover:text-blue-600 transition shadow-sm group">
+                    <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <span>Request Indexing</span>
+                </a>
+                <div class="h-6 w-px bg-gray-200 hidden md:block"></div>
+                <span class="text-sm font-medium text-gray-500 hidden sm:inline">Welcome,</span>
                 <span
                     class="text-gray-800 font-bold bg-gray-100 px-3 py-1 rounded-full text-sm"><?php echo e($_SESSION['admin_name'] ?? 'Admin'); ?></span>
             </div>
