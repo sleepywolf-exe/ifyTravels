@@ -80,25 +80,25 @@ $pageTitle = "Error $errorCode";
             404 page
         =======================*/
         body {
-            overflow: hidden;
-            /* Prevent scrolling */
+            overflow-x: hidden;
         }
 
         .page_404 {
             padding: 0;
             background: #fff;
             font-family: 'Plus Jakarta Sans', serif;
-            height: 100vh;
+            min-height: 100vh;
             width: 100vw;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .four_zero_four_bg {
             background-image: url('<?php echo base_url("assets/images/404.gif"); ?>');
             height: 500px;
-            /* Slightly reduced to fit better */
             width: 100%;
             background-position: center;
             background-repeat: no-repeat;
@@ -113,7 +113,6 @@ $pageTitle = "Error $errorCode";
 
         .four_zero_four_bg h1 {
             font-size: 160px;
-            /* Balanced size */
             margin-bottom: 0;
             margin-top: 0;
             line-height: 1;
@@ -143,45 +142,123 @@ $pageTitle = "Error $errorCode";
 
         .contant_box_404 {
             margin-top: -60px;
-            /* Reduced negative margin */
             position: relative;
             z-index: 20;
+        }
+
+        /* Stats Section */
+        .stats-container {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 80px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #0F766E;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #0F766E;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #64748b;
         }
     </style>
 </head>
 
-<body class="bg-white">
+<body class="bg-white text-slate-900">
 
     <section class="page_404">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center justify-center text-center h-full">
+        <div class="container mx-auto px-4 flex-grow flex flex-col items-center justify-center">
 
-                <div class="w-full max-w-6xl"> <!-- Wider container -->
-                    <div class="four_zero_four_bg w-full">
-                        <h1
-                            class="text-center font-heading font-black text-slate-900 drop-shadow-md tracking-tighter mix-blend-multiply opacity-90">
-                            <?php echo $errorCode; ?>
-                        </h1>
-                    </div>
-
-                    <div class="contant_box_404">
-                        <h3 class="font-heading text-4xl md:text-5xl font-black mb-4 text-slate-900 tracking-tight">
-                            <?php echo $errorTitle; ?>
-                        </h3>
-
-                        <p class="text-slate-500 mb-8 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-light">
-                            <?php echo $errorMessage; ?>
-                        </p>
-
-                        <a href="<?php echo base_url(); ?>" class="link_404 group">
-                            Go to Home
-                            <i
-                                class="fa-solid fa-arrow-right ml-3 text-lg group-hover:translate-x-1 transition-transform"></i>
-                        </a>
-                    </div>
+            <div class="w-full max-w-6xl text-center">
+                <div class="four_zero_four_bg w-full">
+                    <h1
+                        class="text-center font-heading font-black text-slate-900 drop-shadow-md tracking-tighter mix-blend-multiply opacity-90">
+                        <?php echo $errorCode; ?>
+                    </h1>
                 </div>
 
+                <div class="contant_box_404">
+                    <h3 class="font-heading text-4xl md:text-5xl font-black mb-4 text-slate-900 tracking-tight">
+                        <?php echo $errorTitle; ?>
+                    </h3>
+
+                    <p class="text-slate-500 mb-8 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-light">
+                        <?php echo $errorMessage; ?>
+                    </p>
+
+                    <a href="<?php echo base_url(); ?>" class="link_404 group">
+                        Go to Home
+                        <i
+                            class="fa-solid fa-arrow-right ml-3 text-lg group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
             </div>
+
+            <!-- Stats Section (Added to fill space) -->
+            <div class="stats-container grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 fade-in">
+                <!-- Stat 1 -->
+                <div class="stat-item group cursor-default">
+                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-plane-departure"></i>
+                    </div>
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Luxury Trips</div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="stat-item group cursor-default">
+                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">5-Star Reviews</div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="stat-item group cursor-default">
+                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Destinations</div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="stat-item group cursor-default">
+                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Concierge</div>
+                </div>
+            </div>
+
         </div>
     </section>
 
