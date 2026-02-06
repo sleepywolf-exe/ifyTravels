@@ -76,45 +76,73 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                 <p class="text-gray-500 mt-2 text-lg font-light">Manage your leads and customer questions</p>
             </div>
 
-            <!-- Filters & Search -->
-            <form class="flex flex-wrap gap-3 bg-white p-2 rounded-xl border border-gray-100 shadow-sm" method="GET">
-                <select name="status"
-                    class="bg-gray-50 border-0 rounded-lg text-sm text-gray-600 font-medium focus:ring-2 focus:ring-blue-100 py-2.5 pl-3 pr-8 w-36">
-                    <option value="">All Status</option>
-                    <option value="new" <?php echo $statusFilter == 'new' ? 'selected' : ''; ?>>New</option>
-                    <option value="contacted" <?php echo $statusFilter == 'contacted' ? 'selected' : ''; ?>>Contacted
-                    </option>
-                    <option value="converted" <?php echo $statusFilter == 'converted' ? 'selected' : ''; ?>>Converted
-                    </option>
-                    <option value="closed" <?php echo $statusFilter == 'closed' ? 'selected' : ''; ?>>Closed</option>
-                </select>
+            <!-- Bulk Actions & Filters -->
+            <div
+                class="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-2 rounded-xl border border-gray-100 shadow-sm">
+                <!-- Global Actions -->
+                <div class="flex items-center gap-2">
+                    <form method="POST" action="inquiry_actions.php"
+                        onsubmit="return confirm('⚠️ DANGER: Are you sure you want to delete ALL inquiries? This cannot be undone.');">
+                        <input type="hidden" name="action" value="delete_all">
+                        <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+                        <button type="submit"
+                            class="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2.5 rounded-lg text-sm font-semibold transition border border-red-100">
+                            Delete All
+                        </button>
+                    </form>
 
-                <select name="source"
-                    class="bg-gray-50 border-0 rounded-lg text-sm text-gray-600 font-medium focus:ring-2 focus:ring-blue-100 py-2.5 pl-3 pr-8 w-36">
-                    <option value="">All Sources</option>
-                    <?php foreach ($sources as $s): ?>
-                        <option value="<?php echo e($s['utm_source']); ?>" <?php echo $sourceFilter == $s['utm_source'] ? 'selected' : ''; ?>>
-                            <?php echo ucfirst($s['utm_source']); ?>
+                    <form id="bulkDeleteForm" method="POST" action="inquiry_actions.php" class="hidden">
+                        <input type="hidden" name="action" value="bulk_delete">
+                        <input type="hidden" name="ids" id="bulkDeleteIds">
+                        <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+                        <button type="submit" onclick="return confirm('Delete selected inquiries?')"
+                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm flex items-center">
+                            <span id="selectedCount" class="bg-white/20 px-2 py-0.5 rounded text-xs mr-2">0</span>
+                            Delete Selected
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Filter Form -->
+                <form class="flex flex-wrap gap-2" method="GET">
+                    <select name="status"
+                        class="bg-gray-50 border-0 rounded-lg text-sm text-gray-600 font-medium focus:ring-2 focus:ring-blue-100 py-2.5 pl-3 pr-8 w-32">
+                        <option value="">All Status</option>
+                        <option value="new" <?php echo $statusFilter == 'new' ? 'selected' : ''; ?>>New</option>
+                        <option value="contacted" <?php echo $statusFilter == 'contacted' ? 'selected' : ''; ?>>Contacted
                         </option>
-                    <?php endforeach; ?>
-                </select>
+                        <option value="converted" <?php echo $statusFilter == 'converted' ? 'selected' : ''; ?>>Converted
+                        </option>
+                        <option value="closed" <?php echo $statusFilter == 'closed' ? 'selected' : ''; ?>>Closed</option>
+                    </select>
 
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm">
-                    Filter
-                </button>
+                    <select name="source"
+                        class="bg-gray-50 border-0 rounded-lg text-sm text-gray-600 font-medium focus:ring-2 focus:ring-blue-100 py-2.5 pl-3 pr-8 w-32">
+                        <option value="">All Sources</option>
+                        <?php foreach ($sources as $s): ?>
+                            <option value="<?php echo e($s['utm_source']); ?>" <?php echo $sourceFilter == $s['utm_source'] ? 'selected' : ''; ?>>
+                                <?php echo ucfirst($s['utm_source']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
 
-                <?php if ($statusFilter || $sourceFilter): ?>
-                    <a href="inquiries.php"
-                        class="text-gray-400 hover:text-red-500 px-3 py-2.5 transition flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                <?php endif; ?>
-            </form>
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm">
+                        Filter
+                    </button>
+
+                    <?php if ($statusFilter || $sourceFilter): ?>
+                        <a href="inquiries.php"
+                            class="text-gray-400 hover:text-red-500 px-3 py-2.5 transition flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    <?php endif; ?>
+                </form>
+            </div>
         </header>
 
         <!-- Messages -->
@@ -145,6 +173,10 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                     <table class="w-full text-left">
                         <thead>
                             <tr class="bg-gray-50/50 border-b border-gray-100">
+                                <th class="pl-8 pr-3 py-5 w-10">
+                                    <input type="checkbox" id="selectAll"
+                                        class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                </th>
                                 <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Date</th>
                                 <th class="px-8 py-5 text-xs font-bold text-gray-400 uppercase tracking-wider">User Details
                                 </th>
@@ -158,6 +190,10 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                         <tbody class="divide-y divide-gray-50">
                             <?php foreach ($inquiries as $i): ?>
                                 <tr class="hover:bg-blue-50/50 transition duration-150 group">
+                                    <td class="pl-8 pr-3 py-6">
+                                        <input type="checkbox" name="row_check" value="<?php echo $i['id']; ?>"
+                                            class="row-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                    </td>
                                     <td class="px-8 py-6 whitespace-nowrap text-sm text-gray-500">
                                         <?php echo date('M d, Y', strtotime($i['created_at'])); ?>
                                         <span
@@ -443,6 +479,46 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
         function closeModal() {
             document.getElementById('inquiryModal').classList.add('hidden');
         }
+
+        // Bulk Actions Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectAll = document.getElementById('selectAll');
+            const rowChecks = document.querySelectorAll('.row-checkbox');
+            const bulkForm = document.getElementById('bulkDeleteForm');
+            const bulkIdsInput = document.getElementById('bulkDeleteIds');
+            const selectedCount = document.getElementById('selectedCount');
+            const deleteSelectedBtn = bulkForm.querySelector('button');
+
+            function updateBulkUI() {
+                const checked = Array.from(rowChecks).filter(cb => cb.checked);
+                const ids = checked.map(cb => cb.value);
+
+                bulkIdsInput.value = ids.join(',');
+                selectedCount.textContent = ids.length;
+
+                if (ids.length > 0) {
+                    bulkForm.classList.remove('hidden');
+                    bulkForm.classList.add('flex');
+                } else {
+                    bulkForm.classList.add('hidden');
+                    bulkForm.classList.remove('flex');
+                }
+            }
+
+            selectAll.addEventListener('change', function () {
+                rowChecks.forEach(cb => cb.checked = this.checked);
+                updateBulkUI();
+            });
+
+            rowChecks.forEach(cb => {
+                cb.addEventListener('change', function () {
+                    updateBulkUI();
+                    // Update Select All state
+                    selectAll.checked = Array.from(rowChecks).every(c => c.checked);
+                    if (!this.checked) selectAll.checked = false;
+                });
+            });
+        });
     </script>
 </body>
 
