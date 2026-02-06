@@ -123,8 +123,8 @@ try {
 
     <!-- HERO SECTION -->
     <section
-        class="min-h-[100dvh] md:h-[100dvh] flex flex-col items-center justify-center overflow-hidden relative pt-32 pb-20 md:py-0">
-        <div class="container mx-auto px-4 text-center z-20 relative">
+        class="min-h-[100dvh] md:h-[100dvh] flex flex-col items-center justify-center overflow-hidden relative pt-20 pb-20 md:py-0">
+        <div class="container mx-auto px-4 text-center z-20 relative mt-10 md:mt-32">
             <!-- Animated Hero Title -->
             <h1
                 class="hero-title opacity-0 transform translate-y-10 will-change-transform text-4xl sm:text-6xl md:text-9xl font-bold mb-6 md:mb-10 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
