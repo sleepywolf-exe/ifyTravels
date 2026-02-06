@@ -194,7 +194,8 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                                                     <?php echo get_source_icon_svg($i['utm_source']); ?>
                                                 </div>
                                                 <span
-                                                    class="ml-2 text-xs text-gray-400 font-medium capitalize"><?php echo e($i['utm_source']); ?></span>
+                                                    class="ml-2 text-xs text-gray-400 font-medium capitalize truncate max-w-[100px]"
+                                                    title="<?php echo e($i['utm_source']); ?>"><?php echo e($i['utm_source']); ?></span>
                                             </div>
                                         <?php endif; ?>
                                     </td>
