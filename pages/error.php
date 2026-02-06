@@ -76,57 +76,17 @@ $pageTitle = "Error $errorCode";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /*======================
-            404 page
-        =======================*/
+        /* Only keeping essential custom styles not easily doable with Tailwind */
         body {
             overflow-x: hidden;
-        }
-
-        .page_404 {
-            padding: 0;
-            background: #fff;
-            font-family: 'Plus Jakarta Sans', serif;
-            min-height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .four_zero_four_bg {
-            background-image: url('<?php echo base_url("assets/images/404.gif"); ?>');
-            height: 400px;
-            width: 100%;
-            background-position: center bottom;
-            background-repeat: no-repeat;
-            background-size: contain;
-            position: relative;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .four_zero_four_bg h1 {
-            font-size: 140px;
-            margin: 0;
-            line-height: normal;
-            position: relative;
-            z-index: -1;
-            opacity: 0.1;
-            margin-top: 0;
         }
 
         .link_404 {
             color: #fff !important;
             padding: 15px 40px;
             background: #0F766E;
-            margin: 20px 0 0;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             border-radius: 99px;
             text-transform: uppercase;
             font-weight: 700;
@@ -142,89 +102,46 @@ $pageTitle = "Error $errorCode";
             transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(15, 118, 110, 0.4);
         }
-
-        .contant_box_404 {
-            margin-top: 10px;
-            position: relative;
-            z-index: 20;
-        }
-
-        /* Stats Section */
-        .stats-container {
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 80px;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-icon {
-            font-size: 2.5rem;
-            color: #0F766E;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #0F766E;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #64748b;
-        }
     </style>
 </head>
 
 <body class="bg-white text-slate-900">
 
-    <section class="page_404">
-        <div class="container mx-auto px-4 flex-grow flex flex-col items-center justify-center py-10">
+    <section class="min-h-screen flex items-center justify-center py-20">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
 
-            <div class="w-full max-w-6xl text-center">
-                <div class="four_zero_four_bg w-full">
-                    <h1
-                        class="text-center font-heading font-black text-slate-900 drop-shadow-md tracking-tighter mix-blend-multiply opacity-90">
-                        <?php echo $errorCode; ?>
-                    </h1>
+                <!-- 1. Error Code -->
+                <h1
+                    class="font-heading font-black text-slate-900 leading-none opacity-90 text-[100px] md:text-[140px] mb-4">
+                    <?php echo $errorCode; ?>
+                </h1>
+
+                <!-- 2. GIF Image (Static, No Background positioning) -->
+                <div class="w-full max-w-md md:max-w-lg mb-8">
+                    <img src="<?php echo base_url('assets/images/404.gif'); ?>" alt="404 Animation"
+                        class="w-full h-auto object-contain mx-auto drop-shadow-sm">
                 </div>
 
-                <div class="contant_box_404">
+                <!-- 3. Content -->
+                <div class="relative z-10">
                     <h3
-                        class="font-heading text-5xl md:text-7xl font-black mb-4 text-slate-900 tracking-tight leading-none">
+                        class="font-heading font-black text-slate-900 tracking-tight leading-none mb-4 text-4xl md:text-6xl">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 mb-8 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-light">
+                    <p class="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light mb-8">
                         <?php echo $errorMessage; ?>
                     </p>
 
                     <a href="<?php echo base_url(); ?>" class="link_404 group">
                         Go to Home
                         <i
-                            class="fa-solid fa-arrow-right ml-3 text-lg group-hover:translate-x-1 transition-transform"></i>
+                            class="fa-solid fa-arrow-right ml-3 text-sm group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
-            </div>
 
-        </div>
+            </div>
         </div>
     </section>
 
