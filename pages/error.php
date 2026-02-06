@@ -107,34 +107,40 @@ $pageTitle = "Error $errorCode";
 
 <body class="bg-white text-slate-900">
 
-    <section class="min-h-screen flex items-center justify-center py-20">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
+    <section class="min-h-screen flex items-center justify-center py-20 overflow-hidden relative">
+        <div class="container mx-auto px-4 relative">
 
-                <!-- 1. Error Code (Massive Size) -->
+            <!-- 1. Background Watermark (Massive 404) -->
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0 pointer-events-none select-none">
                 <h1
-                    class="font-heading font-black text-slate-900 leading-none opacity-10 text-[150px] md:text-[220px] mb-[-40px] md:mb-[-60px] z-0 select-none">
+                    class="font-heading font-black text-slate-900 leading-none opacity-[0.03] text-[200px] md:text-[400px]">
                     <?php echo $errorCode; ?>
                 </h1>
+            </div>
 
-                <!-- 2. GIF Image -->
-                <div class="w-full max-w-md md:max-w-lg relative z-10">
+            <!-- 2. Foreground Content (Centered) -->
+            <div class="flex flex-col items-center justify-center text-center max-w-5xl mx-auto relative z-10">
+
+                <!-- GIF Image -->
+                <div class="w-full max-w-sm md:max-w-md mb-6">
                     <img src="<?php echo base_url('assets/images/404.gif'); ?>" alt="404 Animation"
-                        class="w-full h-auto object-contain mx-auto">
+                        class="w-full h-auto object-contain mx-auto mix-blend-multiply">
                 </div>
 
-                <!-- 3. Content -->
-                <div class="relative z-20 mt-[-10px]">
+                <!-- Text Content -->
+                <div>
                     <h3
-                        class="font-heading font-black text-slate-900 tracking-tight leading-none mb-4 text-4xl md:text-6xl">
+                        class="font-heading font-black text-slate-800 tracking-tight leading-tight mb-3 text-3xl md:text-5xl">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light mb-8">
+                    <p class="text-slate-500 text-base md:text-lg max-w-xl mx-auto leading-relaxed font-medium mb-8">
                         <?php echo $errorMessage; ?>
                     </p>
 
-                    <a href="<?php echo base_url(); ?>" class="link_404 group">
+                    <a href="<?php echo base_url(); ?>"
+                        class="link_404 group shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
                         Go to Home
                         <i
                             class="fa-solid fa-arrow-right ml-3 text-sm group-hover:translate-x-1 transition-transform"></i>
