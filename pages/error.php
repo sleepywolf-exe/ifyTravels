@@ -107,39 +107,40 @@ $pageTitle = "Error $errorCode";
 
 <body class="bg-white text-slate-900">
 
-    <section class="h-[100dvh] w-full flex flex-col items-center justify-center bg-slate-50 relative overflow-hidden">
+    <section
+        class="min-h-[100dvh] w-full flex flex-col items-center justify-center bg-slate-50 relative overflow-hidden">
 
-        <!-- 1. Background Error Code (Mobile Adjusted) -->
+        <!-- 1. Background Error Code (Mobile: Top aligned, Big, Behind Card) -->
         <h1
-            class="absolute top-[5%] md:top-[10%] left-1/2 -translate-x-1/2 font-heading font-black text-slate-200 leading-none text-[120px] md:text-[350px] z-0 select-none whitespace-nowrap">
+            class="absolute top-4 md:top-[10%] left-1/2 -translate-x-1/2 font-heading font-black text-slate-200 leading-none text-[150px] md:text-[350px] z-0 select-none whitespace-nowrap">
             <?php echo $errorCode; ?>
         </h1>
 
-        <!-- 2. Foreground Card (Mobile Adjusted) -->
-        <div class="relative z-10 w-full max-w-2xl px-4 mt-16 md:mt-52">
+        <!-- 2. Foreground Card (Mobile: More overlap, Bigger GIF) -->
+        <div class="relative z-10 w-full max-w-2xl px-4 mt-24 md:mt-52">
             <div
-                class="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl p-6 md:p-12 text-center border border-slate-100 max-h-[85vh] flex flex-col justify-center">
+                class="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl p-8 md:p-12 text-center border border-slate-100 flex flex-col justify-center">
 
-                <!-- GIF Image (Mobile Sizing) -->
-                <div class="w-full max-w-[180px] md:max-w-xs mx-auto mb-4 md:mb-6 shrink-0">
+                <!-- GIF Image (Mobile: LARGE size) -->
+                <div class="w-full max-w-[260px] md:max-w-xs mx-auto mb-6 shrink-0 relative">
                     <img src="<?php echo base_url('assets/images/404.gif'); ?>" alt="404 Animation"
-                        class="w-full h-auto object-contain mx-auto max-h-[25vh]">
+                        class="w-full h-auto object-contain mx-auto">
                 </div>
 
                 <!-- Content -->
-                <div class="space-y-3 md:space-y-4 overflow-y-auto">
+                <div class="space-y-4">
                     <h3
-                        class="font-heading font-black text-slate-800 tracking-tight leading-tight text-2xl md:text-5xl">
+                        class="font-heading font-black text-slate-800 tracking-tight leading-tight text-3xl md:text-5xl">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 text-sm md:text-lg leading-relaxed font-medium mb-4 md:mb-8">
+                    <p class="text-slate-500 text-base md:text-lg leading-relaxed font-medium mb-6">
                         <?php echo $errorMessage; ?>
                     </p>
 
-                    <div class="pt-2 pb-2">
+                    <div class="pt-2">
                         <a href="<?php echo base_url(); ?>"
-                            class="link_404 group shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 transform scale-90 md:scale-100">
+                            class="link_404 group shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                             Go to Home
                             <i
                                 class="fa-solid fa-arrow-right ml-3 text-sm group-hover:translate-x-1 transition-transform"></i>
