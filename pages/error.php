@@ -100,7 +100,7 @@ $pageTitle = "Error $errorCode";
             background-image: url('<?php echo base_url("assets/images/404.gif"); ?>');
             height: 500px;
             width: 100%;
-            background-position: center;
+            background-position: center bottom;
             background-repeat: no-repeat;
             background-size: contain;
             position: relative;
@@ -112,9 +112,9 @@ $pageTitle = "Error $errorCode";
         }
 
         .four_zero_four_bg h1 {
-            font-size: 160px;
+            font-size: 180px;
             margin-bottom: 0;
-            margin-top: 0;
+            margin-top: 50px;
             line-height: 1;
         }
 
@@ -204,11 +204,12 @@ $pageTitle = "Error $errorCode";
                 </div>
 
                 <div class="contant_box_404">
-                    <h3 class="font-heading text-4xl md:text-5xl font-black mb-4 text-slate-900 tracking-tight">
+                    <h3
+                        class="font-heading text-6xl md:text-8xl font-black mb-6 text-slate-900 tracking-tight leading-none">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 mb-8 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-light">
+                    <p class="text-slate-500 mb-8 text-2xl md:text-3xl max-w-4xl mx-auto leading-relaxed font-light">
                         <?php echo $errorMessage; ?>
                     </p>
 
