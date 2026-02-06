@@ -220,45 +220,7 @@ $pageTitle = "Error $errorCode";
                 </div>
             </div>
 
-            <!-- Stats Section (Added to fill space) -->
-            <div class="stats-container grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 fade-in">
-                <!-- Stat 1 -->
-                <div class="stat-item group cursor-default">
-                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-plane-departure"></i>
-                    </div>
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Luxury Trips</div>
-                </div>
-
-                <!-- Stat 2 -->
-                <div class="stat-item group cursor-default">
-                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">5-Star Reviews</div>
-                </div>
-
-                <!-- Stat 3 -->
-                <div class="stat-item group cursor-default">
-                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                    </div>
-                    <div class="stat-number">25+</div>
-                    <div class="stat-label">Destinations</div>
-                </div>
-
-                <!-- Stat 4 -->
-                <div class="stat-item group cursor-default">
-                    <div class="stat-icon group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Concierge</div>
-                </div>
-            </div>
-
+        </div>
         </div>
     </section>
 
