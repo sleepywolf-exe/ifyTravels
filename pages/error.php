@@ -1,3 +1,4 @@
+<?php
 // pages/error.php (Generic Error Template)
 // Can be included by 404.php, 503.php, etc.
 
@@ -10,7 +11,7 @@ if (!isset($errorCode)) {
     }
     // Fallback if still 200 or not set
     if ($errorCode === 200 || !$errorCode) {
-        $errorCode = 404; 
+        $errorCode = 404;
         http_response_code(404);
     }
 }
