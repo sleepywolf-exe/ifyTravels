@@ -280,10 +280,10 @@ $blogs = [
                 try {
                     // Use raw PDO to catch specific errors
                     $pdo = $db->getConnection();
-                    
+
                     // Schema: title, slug, image_url, excerpt, content, author, created_at
                     $sql = "INSERT INTO posts (title, slug, image_url, excerpt, content, author, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())";
-                    
+
                     $stmt = $pdo->prepare($sql);
                     $stmt->execute([
                         $blog['title'],
@@ -293,13 +293,13 @@ $blogs = [
                         $blog['content'],
                         $blog['author']
                     ]);
-                    
+
                     echo '<p class="success">✅ Successfully Inserted</p>';
                 } catch (PDOException $e) {
                     echo '<p class="error">❌ SQL Error: ' . $e->getMessage() . '</p>';
                 }
 
-                }
+
             } else {
                 echo '<p class="skip">⚠️ Skipped (Already Exists)</p>';
             }
