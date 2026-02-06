@@ -46,11 +46,6 @@ require_once __DIR__ . '/../includes/header.php';
         padding: 40px 0;
         background: #fff;
         font-family: 'Plus Jakarta Sans', serif;
-        /* Adapted to site font */
-    }
-
-    .page_404 img {
-        width: 100%;
     }
 
     .four_zero_four_bg {
@@ -58,59 +53,70 @@ require_once __DIR__ . '/../includes/header.php';
         height: 400px;
         background-position: center;
         background-repeat: no-repeat;
+        /* Ensure image doesn't look cut off */
+        background-size: contain; 
+        position: relative;
+        z-index: 10;
     }
 
     .four_zero_four_bg h1 {
         font-size: 80px;
-    }
-
-    .four_zero_four_bg h3 {
-        font-size: 80px;
+        margin-bottom: 20px;
     }
 
     .link_404 {
         color: #fff !important;
-        padding: 10px 20px;
-        background: #39ac31;
-        /* Keeping original green or use site primary? User said 'use this' so keeping closest, maybe adapting to variable */
+        padding: 12px 30px;
         background: #0F766E;
-        /* Adapting to site Primary for consistency */
         margin: 20px 0;
         display: inline-block;
         border-radius: 99px;
-        /* Modern touch */
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+    
+    .link_404:hover {
+        background: #0d6962;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(15, 118, 110, 0.2);
     }
 
     .contant_box_404 {
-        margin-top: -50px;
+        margin-top: -30px;
+        position: relative;
+        z-index: 20;
     }
 </style>
 
-<section class="page_404 min-h-[80vh] flex items-center justify-center">
-    <div class="container mx-auto">
-        <div class="row">
-            <div class="col-sm-12 ">
-                <div class="col-sm-10 col-sm-offset-1 text-center mx-auto">
-                    <div class="four_zero_four_bg">
-                        <h1 class="text-center font-heading font-bold text-slate-800">
-                            <?php echo $errorCode; ?>
-                        </h1>
-                    </div>
+<section class="page_404 min-h-[85vh] flex items-center justify-center bg-slate-50/50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col items-center justify-center text-center">
+            
+            <div class="w-full max-w-3xl">
+                <div class="four_zero_four_bg w-full flex items-start justify-center pt-8">
+                    <h1 class="text-center font-heading font-bold text-slate-900 text-6xl md:text-9xl drop-shadow-sm">
+                        <?php echo $errorCode; ?>
+                    </h1>
+                </div>
 
-                    <div class="contant_box_404">
-                        <h3 class="h2 text-3xl font-bold mb-2">
-                            <?php echo $errorTitle; ?>
-                        </h3>
+                <div class="contant_box_404">
+                    <h3 class="font-heading text-3xl md:text-4xl font-bold mb-4 text-slate-800">
+                        <?php echo $errorTitle; ?>
+                    </h3>
 
-                        <p class="text-slate-600 mb-6">
-                            <?php echo $errorMessage; ?>
-                        </p>
+                    <p class="text-slate-500 mb-8 text-lg max-w-md mx-auto leading-relaxed">
+                        <?php echo $errorMessage; ?>
+                    </p>
 
-                        <a href="<?php echo base_url(); ?>"
-                            class="link_404 shadow-lg hover:shadow-xl transition-all hover:scale-105">Go to Home</a>
-                    </div>
+                    <a href="<?php echo base_url(); ?>" class="link_404">
+                        Go to Home
+                        <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                    </a>
                 </div>
             </div>
+            
         </div>
     </div>
 </section>
