@@ -109,34 +109,34 @@ $pageTitle = "Error $errorCode";
 
     <section class="h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-slate-50 relative">
 
-        <!-- 1. Error Code (Refined Background Layer) -->
+        <!-- 1. Error Code (Refined Background Layer - Moved Up for Visibility) -->
         <h1
-            class="font-heading font-black text-slate-200 leading-none text-[150px] md:text-[280px] z-0 select-none absolute top-[10%] md:top-[12%]">
+            class="font-heading font-black text-slate-200 leading-none text-[180px] md:text-[350px] z-0 select-none absolute top-[5%] md:top-[8%] opacity-80">
             <?php echo $errorCode; ?>
         </h1>
 
-        <!-- 2. Foreground Card (Overlapping) -->
-        <div class="relative z-10 w-full max-w-2xl px-4 mt-20 md:mt-32">
+        <!-- 2. Foreground Card (Pushed Down, Larger GIF) -->
+        <div class="relative z-10 w-full max-w-3xl px-4 mt-32 md:mt-48">
             <div class="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 text-center border border-slate-100 relative">
 
-                <!-- GIF Image (Inside Card) -->
-                <div class="w-full max-w-[280px] md:max-w-xs mx-auto mb-6 -mt-20 md:-mt-24 relative z-20">
+                <!-- GIF Image (Significantly Larger, No Shadow) -->
+                <div class="w-full max-w-[320px] md:max-w-md mx-auto mb-8 -mt-24 md:-mt-32 relative z-20">
                     <img src="<?php echo base_url('assets/images/404.gif'); ?>" alt="404 Animation"
-                        class="w-full h-auto object-contain mx-auto drop-shadow-lg">
+                        class="w-full h-auto object-contain mx-auto">
                 </div>
 
                 <!-- Content -->
-                <div class="space-y-4">
+                <div class="space-y-6">
                     <h3
                         class="font-heading font-black text-slate-800 tracking-tight leading-tight text-3xl md:text-5xl">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 text-base md:text-lg leading-relaxed font-medium max-w-lg mx-auto">
+                    <p class="text-slate-500 text-base md:text-xl leading-relaxed font-medium max-w-xl mx-auto">
                         <?php echo $errorMessage; ?>
                     </p>
 
-                    <div class="pt-6">
+                    <div class="pt-4">
                         <a href="<?php echo base_url(); ?>"
                             class="link_404 group shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
                             Go to Home
