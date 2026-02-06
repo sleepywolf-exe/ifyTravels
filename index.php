@@ -127,7 +127,7 @@ try {
         <div class="container mx-auto px-4 text-center z-20 relative">
             <!-- Animated Hero Title -->
             <h1
-                class="hero-title opacity-0 transform translate-y-10 will-change-transform text-4xl sm:text-6xl md:text-8xl font-bold mb-4 md:mb-6 font-heading tracking-tight leading-tight text-white drop-shadow-2xl pt-20 md:pt-0">
+                class="hero-title opacity-0 transform translate-y-10 will-change-transform text-4xl sm:text-6xl md:text-9xl font-bold mb-4 md:mb-6 font-heading tracking-tight leading-time md:leading-none text-white drop-shadow-2xl pt-20 md:pt-0">
                 Experience the <br />
                 <span class="text-white italic pr-2 font-serif">Extraordinary</span>
             </h1>
