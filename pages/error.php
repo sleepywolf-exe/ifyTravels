@@ -1,9 +1,37 @@
-<?php
 // pages/error.php (Generic Error Template)
 // Can be included by 404.php, 503.php, etc.
-$errorCode = $errorCode ?? 404;
-$errorTitle = $errorTitle ?? "Look like you're lost";
-$errorMessage = $errorMessage ?? "the page you are looking for not avaible!";
+
+// Auto-detect error code from server redirect if not set
+if (!isset($errorCode)) {
+    $errorCode = http_response_code();
+    if ($errorCode === 200 && isset($_SERVER['REDIRECT_STATUS'])) {
+        $errorCode = $_SERVER['REDIRECT_STATUS'];
+        http_response_code($errorCode);
+    }
+    // Fallback if still 200 or not set
+    if ($errorCode === 200 || !$errorCode) {
+        $errorCode = 404; 
+        http_response_code(404);
+    }
+}
+
+// Map codes to messages
+$titles = [
+    403 => "Access Denied",
+    404 => "Look like you're lost",
+    500 => "Internal Server Error",
+    503 => "Service Unavailable"
+];
+
+$messages = [
+    403 => "You don't have permission to access this area.",
+    404 => "The page you are looking for is not available!",
+    500 => "Something went wrong on our end. Please try again later.",
+    503 => "We are currently experiencing technical issues. Please try again later."
+];
+
+$errorTitle = $errorTitle ?? ($titles[$errorCode] ?? "Error $errorCode");
+$errorMessage = $errorMessage ?? ($messages[$errorCode] ?? "An unexpected error occurred.");
 $pageTitle = "Error $errorCode";
 
 require_once __DIR__ . '/../includes/header.php';

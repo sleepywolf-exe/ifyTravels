@@ -126,4 +126,8 @@ Options -Indexes
 </IfModule>
 
 # Custom 404 error page
-ErrorDocument 404 /404.php
+# Custom Error Pages
+ErrorDocument 403 /pages/error.php
+ErrorDocument 404 /pages/error.php
+ErrorDocument 500 /pages/error.php
+ErrorDocument 503 /pages/error.php
