@@ -98,7 +98,7 @@ $pageTitle = "Error $errorCode";
 
         .four_zero_four_bg {
             background-image: url('<?php echo base_url("assets/images/404.gif"); ?>');
-            height: 500px;
+            height: 400px;
             width: 100%;
             background-position: center bottom;
             background-repeat: no-repeat;
@@ -106,28 +106,31 @@ $pageTitle = "Error $errorCode";
             position: relative;
             z-index: 10;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
             margin-bottom: 20px;
         }
 
         .four_zero_four_bg h1 {
-            font-size: 180px;
-            margin-bottom: 0;
-            margin-top: 50px;
-            line-height: 1;
+            font-size: 140px;
+            margin: 0;
+            line-height: normal;
+            position: relative;
+            z-index: -1;
+            opacity: 0.1;
+            margin-top: 0;
         }
 
         .link_404 {
             color: #fff !important;
-            padding: 18px 45px;
+            padding: 15px 40px;
             background: #0F766E;
-            margin: 30px 0 0;
+            margin: 20px 0 0;
             display: inline-block;
             border-radius: 99px;
             text-transform: uppercase;
-            font-weight: 800;
-            font-size: 16px;
+            font-weight: 700;
+            font-size: 14px;
             letter-spacing: 2px;
             transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
@@ -141,7 +144,7 @@ $pageTitle = "Error $errorCode";
         }
 
         .contant_box_404 {
-            margin-top: 0px;
+            margin-top: 10px;
             position: relative;
             z-index: 20;
         }
@@ -193,7 +196,7 @@ $pageTitle = "Error $errorCode";
 <body class="bg-white text-slate-900">
 
     <section class="page_404">
-        <div class="container mx-auto px-4 flex-grow flex flex-col items-center justify-center">
+        <div class="container mx-auto px-4 flex-grow flex flex-col items-center justify-center py-10">
 
             <div class="w-full max-w-6xl text-center">
                 <div class="four_zero_four_bg w-full">
@@ -205,11 +208,11 @@ $pageTitle = "Error $errorCode";
 
                 <div class="contant_box_404">
                     <h3
-                        class="font-heading text-6xl md:text-8xl font-black mb-6 text-slate-900 tracking-tight leading-none">
+                        class="font-heading text-5xl md:text-7xl font-black mb-4 text-slate-900 tracking-tight leading-none">
                         <?php echo $errorTitle; ?>
                     </h3>
 
-                    <p class="text-slate-500 mb-8 text-2xl md:text-3xl max-w-4xl mx-auto leading-relaxed font-light">
+                    <p class="text-slate-500 mb-8 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-light">
                         <?php echo $errorMessage; ?>
                     </p>
 
