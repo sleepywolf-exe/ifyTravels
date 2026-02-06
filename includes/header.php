@@ -117,7 +117,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     $baseKeywords = get_setting('meta_keywords', 'travel, tours, luxury, holidays, Best Tour & Travel Company, International Tour Packages, Domestic Tour Packages, Honeymoon Packages, MICE Tours, Group Tours, Vacation Deals, Luxury Holidays');
     // Brand Corrections (Targeting typos/variations)
     $brandKeywords = 'ifytravels, iflytravel, iflytravels';
-    
+
     // Merge global, brand, and page-specific keywords
     $finalKeywords = $baseKeywords . ', ' . $brandKeywords;
     if (isset($pageKeywords) && !empty($pageKeywords)) {
@@ -620,10 +620,12 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-center px-4 w-full">
             <span
-                class="block bg-gradient-to-r from-primary via-teal-500 to-secondary bg-clip-text text-transparent font-heading font-bold text-5xl tracking-[0.4em] uppercase mb-4 drop-shadow-sm">ifyTravels</span>
-            <span class="text-slate-400 text-xs tracking-[0.6em] font-medium uppercase opacity-70">Curating Your
+                class="block bg-gradient-to-r from-primary via-teal-500 to-secondary bg-clip-text text-transparent font-heading font-bold text-3xl md:text-5xl tracking-[0.2em] md:tracking-[0.4em] uppercase mb-2 md:mb-4 drop-shadow-sm break-words whitespace-normal leading-tight">ifyTravels</span>
+            <span
+                class="block text-slate-400 text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.6em] font-medium uppercase opacity-70">Curating
+                Your
                 Journey</span>
         </div>
     </div>
