@@ -240,48 +240,59 @@ try {
             <div class="container mx-auto px-4">
                 <div
                     class="bg-white rounded-2xl shadow-creative border border-slate-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/90 backdrop-blur-md">
-                    <div class="space-y-1 group">
-                        <div
-                            class="mb-4 text-primary opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                            <i class="fa-solid fa-plane-departure text-4xl"></i>
+                    <!-- Stat 1 -->
+                    <div class="flex items-center justify-center gap-5 group p-2">
+                        <div class="text-primary/20 group-hover:text-primary transition-colors duration-300">
+                            <i class="fa-solid fa-plane-departure text-4xl md:text-5xl"></i>
                         </div>
-                        <p class="text-5xl md:text-6xl font-bold text-primary">
-                            <?php echo get_setting('stat_trips') ?: '500+'; ?>
-                        </p>
-                        <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Luxury Trips</p>
-                    </div>
-                    <div class="space-y-1 group">
-                        <div
-                            class="mb-4 text-primary opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                            <i class="fa-solid fa-star text-4xl"></i>
+                        <div class="text-left">
+                            <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
+                                <?php echo get_setting('stat_trips') ?: '500+'; ?>
+                            </p>
+                            <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Luxury Trips</p>
                         </div>
-                        <p class="text-5xl md:text-6xl font-bold text-primary">
-                            <?php echo get_setting('stat_reviews') ?: '98%'; ?>
-                        </p>
-                        <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">5-Star Reviews</p>
                     </div>
+
+                    <!-- Stat 2 -->
+                    <div class="flex items-center justify-center gap-5 group p-2">
+                        <div class="text-primary/20 group-hover:text-primary transition-colors duration-300">
+                            <i class="fa-solid fa-star text-4xl md:text-5xl"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
+                                <?php echo get_setting('stat_reviews') ?: '98%'; ?>
+                            </p>
+                            <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">5-Star Reviews</p>
+                        </div>
+                    </div>
+
                     <!-- Divider for mobile -->
                     <div class="col-span-2 border-t border-slate-100 md:hidden my-2"></div>
 
-                    <div class="space-y-1 group">
-                        <div
-                            class="mb-4 text-primary opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                            <i class="fa-solid fa-map-location-dot text-4xl"></i>
+                    <!-- Stat 3 -->
+                    <div class="flex items-center justify-center gap-5 group p-2">
+                        <div class="text-primary/20 group-hover:text-primary transition-colors duration-300">
+                            <i class="fa-solid fa-map-location-dot text-4xl md:text-5xl"></i>
                         </div>
-                        <p class="text-5xl md:text-6xl font-bold text-primary">
-                            <?php echo get_setting('stat_destinations') ?: '25+'; ?>
-                        </p>
-                        <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Destinations</p>
+                        <div class="text-left">
+                            <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
+                                <?php echo get_setting('stat_destinations') ?: '25+'; ?>
+                            </p>
+                            <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Destinations</p>
+                        </div>
                     </div>
-                    <div class="space-y-1 group">
-                        <div
-                            class="mb-4 text-primary opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                            <i class="fa-solid fa-headset text-4xl"></i>
+
+                    <!-- Stat 4 -->
+                    <div class="flex items-center justify-center gap-5 group p-2">
+                        <div class="text-primary/20 group-hover:text-primary transition-colors duration-300">
+                            <i class="fa-solid fa-headset text-4xl md:text-5xl"></i>
                         </div>
-                        <p class="text-5xl md:text-6xl font-bold text-primary">
-                            <?php echo get_setting('stat_concierge') ?: '24/7'; ?>
-                        </p>
-                        <p class="text-sm text-slate-500 uppercase tracking-widest font-semibold">Concierge</p>
+                        <div class="text-left">
+                            <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
+                                <?php echo get_setting('stat_concierge') ?: '24/7'; ?>
+                            </p>
+                            <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Concierge</p>
+                        </div>
                     </div>
                 </div>
             </div>
