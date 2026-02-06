@@ -23,6 +23,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $fileFields = ['site_logo', 'site_favicon', 'hero_bg', 'contact_bg', 'destinations_bg', 'packages_bg', 'og_image'];
 
+    // Special Handling for Service Account Logic
+    if (isset($_FILES['service_account_json']) && $_FILES['service_account_json']['error'] === UPLOAD_ERR_OK) {
+        $tmpName = $_FILES['service_account_json']['tmp_name'];
+        $ext = strtolower(pathinfo($_FILES['service_account_json']['name'], PATHINFO_EXTENSION));
+
+        if ($ext === 'json') {
+            $targetDir = __DIR__ . '/../includes/config/';
+            if (!is_dir($targetDir))
+                mkdir($targetDir, 0755, true);
+
+            if (move_uploaded_file($tmpName, $targetDir . 'service_account.json')) {
+                $message .= "Service Account Key updated successfully! ";
+            } else {
+                $message .= "Failed to save Service Account Key. ";
+            }
+        } else {
+            $message .= "Invalid file type. Only .json allowed for Service Account Key. ";
+        }
+    }
+
     foreach ($fileFields as $field) {
         if (isset($_FILES[$field])) {
             if ($_FILES[$field]['error'] === UPLOAD_ERR_OK) {
