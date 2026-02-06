@@ -170,8 +170,10 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                                                 <?php echo strtoupper(substr($i['name'], 0, 1)); ?>
                                             </div>
                                             <div>
-                                                <div class="text-sm font-bold text-gray-900"><?php echo e($i['name']); ?></div>
-                                                <div class="text-sm text-gray-500"><?php echo e($i['email']); ?></div>
+                                                <div class="text-sm font-bold text-gray-900 truncate max-w-[200px]"
+                                                    title="<?php echo e($i['name']); ?>"><?php echo e($i['name']); ?></div>
+                                                <div class="text-sm text-gray-500 truncate max-w-[200px]"
+                                                    title="<?php echo e($i['email']); ?>"><?php echo e($i['email']); ?></div>
                                                 <?php if (!empty($i['phone'])): ?>
                                                     <div class="text-xs text-gray-400 mt-0.5"><?php echo e($i['phone']); ?></div>
                                                 <?php endif; ?>
@@ -179,7 +181,7 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                                         </div>
                                     </td>
                                     <td class="px-8 py-6">
-                                        <div class="text-sm font-medium text-gray-900 truncate max-w-xs"
+                                        <div class="text-sm font-medium text-gray-900 truncate max-w-[250px]"
                                             title="<?php echo e($i['subject']); ?>">
                                             <?php echo e($i['subject']); ?>
                                         </div>
@@ -282,22 +284,29 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
 
             <div
                 class="relative inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full border border-gray-100">
-                
+
                 <form action="inquiry_actions.php" method="POST">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="id" id="modalId">
                     <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
                     <!-- Header -->
-                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-5 flex justify-between items-center">
+                    <div
+                        class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-5 flex justify-between items-center">
                         <div class="flex items-center space-x-3">
                             <div class="bg-white/20 p-2 rounded-lg backdrop-blur-md">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
                             </div>
                             <h3 class="text-xl font-bold text-white tracking-wide" id="modalTitle">Inquiry Details</h3>
                         </div>
                         <button type="button" onclick="closeModal()" class="text-white/70 hover:text-white transition">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
                         </button>
                     </div>
 
@@ -306,24 +315,42 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
                             <!-- Read Only Info Grid -->
                             <div class="grid grid-cols-2 gap-6">
                                 <div class="col-span-1">
-                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Customer Name</label>
+                                    <label
+                                        class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Customer
+                                        Name</label>
                                     <p id="modalName" class="text-lg font-semibold text-gray-900 break-words"></p>
                                 </div>
                                 <div class="col-span-1 text-right">
-                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Date Received</label>
+                                    <label
+                                        class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Date
+                                        Received</label>
                                     <p id="modalDate" class="text-sm font-medium text-gray-600"></p>
                                 </div>
                                 <div class="col-span-2 sm:col-span-1">
-                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email Address</label>
+                                    <label
+                                        class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email
+                                        Address</label>
                                     <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                            </path>
+                                        </svg>
                                         <p id="modalEmail" class="text-sm text-gray-700 font-medium break-all"></p>
                                     </div>
                                 </div>
                                 <div class="col-span-2 sm:col-span-1">
-                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Phone Number</label>
+                                    <label
+                                        class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Phone
+                                        Number</label>
                                     <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C7.82 21 2 15.18 2 7V5z"></path></svg>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C7.82 21 2 15.18 2 7V5z">
+                                            </path>
+                                        </svg>
                                         <p id="modalPhone" class="text-sm text-gray-700 font-medium"></p>
                                     </div>
                                 </div>
@@ -331,8 +358,12 @@ $sources = $db->fetchAll("SELECT DISTINCT utm_source FROM inquiries WHERE utm_so
 
                             <!-- Message Box -->
                             <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 relative">
-                                <div class="absolute -top-2 left-4 bg-white px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Message</div>
-                                <div id="modalMessage" class="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap max-h-40 overflow-y-auto italic"></div>
+                                <div
+                                    class="absolute -top-2 left-4 bg-white px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                    Message</div>
+                                <div id="modalMessage"
+                                    class="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap max-h-40 overflow-y-auto italic">
+                                </div>
                             </div>
 
                             <hr class="border-gray-100 my-4">
