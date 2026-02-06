@@ -296,7 +296,7 @@ if (isset($_GET['edit'])) {
                                     class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all duration-300 flex flex-col h-full">
                                     <div class="h-48 overflow-hidden relative bg-gray-100">
                                         <?php if (!empty($post['image_url'])): ?>
-                                            <img src="<?php echo htmlspecialchars($post['image_url']); ?>" alt="Cover"
+                                            <img src="<?php echo base_url($post['image_url']); ?>" alt="Cover"
                                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                                         <?php else: ?>
                                             <div class="flex items-center justify-center h-full text-gray-300">
