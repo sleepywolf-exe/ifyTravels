@@ -138,7 +138,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Great+Vibes&display=swap"
         rel="stylesheet">
 
     <!-- GSAP & Lenis (Smooth Scroll) -->
@@ -170,7 +170,8 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
                         fontFamily: {
                             heading: ['"Plus Jakarta Sans"', 'sans-serif'],
                             body: ['"Plus Jakarta Sans"', 'sans-serif'],
-                            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                            signature: ['"Great Vibes"', 'cursive'],
                         },
                         boxShadow: {
                             'creative': '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(15, 118, 110, 0.15)',
