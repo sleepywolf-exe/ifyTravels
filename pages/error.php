@@ -113,7 +113,7 @@ $pageTitle = "Error $errorCode";
 
                 <!-- 1. Error Code (Big Solid Header) -->
                 <h1
-                    class="font-heading font-black text-slate-900 leading-none opacity-100 text-[100px] md:text-[180px] mb-[-40px] z-0">
+                    class="font-heading font-black text-slate-900 leading-none opacity-100 text-[180px] md:text-[280px] mb-[-40px] md:mb-[-60px] z-0 px-4">
                     <?php echo $errorCode; ?>
                 </h1>
 
