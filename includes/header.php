@@ -623,9 +623,9 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
 
         <div class="text-center px-4 w-full">
             <span
-                class="block bg-gradient-to-r from-primary via-teal-500 to-secondary bg-clip-text text-transparent font-heading font-bold text-3xl md:text-5xl tracking-[0.2em] md:tracking-[0.4em] uppercase mb-2 md:mb-4 drop-shadow-sm break-words whitespace-normal leading-tight">ifyTravels</span>
+                class="block bg-gradient-to-r from-primary via-teal-500 to-secondary bg-clip-text text-transparent font-signature text-6xl md:text-8xl mb-2 drop-shadow-sm whitespace-nowrap leading-tight py-2">ifyTravels</span>
             <span
-                class="block text-slate-400 text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.6em] font-medium uppercase opacity-70">Curating
+                class="block text-slate-400 text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.6em] font-medium uppercase opacity-70 font-sans">Curating
                 Your
                 Journey</span>
         </div>
