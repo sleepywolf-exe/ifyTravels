@@ -134,7 +134,7 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     <meta property="og:description" content="<?php echo htmlspecialchars($metaDesc); ?>">
     <meta property="og:image" content="<?php echo $metaImage; ?>">
 
-    <!-- Fonts: Plus Jakarta Sans (Modern, Geometric, Premium) -->
+    <!-- Fonts: Plus Jakarta Sans & Great Vibes (Optimized) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
