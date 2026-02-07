@@ -128,7 +128,7 @@ try {
             <!-- Animated Hero Title -->
             <h1
                 class="hero-title opacity-0 transform translate-y-10 will-change-transform text-4xl sm:text-6xl md:text-9xl font-bold mb-6 md:mb-10 font-heading tracking-tight leading-none text-white drop-shadow-2xl">
-                <?php echo get_setting('hero_title', 'Experience the <br /> <span class="text-white italic pr-2 font-serif">Extraordinary</span>'); ?>
+                <?php echo html_entity_decode(get_setting('hero_title', 'Experience the <br /> <span class="text-white italic pr-2 font-serif">Extraordinary</span>')); ?>
             </h1>
 
             <div
