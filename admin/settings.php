@@ -253,10 +253,10 @@ foreach ($settings as $s) {
                                     class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Title</label>
-                                <input type="text" name="hero_title"
-                                    value="<?php echo e($settingsMap['hero_title'] ?? ''); ?>"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Title (HTML
+                                    Supported)</label>
+                                <textarea name="hero_title" rows="2"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all"><?php echo e($settingsMap['hero_title'] ?? 'Experience the <br /> <span class="text-white italic pr-2 font-serif">Extraordinary</span>'); ?></textarea>
                             </div>
                             <div class="col-span-full">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Subtitle</label>
