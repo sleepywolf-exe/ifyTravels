@@ -208,11 +208,11 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                 <div class="sticky top-32 p-6 bg-white border border-slate-200 rounded-3xl shadow-creative">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="font-heading font-bold text-xl text-slate-900">Filters</h3>
-                        <a href="<?php echo base_url('pages/packages.php'); ?>"
+                        <a href="<?php echo base_url('packages'); ?>"
                             class="text-xs text-primary font-bold hover:underline transition">Reset</a>
                     </div>
 
-                    <form action="<?php echo base_url('pages/packages.php'); ?>" method="GET" id="filterForm">
+                    <form action="<?php echo base_url('packages'); ?>" method="GET" id="filterForm">
                         <?php if (!empty($search)): ?><input type="hidden" name="search"
                                 value="<?php echo htmlspecialchars($search); ?>"><?php endif; ?>
 
