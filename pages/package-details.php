@@ -88,7 +88,7 @@ include __DIR__ . '/../includes/header.php';
     "@type": "ListItem",
     "position": 2,
     "name": "Packages",
-    "item": "<?php echo base_url('pages/packages.php'); ?>"
+    "item": "<?php echo base_url('packages'); ?>"
   },{
     "@type": "ListItem",
     "position": 3,

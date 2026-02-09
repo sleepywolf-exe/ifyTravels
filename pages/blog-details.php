@@ -39,7 +39,7 @@ if (!$post):
         </div>
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Story Not Found</h1>
         <p class="text-gray-500 mb-8 max-w-md">The travel story you are looking for might have been moved or deleted.</p>
-        <a href="<?php echo base_url('pages/blogs.php'); ?>"
+        <a href="<?php echo base_url('blogs'); ?>"
             class="px-8 py-3 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition">
             Back to Blogs
         </a>
@@ -58,7 +58,7 @@ if (!$post):
 
         <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 lg:p-20 pt-24">
             <div class="container mx-auto">
-                <a href="<?php echo base_url('pages/blogs.php'); ?>"
+                <a href="<?php echo base_url('blogs'); ?>"
                     class="inline-flex items-center text-white/80 hover:text-white mb-6 transition text-sm font-bold uppercase tracking-wider backdrop-blur-md bg-white/10 px-4 py-2 rounded-full border border-white/20">
                     <i class="fas fa-arrow-left mr-2"></i> Back to Journal
                 </a>

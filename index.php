@@ -684,11 +684,11 @@ try {
                         ifyTravels.
                     </p>
                     <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
-                        <a href="<?php echo base_url('pages/booking.php'); ?>"
+                        <a href="<?php echo base_url('booking'); ?>"
                             class="bg-primary text-white font-bold py-6 px-16 rounded-full shadow-[0_20px_50px_rgba(15,118,110,0.5)] hover:shadow-[0_20px_50px_rgba(15,118,110,0.7)] transform hover:-translate-y-1 transition-all duration-300 text-xl magnetic-btn border border-primary ring-4 ring-primary/20">
                             Book Your Trip
                         </a>
-                        <a href="<?php echo base_url('pages/contact.php'); ?>"
+                        <a href="<?php echo base_url('contact'); ?>"
                             class="bg-transparent border-2 border-white/20 text-white font-bold py-6 px-16 rounded-full hover:bg-white hover:text-slate-900 transition-all duration-300 text-xl magnetic-btn hover:shadow-2xl">
                             Contact Concierge
                         </a>

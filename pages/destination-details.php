@@ -23,7 +23,7 @@ if (!$dest) {
     <div id="error-state" class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 pt-32 bg-charcoal">
         <h1 class="text-6xl font-bold text-gray-700 mb-4">404</h1>
         <h2 class="text-2xl font-bold text-white mb-2">Destination Not Found</h2>
-        <a href="' . base_url('pages/destinations.php') . '" class="glass-button mt-4">Browse Destinations</a>
+        <a href="' . base_url('destinations') . '" class="glass-button mt-4">Browse Destinations</a>
     </div>';
     include __DIR__ . '/../includes/footer.php';
     exit;
@@ -77,7 +77,7 @@ $packages = getPackagesByDestination($id);
     "@type": "ListItem",
     "position": 2,
     "name": "Destinations",
-    "item": "<?php echo base_url('pages/destinations.php'); ?>"
+    "item": "<?php echo base_url('destinations'); ?>"
   },{
     "@type": "ListItem",
     "position": 3,

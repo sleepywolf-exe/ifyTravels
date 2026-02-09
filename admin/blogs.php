@@ -150,7 +150,7 @@ if (isset($_GET['edit'])) {
                 <?php echo $editPost ? 'Edit Blog Post' : 'Manage Blog Posts'; ?>
             </h1>
             <div class="flex items-center gap-4">
-                <a href="<?php echo base_url('pages/blogs.php'); ?>" target="_blank"
+                <a href="<?php echo base_url('blogs'); ?>" target="_blank"
                     class="text-blue-600 hover:text-blue-800 transition text-sm font-bold flex items-center gap-2">
                     <i class="fas fa-external-link-alt"></i> View Blog Page
                 </a>

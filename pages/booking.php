@@ -12,7 +12,7 @@ if ($pkgId) {
 
 // Enforce Package Selection
 if (!$pkgId || !$selectedPkg) {
-    header('Location: ' . base_url('pages/packages.php'));
+    header('Location: ' . base_url('packages'));
     exit;
 }
 

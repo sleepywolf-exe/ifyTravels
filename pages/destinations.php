@@ -179,7 +179,7 @@ include __DIR__ . '/../includes/header.php';
                             class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-creative hover:shadow-creative-hover hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">
                             Apply Filters
                         </button>
-                        <a href="<?php echo base_url('pages/destinations.php'); ?>"
+                        <a href="<?php echo base_url('destinations'); ?>"
                             class="block text-center mt-4 text-xs text-slate-500 hover:text-primary transition">Reset
                             Filters</a>
                     </form>
@@ -319,7 +319,7 @@ include __DIR__ . '/../includes/header.php';
                             </svg>
                             <h3 class="text-xl font-bold text-slate-700 mb-2">No Destinations Found</h3>
                             <p class="text-slate-500">Try adjusting your filters.</p>
-                            <a href="<?php echo base_url('pages/destinations.php'); ?>"
+                            <a href="<?php echo base_url('destinations'); ?>"
                                 class="inline-block mt-4 text-primary font-bold hover:underline transition">Clear
                                 Filters</a>
                         </div>

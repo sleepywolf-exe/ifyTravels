@@ -498,7 +498,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                             </div>
                             <h3 class="text-xl font-heading font-bold text-slate-900 mb-2">No packages found</h3>
                             <p class="text-slate-500">Try adjusting your filters or search terms.</p>
-                            <a href="<?php echo base_url('pages/packages.php'); ?>"
+                            <a href="<?php echo base_url('packages'); ?>"
                                 class="inline-block mt-4 text-primary font-bold hover:underline">Clear Filters</a>
                         </div>
                     <?php endif; ?>
