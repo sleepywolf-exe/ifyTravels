@@ -378,7 +378,7 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
                             </div>
 
-                            <a href="<?php echo base_url('pages/booking.php?packageId=' . $pkg['id']); ?>"
+                            <a href="<?php echo base_url('booking?packageId=' . $pkg['id']); ?>"
                                 class="block w-full py-4 rounded-xl font-bold text-center bg-primary text-white hover:bg-primary/90 transition shadow-lg shadow-primary/30 transform hover:-translate-y-1 magnetic-btn">
                                 Book Now
                             </a>
@@ -467,7 +467,7 @@ include __DIR__ . '/../includes/header.php';
                 <span class="text-xs text-slate-400 font-medium">/ person</span>
             </div>
         </div>
-        <a href="<?php echo base_url('pages/booking.php?packageId=' . $pkg['id']); ?>"
+        <a href="<?php echo base_url('booking?packageId=' . $pkg['id']); ?>"
             class="bg-primary text-white px-8 py-3 rounded-xl font-bold text-lg shadow-lg shadow-primary/30 active:scale-95 transition-transform">
             Book Now
         </a>

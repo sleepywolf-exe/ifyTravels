@@ -11,7 +11,7 @@ include __DIR__ . '/../includes/header.php';
   "@type": "ContactPage",
   "name": "Contact ifyTravels",
   "description": "Get in touch with our luxury travel concierge for bespoke inquiries.",
-  "url": "<?php echo base_url('pages/contact.php'); ?>"
+  "url": "<?php echo base_url('contact'); ?>"
 }
 </script>
 
@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Thank you for choosing ifyTravels. A dedicated travel designer will review your request and
                                 contact you shortly.
                             </p>
-                            <a href="<?php echo base_url('pages/contact.php'); ?>"
+                            <a href="<?php echo base_url('contact'); ?>"
                                 class="px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all">
                                 Send Another Message
                             </a>

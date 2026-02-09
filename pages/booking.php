@@ -360,7 +360,7 @@ include __DIR__ . '/../includes/header.php';
 
                 const result = await response.json();
                 if (result.status === 'success') {
-                    window.location.href = '<?php echo base_url('pages/booking-success.php?id='); ?>' + result.booking_id;
+                    window.location.href = '<?php echo base_url('booking-success?id='); ?>' + result.booking_id;
                 } else {
                     throw new Error(result.message || "Booking failed.");
                 }

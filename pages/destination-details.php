@@ -417,7 +417,7 @@ $packages = getPackagesByDestination($id);
                         <h3 class="text-xl font-bold text-slate-900 mb-2">Coming Soon</h3>
                         <p class="text-slate-500 max-w-md mx-auto mb-8">We are currently curating exclusive experiences
                             for this destination.</p>
-                        <a href="<?php echo base_url('pages/contact.php'); ?>"
+                        <a href="<?php echo base_url('contact'); ?>"
                             class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg shadow-primary/30">Request
                             Custom Quote</a>
                     </div>
