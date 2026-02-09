@@ -19,6 +19,7 @@ $staticPages = [
     '' => '1.0',
     'destinations' => '0.9',
     'packages' => '0.9',
+    'blogs' => '0.8',
     'contact' => '0.5',
     'booking' => '0.6',
     'partner-program' => '0.6',
@@ -31,6 +32,7 @@ $staticPages = [
 foreach ($staticPages as $path => $priority) {
     echo "\n    <url>\n";
     echo "        <loc>" . base_url($path) . "</loc>\n";
+    echo "        <lastmod>" . date('Y-m-d') . "</lastmod>\n";
     echo "        <changefreq>monthly</changefreq>\n";
     echo "        <priority>{$priority}</priority>\n";
     echo "    </url>";
