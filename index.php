@@ -395,7 +395,7 @@ try {
 
             <div class="container mx-auto px-6 relative z-10">
                 <!-- Section Header -->
-                <div class="text-center mb-16 section-header opacity-0">
+                <div class="text-center mb-16 section-header">
                     <span
                         class="inline-block py-2 px-5 rounded-full bg-primary/10 text-primary font-bold tracking-widest uppercase text-xs mb-4">
                         The Difference
@@ -408,7 +408,7 @@ try {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Feature 1 -->
                     <div
-                        class="feature-card depth-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 group opacity-0 translate-y-10">
+                        class="feature-card depth-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 group">
                         <div
                             class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -423,8 +423,8 @@ try {
                     </div>
 
                     <!-- Feature 2 -->
-                    <div class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group opacity-0 translate-y-10 hover:-translate-y-2"
-                        style="transition-delay: 100ms;">
+                    <div
+                        class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group">
                         <div
                             class="w-20 h-20 bg-secondary/10 rounded-2xl flex items-center justify-center mb-8 text-secondary group-hover:bg-secondary group-hover:text-white transition-colors duration-300 shadow-sm">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -438,8 +438,8 @@ try {
                     </div>
 
                     <!-- Feature 3 -->
-                    <div class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group opacity-0 translate-y-10 hover:-translate-y-2"
-                        style="transition-delay: 200ms;">
+                    <div
+                        class="feature-card p-10 rounded-[2rem] bg-slate-50 border border-slate-100 ring-1 ring-slate-200/50 hover:shadow-xl transition-all duration-300 group">
                         <div
                             class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mb-8 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
