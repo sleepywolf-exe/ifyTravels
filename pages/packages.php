@@ -310,7 +310,7 @@ $paginatedPackages = array_slice($filteredPackages, $offset, $itemsPerPage);
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-creative hover:shadow-creative-hover hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">Apply
+                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-creative hover:shadow-creative-hover transition-all duration-300">Apply
                             Filters</button>
                     </form>
                 </div>

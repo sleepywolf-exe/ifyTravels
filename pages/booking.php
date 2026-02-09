@@ -277,7 +277,7 @@ include __DIR__ . '/../includes/header.php';
                                 value="<?php echo $selectedPkg['price'] * $presetTravelers; ?>">
 
                             <button type="submit" id="submitBtn"
-                                class="w-full bg-primary hover:bg-primary-dark text-white font-bold text-lg py-5 rounded-xl shadow-xl shadow-primary/20 transition-all duration-300 transform hover:-translate-y-1 active:scale-[0.98] magnetic-btn relative overflow-hidden group">
+                                class="w-full bg-primary hover:bg-primary-dark text-white font-bold text-lg py-5 rounded-xl shadow-xl shadow-primary/20 transition-all duration-300 relative overflow-hidden group">
                                 <span class="relative z-10 flex items-center justify-center gap-2">
                                     Confirm & Book Now
                                     <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"

@@ -379,7 +379,7 @@ include __DIR__ . '/../includes/header.php';
                             </div>
 
                             <a href="<?php echo base_url('booking?packageId=' . $pkg['id']); ?>"
-                                class="block w-full py-4 rounded-xl font-bold text-center bg-primary text-white hover:bg-primary/90 transition shadow-lg shadow-primary/30 transform hover:-translate-y-1 magnetic-btn">
+                                class="block w-full py-4 rounded-xl font-bold text-center bg-primary text-white hover:bg-primary/90 transition shadow-lg shadow-primary/30">
                                 Book Now
                             </a>
                             <p class="text-center text-xs text-slate-400 mt-4">Instant Confirmation • Secure Payment</p>

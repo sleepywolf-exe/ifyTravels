@@ -176,7 +176,7 @@ include __DIR__ . '/../includes/header.php';
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-creative hover:shadow-creative-hover hover:-translate-y-0.5 transition-all duration-300 magnetic-btn">
+                            class="w-full bg-primary text-white font-bold py-3 rounded-xl shadow-creative hover:shadow-creative-hover transition-all duration-300">
                             Apply Filters
                         </button>
                         <a href="<?php echo base_url('destinations'); ?>"

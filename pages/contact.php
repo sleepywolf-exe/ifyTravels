@@ -251,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <div class="pt-4">
                                     <button type="submit"
-                                        class="w-full bg-slate-900 text-white font-bold py-5 rounded-xl shadow-lg hover:bg-primary transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg group">
+                                        class="w-full bg-slate-900 text-white font-bold py-5 rounded-xl shadow-lg hover:bg-primary transition-all duration-300 flex items-center justify-center gap-3 text-lg group">
                                         <span>Send Request</span>
                                         <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
                                     </button>
