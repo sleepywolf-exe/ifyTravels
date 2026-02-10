@@ -284,7 +284,7 @@ try {
                         </div>
                         <div class="text-left">
                             <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
-                                <?php echo get_setting('stat_trips') ?: '500+'; ?>
+                                <?php echo get_setting('stats_trips_count', '500+'); ?>
                             </p>
                             <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Luxury Trips</p>
                         </div>
@@ -297,7 +297,7 @@ try {
                         </div>
                         <div class="text-left">
                             <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
-                                <?php echo get_setting('stat_reviews') ?: '98%'; ?>
+                                <?php echo get_setting('stats_reviews_count', '98%'); ?>
                             </p>
                             <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">5-Star Reviews</p>
                         </div>
@@ -313,7 +313,7 @@ try {
                         </div>
                         <div class="text-left">
                             <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
-                                <?php echo get_setting('stat_destinations') ?: '25+'; ?>
+                                <?php echo get_setting('stats_destinations_count', '25+'); ?>
                             </p>
                             <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Destinations</p>
                         </div>
@@ -326,7 +326,7 @@ try {
                         </div>
                         <div class="text-left">
                             <p class="text-4xl md:text-5xl font-bold text-primary leading-none mb-1">
-                                <?php echo get_setting('stat_concierge') ?: '24/7'; ?>
+                                <?php echo get_setting('stats_concierge_text', '24/7'); ?>
                             </p>
                             <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Concierge</p>
                         </div>
@@ -454,10 +454,12 @@ try {
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">Curated Luxury</h3>
-                        <p class="text-slate-600 leading-relaxed text-lg">Every destination is hand-picked by our
-                            experts to
-                            ensure specific standards of luxury and comfort.</p>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">
+                            <?php echo get_setting('feature_1_title', 'Curated Luxury'); ?>
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-lg">
+                            <?php echo get_setting('feature_1_desc', 'Every destination is hand-picked by our experts to ensure specific standards of luxury and comfort.'); ?>
+                        </p>
                     </div>
 
                     <!-- Feature 2 -->
@@ -470,9 +472,12 @@ try {
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">24/7 Concierge</h3>
-                        <p class="text-slate-600 leading-relaxed text-lg">Our dedicated support team is available
-                            round-the-clock to assist you with any request.</p>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">
+                            <?php echo get_setting('feature_2_title', '24/7 Concierge'); ?>
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-lg">
+                            <?php echo get_setting('feature_2_desc', 'Our dedicated support team is available round-the-clock to assist you with any request.'); ?>
+                        </p>
                     </div>
 
                     <!-- Feature 3 -->
@@ -486,10 +491,12 @@ try {
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">Best Price Guarantee</h3>
-                        <p class="text-slate-600 leading-relaxed text-lg">We partner directly with resorts and airlines
-                            to bring
-                            you exclusive rates you won't find elsewhere.</p>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 font-heading">
+                            <?php echo get_setting('feature_3_title', 'Best Price Guarantee'); ?>
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-lg">
+                            <?php echo get_setting('feature_3_desc', 'We partner directly with resorts and airlines to bring you exclusive rates you won\'t find elsewhere.'); ?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -657,7 +664,7 @@ try {
                 class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
                 <h2
                     class="text-[12rem] md:text-[25rem] font-black text-white opacity-[0.02] leading-none tracking-tighter uppercase font-heading">
-                    Journey
+                    <?php echo get_setting('cta_bg_text', 'Journey'); ?>
                 </h2>
             </div>
 

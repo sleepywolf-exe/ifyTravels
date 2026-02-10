@@ -520,6 +520,82 @@ foreach ($settings as $s) {
                             </div>
                         </div>
                     </div>
+                    <div class="border-t border-gray-100 pt-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">"Why Choose Us" Section</h3>
+                        <div class="space-y-8">
+                            <!-- Feature 1 -->
+                            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                                <h4 class="font-bold text-gray-700 mb-4">Feature 1</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                                        <input type="text" name="feature_1_title"
+                                            value="<?php echo e($settingsMap['feature_1_title'] ?? 'Curated Luxury'); ?>"
+                                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                                        <input type="text" name="feature_1_desc"
+                                            value="<?php echo e($settingsMap['feature_1_desc'] ?? 'Every destination is hand-picked by our experts.'); ?>"
+                                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                                <h4 class="font-bold text-gray-700 mb-4">Feature 2</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                                        <input type="text" name="feature_2_title"
+                                            value="<?php echo e($settingsMap['feature_2_title'] ?? '24/7 Concierge'); ?>"
+                                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                                        <input type="text" name="feature_2_desc"
+                                            value="<?php echo e($settingsMap['feature_2_desc'] ?? 'Our dedicated support team is available round-the-clock.'); ?>"
+                                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                                <h4 class="font-bold text-gray-700 mb-4">Feature 3</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                                        <input type="text" name="feature_3_title"
+                                            value="<?php echo e($settingsMap['feature_3_title'] ?? 'Best Price Guarantee'); ?>"
+                                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                                        <input type="text" name="feature_3_desc"
+                                            value="<?php echo e($settingsMap['feature_3_desc'] ?? 'We partner directly with resorts for exclusive rates.'); ?>"
+                                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Call To Action (Footer Top)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Background Text</label>
+                                <input type="text" name="cta_bg_text"
+                                    value="<?php echo e($settingsMap['cta_bg_text'] ?? 'Journey'); ?>"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Tab: SEO -->
