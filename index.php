@@ -33,9 +33,26 @@ include 'includes/header.php';
   "url": "<?php echo base_url(); ?>",
   "logo": "<?php echo base_url('assets/images/logo-color.png'); ?>",
   "description": "<?php echo get_setting('meta_description', 'Luxury travel agency offering curated international and domestic tour packages, honeymoon packages, and customized travel experiences.'); ?>",
+  "alternateName": ["ify Travels", "IFY Travels"],
+  "foundingDate": "2020",
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "19/807, RPS Savana, Sector 88",
+    "addressLocality": "Faridabad",
+    "addressRegion": "Haryana",
+    "postalCode": "121002",
+    "addressCountry": "IN"
+  },
   "sameAs": [
     "https://www.facebook.com/ifytravels",
-    "https://www.instagram.com/ifytravels"
+    "https://www.instagram.com/ifytravels",
+    "https://twitter.com/ifytravels",
+    "https://www.linkedin.com/company/ifytravels",
+    "https://www.youtube.com/@ifytravels"
   ],
   "contactPoint": {
     "@type": "ContactPoint",
