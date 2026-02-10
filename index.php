@@ -24,6 +24,27 @@ include 'includes/header.php';
 }
 </script>
 
+<!-- Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "<?php echo get_setting('site_name', 'ifyTravels'); ?>",
+  "url": "<?php echo base_url(); ?>",
+  "logo": "<?php echo base_url('assets/images/logo-color.png'); ?>",
+  "description": "<?php echo get_setting('meta_description', 'Luxury travel agency offering curated international and domestic tour packages, honeymoon packages, and customized travel experiences.'); ?>",
+  "sameAs": [
+    "https://www.facebook.com/ifytravels",
+    "https://www.instagram.com/ifytravels"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Customer Service",
+    "availableLanguage": ["en", "hi"]
+  }
+}
+</script>
+
 <?php
 // Data Logic
 $destinations = $destinations ?? [];
