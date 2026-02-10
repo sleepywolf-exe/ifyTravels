@@ -36,20 +36,58 @@ try {
         $results[] = ["url" => $url, "result" => $res];
 
     } elseif ($action === 'index_all') {
-        // Index Homepage + Key Pages
+        // 1. Static Pages
         $urls = [
             base_url(),
             base_url('destinations'),
             base_url('packages'),
             base_url('blogs'),
-            base_url('contact')
+            base_url('contact'),
+            base_url('about'),
+            base_url('partner-program')
         ];
 
+        // 2. Fetch Packages
+        try {
+            $packages = $db->fetchAll("SELECT slug FROM packages");
+            foreach ($packages as $pkg) {
+                if (!empty($pkg['slug'])) {
+                    $urls[] = base_url('packages/' . $pkg['slug']);
+                }
+            }
+        } catch (Exception $e) { /* Ignore if table missing */
+        }
+
+        // 3. Fetch Destinations
+        try {
+            $destinations = $db->fetchAll("SELECT slug FROM destinations");
+            foreach ($destinations as $dest) {
+                if (!empty($dest['slug'])) {
+                    $urls[] = base_url('destinations/' . $dest['slug']);
+                }
+            }
+        } catch (Exception $e) { /* Ignore */
+        }
+
+        // 4. Fetch Blogs
+        try {
+            $blogs = $db->fetchAll("SELECT slug FROM blogs");
+            foreach ($blogs as $blog) {
+                if (!empty($blog['slug'])) {
+                    $urls[] = base_url('blogs/' . $blog['slug']);
+                }
+            }
+        } catch (Exception $e) { /* Ignore */
+        }
+
+        // 5. Submit All URLs
         foreach ($urls as $url) {
             $res = $indexer->indexUrl($url, 'URL_UPDATED');
             $results[] = ["url" => $url, "result" => $res];
-            // Small delay to be nice to API
-            usleep(200000); // 0.2s
+
+            // Respect API Rate Limits (Default: 600 requests/minute = 10/sec)
+            // We sleep 0.1s to be safe
+            usleep(100000);
         }
     } else {
         throw new Exception("Unknown Action");
