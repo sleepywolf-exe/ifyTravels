@@ -190,7 +190,7 @@ function navItem($file, $label, $iconPath, $activeColorClass = 'text-blue-600', 
                 if (data.status === 'success') {
                     let html = '<div class="bg-green-50 text-green-700 p-3 rounded-lg text-sm border border-green-200"><p class="font-bold mb-1"><i class="fas fa-check-circle mr-2"></i>Request Sent!</p><ul class="list-disc pl-5 space-y-1 text-xs">';
                     data.data.forEach(item => {
-                        html += `<li>${item.url}: ${item.result.status === 'success' ? 'OK' : 'Failed'}</li>`;
+                        html += `<li>${item.url}: ${item.result.status === 'success' ? '<span class="text-green-600">OK</span>' : '<span class="text-red-600">' + (item.result.message || 'Failed') + '</span>'}</li>`;
                     });
                     html += '</ul></div>';
                     resultDiv.innerHTML = html;
