@@ -188,11 +188,56 @@ function navItem($file, $label, $iconPath, $activeColorClass = 'text-blue-600', 
             .then(data => {
                 resultDiv.classList.remove('hidden');
                 if (data.status === 'success') {
-                    let html = '<div class="bg-green-50 text-green-700 p-3 rounded-lg text-sm border border-green-200"><p class="font-bold mb-1"><i class="fas fa-check-circle mr-2"></i>Request Sent!</p><ul class="list-disc pl-5 space-y-1 text-xs">';
+                    let successCount = 0;
+                    let failCount = 0;
+                    let detailsHtml = '';
+
                     data.data.forEach(item => {
-                        html += `<li>${item.url}: ${item.result.status === 'success' ? '<span class="text-green-600">OK</span>' : '<span class="text-red-600">' + (item.result.message || 'Failed') + '</span>'}</li>`;
+                        const isSuccess = item.result.status === 'success';
+                        if(isSuccess) successCount++; else failCount++;
+                        
+                        // Truncate URL for better display
+                        const shortUrl = item.url.replace(/^https?:\/\/[^\/]+/, '');
+                        
+                        detailsHtml += `
+                            <li class="flex items-start justify-between gap-2 p-2 rounded hover:bg-white transition">
+                                <span class="text-xs font-mono text-gray-600 truncate" title="${item.url}">${shortUrl || '/'}</span>
+                                ${isSuccess 
+                                    ? '<span class="shrink-0 text-[10px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded">OK</span>' 
+                                    : '<span class="shrink-0 text-[10px] font-bold bg-red-100 text-red-700 px-1.5 py-0.5 rounded" title="' + (item.result.message || 'Error') + '">FAIL</span>'}
+                            </li>`;
                     });
-                    html += '</ul></div>';
+
+                    let html = `
+                        <div class="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+                            <!-- Summary Header -->
+                            <div class="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100">
+                                <div class="flex items-center gap-4">
+                                    <div class="flex flex-col">
+                                        <span class="text-xs text-gray-400 uppercase font-bold tracking-wider">Total</span>
+                                        <span class="text-lg font-bold text-gray-800">${data.data.length}</span>
+                                    </div>
+                                    <div class="w-px h-8 bg-gray-100"></div>
+                                    <div class="flex flex-col">
+                                        <span class="text-xs text-green-500 uppercase font-bold tracking-wider">Success</span>
+                                        <span class="text-lg font-bold text-green-600">${successCount}</span>
+                                    </div>
+                                    <div class="w-px h-8 bg-gray-100"></div>
+                                    <div class="flex flex-col">
+                                        <span class="text-xs text-red-500 uppercase font-bold tracking-wider">Failed</span>
+                                        <span class="text-lg font-bold text-red-600">${failCount}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Scrollable Details -->
+                            <div class="max-h-60 overflow-y-auto custom-scrollbar p-2 space-y-0.5 bg-gray-50">
+                                <ul class="space-y-1">
+                                    ${detailsHtml}
+                                </ul>
+                            </div>
+                        </div>`;
+                    
                     resultDiv.innerHTML = html;
                 } else {
                     resultDiv.innerHTML = `<div class="bg-red-50 text-red-700 p-3 rounded-lg text-sm border border-red-200"><i class="fas fa-times-circle mr-2"></i>${data.message}</div>`;
