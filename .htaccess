@@ -55,6 +55,14 @@ Options -Indexes
     RewriteEngine On
     RewriteBase /
 
+    # Force HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # Force non-WWW (remove www prefix)
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
     # Redirect index.php to root
     RewriteRule ^index\.php$ / [R=301,L]
 
