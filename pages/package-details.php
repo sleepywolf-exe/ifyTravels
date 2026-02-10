@@ -60,7 +60,15 @@ include __DIR__ . '/../includes/header.php';
     "priceCurrency": "INR",
     "price": "<?php echo $pkg['price']; ?>",
     "priceValidUntil": "<?php echo date('Y-12-31'); ?>",
-    "availability": "https://schema.org/InStock"
+    "availability": "https://schema.org/InStock",
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "IN",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 7,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn"
+    }
   },
   "review": {
     "@type": "Review",
