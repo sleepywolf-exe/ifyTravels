@@ -13,7 +13,7 @@ data/*.db
 
 # Composer
 /vendor/
-/composer.lock
+
 
 # Credentials
 service_account.json
