@@ -35,7 +35,14 @@ class Database
                 }
             } else {
                 // MySQL Connection
-                $dsn = "mysql:host=" . (defined('DB_HOST') ? DB_HOST : '127.0.0.1') . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+                $dbHost = defined('DB_HOST') ? DB_HOST : '127.0.0.1';
+
+                // Fix for CLI mode on some environments (MacOS/MAMP/XAMPP) where 'localhost' socket is not found
+                if (php_sapi_name() === 'cli' && $dbHost === 'localhost') {
+                    $dbHost = '127.0.0.1';
+                }
+
+                $dsn = "mysql:host=" . $dbHost . ";dbname=" . DB_NAME . ";charset=utf8mb4";
                 $this->pdo = new PDO($dsn, DB_USER, DB_PASS);
                 $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);

@@ -33,7 +33,9 @@ include 'includes/header.php';
   "url": "<?php echo base_url(); ?>",
   "logo": "<?php echo base_url('assets/images/logo-color.png'); ?>",
   "description": "<?php echo get_setting('meta_description', 'Luxury travel agency offering curated international and domestic tour packages, honeymoon packages, and customized travel experiences.'); ?>",
-  "alternateName": ["ify Travels", "IFY Travels"],
+  "disambiguatingDescription": "IfyTravels is a premium travel agency managed by dreamcrafts.org, distinct from other entities.",
+  "mainEntityOfPage": "<?php echo base_url(); ?>",
+  "alternateName": ["ify Travels", "IFY Travels", "IfyTravels India"],
   "foundingDate": "2020",
   "areaServed": [
     {
