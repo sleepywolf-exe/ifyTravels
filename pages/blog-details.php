@@ -23,6 +23,13 @@ if ($slug) {
 
         if ($post) {
             $pageTitle = htmlspecialchars($post['title']);
+            // Generate Meta Description (First 150 chars of content)
+            $cleanContent = strip_tags($post['content']);
+            $pageDescription = mb_substr($cleanContent, 0, 155) . '...';
+            // Set OG Image
+            if (!empty($post['image_url'])) {
+                $pageImage = $post['image_url'];
+            }
         }
     } catch (Exception $e) {
         $post = null;
@@ -30,6 +37,47 @@ if ($slug) {
 }
 
 include __DIR__ . '/../includes/header.php';
+
+// Add Schema if post exists
+if ($post) {
+    $schemaDescription = json_encode(mb_substr(strip_tags($post['content']), 0, 155) . '...');
+    $schemaImage = !empty($post['image_url']) ? json_encode(base_url($post['image_url'])) : '""';
+    $schemaPublished = json_encode(date('c', strtotime($post['created_at'])));
+    $schemaModified = json_encode(date('c', strtotime($post['created_at']))); // Use updated_at if available
+    $schemaAuthor = json_encode($post['author'] ?? 'Admin');
+    $schemaUrl = json_encode(base_url('blogs/' . $post['slug']));
+    $schemaHeadline = json_encode($post['title']);
+
+    echo <<<SCHEMA
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": $schemaUrl
+      },
+      "headline": $schemaHeadline,
+      "description": $schemaDescription,
+      "image": $schemaImage,
+      "author": {
+        "@type": "Person",
+        "name": $schemaAuthor
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ifyTravels",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ifytravels.com/assets/images/logo-color.png"
+        }
+      },
+      "datePublished": $schemaPublished,
+      "dateModified": $schemaModified
+    }
+    </script>
+SCHEMA;
+}
 
 if (!$post):
     ?>

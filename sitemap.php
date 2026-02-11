@@ -17,6 +17,7 @@ echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 // 1. Static Pages
 $staticPages = [
     '' => '1.0',
+    'about' => '0.7',
     'destinations' => '0.9',
     'packages' => '0.9',
     'blogs' => '0.8',
@@ -58,13 +59,21 @@ try {
 }
 
 if ($pdo) {
+    // Helper function for lastmod
+    function get_lastmod($row)
+    {
+        if (!empty($row['updated_at']) && $row['updated_at'] != '0000-00-00 00:00:00') {
+            return date('Y-m-d', strtotime($row['updated_at']));
+        }
+        if (!empty($row['created_at']) && $row['created_at'] != '0000-00-00 00:00:00') {
+            return date('Y-m-d', strtotime($row['created_at']));
+        }
+        return date('Y-m-d');
+    }
+
     // Destinations
     try {
-        // Fallback: Check if updated_at exists or just use created_at/slug
-        // To be safe, we will select only what we are 99% sure exists or verify first.
-        // For now, let's remove 'updated_at' since that threw the error.
-
-        $sql = "SELECT slug, created_at FROM destinations ORDER BY created_at DESC";
+        $sql = "SELECT * FROM destinations ORDER BY created_at DESC";
         $stmt = $pdo->query($sql);
         $destinations = $stmt->fetchAll();
 
@@ -73,8 +82,7 @@ if ($pdo) {
         }
 
         foreach ($destinations as $dest) {
-            // Use created_at as fallback for lastmod
-            $lastMod = !empty($dest['created_at']) ? date('Y-m-d', strtotime($dest['created_at'])) : date('Y-m-d');
+            $lastMod = get_lastmod($dest);
 
             echo "\n    <url>\n";
             echo "        <loc>" . destination_url($dest['slug']) . "</loc>\n";
@@ -89,7 +97,7 @@ if ($pdo) {
 
     // Packages
     try {
-        $sql = "SELECT slug, created_at FROM packages ORDER BY created_at DESC";
+        $sql = "SELECT * FROM packages ORDER BY created_at DESC";
         $stmt = $pdo->query($sql);
         $packages = $stmt->fetchAll();
 
@@ -98,8 +106,7 @@ if ($pdo) {
         }
 
         foreach ($packages as $pkg) {
-            // Use created_at as fallback for lastmod
-            $lastMod = !empty($pkg['created_at']) ? date('Y-m-d', strtotime($pkg['created_at'])) : date('Y-m-d');
+            $lastMod = get_lastmod($pkg);
 
             echo "\n    <url>\n";
             echo "        <loc>" . package_url($pkg['slug']) . "</loc>\n";
@@ -113,7 +120,7 @@ if ($pdo) {
     }
     // Blogs
     try {
-        $sql = "SELECT slug, created_at FROM posts ORDER BY created_at DESC";
+        $sql = "SELECT * FROM posts ORDER BY created_at DESC";
         $stmt = $pdo->query($sql);
         $posts = $stmt->fetchAll();
 
@@ -122,8 +129,7 @@ if ($pdo) {
         }
 
         foreach ($posts as $post) {
-            // Use created_at as fallback for lastmod
-            $lastMod = !empty($post['created_at']) ? date('Y-m-d', strtotime($post['created_at'])) : date('Y-m-d');
+            $lastMod = get_lastmod($post);
 
             echo "\n    <url>\n";
             echo "        <loc>" . base_url('blogs/' . $post['slug']) . "</loc>\n";

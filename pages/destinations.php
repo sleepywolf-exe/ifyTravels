@@ -1,5 +1,6 @@
-<?php
 $pageTitle = "Destinations";
+$pageDescription = "Explore our curated collection of top travel destinations. From exotic international locations to
+beautiful domestic spots, find your perfect getaway.";
 include __DIR__ . '/../includes/header.php';
 ?>
 

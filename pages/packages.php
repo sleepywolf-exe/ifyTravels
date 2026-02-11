@@ -1,5 +1,6 @@
 <?php
 $pageTitle = "Packages";
+$pageDescription = "Browse our exclusive travel packages. Flight + Hotel deals, honeymoon specials, and luxury tours crafted for unforgettable experiences.";
 include __DIR__ . '/../includes/header.php';
 
 // --- 1. Filter Logic (Preserved) ---
