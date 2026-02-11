@@ -2,10 +2,19 @@
 
 class InternalLinker
 {
+    private static $instance = null;
     private $db;
     private $keywords = [];
 
-    public function __construct()
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    private function __construct()
     {
         $this->db = Database::getInstance();
         $this->loadKeywords();

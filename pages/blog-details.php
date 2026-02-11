@@ -144,12 +144,17 @@ if (!$post):
                 <div
                     class="prose prose-lg md:prose-xl prose-slate hover:prose-a:text-primary transition-colors prose-img:rounded-3xl prose-img:shadow-lg prose-headings:font-heading prose-headings:font-bold first-letter:text-5xl first-letter:font-heading first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-[-10px] first-letter:text-primary">
                     <?php
-                    // Auto-Inject Anchors and TOC
-                    $optimizedContent = ContentOptimizer::injectAnchors($post['content']);
+                    // 1. Auto-Link Keywords (Semantic SEO)
+                    require_once __DIR__ . '/../includes/classes/InternalLinker.php';
+                    $linker = InternalLinker::getInstance();
+                    $linkedContent = $linker->linkContent($post['content']);
+
+                    // 2. Auto-Inject Anchors and TOC (UX)
+                    $optimizedContent = ContentOptimizer::injectAnchors($linkedContent);
 
                     // Display Reading Time
                     $minutes = ContentOptimizer::getReadingTime($post['content']);
-                    echo '<p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6"><i class="far fa-clock mr-2"></i>' . $minutes . ' min read</p>';
+                    echo '<p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-gray-100 pb-4 flex items-center gap-3"><i class="far fa-clock text-primary"></i> ' . $minutes . ' min read <span class="text-slate-300">|</span> <span class="text-xs bg-green-50 text-green-600 px-2 py-1 rounded">Verified by IfyTravels</span></p>';
 
                     // Insert TOC if content is long enough
                     if ($minutes > 3) {
