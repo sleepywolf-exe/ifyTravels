@@ -1,3 +1,4 @@
+<?php
 $pageTitle = "Travel Blogs & Stories";
 $pageDescription = "Read the latest travel guides, tips, and inspiring stories from ifyTravels. Plan your next adventure
 with our expert insights.";

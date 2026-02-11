@@ -1,3 +1,4 @@
+<?php
 $pageTitle = "Contact Concierge - ifyTravels";
 $pageDescription = "Get in touch with ifyTravels' luxury concierge team. Plan your bespoke journey or inquire about our
 premium travel services today.";

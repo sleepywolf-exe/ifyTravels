@@ -1,3 +1,4 @@
+<?php
 $pageTitle = "About Us - Our Journey";
 $pageDescription = "Discover the story behind ifyTravels. We are a luxury travel concierge dedicated to crafting bespoke
 journeys and unforgettable experiences.";
