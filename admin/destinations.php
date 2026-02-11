@@ -29,6 +29,17 @@ function ensureMapColumnExists($db)
             // Ignore if it fails (e.g. read only), but ideally log it
         }
     }
+
+    // Auto-Migration: Ensure search_intent column exists
+    try {
+        $db->fetch("SELECT search_intent FROM destinations LIMIT 1");
+    } catch (Exception $e) {
+        try {
+            $db->execute("ALTER TABLE destinations ADD COLUMN search_intent VARCHAR(50) DEFAULT 'Informational'");
+        } catch (Exception $e2) {
+            // Silent fail
+        }
+    }
 }
 ensureMapColumnExists($db);
 
@@ -114,13 +125,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
     $is_new = isset($_POST['is_new']) ? 1 : 0;
     $map_embed = $_POST['map_embed'] ?? ''; // Raw HTML
+    $search_intent = $_POST['search_intent'] ?? 'Informational';
 
     if (empty($error)) {
         try {
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE destinations SET name=?, slug=?, country=?, description=?, type=?, image_url=?, rating=?, is_featured=?, is_new=?, map_embed=? WHERE id=?",
-                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $is_new, $map_embed, $id]
+                    "UPDATE destinations SET name=?, slug=?, country=?, description=?, type=?, image_url=?, rating=?, is_featured=?, is_new=?, map_embed=?, search_intent=? WHERE id=?",
+                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $is_new, $map_embed, $search_intent, $id]
                 );
                 $message = "Destination updated successfully!";
 
@@ -135,8 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             } else {
                 $db->execute(
-                    "INSERT INTO destinations (name, slug, country, description, type, image_url, rating, is_featured, map_embed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $map_embed]
+                    "INSERT INTO destinations (name, slug, country, description, type, image_url, rating, is_featured, map_embed, search_intent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$name, $slug, $country, $description, $type, $image_url, $rating, $is_featured, $map_embed, $search_intent]
                 );
                 $message = "Destination created successfully!";
 
@@ -281,6 +293,20 @@ $destinations = $db->fetchAll("SELECT * FROM destinations ORDER BY created_at DE
                                     <option value="Domestic" <?php echo ($editData['type'] ?? '') === 'Domestic' ? 'selected' : ''; ?>>Domestic</option>
                                 </select>
                             </div>
+                        </div>
+
+                        <!-- SEO Metadata -->
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Search Intent (Strategy)</label>
+                            <select name="search_intent"
+                                class="w-full border border-gray-300 px-3 py-2 rounded-lg bg-white">
+                                <option value="Informational" <?php echo ($editData && ($editData['search_intent'] ?? '') === 'Informational') ? 'selected' : ''; ?>>Informational (Guide - Default for
+                                    Destinations)</option>
+                                <option value="Commercial" <?php echo ($editData && ($editData['search_intent'] ?? '') === 'Commercial') ? 'selected' : ''; ?>>Commercial (Top 10 Lists)</option>
+                                <option value="Navigational" <?php echo ($editData && ($editData['search_intent'] ?? '') === 'Navigational') ? 'selected' : ''; ?>>Navigational (Brand Focus)</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Defines how this page contributes to the semantic
+                                graph.</p>
                         </div>
 
                         <!-- Slug (Optional, auto-generated) -->

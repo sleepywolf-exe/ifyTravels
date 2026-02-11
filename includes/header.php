@@ -112,6 +112,9 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
     ?>
 
     <link rel="canonical" href="<?php echo $metaUrl; ?>">
+    <!-- International SEO (Hreflang) -->
+    <link rel="alternate" hreflang="en" href="<?php echo $metaUrl; ?>" />
+    <link rel="alternate" hreflang="x-default" href="<?php echo $metaUrl; ?>" />
     <meta name="description" content="<?php echo htmlspecialchars($metaDesc); ?>">
     <?php
     $baseKeywords = get_setting('meta_keywords', 'travel, tours, luxury, holidays, Best Tour & Travel Company, International Tour Packages, Domestic Tour Packages, Honeymoon Packages, MICE Tours, Group Tours, Vacation Deals, Luxury Holidays');

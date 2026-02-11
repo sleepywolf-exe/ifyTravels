@@ -14,6 +14,17 @@ try {
     }
 }
 
+// Auto-Migration: Ensure search_intent column exists
+try {
+    $db->getConnection()->query("SELECT search_intent FROM packages LIMIT 1");
+} catch (Exception $e) {
+    try {
+        $db->getConnection()->exec("ALTER TABLE packages ADD COLUMN search_intent VARCHAR(50) DEFAULT 'Commercial'");
+    } catch (Exception $e2) {
+        // Silent fail
+    }
+}
+
 $message = '';
 $error = '';
 
@@ -143,16 +154,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($error)) {
         try {
+            $search_intent = $_POST['search_intent'] ?? 'Commercial';
+
             if ($action === 'update' && !empty($id)) {
                 $db->execute(
-                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, is_new=?, features=?, inclusions=?, exclusions=?, activities=?, themes=?, trust_badges=?, destination_covered=? WHERE id=?",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $destination_covered, $id]
+                    "UPDATE packages SET title=?, slug=?, destination_id=?, price=?, duration=?, description=?, image_url=?, is_popular=?, is_new=?, features=?, inclusions=?, exclusions=?, activities=?, themes=?, trust_badges=?, destination_covered=?, search_intent=? WHERE id=?",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $destination_covered, $search_intent, $id]
                 );
                 $message = "Package updated successfully!";
             } else {
                 $db->execute(
-                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, is_new, features, inclusions, exclusions, activities, themes, trust_badges, destination_covered) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $destination_covered]
+                    "INSERT INTO packages (title, slug, destination_id, price, duration, description, image_url, is_popular, is_new, features, inclusions, exclusions, activities, themes, trust_badges, destination_covered, search_intent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [$title, $slug, $destination_id, $price, $duration, $description, $image_url, $is_popular, $is_new, $features_json, $inclusions_json, $exclusions_json, $activities_json, $themes_json, $trust_badges_json, $destination_covered, $search_intent]
                 );
                 $message = "Package created successfully!";
             }
@@ -283,6 +296,17 @@ $destinations = $db->fetchAll("SELECT id, name FROM destinations ORDER BY name")
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Search Intent (SEO)</label>
+                            <select name="search_intent" class="w-full border border-gray-300 px-3 py-2 rounded-lg bg-yellow-50 focus:ring-2 focus:ring-yellow-500">
+                                <option value="Commercial" <?php echo ($editData && ($editData['search_intent'] ?? '') === 'Commercial') ? 'selected' : ''; ?>>Commercial (Booking Intent)</option>
+                                <option value="Informational" <?php echo ($editData && ($editData['search_intent'] ?? '') === 'Informational') ? 'selected' : ''; ?>>Informational (Guide/Learn)</option>
+                                <option value="Transactional" <?php echo ($editData && ($editData['search_intent'] ?? '') === 'Transactional') ? 'selected' : ''; ?>>Transactional (Ready to Buy)</option>
+                                <option value="Navigational" <?php echo ($editData && ($editData['search_intent'] ?? '') === 'Navigational') ? 'selected' : ''; ?>>Navigational (Brand Search)</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Helps the SEO Engine cluster content correctly.</p>
                         </div>
 
                         <div>

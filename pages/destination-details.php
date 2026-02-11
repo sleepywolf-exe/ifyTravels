@@ -2,6 +2,7 @@
 // Destination Details Page
 include __DIR__ . '/../includes/functions.php';
 include __DIR__ . '/../data/loader.php';
+require_once __DIR__ . '/../includes/classes/SchemaGenerator.php';
 
 // Support both slug-based and ID-based URLs
 $slug = $_GET['slug'] ?? null;
@@ -50,44 +51,20 @@ include __DIR__ . '/../includes/header.php';
 $packages = getPackagesByDestination($id);
 ?>
 
-<!-- Schema.org Markup -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TouristDestination",
-  "name": "<?php echo htmlspecialchars($dest['name'], ENT_QUOTES); ?>",
-  "description": "<?php echo htmlspecialchars(strip_tags($dest['description']), ENT_QUOTES); ?>",
-  "image": "<?php echo base_url($dest['image']); ?>",
-  "touristType": "<?php echo htmlspecialchars($dest['type'], ENT_QUOTES); ?>",
-  "geo": {
-    "@type": "GeoCoordinates",
-    "addressCountry": "<?php echo htmlspecialchars($dest['country'], ENT_QUOTES); ?>"
-  }
-}
-</script>
+<!-- Dynamic Schema (Auto-Generated) -->
+<?php
+// Destination Schema
+$destSchema = SchemaGenerator::getTouristDestination($dest);
+echo SchemaGenerator::render($destSchema);
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [{
-    "@type": "ListItem",
-    "position": 1,
-    "name": "Home",
-    "item": "<?php echo base_url(); ?>"
-  },{
-    "@type": "ListItem",
-    "position": 2,
-    "name": "Destinations",
-    "item": "<?php echo base_url('destinations'); ?>"
-  },{
-    "@type": "ListItem",
-    "position": 3,
-    "name": "<?php echo htmlspecialchars($dest['name'], ENT_QUOTES); ?>",
-    "item": "<?php echo $metaUrl; ?>"
-  }]
-}
-</script>
+// Breadcrumb Schema
+$breadcrumbSchema = SchemaGenerator::getBreadcrumb([
+    'Home' => base_url(),
+    'Destinations' => base_url('destinations'),
+    $dest['name'] => $metaUrl
+]);
+echo SchemaGenerator::render($breadcrumbSchema);
+?>
 
 <div id="content-area" class="flex-1 bg-white min-h-screen relative overflow-hidden">
 
@@ -401,7 +378,11 @@ $packages = getPackagesByDestination($id);
                                 <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
                                     <h3 class="font-bold text-slate-700"><?php echo $faq['question']; ?></h3>
                                     <span class="transition group-open:rotate-180">
-                                        <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                                        <svg fill="none" height="24" shape-rendering="geometricPrecision"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                                            <path d="M6 9l6 6 6-6"></path>
+                                        </svg>
                                     </span>
                                 </summary>
                                 <div class="text-slate-600 px-6 pb-6 text-sm leading-relaxed">

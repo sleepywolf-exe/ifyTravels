@@ -2,6 +2,8 @@
 // Package Details Page
 include __DIR__ . '/../includes/functions.php';
 include __DIR__ . '/../data/loader.php';
+require_once __DIR__ . '/../includes/classes/SchemaGenerator.php';
+require_once __DIR__ . '/../includes/classes/InternalLinker.php';
 
 // Support both slug-based and ID-based URLs
 $slug = $_GET['slug'] ?? null;
@@ -47,93 +49,20 @@ if (isset($fbCapi)) {
 include __DIR__ . '/../includes/header.php';
 ?>
 
-<!-- Schema.org Markup -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Product",
-  "name": "<?php echo htmlspecialchars($pkg['title'], ENT_QUOTES); ?>",
-  "image": "<?php echo base_url($pkg['image']); ?>",
-  "description": "<?php echo htmlspecialchars(strip_tags($pkg['description']), ENT_QUOTES); ?>",
-  "brand": { "@type": "Brand", "name": "ifyTravels" },
-  "offers": {
-    "@type": "Offer",
-    "url": "<?php echo $metaUrl; ?>",
-    "priceCurrency": "INR",
-    "price": "<?php echo $pkg['price']; ?>",
-    "priceValidUntil": "<?php echo date('Y-12-31'); ?>",
-    "availability": "https://schema.org/InStock",
-    "hasMerchantReturnPolicy": {
-      "@type": "MerchantReturnPolicy",
-      "applicableCountry": "IN",
-      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-      "merchantReturnDays": 7,
-      "returnMethod": "https://schema.org/ReturnByMail",
-      "returnFees": "https://schema.org/FreeReturn"
-    },
-    "shippingDetails": {
-      "@type": "OfferShippingDetails",
-      "shippingRate": {
-        "@type": "MonetaryAmount",
-        "value": 0,
-        "currency": "INR"
-      },
-      "shippingDestination": {
-        "@type": "DefinedRegion",
-        "addressCountry": "IN"
-      },
-      "deliveryTime": {
-        "@type": "ShippingDeliveryTime",
-        "handlingTime": {
-          "@type": "QuantitativeValue",
-          "minValue": 0,
-          "maxValue": 1,
-          "unitCode": "DAY"
-        },
-        "transitTime": {
-          "@type": "QuantitativeValue",
-          "minValue": 0,
-          "maxValue": 0,
-          "unitCode": "DAY"
-        }
-      }
-    }
-  },
-  "review": {
-    "@type": "Review",
-    "reviewRating": { "@type": "Rating", "ratingValue": "5" },
-    "author": { "@type": "Person", "name": "Verified Traveler" }
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "reviewCount": "<?php echo rand(50, 200); ?>"
-  }
-}
-</script>
+<!-- Dynamic Schema (Auto-Generated) -->
+<?php
+// Product Schema
+$productSchema = SchemaGenerator::getTourPackage($pkg);
+echo SchemaGenerator::render($productSchema);
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [{
-    "@type": "ListItem",
-    "position": 1,
-    "name": "Home",
-    "item": "<?php echo base_url(); ?>"
-  },{
-    "@type": "ListItem",
-    "position": 2,
-    "name": "Packages",
-    "item": "<?php echo base_url('packages'); ?>"
-  },{
-    "@type": "ListItem",
-    "position": 3,
-    "name": "<?php echo htmlspecialchars($pkg['title'], ENT_QUOTES); ?>",
-    "item": "<?php echo $metaUrl; ?>"
-  }]
-}
-</script>
+// Breadcrumb Schema
+$breadcrumbSchema = SchemaGenerator::getBreadcrumb([
+    'Home' => base_url(),
+    'Packages' => base_url('packages'),
+    $pkg['title'] => $metaUrl
+]);
+echo SchemaGenerator::render($breadcrumbSchema);
+?>
 
 <div id="content-area" class="flex-1 bg-white min-h-screen relative overflow-hidden">
 
@@ -300,7 +229,10 @@ include __DIR__ . '/../includes/header.php';
                         </span>
                     </h2>
                     <div class="prose prose-lg text-slate-600 font-light leading-relaxed text-xl">
-                        <?php echo $pkg['description']; ?>
+                        <?php
+                        $linker = new InternalLinker();
+                        echo $linker->linkContent($pkg['description']);
+                        ?>
                     </div>
                 </div>
 
@@ -436,7 +368,8 @@ include __DIR__ . '/../includes/header.php';
                                     <summary
                                         class="flex justify-between items-center p-5 cursor-pointer list-none hover:bg-white transition-colors">
                                         <h3 class="font-bold text-slate-700 text-sm md:text-base">
-                                            <?php echo $faq['question']; ?></h3>
+                                            <?php echo $faq['question']; ?>
+                                        </h3>
                                         <span class="transition-transform duration-300 group-open:rotate-180 text-primary">
                                             <svg fill="none" height="20" width="20" stroke="currentColor" stroke-width="2"
                                                 viewBox="0 0 24 24">

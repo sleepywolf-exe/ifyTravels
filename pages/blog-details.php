@@ -2,6 +2,7 @@
 $pageTitle = "Blog Details";
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/classes/ContentOptimizer.php';
 
 // Fetch Post by Slug
 $slug = $_GET['slug'] ?? '';
@@ -142,7 +143,21 @@ if (!$post):
             <div class="max-w-3xl mx-auto">
                 <div
                     class="prose prose-lg md:prose-xl prose-slate hover:prose-a:text-primary transition-colors prose-img:rounded-3xl prose-img:shadow-lg prose-headings:font-heading prose-headings:font-bold first-letter:text-5xl first-letter:font-heading first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-[-10px] first-letter:text-primary">
-                    <?php echo nl2br($post['content']); // Using nl2br for basic text formatting if raw text is saved ?>
+                    <?php
+                    // Auto-Inject Anchors and TOC
+                    $optimizedContent = ContentOptimizer::injectAnchors($post['content']);
+
+                    // Display Reading Time
+                    $minutes = ContentOptimizer::getReadingTime($post['content']);
+                    echo '<p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6"><i class="far fa-clock mr-2"></i>' . $minutes . ' min read</p>';
+
+                    // Insert TOC if content is long enough
+                    if ($minutes > 3) {
+                        echo ContentOptimizer::getTableOfContents($optimizedContent);
+                    }
+
+                    echo nl2br($optimizedContent);
+                    ?>
                 </div>
 
                 <!-- Share / Tags Section could go here -->

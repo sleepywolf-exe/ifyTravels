@@ -35,10 +35,28 @@ include 'includes/header.php';
   "description": "<?php echo get_setting('meta_description', 'Luxury travel agency offering curated international and domestic tour packages, honeymoon packages, and customized travel experiences.'); ?>",
   "alternateName": ["ify Travels", "IFY Travels"],
   "foundingDate": "2020",
-  "areaServed": {
-    "@type": "Country",
-    "name": "India"
-  },
+  "areaServed": [
+    {
+        "@type": "Country",
+        "name": "India"
+    },
+    {
+        "@type": "Continent",
+        "name": "Asia"
+    },
+    {
+        "@type": "Continent",
+        "name": "Europe"
+    },
+    {
+        "@type": "Continent",
+        "name": "North America"
+    },
+    {
+        "@type": "Place",
+        "name": "World"
+    }
+  ],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "19/807, RPS Savana, Sector 88",

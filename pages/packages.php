@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Packages";
-$pageDescription = "Browse our exclusive travel packages. Flight + Hotel deals, honeymoon specials, and luxury tours crafted for unforgettable experiences.";
+$pageTitle = "International & Domestic Tour Packages";
+$pageDescription = "Explore our premium International and Domestic tour packages. From European getaways to exotic Asian retreats, find the perfect global vacation with ifyTravels.";
 include __DIR__ . '/../includes/header.php';
 
 // --- 1. Filter Logic (Preserved) ---
