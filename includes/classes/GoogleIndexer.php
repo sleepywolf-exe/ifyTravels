@@ -50,9 +50,20 @@ class GoogleIndexer
             $content->setType($type);
 
             $result = $this->service->urlNotifications->publish($content);
-            return ['status' => 'success', 'data' => $result->toSimpleObject()];
+
+            if ($result) {
+                return ['status' => 'success', 'data' => $result->toSimpleObject()];
+            } else {
+                return ['status' => 'error', 'message' => 'Empty response from Google API'];
+            }
+
         } catch (Exception $e) {
-            return ['status' => 'error', 'message' => $e->getMessage()];
+            // Check for 403 or 429
+            $msg = $e->getMessage();
+            if (strpos($msg, '403') !== false) {
+                return ['status' => 'skipped', 'message' => 'Permission Denied (Check Service Account)'];
+            }
+            return ['status' => 'error', 'message' => $msg];
         }
     }
 

@@ -28,6 +28,9 @@ function index_url($indexer, $url)
     // Check if indexer is enabled
     $result = $indexer->indexUrl($url, 'URL_UPDATED');
 
+    // Log to file
+    file_put_contents(__DIR__ . '/logs/indexing.log', date('Y-m-d H:i:s') . " - $url - " . $result['status'] . "\n", FILE_APPEND);
+
     if ($result['status'] === 'success') {
         echo "[OK] \n";
         $count++;
@@ -37,8 +40,14 @@ function index_url($indexer, $url)
         echo "[FAIL] - " . ($result['message'] ?? 'Unknown Error') . "\n";
         $errors++;
     }
-    // Respect API Quota (approx)
-    sleep(1);
+
+    // Flush Output to keep connection alive
+    if (function_exists('ob_flush'))
+        ob_flush();
+    flush();
+
+    // Respect API Quota: 0.2s (Google limit is approx 600/min)
+    usleep(200000);
 }
 
 // 1. Static Pages
