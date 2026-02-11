@@ -1,6 +1,35 @@
-<?php
 $pageTitle = "Travel Blogs & Stories";
+$pageDescription = "Read the latest travel guides, tips, and inspiring stories from ifyTravels. Plan your next adventure
+with our expert insights.";
 include __DIR__ . '/../includes/header.php';
+?>
+
+<!-- Schema.org Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Travel Blogs",
+  "description": "<?php echo $pageDescription; ?>",
+  "url": "<?php echo base_url('blogs'); ?>",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "<?php echo base_url(); ?>"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blogs",
+      "item": "<?php echo base_url('blogs'); ?>"
+    }]
+  }
+}
+</script>
+
+<?php
 require_once __DIR__ . '/../includes/db.php';
 
 // Fetch Blogs
