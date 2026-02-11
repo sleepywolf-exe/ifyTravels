@@ -382,136 +382,209 @@ include __DIR__ . '/../includes/header.php';
                         </div>
                     <?php endif; endif; ?>
 
-            </div>
+                <!-- GEO-Optimized FAQ Section -->
+                <?php
+                $pkgTitle = htmlspecialchars($pkg['title']);
+                $pkgFaqs = [
+                    [
+                        "question" => "Is airfare included in the $pkgTitle package?",
+                        "answer" => "Flight inclusions depend on the specific package variant. Please check the 'Inclusions' section above or contact our concierge for flight-inclusive quotes."
+                    ],
+                    [
+                        "question" => "Can I customize the itinerary for $pkgTitle?",
+                        "answer" => "Absolutely. All ifyTravels packages are 100% customizable. You can add extra nights, upgrade hotels, or include unique experiences to suit your preferences."
+                    ],
+                    [
+                        "question" => "What is the cancellation policy?",
+                        "answer" => "We offer flexible cancellation up to 7 days before departure for a full refund (excluding flight costs). For last-minute changes, our team will work to minimize any fees."
+                    ],
+                    [
+                        "question" => "Are meals included?",
+                        "answer" => "Most of our packages include daily breakfast. Some premium options may also include dinners or all-inclusive meal plans. Refer to the 'Inclusions' tab for specific details."
+                    ]
+                ];
+                ?>
+                <!-- FAQ Schema -->
+                <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    <?php
+                    $faqCount = count($pkgFaqs);
+                    foreach ($pkgFaqs as $i => $faq) {
+                        echo '{';
+                        echo '"@type": "Question",';
+                        echo '"name": "' . $faq['question'] . '",';
+                        echo '"acceptedAnswer": {';
+                        echo '"@type": "Answer",';
+                        echo '"text": "' . $faq['answer'] . '"';
+                        echo '}';
+                        echo '}' . ($i < $faqCount - 1 ? ',' : '');
+                    }
+                    ?>
+                  ]
+                }
+                </script>
 
-            <!-- Right Sidebar -->
-            <aside class="lg:w-1/3">
-                <div class="sticky top-32 space-y-6">
-
-                    <!-- Booking Card -->
-                    <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl relative">
-                        <!-- Top Gradient -->
-                        <div
-                            class="bg-gradient-to-br from-primary to-teal-600 p-8 relative overflow-hidden text-center">
-                            <div
-                                class="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2">
+                <div class="mt-12">
+                    <h2 class="text-2xl font-heading font-bold mb-6 text-slate-900">Frequently Asked Questions</h2>
+                    <div class="space-y-4">
+                        <?php foreach ($pkgFaqs as $faq): ?>
+                            <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+                                <details class="group">
+                                    <summary
+                                        class="flex justify-between items-center p-5 cursor-pointer list-none hover:bg-white transition-colors">
+                                        <h3 class="font-bold text-slate-700 text-sm md:text-base">
+                                            <?php echo $faq['question']; ?></h3>
+                                        <span class="transition-transform duration-300 group-open:rotate-180 text-primary">
+                                            <svg fill="none" height="20" width="20" stroke="currentColor" stroke-width="2"
+                                                viewBox="0 0 24 24">
+                                                <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                    </summary>
+                                    <div
+                                        class="text-slate-600 px-5 pb-5 text-sm leading-relaxed border-t border-slate-100 bg-white">
+                                        <?php echo $faq['answer']; ?>
+                                    </div>
+                                </details>
                             </div>
-                            <p class="text-white/90 text-sm font-bold mb-1 uppercase tracking-wide">Total Price</p>
-                            <h3 class="text-5xl font-bold text-white mb-2">₹<?php echo number_format($pkg['price']); ?>
-                            </h3>
-                            <p class="text-white/90 text-sm font-medium">per person (excl. taxes)</p>
-                        </div>
-
-                        <div class="p-8 bg-white">
-                            <div class="space-y-4 mb-8">
-                                <div class="flex justify-between py-3 border-b border-slate-100">
-                                    <span class="text-slate-500">Duration</span>
-                                    <span class="font-bold text-slate-900"><?php echo $pkg['duration']; ?></span>
-                                </div>
-                                <div class="flex justify-between py-3 border-b border-slate-100">
-                                    <span class="text-slate-500">Location</span>
-                                    <span
-                                        class="font-bold text-slate-900"><?php echo htmlspecialchars($locationName); ?></span>
-                                </div>
-                            </div>
-
-                            <a href="<?php echo base_url('booking?packageId=' . $pkg['id']); ?>"
-                                class="block w-full py-4 rounded-xl font-bold text-center bg-primary text-white hover:bg-primary/90 transition shadow-lg shadow-primary/30">
-                                Book Now
-                            </a>
-                            <p class="text-center text-xs text-slate-400 mt-4">Instant Confirmation • Secure Payment</p>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
-
-                    <!-- Trust Indicators -->
-                    <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-lg">
-                        <div class="space-y-3">
-                            <div class="flex items-center text-sm text-slate-600">
-                                <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Free Cancellation (7 days prior)
-                            </div>
-                            <div class="flex items-center text-sm text-slate-600">
-                                <svg class="w-5 h-5 mr-3 text-blue-500" fill="none" stroke="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                24/7 Expert Support
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-            </aside>
 
-        </div>
-    </div>
-</div>
+                <!-- Right Sidebar -->
+                <aside class="lg:w-1/3">
+                    <div class="sticky top-32 space-y-6">
 
-<script>
-    document.addEventListener("DOMContentLoaded", (event) => {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.to(".parallax-container", {
-            yPercent: 20, ease: "none",
-            scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true }
-        });
-    });
+                        <!-- Booking Card -->
+                        <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl relative">
+                            <!-- Top Gradient -->
+                            <div
+                                class="bg-gradient-to-br from-primary to-teal-600 p-8 relative overflow-hidden text-center">
+                                <div
+                                    class="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2">
+                                </div>
+                                <p class="text-white/90 text-sm font-bold mb-1 uppercase tracking-wide">Total Price</p>
+                                <h3 class="text-5xl font-bold text-white mb-2">
+                                    ₹<?php echo number_format($pkg['price']); ?>
+                                </h3>
+                                <p class="text-white/90 text-sm font-medium">per person (excl. taxes)</p>
+                            </div>
 
-    // Carousel Logic
-    let currentSlide = 0;
-    const totalSlides = <?php echo isset($chunks) ? count($chunks) : 0; ?>;
+                            <div class="p-8 bg-white">
+                                <div class="space-y-4 mb-8">
+                                    <div class="flex justify-between py-3 border-b border-slate-100">
+                                        <span class="text-slate-500">Duration</span>
+                                        <span class="font-bold text-slate-900"><?php echo $pkg['duration']; ?></span>
+                                    </div>
+                                    <div class="flex justify-between py-3 border-b border-slate-100">
+                                        <span class="text-slate-500">Location</span>
+                                        <span
+                                            class="font-bold text-slate-900"><?php echo htmlspecialchars($locationName); ?></span>
+                                    </div>
+                                </div>
 
-    function showSlide(index) {
-        if (totalSlides === 0) return;
-        const slides = document.querySelectorAll('#inclusions-carousel ul[data-slide]');
-        slides.forEach(el => {
-            el.classList.add('hidden', 'opacity-0', 'translate-x-10');
-            el.classList.remove('opacity-100', 'relative', 'translate-x-0');
-        });
-        const active = document.querySelector(`#inclusions-carousel ul[data-slide="${index}"]`);
-        active.classList.remove('hidden', 'translate-x-10', 'opacity-0');
-        active.classList.add('opacity-100', 'relative', 'translate-x-0');
-        currentSlide = index;
-    }
+                                <a href="<?php echo base_url('booking?packageId=' . $pkg['id']); ?>"
+                                    class="block w-full py-4 rounded-xl font-bold text-center bg-primary text-white hover:bg-primary/90 transition shadow-lg shadow-primary/30">
+                                    Book Now
+                                </a>
+                                <p class="text-center text-xs text-slate-400 mt-4">Instant Confirmation • Secure Payment
+                                </p>
+                            </div>
+                        </div>
 
-    function nextSlide() {
-        let next = currentSlide + 1;
-        if (next >= totalSlides) next = 0;
-        showSlide(next);
-    }
+                        <!-- Trust Indicators -->
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-lg">
+                            <div class="space-y-3">
+                                <div class="flex items-center text-sm text-slate-600">
+                                    <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Free Cancellation (7 days prior)
+                                </div>
+                                <div class="flex items-center text-sm text-slate-600">
+                                    <svg class="w-5 h-5 mr-3 text-blue-500" fill="none" stroke="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    24/7 Expert Support
+                                </div>
+                            </div>
+                        </div>
 
-    function prevSlide() {
-        let prev = currentSlide - 1;
-        if (prev < 0) prev = totalSlides - 1;
-        showSlide(prev);
-    }
-</script>
+                    </div>
+                </aside>
 
-<!-- Mobile Fixed Booking Bar (App Like) -->
-<div
-    class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-[9999] px-6 py-4 pb-safe shadow-[0_-5px_30px_rgba(0,0,0,0.1)]">
-    <div class="flex items-center justify-between gap-4">
-        <div>
-            <span class="block text-xs text-slate-500 font-bold uppercase tracking-wider">Total Price</span>
-            <div class="flex items-baseline gap-1">
-                <span class="text-2xl font-black text-slate-900">₹<?php echo number_format($pkg['price']); ?></span>
-                <span class="text-xs text-slate-400 font-medium">/ person</span>
             </div>
         </div>
-        <a href="<?php echo base_url('booking?packageId=' . $pkg['id']); ?>"
-            class="bg-primary text-white px-8 py-3 rounded-xl font-bold text-lg shadow-lg shadow-primary/30 active:scale-95 transition-transform">
-            Book Now
-        </a>
     </div>
-</div>
 
-<?php
-$hideMobileNav = true;
-include __DIR__ . '/../includes/footer.php';
-?>
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.to(".parallax-container", {
+                yPercent: 20, ease: "none",
+                scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true }
+            });
+        });
+
+        // Carousel Logic
+        let currentSlide = 0;
+        const totalSlides = <?php echo isset($chunks) ? count($chunks) : 0; ?>;
+
+        function showSlide(index) {
+            if (totalSlides === 0) return;
+            const slides = document.querySelectorAll('#inclusions-carousel ul[data-slide]');
+            slides.forEach(el => {
+                el.classList.add('hidden', 'opacity-0', 'translate-x-10');
+                el.classList.remove('opacity-100', 'relative', 'translate-x-0');
+            });
+            const active = document.querySelector(`#inclusions-carousel ul[data-slide="${index}"]`);
+            active.classList.remove('hidden', 'translate-x-10', 'opacity-0');
+            active.classList.add('opacity-100', 'relative', 'translate-x-0');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = currentSlide + 1;
+            if (next >= totalSlides) next = 0;
+            showSlide(next);
+        }
+
+        function prevSlide() {
+            let prev = currentSlide - 1;
+            if (prev < 0) prev = totalSlides - 1;
+            showSlide(prev);
+        }
+    </script>
+
+    <!-- Mobile Fixed Booking Bar (App Like) -->
+    <div
+        class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-[9999] px-6 py-4 pb-safe shadow-[0_-5px_30px_rgba(0,0,0,0.1)]">
+        <div class="flex items-center justify-between gap-4">
+            <div>
+                <span class="block text-xs text-slate-500 font-bold uppercase tracking-wider">Total Price</span>
+                <div class="flex items-baseline gap-1">
+                    <span class="text-2xl font-black text-slate-900">₹<?php echo number_format($pkg['price']); ?></span>
+                    <span class="text-xs text-slate-400 font-medium">/ person</span>
+                </div>
+            </div>
+            <a href="<?php echo base_url('booking?packageId=' . $pkg['id']); ?>"
+                class="bg-primary text-white px-8 py-3 rounded-xl font-bold text-lg shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+                Book Now
+            </a>
+        </div>
+    </div>
+
+    <?php
+    $hideMobileNav = true;
+    include __DIR__ . '/../includes/footer.php';
+    ?>

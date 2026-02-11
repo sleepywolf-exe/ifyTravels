@@ -13,7 +13,25 @@ include __DIR__ . '/../includes/header.php';
   "@type": "ContactPage",
   "name": "Contact ifyTravels",
   "description": "Get in touch with our luxury travel concierge for bespoke inquiries.",
-  "url": "<?php echo base_url('contact'); ?>"
+  "url": "<?php echo base_url('contact'); ?>",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "ifyTravels",
+    "url": "<?php echo base_url(); ?>",
+    "logo": "<?php echo base_url('assets/images/logo-color.png'); ?>",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "<?php echo get_setting('contact_phone', '+91 987 654 3210'); ?>",
+      "contactType": "customer service",
+      "email": "<?php echo get_setting('contact_email', 'hello@ifytravels.com'); ?>",
+      "areaServed": "IN",
+      "availableLanguage": ["en", "hi"]
+    },
+    "sameAs": [
+      "https://www.facebook.com/ifytravels",
+      "https://www.instagram.com/ifytravels"
+    ]
+  }
 }
 </script>
 

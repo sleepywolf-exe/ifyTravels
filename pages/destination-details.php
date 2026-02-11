@@ -325,7 +325,7 @@ $packages = getPackagesByDestination($id);
 
             <!-- Interactive Map -->
             <?php if (!empty($dest['map_embed'])): ?>
-                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl overflow-hidden">
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl overflow-hidden mb-12">
                     <h2 class="text-3xl font-heading font-bold mb-6 text-slate-900 flex items-center gap-3">
                         <span class="w-10 h-1 bg-primary rounded-full"></span>
                         Location
@@ -345,6 +345,73 @@ $packages = getPackagesByDestination($id);
                     </div>
                 </div>
             <?php endif; ?>
+
+            <!-- GEO-Optimized FAQ Section -->
+            <?php
+            $destName = htmlspecialchars($dest['name']);
+            $faqs = [
+                [
+                    "question" => "What is the best time to visit $destName?",
+                    "answer" => "$destName is a year-round destination, but the best time to visit depends on your preferences. Peak season offers vibrant atmosphere, while off-peak times provide serenity and better rates."
+                ],
+                [
+                    "question" => "Do I need a visa for $destName?",
+                    "answer" => "Visa requirements for $destName vary by your citizenship. We recommend checking with the official embassy or consulting our travel concierge for the latest entry guidelines."
+                ],
+                [
+                    "question" => "Is $destName safe for tourists?",
+                    "answer" => "Yes, $destName is generally considered safe for travelers. As with any destination, we advise standard precautions. Our curated packages ensure you stay in secure, premium areas."
+                ],
+                [
+                    "question" => "How many days are recommended for $destName?",
+                    "answer" => "For a complete experience of $destName, we recommend a minimum stay of 5-7 days to enjoy both the highlights and hidden gems without rushing."
+                ]
+            ];
+            ?>
+            <!-- FAQ Schema -->
+            <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                <?php
+                $faqCount = count($faqs);
+                foreach ($faqs as $i => $faq) {
+                    echo '{';
+                    echo '"@type": "Question",';
+                    echo '"name": "' . $faq['question'] . '",';
+                    echo '"acceptedAnswer": {';
+                    echo '"@type": "Answer",';
+                    echo '"text": "' . $faq['answer'] . '"';
+                    echo '}';
+                    echo '}' . ($i < $faqCount - 1 ? ',' : '');
+                }
+                ?>
+              ]
+            }
+            </script>
+
+            <!-- FAQ UI -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-heading font-bold mb-8 text-slate-900">Common Questions</h2>
+                <div class="space-y-4">
+                    <?php foreach ($faqs as $index => $faq): ?>
+                        <div class="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                            <details class="group">
+                                <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                                    <h3 class="font-bold text-slate-700"><?php echo $faq['question']; ?></h3>
+                                    <span class="transition group-open:rotate-180">
+                                        <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                                    </span>
+                                </summary>
+                                <div class="text-slate-600 px-6 pb-6 text-sm leading-relaxed">
+                                    <?php echo $faq['answer']; ?>
+                                </div>
+                            </details>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
 
             <!-- Available Packages -->
             <div>
