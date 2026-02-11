@@ -84,11 +84,8 @@ Options -Indexes
     RewriteCond %{REQUEST_FILENAME}\.php -f
     RewriteRule ^(.*)$ $1.php [L]
 
-    # Redirect old /pages/ URLs to new clean URLs (301 permanent redirect)
-    RewriteRule ^pages/destinations\.php$ /destinations [R=301,L]
-    RewriteRule ^pages/packages\.php$ /packages [R=301,L]
-    RewriteRule ^pages/contact\.php$ /contact [R=301,L]
-    RewriteRule ^pages/booking\.php$ /booking [R=301,L]
+    # Old redirects removed to prevent loop with internal rewrites
+    # Direct access to /pages/ is already blocked by the 404 rule above.
 
     # Redirect old detail pages with IDs to slug-based URLs
     # Handle URLs like: /destination-details.php?id=1 OR /pages/destination-details.php?id=1
