@@ -38,7 +38,7 @@ class Database
                 $dbHost = defined('DB_HOST') ? DB_HOST : '127.0.0.1';
 
                 // Fix for CLI mode on some environments (MacOS/MAMP/XAMPP) where 'localhost' socket is not found
-                if (php_sapi_name() === 'cli' && $dbHost === 'localhost') {
+                if (php_sapi_name() === 'cli' && ($dbHost === 'localhost' || $dbHost === '127.0.0.1')) {
                     $dbHost = '127.0.0.1';
                 }
 

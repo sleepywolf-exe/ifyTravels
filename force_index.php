@@ -8,6 +8,7 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/classes/GoogleIndexer.php';
 
+
 // Disable timeout
 set_time_limit(0);
 
@@ -23,11 +24,15 @@ function index_url($indexer, $url)
 {
     global $count, $errors;
     echo "Submitting: $url ... ";
+
+    // Check if indexer is enabled
     $result = $indexer->indexUrl($url, 'URL_UPDATED');
 
     if ($result['status'] === 'success') {
         echo "[OK] \n";
         $count++;
+    } elseif ($result['status'] === 'skipped') {
+        echo "[SKIP] - " . ($result['message']) . "\n";
     } else {
         echo "[FAIL] - " . ($result['message'] ?? 'Unknown Error') . "\n";
         $errors++;
