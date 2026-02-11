@@ -1,6 +1,6 @@
 <?php
 require_once 'includes/db.php';
-require_once 'includes/GoogleIndexer.php';
+require_once 'includes/classes/GoogleIndexer.php';
 
 // Set header to plain text for easier reading
 header('Content-Type: text/plain');
@@ -60,7 +60,7 @@ foreach ($urlsToIndex as $index => $url) {
     echo "[" . ($index + 1) . "/$total] Submitting: $url ... ";
 
     try {
-        $result = $indexer->publishUrl($url, 'URL_UPDATED');
+        $result = $indexer->indexUrl($url, 'URL_UPDATED');
 
         if (isset($result->urlNotificationMetadata->latestUpdate->url)) {
             echo "✅ SUCCESS\n";
