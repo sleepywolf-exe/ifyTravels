@@ -33,6 +33,8 @@ if (!$dest) {
 $id = $dest['id'];
 
 $pageTitle = $dest['name'];
+$pageDescription = mb_substr(strip_tags($dest['description']), 0, 155) . '...';
+$pageImage = $dest['image'];
 
 // Facebook CAPI: ViewContent
 if (isset($fbCapi)) {

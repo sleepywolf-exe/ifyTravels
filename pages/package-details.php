@@ -29,6 +29,8 @@ $dest = getDestinationById($pkg['destinationId']);
 $locationName = $dest ? $dest['name'] . ' (' . $dest['type'] . ')' : 'International';
 
 $pageTitle = $pkg['title'];
+$pageDescription = mb_substr(strip_tags($pkg['description']), 0, 155) . '...';
+$pageImage = $pkg['image'];
 
 // Facebook CAPI: ViewContent
 if (isset($fbCapi)) {

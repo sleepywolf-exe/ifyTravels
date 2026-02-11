@@ -1,9 +1,31 @@
-<?php
 $pageTitle = "About Us - Our Journey";
+$pageDescription = "Discover the story behind ifyTravels. We are a luxury travel concierge dedicated to crafting bespoke
+journeys and unforgettable experiences.";
 $pageKeywords = "About ifyTravels, Travel Agency India, Luxury Travel Agent, Best Travel Company, iflytravels story, Our
 Mission";
 include __DIR__ . '/../includes/header.php';
 ?>
+
+<!-- Schema.org Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About ifyTravels",
+  "description": "<?php echo $pageDescription; ?>",
+  "url": "<?php echo base_url('about'); ?>",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "ifyTravels",
+    "url": "<?php echo base_url(); ?>",
+    "logo": "<?php echo base_url('assets/images/logo-color.png'); ?>",
+    "sameAs": [
+      "https://www.facebook.com/ifytravels",
+      "https://www.instagram.com/ifytravels"
+    ]
+  }
+}
+</script>
 
 <!-- Hero Section -->
 <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
