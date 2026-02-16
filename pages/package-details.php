@@ -213,7 +213,8 @@ echo SchemaGenerator::render($breadcrumbSchema);
 
     <!-- Main Content -->
     <div class="container mx-auto px-6 py-16 relative z-10">
-        <div class="flex flex-col lg:flex-row gap-12">
+        <!-- Sidebar Track (Parent Row) -->
+        <div id="sidebar-track" class="flex flex-col lg:flex-row gap-12 relative">
 
             <!-- Left Info -->
             <div class="lg:w-2/3 space-y-12">
@@ -392,7 +393,7 @@ echo SchemaGenerator::render($breadcrumbSchema);
 
             <!-- Right Sidebar -->
             <aside class="lg:w-1/3">
-                <div class="sticky top-32 space-y-6">
+                <div id="pinned-sidebar" class="space-y-6">
 
                     <!-- Booking Card -->
                     <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-2xl relative">
