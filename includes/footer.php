@@ -111,17 +111,13 @@
                     <p class="text-slate-500 text-xl mb-10 leading-relaxed font-light max-w-sm">
                         Experience peace of mind with our bank-grade encrypted payment gateway.
                     </p>
-                    <div class="flex items-center gap-10 mb-10">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
-                            class="h-10 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
-                            alt="Visa" title="Verified by Visa">
-
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-                            class="h-12 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
-                            alt="Mastercard" title="Mastercard SecureCode">
-
+                    <div class="flex items-center gap-6 mb-10">
+                        <i class="fab fa-cc-visa text-4xl text-slate-300 hover:text-[#1A1F71] transition-colors duration-300 cursor-pointer"
+                            title="Verified by Visa"></i>
+                        <i class="fab fa-cc-mastercard text-4xl text-slate-300 hover:text-[#EB001B] transition-colors duration-300 cursor-pointer"
+                            title="Mastercard SecureCode"></i>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg"
-                            class="h-10 w-auto grayscale hover:grayscale-0 opacity-40 hover:opacity-100 transition-all duration-500 hover:scale-110 cursor-pointer"
+                            class="h-8 w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer"
                             alt="UPI" title="UPI Payments">
                     </div>
                 </div>
