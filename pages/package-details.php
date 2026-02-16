@@ -230,7 +230,7 @@ echo SchemaGenerator::render($breadcrumbSchema);
                     </h2>
                     <div class="prose prose-lg text-slate-600 font-light leading-relaxed text-xl">
                         <?php
-                        $linker = new InternalLinker();
+                        $linker = InternalLinker::getInstance();
                         echo $linker->linkContent($pkg['description']);
                         ?>
                     </div>
