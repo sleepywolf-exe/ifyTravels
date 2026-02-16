@@ -64,7 +64,7 @@ $breadcrumbSchema = SchemaGenerator::getBreadcrumb([
 echo SchemaGenerator::render($breadcrumbSchema);
 ?>
 
-<div id="content-area" class="flex-1 bg-white min-h-screen relative overflow-hidden">
+<div id="content-area" class="flex-1 bg-white min-h-screen relative overflow-x-hidden">
 
     <!-- Massive Background Text (Visible) -->
     <div
